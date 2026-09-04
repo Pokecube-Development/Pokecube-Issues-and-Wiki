@@ -51,13 +51,6 @@ public class DefaultPokemob extends PokemobSexed implements IPokemob
     }
 
     @Override
-    public float getHeading()
-    {
-        if (this.getGeneralState(GeneralStates.CONTROLLED)) return this.params.HEADINGDW.get();
-        return this.getEntity().getYRot();
-    }
-
-    @Override
     public CompoundTag serializeNBT(Provider provider)
     {
         CompoundTag tag;
@@ -71,70 +64,5 @@ public class DefaultPokemob extends PokemobSexed implements IPokemob
             tag = new CompoundTag();
         }
         return tag;
-    }
-
-    @Override
-    public void setHeading(final float heading)
-    {
-        if (this.getGeneralState(GeneralStates.CONTROLLED))
-        {
-            this.getEntity().setYRot(heading);
-            this.params.HEADINGDW.set(heading);
-        }
-    }
-
-    @Override
-    public boolean isSheared()
-    {
-        boolean sheared = this.getGeneralState(GeneralStates.SHEARED);
-        if (sheared && this.getEntity().isEffectiveAi())
-        {
-            final long lastShear = this.getEntity().getPersistentData().getLong(TagNames.SHEARTIME);
-            final ItemStack key = new ItemStack(Items.SHEARS);
-            if (this.getPokedexEntry().interact(key))
-            {
-                final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
-                final int timer = action.cooldown + this.getEntity().getRandom().nextInt(1 + action.variance);
-                if (lastShear < Tracker.instance().getTick() - timer) sheared = false;
-            }
-            // Cannot shear this!
-            else sheared = false;
-            this.setGeneralState(GeneralStates.SHEARED, sheared);
-        }
-        return sheared;
-    }
-
-    @Override
-    public void shear(final ItemStack shears)
-    {
-        if (this.isSheared() || !this.getEntity().isEffectiveAi()) return;
-        final ResourceLocation WOOL = ResourceLocation.parse("wool");
-
-        if (this.getPokedexEntry().interact(shears))
-        {
-            this.getEntity().getData(Shearable.TYPE);
-            final ArrayList<ItemStack> ret = new ArrayList<>();
-            this.setGeneralState(GeneralStates.SHEARED, true);
-            this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, Tracker.instance().getTick());
-            final Interaction action = this.getPokedexEntry().interactionLogic.getFor(shears);
-            final List<ItemStack> list = action.stacks;
-            this.applyHunger(action.hunger);
-            for (final ItemStack stack : list)
-            {
-                ItemStack toAdd = stack.copy();
-                if (ItemList.is(WOOL, stack))
-                {
-                    final DyeColor colour = DyeColor.byId(this.getDyeColour());
-                    final Item wool = Sheep.ITEM_BY_DYE.get(colour).asItem();
-                    final ItemStack _toAdd = new ItemStack(wool, stack.getCount());
-                    stack.getComponents().keySet().forEach(c -> _toAdd.copyFrom(stack, c));
-                    toAdd = _toAdd;
-                }
-                ret.add(toAdd);
-            }
-            for (final ItemStack stack : ret) this.getEntity().spawnAtLocation(stack);
-            this.getEntity().playSound(SoundEvents.SHEEP_SHEAR, 1.0F, 1.0F);
-        }
-
     }
 }

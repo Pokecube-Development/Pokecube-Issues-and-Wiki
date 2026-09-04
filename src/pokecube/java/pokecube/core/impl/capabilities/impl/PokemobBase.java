@@ -6,26 +6,37 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
+import pokecube.api.utils.TagNames;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.network.pokemobs.PacketPingBoss;
 import pokecube.core.utils.PokemobTracker;
+import thut.api.Tracker;
 import thut.api.attachments.CopyMob;
 import thut.api.attachments.Ownable;
+import thut.api.attachments.Shearable;
 import thut.api.entity.ICopyMob;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
@@ -39,6 +50,7 @@ import thut.core.common.world.mobs.data.types.Data_ItemStack;
 import thut.core.common.world.mobs.data.types.Data_Long;
 import thut.core.common.world.mobs.data.types.Data_String;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -299,6 +311,77 @@ public abstract class PokemobBase implements IPokemob
         }
         this.setMaxHealth(maxHealth);
         this.setHealth(health);
+    }
+
+    @Override
+    public boolean isSheared()
+    {
+        boolean sheared = this.getGeneralState(GeneralStates.SHEARED);
+        if (sheared && this.getEntity().isEffectiveAi())
+        {
+            final long lastShear = this.getEntity().getPersistentData().getLong(TagNames.SHEARTIME);
+            final ItemStack key = new ItemStack(Items.SHEARS);
+            if (this.getPokedexEntry().interact(key))
+            {
+                final PokedexEntry.InteractionLogic.Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
+                final int timer = action.cooldown + this.getEntity().getRandom().nextInt(1 + action.variance);
+                if (lastShear < Tracker.instance().getTick() - timer) sheared = false;
+            }
+            // Cannot shear this!
+            else sheared = false;
+            this.setGeneralState(GeneralStates.SHEARED, sheared);
+        }
+        return sheared;
+    }
+
+    @Override
+    public void shear(final ItemStack shears)
+    {
+        if (this.isSheared() || !this.getEntity().isEffectiveAi()) return;
+        final ResourceLocation WOOL = ResourceLocation.parse("wool");
+
+        if (this.getPokedexEntry().interact(shears))
+        {
+            this.getEntity().getData(Shearable.TYPE);
+            final ArrayList<ItemStack> ret = new ArrayList<>();
+            this.setGeneralState(GeneralStates.SHEARED, true);
+            this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, Tracker.instance().getTick());
+            final PokedexEntry.InteractionLogic.Interaction action = this.getPokedexEntry().interactionLogic.getFor(shears);
+            final List<ItemStack> list = action.stacks;
+            this.applyHunger(action.hunger);
+            for (final ItemStack stack : list)
+            {
+                ItemStack toAdd = stack.copy();
+                if (ItemList.is(WOOL, stack))
+                {
+                    final DyeColor colour = DyeColor.byId(this.getDyeColour());
+                    final Item wool = Sheep.ITEM_BY_DYE.get(colour).asItem();
+                    final ItemStack _toAdd = new ItemStack(wool, stack.getCount());
+                    stack.getComponents().keySet().forEach(c -> _toAdd.copyFrom(stack, c));
+                    toAdd = _toAdd;
+                }
+                ret.add(toAdd);
+            }
+            for (final ItemStack stack : ret) this.getEntity().spawnAtLocation(stack);
+            this.getEntity().playSound(SoundEvents.SHEEP_SHEAR, 1.0F, 1.0F);
+        }
+    }
+
+    @Override
+    public float getHeading()
+    {
+        if (this.getGeneralState(GeneralStates.CONTROLLED)) return this.params.HEADINGDW.get();
+        return this.getEntity().getYRot();
+    }
+
+    @Override
+    public void setHeading(final float heading)
+    {
+        if (this.getGeneralState(GeneralStates.CONTROLLED))
+        {
+            this.getEntity().setYRot(heading);
+            this.params.HEADINGDW.set(heading);
+        }
     }
 
     @Override
