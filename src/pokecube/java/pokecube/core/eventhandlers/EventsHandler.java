@@ -817,7 +817,7 @@ public class EventsHandler
         if (pokemob != null)
         {
             var entry = pokemob.getPokedexEntry();
-            event.setNewSize(EntityDimensions.scalable(Math.min(entry.width, entry.length), entry.height)
+            event.setNewSize(EntityDimensions.scalable(Math.min(entry.getWidth(), entry.getLength()), entry.getHeight())
                     .scale(pokemob.getEntity().getScale()));
         }
     }

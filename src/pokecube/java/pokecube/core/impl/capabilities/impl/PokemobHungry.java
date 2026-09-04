@@ -149,7 +149,7 @@ public abstract class PokemobHungry extends PokemobMoves
         {
             _last_size = size;
             PokedexEntry entry = this.getPokedexEntry();
-            this.sizes.set(entry.width, entry.height, entry.length);
+            this.sizes.set(entry.getModelSize());
             this.sizes.scalarMultBy(size);
         }
         return this.sizes;

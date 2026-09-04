@@ -492,7 +492,7 @@ public class TypeTrainer extends NpcType
                     }
                 }
             // Remove large pokemobs from their list.
-            t.pokemon.removeIf(e -> (e.length > 8 || e.height > 8 || e.width > 8));
+            t.pokemon.removeIf(e -> (e.getLength() > 8 || e.getHeight() > 8 || e.getWidth() > 8));
         }
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Trainer Types: " + TypeTrainer.typeMap);
     }

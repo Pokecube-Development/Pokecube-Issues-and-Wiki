@@ -6,6 +6,7 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.epigenes.EVsGene;
@@ -158,6 +159,17 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         Alleles<SpeciesInfo, SpeciesGene> genesSpecies = getGenes().getAlleles(GeneticsManager.SPECIESGENE);
         var gene = genesSpecies.getExpressed().getValue();
         this._renderEntryCache = gene.getTmpEntry();
+        if (this._renderEntryCache == null)
+        {
+            // Try getting it from mob type?
+            this._renderEntryCache = PokecubeCore.getEntryFor(this.getEntity().getType());
+            if (this._renderEntryCache == null)
+            {
+                this._renderEntryCache = Database.missingno;
+                PokecubeAPI.LOGGER.error("Warning, Setting {} as missingno", this.getEntity());
+            }
+            gene.setEntry(this._renderEntryCache);
+        }
         // Regenerate forme_cache as well
         this._renderHolderCache = gene.getForme();
         // Ensure that this data has been registered

@@ -277,6 +277,9 @@ public class Ownable
             if (nbt.contains("p"))
             {
                 this.playerOwned = nbt.getBoolean("p");
+            }
+            if (nbt.contains("o"))
+            {
                 try
                 {
                     this.ownerId = nbt.getUUID("o");
@@ -302,19 +305,31 @@ public class Ownable
         }
     }
 
+    public static class ImplE extends Impl
+    {
+        public LivingEntity attached;
+
+        public ImplE(LivingEntity attached)
+        {
+            this.attached = attached;
+        }
+    }
+
     public static class ImplTE extends Impl implements IOwnableTE
     {
+        public BlockEntity attached;
         boolean canEditUnowned;
         boolean dropWithSitck;
-        public ImplTE(boolean edit, boolean drop)
+        public ImplTE(BlockEntity attached, boolean edit, boolean drop)
         {
             canEditUnowned = edit;
             dropWithSitck = drop;
+            this.attached = attached;
         }
 
-        public ImplTE()
+        public ImplTE(BlockEntity attached)
         {
-            this(true, true);
+            this(attached, true, true);
         }
 
         @Override
@@ -364,7 +379,7 @@ public class Ownable
             {
                 if (mob instanceof TamableAnimal animal) return new TameWrapper().Attach(animal);
                 else if (mob instanceof AbstractHorse horse) return new HorseWrapper().Attach(horse);
-                else if (mob instanceof BlockEntity) return new ImplTE();
+                else if (mob instanceof BlockEntity te) return new ImplTE(te);
                 return null;
             }
 

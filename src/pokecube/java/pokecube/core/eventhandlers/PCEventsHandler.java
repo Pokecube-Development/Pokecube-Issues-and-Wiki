@@ -184,7 +184,7 @@ public class PCEventsHandler
         final UUID id = player.getUUID();
         final List<ItemEntity> toRemove = Lists.newArrayList();
         for (final ItemEntity item : evt.getDrops())
-            if (item != null && item.getItem() != null && PCContainer.isItemValid(item.getItem()))
+            if (item != null && !item.getItem().isEmpty() && PCContainer.isItemValid(item.getItem()))
         {
             PCInventory.addStackToPC(id, item.getItem().copy(), player.level());
             toRemove.add(item);
@@ -215,7 +215,17 @@ public class PCEventsHandler
             evt.setCanceled(true);
 
             final Inventory inv = player.getInventory();
-            final UUID id = UUID.fromString(PokecubeManager.getOwner(evt.getFilledCube(), player.level()));
+            var owner = PokecubeManager.getOwner(evt.getFilledCube(), player.level());
+            UUID id;
+            try
+            {
+                id = UUID.fromString(owner);
+            }
+            catch (Exception e)
+            {
+                PokecubeAPI.LOGGER.error("Error with uuid {} for {}", owner, evt.getCaught());
+                id = player.getUUID();
+            }
             final PCInventory pc = PCInventory.getPC(player.registryAccess(), id);
             final int num = inv.getFreeSlot();
             if (evt.getFilledCube() == null || pc == null) System.err.println("Cube is null");

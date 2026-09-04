@@ -65,10 +65,6 @@ public class JsonPokedexEntry
         {
             if (width == -1) width = height;
             if (length == -1) length = width;
-
-            t.height = this.height;
-            t.width = this.width;
-            t.length = this.length;
         }
     }
 
@@ -216,15 +212,13 @@ public class JsonPokedexEntry
             made.is_default = e.base;
 
             made.size = new Sizes();
-            made.size.height = e.height;
-            made.size.width = e.width;
-            made.size.length = e.length;
 
             made.stats = new Stats();
             made.evs = new EVs();
 
             if (root != null)
             {
+                made.size = root.size;
                 if (root.stats == null)
                 {
                     PokecubeAPI.LOGGER.error("No root stats for {}", e, new IllegalStateException());
@@ -239,6 +233,9 @@ public class JsonPokedexEntry
             else
             {
                 PokecubeAPI.LOGGER.error("No root for {}", e, new IllegalStateException());
+                made.size.height = e.getHeight();
+                made.size.width = e.getWidth();
+                made.size.length = e.getLength();
                 made.stats.set(e.stats);
                 made.evs.set(e.evs);
             }

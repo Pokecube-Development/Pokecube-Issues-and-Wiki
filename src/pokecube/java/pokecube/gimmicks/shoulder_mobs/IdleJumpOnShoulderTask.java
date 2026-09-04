@@ -81,9 +81,9 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
     {
         var entity = pokemob.getEntity();
         final float scale = pokemob.getEntity().getScale();
-        final float width = pokemob.getPokedexEntry().width * scale;
-        final float height = pokemob.getPokedexEntry().height * scale;
-        final float length = pokemob.getPokedexEntry().length * scale;
+        final float width = pokemob.getPokedexEntry().getWidth() * scale;
+        final float height = pokemob.getPokedexEntry().getHeight() * scale;
+        final float length = pokemob.getPokedexEntry().getLength() * scale;
         boolean rightSize = width < 1 && height < 1 && length < 1;
         rightSize |= pokemob.getPokedexEntry().canSitShoulder;
         if (!rightSize) return;

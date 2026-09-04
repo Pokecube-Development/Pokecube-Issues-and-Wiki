@@ -41,6 +41,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -226,7 +227,7 @@ public class PokecubeItems extends ItemList
             @Override
             public Ownable.IOwnableSerializable apply(IAttachmentHolder h)
             {
-                if (DEFAULT_OWNABLE_TE.contains(h.getClass())) return new Ownable.ImplTE(PokecubeCore.getConfig().allowRaidingPokecenters, false);
+                if (DEFAULT_OWNABLE_TE.contains(h.getClass()) && h instanceof BlockEntity te) return new Ownable.ImplTE(te, PokecubeCore.getConfig().allowRaidingPokecenters, false);
                 return null;
             }
         });

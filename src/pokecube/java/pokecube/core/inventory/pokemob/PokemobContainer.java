@@ -149,8 +149,8 @@ public class PokemobContainer extends BaseContainer
     @Override
     public boolean stillValid(final Player user)
     {
-        float dh = SizeGene.getScale(this.pokemob) * (Math.max(pokemob.getBasePokedexEntry().width,
-                pokemob.getPokedexEntry().length));
+        float dh = SizeGene.getScale(this.pokemob) * (Math.max(pokemob.getBasePokedexEntry().getWidth(),
+                pokemob.getPokedexEntry().getLength()));
         return this.pokemobInv.stillValid(user) && this.pokemob.getEntity().isAlive()
                 && this.pokemob.getEntity().distanceTo(user) < (8.0F + dh);
     }

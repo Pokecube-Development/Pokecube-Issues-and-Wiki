@@ -1,4 +1,4 @@
-package pokecube.compat.minecraft;
+package pokecube.gimmicks.vanilla_pokemobs;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -10,20 +10,25 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
-import net.neoforged.neoforge.event.entity.EntityEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import pokecube.adventures.Config;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.events.init.CompatEvent;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.commands.Kill.KillCommandEvent;
@@ -31,6 +36,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.JsonPokedexEntry;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import thut.api.attachments.Ownable;
 import thut.api.data.HolderProvider;
 import thut.api.item.ItemList;
@@ -45,67 +51,70 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-@EventBusSubscriber
-public class Compat
+@Mod(value = PokecubeCore.MODID)
+@EventBusSubscriber(modid = PokecubeCore.MODID)
+public class VanillaPokemobs
 {
     private static final PokedexEntry DERP;
-
-    public static List<PokedexEntry> customEntries = Lists.newArrayList();
-
     private static final ResourceLocation NOTPOKEMOBS = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
             "never_pokemob");
-    private static final ResourceLocation BEEHIVES = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
-            "bee_hive_cap");
 
     static
     {
-        pokecube.compat.Compat.BUS.register(Compat.class);
         DERP = new PokedexEntry(-1, "vanilla_mob", false);
-        Compat.DERP.type1 = PokeType.unknown;
-        Compat.DERP.type2 = PokeType.unknown;
-        Compat.DERP.base = true;
-        Compat.DERP.evs = new byte[6];
-//        Compat.DERP.stats = new int[6];
-        Compat.DERP.height = 1;
-        Compat.DERP.sexeRatio = 128;
-        Compat.DERP.catchRate = 255;
-        Compat.DERP.baseXP = 100;
-        Compat.DERP.width = Compat.DERP.length = 0.41f;
-        Compat.DERP.mass = 10;
-//        Compat.DERP.stats[0] = 50;
-//        Compat.DERP.stats[1] = 50;
-//        Compat.DERP.stats[2] = 50;
-//        Compat.DERP.stats[3] = 50;
-//        Compat.DERP.stats[4] = 50;
-//        Compat.DERP.stats[5] = 50;
-        Compat.DERP.addMoves(Lists.newArrayList(), Maps.newHashMap());
-        Compat.DERP.addMove("skyattack");
-        Compat.DERP.mobType = 1;
-        Compat.DERP.evolutionMode = 2;
-        Compat.DERP.stock = false;
+        VanillaPokemobs.DERP.type1 = PokeType.unknown;
+        VanillaPokemobs.DERP.type2 = PokeType.unknown;
+        VanillaPokemobs.DERP.base = true;
+        VanillaPokemobs.DERP.addMoves(Lists.newArrayList(), Maps.newHashMap());
+        VanillaPokemobs.DERP.addMove("skyattack");
+        VanillaPokemobs.DERP.stock = false;
     }
 
+    public static VanillaPokemobsConfig config = VanillaPokemobsConfig.loadConfig();
+    
     private static final Set<PokedexEntry> generated = Sets.newHashSet();
 
     public static Predicate<EntityType<?>> makePokemob = e -> {
         // Already a pokemob.
         if (e instanceof PokemobType) return false;
         final boolean vanilla = RegHelper.getKey(e).getNamespace().equals("minecraft");
-        if (!vanilla && !PokecubeCore.getConfig().non_vanilla_pokemobs) return false;
-        if (vanilla && !PokecubeCore.getConfig().vanilla_pokemobs) return false;
-        if (ItemList.is(Compat.NOTPOKEMOBS, e)) return false;
-        return true;
+        if (!vanilla && !config.non_vanilla_pokemobs) return false;
+        if (vanilla && !config.vanilla_pokemobs) return false;
+        return !ItemList.is(VanillaPokemobs.NOTPOKEMOBS, e);
     };
 
     @SubscribeEvent
-    public static void register(final CompatEvent event)
+    @SuppressWarnings("unchecked")
+    public static void onEntityAttributes(final EntityAttributeModificationEvent event)
     {
+        if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs) return;
+        if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Attributes to vanilla mobs");
+        BuiltInRegistries.ENTITY_TYPE.forEach(type -> {
+            if (type.getBaseClass().isAssignableFrom(Mob.class) && makePokemob.test(type))
+            {
+                EntityType<? extends LivingEntity> etype = (EntityType<? extends LivingEntity>) type;
+                var attribs = LivingEntity.createLivingAttributes();
+                // Someone already added it for this mob
+                if (attribs.hasAttribute(PokecubeAttributes.ATTACK)) return;
+                if (!attribs.hasAttribute(Attributes.FOLLOW_RANGE)) event.add(etype, Attributes.FOLLOW_RANGE, 16);
+                if (!attribs.hasAttribute(Attributes.FLYING_SPEED)) event.add(etype, Attributes.FLYING_SPEED, 0.6);
+                for (var a : PokecubeAttributes.ATTRIBUTES) event.add(etype, a);
+            }
+        });
+    }
+
+    @SubscribeEvent
+    public static void register(ServerStartingEvent event)
+    {
+        if (config._registered) return;
+        config._registered = true;
+
         // Here we disable the pokecube kill command for vanilla mobs for #753
-        PokecubeAPI.POKEMOB_BUS.addListener(Compat::onKillCommand);
+        PokecubeAPI.POKEMOB_BUS.addListener(VanillaPokemobs::onKillCommand);
         // Here will will register the handler for making the default datapack
-        ThutCore.FORGE_BUS.addListener(Compat::onServerStarted);
+        ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onServerStarted);
         // And this handles applying the IPokemob to them.
-        ThutCore.FORGE_BUS.addListener(Compat::LivingConstruct);
+        ThutCore.FORGE_BUS.addListener(VanillaPokemobs::LivingJoinWorld);
 
         Ownable._REGISTRY.register(new HolderProvider.Provider<>()
         {
@@ -125,8 +134,8 @@ public class Compat
                 // Do not apply this to trainers!
                 if (Config.instance.shouldBeCustomTrainer(mob)) return null;
                 // This checks blacklists, configs, etc on the pokemob type
-                if (!Compat.makePokemob.test(mob.getType())) return null;
-                return new Ownable.Impl();
+                if (!VanillaPokemobs.makePokemob.test(mob.getType())) return null;
+                return new Ownable.ImplE(mob);
             }
 
             @Override
@@ -135,8 +144,7 @@ public class Compat
                 return 1000;
             }
         });
-
-        if (!PokecubeCore.getConfig().non_vanilla_pokemobs && !PokecubeCore.getConfig().vanilla_pokemobs) return;
+        if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs) return;
         // Register default pokemobs
         ResourceLocation KEY = ResourceLocation.parse("pokecube:custom_pokemob");
         PokemobCaps._REGISTRY.register(new HolderProvider.Provider<>()
@@ -161,9 +169,9 @@ public class Compat
                     PokedexEntry newDerp = Database.getEntry(name);
                     if (newDerp == null)
                     {
-                        newDerp = new PokedexEntry(Compat.DERP.getPokedexNb(), name, true);
-                        newDerp.setBaseForme(Compat.DERP);
-                        Compat.DERP.copyToForm(newDerp);
+                        newDerp = new PokedexEntry(VanillaPokemobs.DERP.getPokedexNb(), name, true);
+                        newDerp.setBaseForme(VanillaPokemobs.DERP);
+                        VanillaPokemobs.DERP.copyToForm(newDerp);
                         newDerp.stock = false;
                         newDerp.width = mob.getBbWidth();
                         newDerp.height = mob.getBbHeight();
@@ -175,8 +183,7 @@ public class Compat
                 catch (final Exception e)
                 {
                     // Something went wrong, so log and exit early
-                    PokecubeAPI.LOGGER.warn("Error making pokedex entry for {}", RegHelper.getKey(mob.getType()));
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.warn("Error making pokedex entry for {}", RegHelper.getKey(mob.getType()), e);
                     return null;
                 }
 
@@ -191,22 +198,27 @@ public class Compat
         });
     }
 
-    private static void LivingConstruct(final EntityEvent.EntityConstructing event)
+    @SubscribeEvent
+    private static void LivingJoinWorld(final EntityJoinLevelEvent event)
     {
-        if (!PokecubeCore.getConfig().non_vanilla_pokemobs && !PokecubeCore.getConfig().vanilla_pokemobs) return;
+        if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs) return;
         if (!(event.getEntity() instanceof Mob mob)) return;
         if (mob instanceof EntityPokemob) return;
         // Only consider mobEntity, IPokemob requires that
         // Do not apply this to trainers!
         if (Config.instance.shouldBeCustomTrainer(mob)) return;
         // This checks blacklists, configs, etc on the pokemob type
-        if (!Compat.makePokemob.test(mob.getType())) return;
+        if (!VanillaPokemobs.makePokemob.test(mob.getType())) return;
+
+        // Add our attachements, the getData call initialises them.
+        mob.getData(Ownable.TYPE);
         mob.getData(PokemobCaps.POKEMOB);
     }
 
+    @SubscribeEvent
     private static void onServerStarted(final ServerStartedEvent event)
     {
-        if (!PokecubeCore.getConfig().non_vanilla_pokemobs && !PokecubeCore.getConfig().vanilla_pokemobs) return;
+        if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs) return;
         ServerLevel testLevel = event.getServer().getLevel(Level.OVERWORLD);
         List<JsonPokedexEntry> entries = new ArrayList<>();
         BuiltInRegistries.ENTITY_TYPE.forEach(t -> {
@@ -225,7 +237,13 @@ public class Compat
                 final EntityType<? extends Mob> mobType = (EntityType<? extends Mob>) t;
                 final String name = RegHelper.getKey(mobType).toString().replace(":", "_");
                 PokedexEntry newDerp = Database.getEntry(name);
-                if (newDerp != null && !newDerp.stock && generated.contains(newDerp))
+                if (newDerp == null)
+                {
+                    newDerp = new PokedexEntry(DERP.getPokedexNb(), name, true);
+                    DERP.copyToForm(newDerp);
+                    newDerp.stock = false;
+                }
+                if (!newDerp.stock && generated.add(newDerp))
                 {
                     entries.add(JsonPokedexEntry.fromPokedexEntry(newDerp));
                 }
@@ -235,11 +253,11 @@ public class Compat
         {
             File root = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
                     .resolve("__vanilla_template__").toFile();
-            root.mkdirs();
+            if(root.mkdirs()) PokecubeAPI.logInfo("Made datapack template root");
             File data = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
                     .resolve("__vanilla_template__").resolve("data").resolve("my_addon").resolve("database")
                     .resolve("pokemobs").resolve("pokedex_entries").toFile();
-            data.mkdirs();
+            if(data.mkdirs()) PokecubeAPI.logInfo("Made datapack template entries directory");
 
             String metacontents = "{\r\n" + "  \"pack\": {\r\n" + "    \"pack_format\": 8,\r\n".replace("8",
                     "" + SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA))
@@ -262,13 +280,13 @@ public class Compat
                     }
                     catch (Exception e)
                     {
-                        e.printStackTrace();
+                        PokecubeAPI.LOGGER.error(e);
                     }
                 });
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
 
         }
@@ -276,6 +294,10 @@ public class Compat
 
     private static void onKillCommand(final KillCommandEvent event)
     {
-        if (Compat.makePokemob.test(event.getEntity().getType())) event.setCanceled(true);
+        if (VanillaPokemobs.makePokemob.test(event.getEntity().getType())) event.setCanceled(true);
+    }
+
+    public VanillaPokemobs(IEventBus ignored)
+    {
     }
 }

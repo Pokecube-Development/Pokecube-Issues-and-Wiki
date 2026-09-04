@@ -118,8 +118,8 @@ public class Tasks
         }
         // Owner related tasks
         if (!pokemob.getPokedexEntry().isStationary) // Follow owner around
-            aiList.add(new FollowOwnerTask(3 + entity.getBbWidth() + pokemob.getPokedexEntry().length,
-                    8 + entity.getBbWidth() + pokemob.getPokedexEntry().length));
+            aiList.add(new FollowOwnerTask(3 + entity.getBbWidth() + pokemob.getPokedexEntry().getLength(),
+                    8 + entity.getBbWidth() + pokemob.getPokedexEntry().getLength()));
 
         final List<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> list = Lists.newArrayList();
 

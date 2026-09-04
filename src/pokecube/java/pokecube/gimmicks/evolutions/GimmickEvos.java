@@ -52,7 +52,7 @@ public class GimmickEvos
             // We put the config option in config/pokecube/gimmicks/
             Path folder = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("gimmicks");
             // Ensure the folder exists for it
-            folder.toFile().mkdirs();
+            if(folder.toFile().mkdirs()) PokecubeAPI.logInfo("Created config dir for gimmicks");
             Path config_path = folder.resolve("gimmick_evos.json");
             final File dir = config_path.toFile();
 
@@ -69,7 +69,7 @@ public class GimmickEvos
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.error("Error loading config for gimmick_evos", e);
                 }
             }
 
@@ -83,7 +83,7 @@ public class GimmickEvos
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error("Error saving config for gimmick_evos", e);
             }
 
             return config;

@@ -752,7 +752,6 @@ public class PokedexEntry
     // Values in Stats
 
     @CopyToGender
-    @Required
     public int[] stats = null;
     @CopyToGender
     public byte[] evs;
@@ -873,8 +872,6 @@ public class PokedexEntry
     @CopyToGender
     public List<IEffectAction> materialActions = Lists.newArrayList();
     @CopyToGender
-    public float height = -1;
-    @CopyToGender
     public boolean ridable = true;
     /**
      * This is a loot table to be used for held item. if this isn't null, the above held is ignored.
@@ -903,6 +900,8 @@ public class PokedexEntry
     @CopyToGender
     public boolean legendary = false;
 
+    @CopyToGender
+    public float height = -1;
     @CopyToGender
     public float width = -1;
     @CopyToGender
@@ -1510,7 +1509,7 @@ public class PokedexEntry
 
     public Vector3f getModelSize()
     {
-        if (this.modelSize == null) this.modelSize = new Vector3f(this.length, this.height, this.width);
+        if (this.modelSize == null) this.modelSize = new Vector3f(this.getLength(), this.getHeight(), this.getWidth());
         return this.modelSize;
     }
 
@@ -2019,6 +2018,21 @@ public class PokedexEntry
                 this.getBaseForme() != null && this.getBaseForme() != this && this.getBaseForme().isLegendary();
         return baseLegend || this.legendary || SpecialCaseRegister.getCaptureCondition(this) != null
                 || SpecialCaseRegister.getSpawnCondition(this) != null;
+    }
+
+    public float getHeight()
+    {
+        return this._root_json.size.height;
+    }
+
+    public float getWidth()
+    {
+        return this._root_json.size.width;
+    }
+
+    public float getLength()
+    {
+        return this._root_json.size.length;
     }
 
     public boolean isMega()

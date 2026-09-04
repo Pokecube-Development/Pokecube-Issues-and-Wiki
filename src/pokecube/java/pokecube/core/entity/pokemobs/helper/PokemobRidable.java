@@ -326,9 +326,9 @@ public abstract class PokemobRidable extends PokemobHasParts
         float h = size;
         if (entry != null)
         {
-            a = entry.width * size;
-            b = entry.height * size;
-            c = entry.length * size;
+            a = entry.getWidth() * size;
+            b = entry.getHeight() * size;
+            c = entry.getLength() * size;
             h = Math.max(a, Math.max(b, c));
         }
         if (h == getHolder().holder().last_size) return;
@@ -382,9 +382,9 @@ public abstract class PokemobRidable extends PokemobHasParts
                 seat.x = (float) offset[0];
                 seat.y = (float) offset[1];
                 seat.z = (float) offset[2];
-                final float dx = entry.width * size, dz = entry.length * size;
+                final float dx = entry.getWidth() * size, dz = entry.getLength() * size;
                 seat.x *= dx;
-                seat.y *= entry.height * size;
+                seat.y *= entry.getHeight() * size;
                 seat.z *= dz;
                 final Seat newSeat = (Seat) this.getSeat(index).clone();
                 newSeat.seat = seat;

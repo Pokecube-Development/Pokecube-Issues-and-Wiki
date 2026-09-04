@@ -906,6 +906,10 @@ public class Vector3
         {
             this.set(p.x, p.y, p.z);
         }
+        else if (o instanceof Vector3f p)
+        {
+            this.set(p.x, p.y, p.z);
+        }
         else if (o instanceof int[] p)
         {
             this.set(p[0], p[1], p[2]);

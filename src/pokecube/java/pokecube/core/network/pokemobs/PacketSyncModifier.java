@@ -11,7 +11,6 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
-import thut.api.entity.EntityProvider;
 import thut.core.common.network.Packet;
 
 public class PacketSyncModifier extends Packet
@@ -62,7 +61,7 @@ public class PacketSyncModifier extends Packet
         buf.writeNbt(this.tag);
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:pokemob_stat_mods"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:pokemob_stat_mods"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()

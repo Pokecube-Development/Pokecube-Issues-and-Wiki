@@ -105,9 +105,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
 
         final float maxH = this.maxH();
         final float maxW = this.maxW();
-        float width = entry.width * size;
-        float length = entry.length * size;
-        float height = entry.height * size;
+        float width = entry.getWidth() * size;
+        float length = entry.getLength() * size;
+        float height = entry.getHeight() * size;
 
         getHolder().holder().colWidth = width;
         getHolder().holder().colHeight = height;

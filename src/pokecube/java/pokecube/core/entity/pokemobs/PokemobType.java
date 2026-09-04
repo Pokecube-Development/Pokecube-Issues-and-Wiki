@@ -19,7 +19,7 @@ public class PokemobType<T extends TamableAnimal> extends EntityType<T>
     public PokemobType(final EntityType.EntityFactory<T> factory, final PokedexEntry entry)
     {
         super(factory, MobCategory.CREATURE, true, true, false, true, ImmutableSet.of(),
-                EntityDimensions.scalable(entry.width, entry.height), 64, 3, 1, FeatureFlagSet.of());
+                EntityDimensions.scalable(entry.getWidth(), entry.getHeight()), 64, 3, 1, FeatureFlagSet.of());
         this.entry = entry;
         entry.setEntityType(this);
     }

@@ -824,11 +824,6 @@ public class Config extends ConfigData
     @Configure(category = Config.advanced, type = Type.SERVER, comment = "A spacing around a player which prevents them from riding something too fast off the edge of the loaded area. This effectively limits the speed at which they can generate terrain. [Default: 32]")
     public double movementPauseThreshold = 32;
 
-    @Configure(category = Config.advanced, type = Type.SERVER, comment = "Vanilla mobs are treated as pokemobs as well. [Default: false]")
-    public boolean vanilla_pokemobs = false;
-    @Configure(category = Config.advanced, type = Type.SERVER, comment = "Mobs added by other mods are treated as pokemobs as well. [Default: false]")
-    public boolean non_vanilla_pokemobs = false;
-
     @Configure(category = Config.debug_modes, comment = "Debug output for move use. [Default: false]")
     public boolean debug_moves = false;
     @Configure(category = Config.debug_modes, comment = "Debug output for mob ai. [Default: false]")

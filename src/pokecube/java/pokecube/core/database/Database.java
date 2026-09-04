@@ -399,7 +399,7 @@ public class Database
                     PokecubeAPI.LOGGER.error("Error copying data: {} <-> {}", e, base, e2);
                     continue;
                 }
-                if (e.height <= 0)
+                if (e.getWidth() <= 0)
                 {
                     e.height = 1;
                     e.width = 1;

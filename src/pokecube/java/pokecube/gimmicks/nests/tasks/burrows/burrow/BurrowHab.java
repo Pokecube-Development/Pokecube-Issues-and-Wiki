@@ -128,8 +128,8 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
             // list.
             if (this.related.isEmpty()) throw new IllegalStateException("No related mobs? " + pos + " " + this.maker);
 
-            final float height = this.related.stream().max((o1, o2) -> Float.compare(o1.height, o2.height))
-                    .get().height;
+            final float height = this.related.stream().max((o1, o2) -> Float.compare(o1.getHeight(), o2.getHeight()))
+                    .get().getHeight();
             float size = height * 2 + 1;
             size = Math.max(3, size);
             final float direction = ThutCore.newRandom().nextInt(360);
@@ -278,8 +278,8 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                         }
                         final Set<PokedexEntry> relations = Sets.newHashSet();
                         this.addRelations(entry, relations);
-                        final float height = relations.stream().max((o1, o2) -> Float.compare(o1.height, o2.height))
-                                .get().height;
+                        final float height = relations.stream().max((o1, o2) -> Float.compare(o1.getHeight(), o2.getHeight()))
+                                .get().getHeight();
                         float size = height * 2 + 1;
                         size = Math.max(3, size);
                         if (size <= this.burrow.getSize())

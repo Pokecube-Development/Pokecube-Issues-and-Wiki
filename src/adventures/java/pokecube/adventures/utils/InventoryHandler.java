@@ -69,7 +69,7 @@ public class InventoryHandler
             }
         });
 
-        Inventory.REGISTRY.register(new HolderProvider.Provider<ItemCap>()
+        Inventory.REGISTRY.register(new HolderProvider.Provider<>()
         {
             final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("pokecube_adventures", "daycare");
 
@@ -94,7 +94,7 @@ public class InventoryHandler
             @Override
             public IOwnableSerializable apply(IAttachmentHolder t)
             {
-                if (t instanceof AfaTile) return new Ownable.ImplTE();
+                if (t instanceof AfaTile afa) return new Ownable.ImplTE(afa);
                 return null;
             }
 
