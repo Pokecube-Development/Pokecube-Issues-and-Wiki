@@ -180,8 +180,9 @@ public class VanillaPokemobs
                         newDerp.setBaseForme(VanillaPokemobs.DERP);
                         VanillaPokemobs.DERP.copyToForm(newDerp);
                         newDerp.stock = false;
-                        newDerp.width = mob.getBbWidth();
-                        newDerp.height = mob.getBbHeight();
+                        newDerp._root_json.size.width = mob.getBbWidth();
+                        newDerp._root_json.size.length = mob.getBbWidth();
+                        newDerp._root_json.size.height = mob.getBbHeight();
                         generated.add(newDerp);
                     }
                     newDerp.setEntityType(mobType);

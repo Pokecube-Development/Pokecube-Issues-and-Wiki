@@ -167,8 +167,6 @@ public class Database
         Database.missingno.type1 = PokeType.unknown;
         Database.missingno.type2 = PokeType.unknown;
         Database.missingno.base = true;
-        Database.missingno.height = 1;
-        Database.missingno.width = Database.missingno.length = 0.41f;
         Database.missingno.mobType = 15;
         Database.addEntry(Database.missingno);
     }
@@ -398,12 +396,10 @@ public class Database
                 }
                 if (e.getWidth() <= 0)
                 {
-                    e.height = 1;
-                    e.width = 1;
-                    e.length = 1;
+                    e._root_json.size.width = 1;
+                    e._root_json.size.height = 1;
+                    e._root_json.size.length = 1;
                     e.mobType = 0;
-                    e.catchRate = 0;
-                    e.mass = 1;
                     PokecubeAPI.logDebug("Error with height for " + e);
                 }
                 if (e.type1 == null)
@@ -461,7 +457,7 @@ public class Database
             if (e.getType1() == null)
             {
                 e.type1 = PokeType.unknown;
-                if (e != Database.missingno)
+                if (e.getPokedexNb() > 0)
                     PokecubeAPI.LOGGER.error("Error with typing for " + e + " " + e.getType2());
             }
             if (e.getType2() == null) e.type2 = PokeType.unknown;

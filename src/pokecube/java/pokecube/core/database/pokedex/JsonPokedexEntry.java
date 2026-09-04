@@ -36,7 +36,6 @@ import thut.lib.ResourceHelper;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -249,19 +248,15 @@ public class JsonPokedexEntry
             else
             {
                 PokecubeAPI.LOGGER.error("No root for {}", e, new IllegalStateException());
-                made.stats.set(e.stats);
-                made.evs.set(e.evs);
-
-                made.size.height = e.getHeight();
-                made.size.width = e.getWidth();
-                made.size.length = e.getLength();
-
+                made.size.height = 1;
+                made.size.width = 1;
+                made.size.length = 1;
                 made.stock = e.stock;
                 made.id = e.pokedexNb;
-                made.gender_rate = e.getSexeRatio();
-                made.capture_rate = e.getCatchRate();
-                made.base_experience = e.baseXP;
-                made.mass = (float) e.mass;
+                made.gender_rate = 0;
+                made.capture_rate = 0;
+                made.base_experience = 0;
+                made.mass = (float) 1000;
             }
             e._root_json = made;
         }
@@ -409,11 +404,6 @@ public class JsonPokedexEntry
             entry.dummy = true;
             return;
         }
-        if (this.base_experience != -1) entry.baseXP = this.base_experience;
-        if (this.mass != -1) entry.mass = this.mass;
-        if (this.capture_rate != -1) entry.catchRate = this.capture_rate;
-        if (this.base_happiness != -1) entry.baseHappiness = this.base_happiness;
-        if (this.gender_rate != -1) entry.sexeRatio = this.gender_rate;
         if (this.growth_rate != null) entry.evolutionMode = Tools.getType(this.growth_rate);
         if (this.loot_table != null)
             entry.lootTable = ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.parse(loot_table));
@@ -429,7 +419,6 @@ public class JsonPokedexEntry
             if (entry.type1 == null) entry.type1 = PokeType.unknown;
             if (entry.type2 == null) entry.type2 = PokeType.unknown;
         }
-        if (this.forme_items != null) entry._forme_items = this.forme_items;
     }
 
     private void initStage2(PokedexEntry entry)

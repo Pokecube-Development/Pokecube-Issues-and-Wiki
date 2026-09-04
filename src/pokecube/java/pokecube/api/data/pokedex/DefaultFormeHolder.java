@@ -101,7 +101,7 @@ public class DefaultFormeHolder
                 String[] abilities = this.ability.split(",");
                 Collections.addAll(fromKey.abilities, abilities);
             }
-            if (mass > 0) fromKey.mass = mass;
+            if (mass > 0) fromKey._root_json.mass = (float) mass;
             if (hasShiny != null) fromKey.hasShiny = this.hasShiny;
             if (fromKey.getBaseForme() != null)
             {

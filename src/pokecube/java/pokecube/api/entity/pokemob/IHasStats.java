@@ -257,7 +257,7 @@ public interface IHasStats extends IHasEntry
      */
     default double getWeight()
     {
-        double mass = this.getPokedexEntry().mass;
+        double mass = this.getPokedexEntry().getMass();
         float scale = this.getEntity().getScale();
         return scale * scale * scale * mass;
     }

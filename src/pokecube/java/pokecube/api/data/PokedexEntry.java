@@ -97,6 +97,7 @@ import java.util.function.Predicate;
 /** @author Manchou */
 public class PokedexEntry
 {
+
     // Annotation used to specify which fields should be shared to all gender
     // formes.
     @Retention(RetentionPolicy.RUNTIME)
@@ -773,10 +774,6 @@ public class PokedexEntry
     @Required
     public int catchRate = -1;
 
-    /** Initial Happiness of the pokemob */
-    @CopyToGender
-    @Required
-    public int baseHappiness = -1;
     /** The relation between xp and level */
     @CopyToGender
     @Required
@@ -900,13 +897,6 @@ public class PokedexEntry
     @CopyToGender
     public boolean legendary = false;
 
-    @CopyToGender
-    public float height = -1;
-    @CopyToGender
-    public float width = -1;
-    @CopyToGender
-    public float length = -1;
-
     public PokedexEntry male = null;
 
     /** Movement type for this mob, this is a bitmask for MovementType */
@@ -1013,7 +1003,6 @@ public class PokedexEntry
     // Here we have things that need to wait until loaded for initialization, so
     // we cache them.
     public List<Interact> _loaded_interactions = Lists.newArrayList();
-    public List<FormeItem> _forme_items = Lists.newArrayList();
 
     /** Times not included here the pokemob will go to sleep when idle. */
     @CopyToGender
@@ -1042,18 +1031,18 @@ public class PokedexEntry
     public void postTagsReloaded()
     {
         this.formeItems.clear();
-        if (this._forme_items != null)
+        if (this._root_json.forme_items != null)
         {
             List<FormeItem> rules = new ArrayList<>();
             Set<String> uniques = Sets.newHashSet();
-            for (final FormeItem rule : this._forme_items)
+            for (final FormeItem rule : this._root_json.forme_items)
             {
                 if (uniques.add(JsonUtil.smol_gson.toJson(rule))) rules.add(rule);
             }
-            this._forme_items.clear();
-            this._forme_items.addAll(rules);
+            this._root_json.forme_items.clear();
+            this._root_json.forme_items.addAll(rules);
 
-            for (FormeItem i : _forme_items)
+            for (FormeItem i : _root_json.forme_items)
             {
                 PokedexEntry output = i.getOutput();
                 if (output == null && i.getForme(this) == null)
@@ -1260,15 +1249,9 @@ public class PokedexEntry
 
         if (e.stats == null && this.stats != null) e.stats = this.stats.clone();
         if (e.evs == null && this.evs != null) e.evs = this.evs.clone();
-        if (e.height == -1) e.height = this.height;
-        if (e.width == -1) e.width = this.width;
-        if (e.length == -1) e.length = this.length;
         if (e.mobType == 0) e.mobType = this.mobType;
-        if (e.catchRate == -1) e.catchRate = this.catchRate;
-        if (e.sexeRatio == -1) e.sexeRatio = this.sexeRatio;
         if (e.type1 == null) e.type1 = this.type1;
         if (e.type2 == null) e.type2 = this.type2;
-        if (e.mass == -1) e.mass = this.mass;
         System.arraycopy(this.foods, 0, e.foods, 0, this.foods.length);
         e.breeds = this.breeds;
         e.legendary = this.legendary;
@@ -1346,20 +1329,6 @@ public class PokedexEntry
             if (this.getBaseForme() == this) PokecubeAPI.LOGGER.error("Error with {}", this);
         }
         return this.baseName;
-    }
-
-    /** @return the baseXP */
-    public int getBaseXP()
-    {
-        if (this.baseXP == -1) this.baseXP =
-                this.getBaseForme() != null && this.getBaseForme() != this ? this.getBaseForme().getBaseXP() : 0;
-        return this.baseXP;
-    }
-
-    /** @return the catchRate */
-    public int getCatchRate()
-    {
-        return this.catchRate;
     }
 
     public PokedexEntry getChild()
@@ -1469,11 +1438,6 @@ public class PokedexEntry
         return 8;
     }
 
-    public int getHappiness()
-    {
-        return this.baseHappiness;
-    }
-
     public Ability getHiddenAbility(final IPokemob pokemob)
     {
         if (this.abilitiesHidden.isEmpty()) return this.getAbility(0, pokemob);
@@ -1502,12 +1466,6 @@ public class PokedexEntry
         return this.modId;
     }
 
-    /** A list of all valid moves for this pokemob */
-    public List<String> getMoves()
-    {
-        return this._root_json.getMoves()._all_moves;
-    }
-
     public List<String> getMovesForLevel(final int level)
     {
         return getMovesForLevel(level, 0);
@@ -1519,21 +1477,11 @@ public class PokedexEntry
         var levelMoves = this._root_json.getMoves()._moves_by_level;
         for (var lvl : levelMoves)
         {
-            if (lvl.L < oldLevel) continue;
+            if (lvl.L <= oldLevel) continue;
             if (lvl.L > level) break;
             ret.addAll(lvl.moves);
         }
         return ret;
-    }
-
-    public String getName()
-    {
-        return this.name;
-    }
-
-    public int getPokedexNb()
-    {
-        return this.pokedexNb;
     }
 
     public ItemStack getRandomHeldItem(final Mob mob)
@@ -1562,26 +1510,63 @@ public class PokedexEntry
         return this.related;
     }
 
+    public String getName()
+    {
+        return this.name;
+    }
+
+    public int getPokedexNb()
+    {
+        return this.pokedexNb;
+    }
+
+    /** A list of all valid moves for this pokemob */
+    public List<String> getMoves()
+    {
+        return this._root_json.getMoves()._all_moves;
+    }
+
+    /** @return the baseXP */
+    public int getBaseXP()
+    {
+        return this._root_json.base_experience;
+    }
+
+    /** @return the catchRate */
+    public int getCatchRate()
+    {
+        return this._root_json.capture_rate;
+    }
+
+    public double getMass()
+    {
+        return this._root_json.mass;
+    }
+
+    public int getHappiness()
+    {
+        return this._root_json.base_happiness;
+    }
+
     /** @return the sexeRatio */
     public int getSexeRatio()
     {
-        return this.sexeRatio;
+        return this._root_json.gender_rate;
     }
 
-    public SoundEvent getSoundEvent()
+    public float getHeight()
     {
-        if (this.replacedEvent != null) return this.replacedEvent;
-        if (this.soundEvent == null) if (this.getBaseForme() != null && this.getBaseForme() != this)
-        {
-            this.soundEvent = this.getBaseForme().getSoundEvent();
-            this.sound = this.getBaseForme().sound;
-        }
-        return this.soundEvent;
+        return this._root_json.size.height;
     }
 
-    public SpawnData getSpawnData()
+    public float getWidth()
     {
-        return this.spawns;
+        return this._root_json.size.width;
+    }
+
+    public float getLength()
+    {
+        return this._root_json.size.length;
     }
 
     public int getStatATT()
@@ -1612,6 +1597,22 @@ public class PokedexEntry
     public int getStatVIT()
     {
         return this._root_json.stats.speed;
+    }
+
+    public SpawnData getSpawnData()
+    {
+        return this.spawns;
+    }
+
+    public SoundEvent getSoundEvent()
+    {
+        if (this.replacedEvent != null) return this.replacedEvent;
+        if (this.soundEvent == null) if (this.getBaseForme() != null && this.getBaseForme() != this)
+        {
+            this.soundEvent = this.getBaseForme().getSoundEvent();
+            this.sound = this.getBaseForme().sound;
+        }
+        return this.soundEvent;
     }
 
     public String getTexture(final byte gender)
@@ -1982,21 +1983,6 @@ public class PokedexEntry
                 this.getBaseForme() != null && this.getBaseForme() != this && this.getBaseForme().isLegendary();
         return baseLegend || this.legendary || SpecialCaseRegister.getCaptureCondition(this) != null
                 || SpecialCaseRegister.getSpawnCondition(this) != null;
-    }
-
-    public float getHeight()
-    {
-        return this._root_json.size.height;
-    }
-
-    public float getWidth()
-    {
-        return this._root_json.size.width;
-    }
-
-    public float getLength()
-    {
-        return this._root_json.size.length;
     }
 
     public boolean isMega()
