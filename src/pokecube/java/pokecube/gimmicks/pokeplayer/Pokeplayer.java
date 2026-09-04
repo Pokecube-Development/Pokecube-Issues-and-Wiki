@@ -439,7 +439,11 @@ public class Pokeplayer
 
     private static void updateSwimming(final Player player, final IPokemob pokemob)
     {
-        if (pokemob.getPokedexEntry().swims() || pokemob.isType(PokeType.getType("water"))) player.setAirSupply(300);
+        if (pokemob.getPokedexEntry().swims() || pokemob.isType(PokeType.getType("water")))
+        { // Pokemobs that can swim get to swim faster.
+            player.setAirSupply(300);
+            player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 60, 1, true, false));
+        }
     }
 
     private static void updateFireResistance(final Player player, final IPokemob pokemob)
