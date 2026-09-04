@@ -3,6 +3,7 @@ package pokecube.core.ai.tasks.misc;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.Brain;
@@ -141,8 +142,19 @@ public class WalkToTask extends Behavior<Mob>
                 return true;
             }
 
-            Vec3 vec3 = DefaultRandomPos.getPosTowards((PathfinderMob)mob, 10, 7, Vec3.atBottomCenterOf(blockpos), (float) (Math.PI / 2));
-            if (vec3 != null) {
+            if (mob instanceof PathfinderMob pathMob)
+            {
+                Vec3 vec3 = DefaultRandomPos.getPosTowards(pathMob, 10, 7, Vec3.atBottomCenterOf(blockpos),
+                        (float) (Math.PI / 2));
+                if (vec3 != null)
+                {
+                    this.path = mob.getNavigation().createPath(vec3.x, vec3.y, vec3.z, 0);
+                    return this.path != null;
+                }
+            }
+            else
+            {
+                var vec3 = Vec3.atBottomCenterOf(blockpos);
                 this.path = mob.getNavigation().createPath(vec3.x, vec3.y, vec3.z, 0);
                 return this.path != null;
             }
