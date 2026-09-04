@@ -257,6 +257,12 @@ public abstract class PokemobBase implements IPokemob
     }
 
     @Override
+    public Mob getEntity()
+    {
+        return this.entity;
+    }
+
+    @Override
     public void setTrackableEntity(LivingEntity entityIn)
     {
         this.trackedEntity = entityIn;

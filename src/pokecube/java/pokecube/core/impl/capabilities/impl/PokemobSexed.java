@@ -79,15 +79,9 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
         return false;
     }
 
-    private int getBreedingDelay(final IPokemob mate)
+    private int getBreedingDelay()
     {
         return PokecubeCore.getConfig().breedingDelay;
-    }
-
-    @Override
-    public AgeableMob getEntity()
-    {
-        return (AgeableMob) this.entity;
     }
 
     @Override
@@ -156,7 +150,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     @Override
     public void resetLoveStatus()
     {
-        this.loveTimer = -this.getEntity().getRandom().nextInt(600 + this.getBreedingDelay(null));
+        this.loveTimer = -this.getEntity().getRandom().nextInt(600 + this.getBreedingDelay());
         this.setGeneralState(GeneralStates.MATING, false);
     }
 

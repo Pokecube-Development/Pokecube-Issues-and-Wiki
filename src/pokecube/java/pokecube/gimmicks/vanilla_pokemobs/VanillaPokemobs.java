@@ -16,8 +16,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
@@ -53,7 +51,6 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 @Mod(value = PokecubeCore.MODID)
-@EventBusSubscriber(modid = PokecubeCore.MODID)
 public class VanillaPokemobs
 {
     private static final PokedexEntry DERP;
@@ -90,11 +87,9 @@ public class VanillaPokemobs
         return !ItemList.is(VanillaPokemobs.NOTPOKEMOBS, e);
     };
 
-    @SubscribeEvent
     @SuppressWarnings("unchecked")
     public static void onEntityAttributes(final EntityAttributeModificationEvent event)
     {
-        if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs) return;
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Attributes to vanilla mobs");
         BuiltInRegistries.ENTITY_TYPE.forEach(type -> {
             if (type.getBaseClass().isAssignableFrom(Mob.class) && makePokemob.test(type))
@@ -110,18 +105,10 @@ public class VanillaPokemobs
         });
     }
 
-    @SubscribeEvent
-    public static void register(ServerStartingEvent event)
+    public static void onServerStarting(ServerStartingEvent event)
     {
         if (config._registered) return;
         config._registered = true;
-
-        // Here we disable the pokecube kill command for vanilla mobs for #753
-        PokecubeAPI.POKEMOB_BUS.addListener(VanillaPokemobs::onKillCommand);
-        // Here will will register the handler for making the default datapack
-        ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onServerStarted);
-        // And this handles applying the IPokemob to them.
-        ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onMobConstructingEvent);
 
         Ownable._REGISTRY.register(new HolderProvider.Provider<>()
         {
@@ -151,7 +138,6 @@ public class VanillaPokemobs
                 return 1000;
             }
         });
-        if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs) return;
         // Register default pokemobs
         ResourceLocation KEY = ResourceLocation.parse("pokecube:custom_pokemob");
         PokemobCaps._REGISTRY.register(new HolderProvider.Provider<>()
@@ -205,10 +191,9 @@ public class VanillaPokemobs
         });
     }
 
-    @SubscribeEvent(priority = EventPriority.LOW)
     private static void onMobConstructingEvent(final EntityConstructing event)
     {
-        if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs || duringCheck) return;
+        if (duringCheck) return;
         if (!(event.getEntity() instanceof Mob mob)) return;
         // Return here incase some other addon has already added it in
         if (mob.hasData(PokemobCaps.POKEMOB)) return;
@@ -226,10 +211,8 @@ public class VanillaPokemobs
     }
 
     private static boolean duringCheck = true;
-    @SubscribeEvent
     private static void onServerStarted(final ServerStartedEvent event)
     {
-        if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs) return;
         ServerLevel testLevel = event.getServer().getLevel(Level.OVERWORLD);
         List<JsonPokedexEntry> entries = new ArrayList<>();
         duringCheck = true;
@@ -314,7 +297,20 @@ public class VanillaPokemobs
         if (VanillaPokemobs.makePokemob.test(event.getEntity().getType())) event.setCanceled(true);
     }
 
-    public VanillaPokemobs(IEventBus ignored)
+    public VanillaPokemobs(IEventBus bus)
     {
+        // We have loaded the config when class was loaded, let now register if we are able to.
+        if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs) return;
+        // Register our events
+        ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onServerStarting);
+        ThutCore.FORGE_BUS.addListener(EventPriority.LOW, VanillaPokemobs::onMobConstructingEvent);
+        // Here we disable the pokecube kill command for vanilla mobs for #753
+        PokecubeAPI.POKEMOB_BUS.addListener(VanillaPokemobs::onKillCommand);
+        // Here will will register the handler for making the default datapack
+        ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onServerStarted);
+        // And this handles applying the IPokemob to them.
+        ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onMobConstructingEvent);
+
+        bus.addListener(VanillaPokemobs::onEntityAttributes);
     }
 }

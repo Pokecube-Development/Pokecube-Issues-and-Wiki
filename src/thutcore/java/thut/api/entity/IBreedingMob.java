@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 
 /**
@@ -13,7 +14,7 @@ import net.minecraft.world.entity.player.Player;
  */
 public interface IBreedingMob
 {
-    AgeableMob getEntity();
+    Mob getEntity();
 
     default boolean canMate(final AgeableMob AnimalEntity)
     {

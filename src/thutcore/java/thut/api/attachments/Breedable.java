@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -33,7 +34,9 @@ public class Breedable
         @Override
         public Object getChild(final IBreedingMob male)
         {
-            return this.wrapped.getBreedOffspring((ServerLevel) this.wrapped.level(), male.getEntity());
+            var maleMob = male.getEntity();
+            if(!(maleMob instanceof AgeableMob aged)) return null;
+            return this.wrapped.getBreedOffspring((ServerLevel) this.wrapped.level(), aged);
         }
 
         @Override
@@ -87,7 +90,7 @@ public class Breedable
         }
 
         @Override
-        public AgeableMob getEntity()
+        public Mob getEntity()
         {
             return wrapped;
         }

@@ -133,12 +133,5 @@ public class VanillaPokemob extends PokemobSaves
             for (final ItemStack stack : ret) this.getEntity().spawnAtLocation(stack);
             this.getEntity().playSound(SoundEvents.SHEEP_SHEAR, 1.0F, 1.0F);
         }
-
-    }
-
-    @Override
-    public Mob getEntity()
-    {
-        return this.entity;
     }
 }
