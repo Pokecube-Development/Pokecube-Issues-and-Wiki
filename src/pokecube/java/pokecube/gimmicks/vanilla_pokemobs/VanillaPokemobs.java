@@ -21,7 +21,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityEvent.EntityConstructing;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import pokecube.adventures.Config;
@@ -114,7 +114,7 @@ public class VanillaPokemobs
         // Here will will register the handler for making the default datapack
         ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onServerStarted);
         // And this handles applying the IPokemob to them.
-        ThutCore.FORGE_BUS.addListener(VanillaPokemobs::LivingJoinWorld);
+        ThutCore.FORGE_BUS.addListener(VanillaPokemobs::onMobConstructingEvent);
 
         Ownable._REGISTRY.register(new HolderProvider.Provider<>()
         {
@@ -199,9 +199,9 @@ public class VanillaPokemobs
     }
 
     @SubscribeEvent
-    private static void LivingJoinWorld(final EntityJoinLevelEvent event)
+    private static void onMobConstructingEvent(final EntityConstructing event)
     {
-        if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs) return;
+        if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs || duringCheck) return;
         if (!(event.getEntity() instanceof Mob mob)) return;
         if (mob instanceof EntityPokemob) return;
         // Only consider mobEntity, IPokemob requires that
@@ -215,12 +215,14 @@ public class VanillaPokemobs
         mob.getData(PokemobCaps.POKEMOB);
     }
 
+    private static boolean duringCheck = true;
     @SubscribeEvent
     private static void onServerStarted(final ServerStartedEvent event)
     {
         if (!config.non_vanilla_pokemobs && !config.vanilla_pokemobs) return;
         ServerLevel testLevel = event.getServer().getLevel(Level.OVERWORLD);
         List<JsonPokedexEntry> entries = new ArrayList<>();
+        duringCheck = true;
         BuiltInRegistries.ENTITY_TYPE.forEach(t -> {
             Entity e;
             try
@@ -249,6 +251,7 @@ public class VanillaPokemobs
                 }
             }
         });
+        duringCheck = false;
         if (!entries.isEmpty())
         {
             File root = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
