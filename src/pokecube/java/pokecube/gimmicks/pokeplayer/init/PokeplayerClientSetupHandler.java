@@ -25,8 +25,8 @@ public class PokeplayerClientSetupHandler
 
     static
     {
-        openPokemobInv = new KeyMapping("key.pokeplayer.openpokemobinv", KeyConflictContext.IN_GAME, KeyModifier.ALT, Type.KEYSYM,
-            GLFW.GLFW_KEY_RIGHT, "key.categories.pokecube");
+        openPokemobInv = new KeyMapping("key.pokeplayer.openpokemobinv", KeyConflictContext.IN_GAME, KeyModifier.ALT, Type.MOUSE,
+            GLFW.GLFW_MOUSE_BUTTON_RIGHT, "key.categories.pokecube");
     }
 
     private static final List<KeyMapping> KEYS = new ArrayList<>();
