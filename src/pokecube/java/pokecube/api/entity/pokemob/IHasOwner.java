@@ -7,16 +7,27 @@ import javax.annotation.Nullable;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.ai.logic.LogicMountedControl;
 import thut.api.attachments.IOwnable;
+import thut.api.attachments.Ownable;
 
 public interface IHasOwner extends IHasMobAIStates, IOwnable
 {
-    IOwnable getOwnerHolder();
+    Mob getEntity();
 
-    void setOwnerHolder(IOwnable holder);
+    default IOwnable getOwnerHolder()
+    {
+        return this.getEntity().getData(Ownable.TYPE);
+    }
+
+    default void setOwnerHolder(IOwnable holder)
+    {
+        if(holder instanceof Ownable.IOwnableSerializable serializable)
+            this.getEntity().setData(Ownable.TYPE, serializable);
+    }
 
     @Override
     @Nullable

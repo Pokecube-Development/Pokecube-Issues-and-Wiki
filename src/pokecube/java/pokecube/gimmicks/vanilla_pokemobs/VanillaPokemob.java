@@ -17,11 +17,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.TagNames;
 import pokecube.core.impl.capabilities.impl.PokemobSaves;
 import thut.api.Tracker;
-import thut.api.attachments.IOwnable;
-import thut.api.attachments.Ownable;
-import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
-import thut.core.common.genetics.DefaultGenetics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,18 +134,6 @@ public class VanillaPokemob extends PokemobSaves
             this.getEntity().playSound(SoundEvents.SHEEP_SHEAR, 1.0F, 1.0F);
         }
 
-    }
-
-    @Override
-    public IOwnable getOwnerHolder()
-    {
-        return this.getEntity().getData(Ownable.TYPE);
-    }
-
-    @Override
-    public IMobGenetics getGenes()
-    {
-        return this.getEntity().getData(DefaultGenetics.TYPE);
     }
 
     @Override

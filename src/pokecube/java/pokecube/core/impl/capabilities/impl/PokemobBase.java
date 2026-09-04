@@ -24,11 +24,8 @@ import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.network.pokemobs.PacketPingBoss;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.attachments.CopyMob;
-import thut.api.attachments.IOwnable;
 import thut.api.attachments.Ownable;
 import thut.api.entity.ICopyMob;
-import thut.api.entity.genetics.Gene;
-import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
@@ -45,9 +42,8 @@ import thut.core.common.world.mobs.data.types.Data_String;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Consumer;
 
-public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
+public abstract class PokemobBase implements IPokemob
 {
     public static class DataParameters
     {
@@ -194,10 +190,6 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     protected IGuardAICapability guardCap;
     /** How long the mob is */
     protected float length;
-    /** The IMobGenetics used to store our genes. */
-    private IMobGenetics genes = new DefaultGenetics();
-    /** The IMobGenetics used to store our genes. */
-    private IOwnable ownerHolder = new Ownable.Impl();
 
     protected ICopyMob transformed = new CopyMob.Impl();
 
@@ -224,19 +216,6 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     {
         this.dataSync = new DataSync_Impl();
         this.params.register(this.dataSync);
-    }
-
-    /**
-     * @return the ownerHolder
-     */
-    public IOwnable getOwnerHolder()
-    {
-        return this.ownerHolder;
-    }
-
-    public void setOwnerHolder(IOwnable holder)
-    {
-        this.ownerHolder = holder;
     }
 
     @Override
@@ -339,25 +318,6 @@ public abstract class PokemobBase implements IPokemob, Consumer<Gene<?>>
     public void setDeathTime(long time)
     {
         params.TIMEOFDEATH.set(time);
-    }
-
-    @Override
-    public IMobGenetics getGenes()
-    {
-        return genes;
-    }
-
-    @Override
-    public void setGenes(IMobGenetics genes)
-    {
-        if (genes != this.genes)
-        {
-            genes.copyMissingFrom(this.genes);
-            this.genes = genes;
-            this.genes.addChangeListener(this);
-            this.onGenesChanged();
-        }
-        this.getMoveStats().reset();
     }
 
     public void setCopy(ICopyMob transform)

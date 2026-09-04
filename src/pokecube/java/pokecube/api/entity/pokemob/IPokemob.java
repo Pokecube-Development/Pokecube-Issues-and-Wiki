@@ -36,19 +36,22 @@ import thut.api.entity.IHungrymob;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IShearable;
 import thut.api.entity.ai.IAIRunnable;
+import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
+import thut.core.common.genetics.DefaultGenetics;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /** @author Manchou */
 public interface IPokemob
         extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob, IHasCommands, IMobColourable,
-        IShearable, TrackedAttachment
+        IShearable, TrackedAttachment, Consumer<Gene<?>>
 {
     /**
      * Holder object for custom models/textures/etc for a pokemob.
@@ -788,7 +791,22 @@ public interface IPokemob
         return KEY;
     }
 
-    IMobGenetics getGenes();
+    default IMobGenetics getGenes()
+    {
+        return this.getEntity().getData(DefaultGenetics.TYPE);
+    }
 
-    void setGenes(IMobGenetics genes);
+    default void setGenes(IMobGenetics genes)
+    {
+        var oldGenes = this.getGenes();
+        if (genes != oldGenes)
+        {
+            genes.copyMissingFrom(oldGenes);
+            genes.addChangeListener(this);
+            this.getEntity().setData(DefaultGenetics.TYPE, genes);
+        }
+        // Mark as changed if this was called, regardless of whether we actually changed it.
+        this.onGenesChanged();
+        this.getMoveStats().reset();
+    }
 }
