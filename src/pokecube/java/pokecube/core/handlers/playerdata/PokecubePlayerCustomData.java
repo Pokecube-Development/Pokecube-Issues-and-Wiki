@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -25,7 +26,7 @@ public class PokecubePlayerCustomData extends PlayerData
         }
     }
 
-    public CompoundTag tag = new CompoundTag();
+    public final CompoundTag tag = new CompoundTag();
 
     public Map<String, INBTSerializable<CompoundTag>> customValues = Maps.newConcurrentMap();
 
@@ -49,14 +50,20 @@ public class PokecubePlayerCustomData extends PlayerData
     @Override
     public void readFromNBT(Provider provider, CompoundTag tag)
     {
-        this.tag = tag.getCompound("data");
-        if (tag.contains("values"))
+        synchronized (this.tag)
         {
-            CompoundTag values = tag.getCompound("values");
-            values.getAllKeys().forEach(key -> {
-                INBTSerializable<CompoundTag> value = this.customValues.get(key);
-                if (value != null && values.get(key) instanceof CompoundTag tag2) value.deserializeNBT(provider, tag2);
-            });
+            var keys = new HashSet<>(this.tag.getAllKeys());
+            keys.forEach(this.tag::remove);
+            this.tag.merge(tag.getCompound("data"));
+            if (tag.contains("values"))
+            {
+                CompoundTag values = tag.getCompound("values");
+                values.getAllKeys().forEach(key -> {
+                    INBTSerializable<CompoundTag> value = this.customValues.get(key);
+                    if (value != null && values.get(key) instanceof CompoundTag tag2)
+                        value.deserializeNBT(provider, tag2);
+                });
+            }
         }
     }
 
@@ -69,12 +76,15 @@ public class PokecubePlayerCustomData extends PlayerData
     @Override
     public void writeToNBT(Provider provider, CompoundTag tag)
     {
-        tag.put("data", this.tag);
-        if (!this.customValues.isEmpty())
+        synchronized (this.tag)
         {
-            CompoundTag values = new CompoundTag();
-            this.customValues.forEach((key, value) -> values.put(key, value.serializeNBT(provider)));
-            tag.put("values", values);
+            tag.put("data", this.tag.copy());
+            if (!this.customValues.isEmpty())
+            {
+                CompoundTag values = new CompoundTag();
+                this.customValues.forEach((key, value) -> values.put(key, value.serializeNBT(provider)));
+                tag.put("values", values);
+            }
         }
     }
 
