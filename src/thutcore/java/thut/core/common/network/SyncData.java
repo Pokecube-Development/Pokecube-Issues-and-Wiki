@@ -1,4 +1,4 @@
-package thut.core.common.world.mobs.data;
+package thut.core.common.network;
 
 import com.google.common.collect.Lists;
 import net.minecraft.network.FriendlyByteBuf;
@@ -8,16 +8,18 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import thut.api.Tracker;
 import thut.api.entity.EntityProvider;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
-import thut.core.common.network.Packet;
+import thut.core.common.world.mobs.data.DataSync_Impl;
+import thut.core.common.world.mobs.data.SyncHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PacketDataSync extends Packet
+public class SyncData extends Packet
 {
     public static void sync(Entity tracked, DataSync data, int entity_id, boolean all)
     {
@@ -26,10 +28,20 @@ public class PacketDataSync extends Packet
         List<Data<?>> list = all || init ? data.getAll() : data.getDirty();
         // Nothing to sync.
         if (list == null || list.isEmpty()) return;
-        PacketDataSync packet = new PacketDataSync();
+        SyncData packet = new SyncData();
+        // Mark entire list as not dirty
+        list.forEach(d -> {
+            d.setDirty(false);
+            if (ThutCore.conf.debug)
+            {
+                Tracker.SERVER_COUNTERS.computeIfAbsent("sync_data:" + d.getTag() + ":" + d.getName(),
+                        _key -> new Tracker.Counter(_key, 200)).increment();
+            }
+        });
         packet.data = list;
         packet.id = entity_id;
         packet.type = (byte) (all || init ? 1 : 0);
+
         ThutCore.packets.sendToTrackingAndSelf(packet, tracked);
     }
 
@@ -40,7 +52,7 @@ public class PacketDataSync extends Packet
         List<Data<?>> list = all || init ? data.getAll() : data.getDirty();
         // Nothing to sync.
         if (list == null || list.isEmpty()) return;
-        PacketDataSync packet = new PacketDataSync();
+        SyncData packet = new SyncData();
         packet.data = list;
         packet.id = entity_id;
         packet.type = (byte) (all || init ? 1 : 0);
@@ -52,7 +64,7 @@ public class PacketDataSync extends Packet
 
     List<Data<?>> data = Lists.newArrayList();
 
-    public PacketDataSync()
+    public SyncData()
     {
     }
 

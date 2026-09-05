@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
@@ -32,7 +33,7 @@ import thut.core.common.ThutCore;
  */
 public class Tracker
 {
-    private static Tracker INSTANCE = new Tracker();
+    private static final Tracker INSTANCE = new Tracker();
 
     public static Tracker instance()
     {
@@ -54,12 +55,47 @@ public class Tracker
         void read(CompoundTag nbt, ServerPlayer player);
     }
 
+    public static class Counter
+    {
+        public final String key;
+        public final int reportRate;
+        private final AtomicInteger N = new AtomicInteger();
+        private long lastReport = 0;
+
+        public Counter(String key, int reportRate)
+        {
+            this.key = key;
+            this.reportRate = reportRate;
+            lastReport = Tracker.instance().getTick();
+            N.set(0);
+        }
+
+        public void increment()
+        {
+            N.incrementAndGet();
+        }
+
+        public int report()
+        {
+            long tick = Tracker.instance().getTick();
+            long dN = tick - lastReport;
+            if (dN >= reportRate)
+            {
+                lastReport = tick;
+                return N.getAndSet(0);
+            }
+            return -1;
+        }
+    }
+
     private static long start = System.nanoTime();
     private static long n = 0;
     private static long dt = 0;
-    private static Object2LongArrayMap<String> taskCounts = new Object2LongArrayMap<>();
-    private static Object2IntArrayMap<String> taskNs = new Object2IntArrayMap<>();
+    private static final Object2LongArrayMap<String> taskCounts = new Object2LongArrayMap<>();
+    private static final Object2IntArrayMap<String> taskNs = new Object2IntArrayMap<>();
     public static Map<String, UpdateHandler> HANDLERS = new HashMap<>();
+    public static Map<String, Counter> CLIENT_COUNTERS = new HashMap<>();
+    public static Map<String, Counter> SERVER_COUNTERS = new HashMap<>();
 
     public static void timerStart()
     {
@@ -84,12 +120,12 @@ public class Tracker
         if (n >= reportRate)
         {
             double avg = dt / ((double) n);
-            System.out.println("Average time: %.2f us".formatted((avg / 1000d)));
+            System.out.printf("Average time: %.2f us%n", (avg / 1000d));
             System.out.println("key\ttime per\ttime total");
             taskCounts.forEach((clazz, val) -> {
                 double avg2 = val / ((double) taskNs.getInt(clazz));
                 String key = "%s\t%.2f\t%.2f";
-                System.out.println(key.formatted(clazz, (avg2 / 1000d), (val / 1000d)));
+                System.out.printf((key) + "%n", clazz, (avg2 / 1000d), (val / 1000d));
             });
             taskCounts.clear();
             taskNs.clear();
@@ -114,6 +150,17 @@ public class Tracker
     private static void onServerTick(final ServerTickEvent.Post event)
     {
         Tracker.instance().time++;
+        SERVER_COUNTERS.values().forEach(counter -> {
+            int n = counter.report();
+            if (n > 0)
+            {
+                int toSeconds = counter.reportRate / 20;
+                if (toSeconds > 0 && counter.reportRate % 20 == 0) System.out.println(
+                        "Counter: " + counter.key + ", Rate: " + n + "/" + counter.reportRate + " (" + (n / toSeconds)
+                                + "/s)");
+                else System.out.println("Counter: " + counter.key + ", Rate: " + n + "/" + counter.reportRate);
+            }
+        });
     }
 
     private static void onClientTick(final ClientTickEvent.Post event)
@@ -122,6 +169,13 @@ public class Tracker
         // This allows using the ticker for ensuring animations, etc keep
         // running as well.
         if (ServerLifecycleHooks.getCurrentServer() == null) Tracker.instance().time++;
+        CLIENT_COUNTERS.values().forEach(counter -> {
+            int n = counter.report();
+            if (n >= 0)
+            {
+                System.out.println("Counter: " + counter.key + ", Rate: " + n + "/" + counter.reportRate);
+            }
+        });
     }
 
     // Load the time and set it.
@@ -148,7 +202,7 @@ public class Tracker
         }
         catch (final IOException e)
         {
-            e.printStackTrace();
+            ThutCore.LOGGER.error(e);
         }
     }
 
@@ -176,7 +230,7 @@ public class Tracker
         }
         catch (final IOException e)
         {
-            e.printStackTrace();
+            ThutCore.LOGGER.error(e);
         }
     }
 

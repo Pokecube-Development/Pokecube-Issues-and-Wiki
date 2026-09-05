@@ -81,8 +81,13 @@ public class HungerTask extends BaseIdleTask
 
     public static float calculateHunger(final IPokemob pokemob)
     {
+        return calculateHunger(pokemob.getHungerTime());
+    }
+
+    public static float calculateHunger(int hungerTime)
+    {
         final float full = PokecubeCore.getConfig().pokemobLifeSpan / 4f + PokecubeCore.getConfig().pokemobLifeSpan;
-        final float current = -(pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan);
+        final float current = -(hungerTime - PokecubeCore.getConfig().pokemobLifeSpan);
         // Convert to a scale
         float hungerValue = current / full;
         hungerValue = Math.max(0, hungerValue);
@@ -93,6 +98,25 @@ public class HungerTask extends BaseIdleTask
     public static boolean hitThreshold(final float hungerValue, final float threshold)
     {
         return hungerValue <= threshold;
+    }
+
+    public static boolean crossedAnyThreshold(int old_hunger, int new_hunger)
+    {
+        float old_val = calculateHunger(old_hunger);
+        float new_val = calculateHunger(new_hunger);
+        // Ensure new is greater than old for this test
+        if (old_val > new_val)
+        {
+            float tmp = old_val;
+            old_val = new_val;
+            new_val = tmp;
+        }
+        if (new_val > EATTHRESHOLD && old_val < EATTHRESHOLD) return true;
+        if (new_val > HUNTTHRESHOLD && old_val < HUNTTHRESHOLD) return true;
+        if (new_val > MATERESET && old_val < MATERESET) return true;
+        if (new_val > BERRYGEN && old_val < BERRYGEN) return true;
+        if (new_val > DAMAGE && old_val < DAMAGE) return true;
+        return new_val > DEATH && old_val < DEATH;
     }
 
     public static final List<IBlockEatTask> EATTASKS = Lists.newArrayList();

@@ -135,7 +135,7 @@ public class ItemPokemobEgg extends Item
 
     public static float getSize(final float fatherSize, final float motherSize)
     {
-        float ret = 1;
+        float ret;
         ret = (fatherSize + motherSize) * 0.5f * (1 + 0.075f * (float) ThutCore.newRandom().nextGaussian());
         ret = Math.min(Math.max(0.1f, ret), 2);
         return ret;

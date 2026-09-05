@@ -112,6 +112,7 @@ import thut.api.maths.Vector3;
 import thut.api.world.WorldTickManager;
 import thut.api.world.WorldTickManager.DelayedTask;
 import thut.core.common.ThutCore;
+import thut.core.common.genetics.DefaultGenetics;
 import thut.core.common.network.SyncAttachments;
 import thut.lib.RegHelper;
 
@@ -349,7 +350,6 @@ public class PokemobEventsHandler
         // This deals with pokemob initialization, it initializes the AI, and
         // also does some checks for things like evolution, etc
         ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onJoinWorld);
-        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onJoinWorldLast);
         // This synchronizes genetics over to the clients when they start
         // tracking the mob locally.
         ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onStartTracking);
@@ -416,11 +416,13 @@ public class PokemobEventsHandler
             PokemobTracker.addPokemob(pokemob);
             if (pokemob.isPlayerOwned() && pokemob.getOwnerId() != null) PlayerPokemobCache.UpdateCache(pokemob);
         }
-        // We only consider MobEntities for below
-        if (!(event.getEntity() instanceof Mob mob)) return;
 
         // We also only run server side here
-        if (mob.level().isClientSide()) return;
+        if (event.getEntity().level().isClientSide()) return;
+        // This mark in world is for server-side sync processing.
+        event.getEntity().getExistingData(DefaultGenetics.TYPE).ifPresent(g -> g.markInWorld(true));
+        // We only consider MobEntities for below
+        if (!(event.getEntity() instanceof Mob mob)) return;
 
         // We only want to run this from execution thread.
         if (!mob.getServer().isSameThread() || !(mob.level instanceof ServerLevel world)) return;
@@ -637,10 +639,6 @@ public class PokemobEventsHandler
         final IPokemob attacker = PokemobCaps.getPokemobFor(damageSource.getDirectEntity());
         if (attacker != null && damageSource.getDirectEntity() instanceof Mob mob)
             PokemobEventsHandler.handleExp(mob, attacker, living);
-    }
-
-    private static void onJoinWorldLast(final EntityJoinLevelEvent event)
-    {
     }
 
     private static void onJoinWorld(final EntityJoinLevelEvent event)

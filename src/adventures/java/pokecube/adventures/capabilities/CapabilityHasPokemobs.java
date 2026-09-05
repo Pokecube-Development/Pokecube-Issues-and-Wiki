@@ -944,9 +944,11 @@ public class CapabilityHasPokemobs
         @Override
         public void setDataSync(final DataSync sync)
         {
+            if (sync == this.datasync) return;
             if (this.datasync != null) sync.mapFrom(this.datasync, "trainer");
             else this.initSync(sync);
             this.datasync = sync;
+            if (this.type != null) this.setType(this.type);
         }
 
         @Override

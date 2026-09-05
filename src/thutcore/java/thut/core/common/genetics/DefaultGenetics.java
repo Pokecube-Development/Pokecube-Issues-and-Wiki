@@ -69,7 +69,7 @@ public class DefaultGenetics implements IMobGenetics
         // gene listeners, and ensures they can look it up from our map.
         a.getExpressed();
         a.onChanged();
-        markDirty();
+        if(this.inWorld) markDirty();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class DefaultGenetics implements IMobGenetics
         a.setExpressed(gexp);
         this.genetics.put(g1.getKey(), a);
         a.onChanged();
-        markDirty();
+        if(this.inWorld) markDirty();
     }
 
     @SuppressWarnings("unchecked")
@@ -193,6 +193,7 @@ public class DefaultGenetics implements IMobGenetics
     }
 
     private boolean isDirty = false;
+    private boolean inWorld = false;
 
     @Override
     public void markDirty()
@@ -210,5 +211,11 @@ public class DefaultGenetics implements IMobGenetics
     public boolean isDirty()
     {
         return isDirty;
+    }
+
+    @Override
+    public void markInWorld(boolean inWorld)
+    {
+        this.inWorld = inWorld;
     }
 }

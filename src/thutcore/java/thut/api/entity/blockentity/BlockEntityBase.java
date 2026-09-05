@@ -40,7 +40,7 @@ import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
-import thut.core.common.world.mobs.data.PacketDataSync;
+import thut.core.common.network.SyncData;
 import thut.core.common.world.mobs.data.types.Data_Vec3;
 import thut.crafts.ThutCrafts;
 
@@ -609,7 +609,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
         this.checkCollision();
 
         // Now manually sync stuff as this is not a LivingEntity.
-        if (this.isServerWorld()) PacketDataSync.sync(this, dataSync, this.getId(), false);
+        if (this.isServerWorld()) SyncData.sync(this, dataSync, this.getId(), false);
     }
 
     @Override

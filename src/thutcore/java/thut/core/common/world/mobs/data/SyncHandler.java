@@ -9,6 +9,7 @@ import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.ICopyMob;
 import thut.api.world.mobs.data.DataSync;
+import thut.core.common.network.SyncData;
 
 public class SyncHandler
 {
@@ -29,7 +30,7 @@ public class SyncHandler
             boolean shouldTick = data.syncNow();
             shouldTick |= (tick % data.tickRate()) == (data.tickOffset() % data.tickRate());
             if (!shouldTick) break mainData;
-            PacketDataSync.sync(entity, data, entity.getId(), false);
+            SyncData.sync(entity, data, entity.getId(), false);
         }
         ICopyMob copy = ThutCaps.getCopyMob(event.getEntity());
         copyData:
@@ -45,7 +46,7 @@ public class SyncHandler
             boolean shouldTick = data.syncNow();
             shouldTick |= (tick % data.tickRate()) == (data.tickOffset() % data.tickRate());
             if (!shouldTick) break copyData;
-            PacketDataSync.sync(event.getEntity(), data, entity.getId(), false);
+            SyncData.sync(event.getEntity(), data, entity.getId(), false);
         }
     }
 
@@ -59,6 +60,6 @@ public class SyncHandler
     {
         if (event.getTarget().level().isClientSide || !event.getTarget().hasData(DataSync_Impl.TYPE)) return;
         final DataSync data = SyncHandler.getData(event.getTarget());
-        PacketDataSync.sync((ServerPlayer) event.getEntity(), data, event.getTarget().getId(), true);
+        SyncData.sync((ServerPlayer) event.getEntity(), data, event.getTarget().getId(), true);
     }
 }

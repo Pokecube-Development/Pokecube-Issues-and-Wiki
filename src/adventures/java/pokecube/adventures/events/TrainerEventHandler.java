@@ -293,6 +293,7 @@ public class TrainerEventHandler
         final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(event.getEntity());
         if (pokemobHolder != null && event.getEntity() instanceof LivingEntity npc)
         {
+            pokemobHolder.setDataSync(npc.getData(DataSync_Impl.TYPE));
             final Brain<?> brain = npc.getBrain();
             if (!brain.hasMemoryValue(MemoryTypes.BATTLETARGET.get()) && brain.isActive(Activities.BATTLE.get()))
                 brain.setActiveActivityIfPossible(Activity.IDLE);

@@ -47,4 +47,6 @@ public interface IMobGenetics extends INBTSerializable<ListTag>, TrackedAttachme
         for (var key : genes.getAlleles().keySet())
             if (!this.getAlleles().containsKey(key)) this.getAlleles().put(key, genes.getAlleles(key));
     }
+
+    void markInWorld(boolean inWorld);
 }

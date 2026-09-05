@@ -57,7 +57,7 @@ import thut.core.common.network.SyncAttachments;
 import thut.core.common.network.TerrainUpdate;
 import thut.core.common.network.TileUpdate;
 import thut.core.common.terrain.CapabilityTerrainAffected;
-import thut.core.common.world.mobs.data.PacketDataSync;
+import thut.core.common.network.SyncData;
 import thut.core.init.RegistryObjects;
 import thut.core.init.ThutCreativeTabs;
 import thut.crafts.ThutCrafts;
@@ -317,7 +317,7 @@ public class ThutCore
         ThutCore.packets.registerToClientMessage(EntityUpdate.class);
         ThutCore.packets.registerToClientMessage(TileUpdate.class);
         ThutCore.packets.registerToClientMessage(TerrainUpdate.class);
-        ThutCore.packets.registerToClientMessage(PacketDataSync.class);
+        ThutCore.packets.registerToClientMessage(SyncData.class);
         ThutCore.packets.registerToClientMessage(SyncAttachments.class);
         ThutCore.packets.registerToClientMessage(PartSync.class);
 

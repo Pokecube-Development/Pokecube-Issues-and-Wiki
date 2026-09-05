@@ -15,6 +15,7 @@ import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.events.pokemobs.ai.EatObjectEvent;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.items.berries.ItemBerry;
 import thut.api.item.ItemList;
@@ -211,10 +212,12 @@ public abstract class PokemobHungry extends PokemobMoves
     @Override
     public void setHungerTime(final int hungerTime)
     {
-        if(!this.getEntity().level().isClientSide())
+        if (!this.getEntity().level().isClientSide())
         {
-            this.params.HUNGERDW.setRealtime(this.isPlayerOwned());
+            var oldHunger = this.params.HUNGERDW.get();
+            boolean crossedThreshold = HungerTask.crossedAnyThreshold(oldHunger, hungerTime);
             this.params.HUNGERDW.set(hungerTime);
+            if (!(crossedThreshold || isPlayerOwned())) this.params.HUNGERDW.setDirty(false);
         }
     }
 }

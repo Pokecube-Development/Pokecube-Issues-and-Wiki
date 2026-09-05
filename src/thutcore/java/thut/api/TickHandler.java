@@ -17,21 +17,21 @@ public class TickHandler
 {
     public static Map<UUID, Integer> playerTickTracker = Maps.newHashMap();
 
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
     /**
      * This is used to re-set view bobbing for when a player walks off a block
      * entity.
      */
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
     public static void PlayerTick(final PlayerTickEvent.Post event)
     {
         if (TickHandler.playerTickTracker.containsKey(event.getEntity().getUUID()))
         {
             final Integer time = TickHandler.playerTickTracker.get(event.getEntity().getUUID());
             if (time < (int) (System.currentTimeMillis() % 2000) - 100)
-                Minecraft.getInstance().options.bobView().set(true);;
+                Minecraft.getInstance().options.bobView().set(true);
         }
-        /**
+        /*
          * This deals with the massive hunger reduction for standing on the
          * block entities.
          */

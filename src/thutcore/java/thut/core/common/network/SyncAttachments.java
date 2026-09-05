@@ -78,9 +78,10 @@ public class SyncAttachments extends Packet
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void joinWorldLast(final EntityJoinLevelEvent event)
     {
-        if (event.getLevel().isClientSide()) return;
-        if (event.getEntity() instanceof LivingEntity mob)
+        if (event.getLevel().isClientSide() || event.isCanceled()) return;
+        if (event.getEntity() instanceof LivingEntity mob && !mob.getPersistentData().contains("thutcore:sync_attach_join"))
         {
+            mob.getPersistentData().putBoolean("thutcore:sync_attach_join", true);
             // Delay this execution, so the mob is actually tracked when it
             // runs.
             WorldTickManager.scheduleTask(mob.level().dimension(),
@@ -108,8 +109,9 @@ public class SyncAttachments extends Packet
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void startTracking(final StartTracking event)
     {
-        if (event.getTarget() instanceof LivingEntity mob && event.getEntity().isEffectiveAi())
+        if (event.getTarget() instanceof LivingEntity mob && event.getEntity().isEffectiveAi() && !mob.getPersistentData().contains("thutcore:sync_attach_"+event.getEntity().getStringUUID()))
         {
+            mob.getPersistentData().putBoolean("thutcore:sync_attach_"+event.getEntity().getStringUUID(), true);
             // Delay this execution, so the mob is actually tracked when it
             // runs.
             WorldTickManager.scheduleTask(mob.level().dimension(),
@@ -138,7 +140,6 @@ public class SyncAttachments extends Packet
                 if (tracked.isDirty())
                 {
                     sendForKey(mob, NeoForgeRegistries.ATTACHMENT_TYPES.getKey(type), false);
-                    tracked.markClean();
                 }
             }
         });
@@ -177,9 +178,12 @@ public class SyncAttachments extends Packet
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
         var tag = ((INBTSerializable) data).serializeNBT(mob.registryAccess());
-        if (!markDirty && !(data instanceof TrackedAttachment tracked && tracked.isDirty()) && !UNCHECKED_SYNC.contains(
-                key))
+
+        default_check:
         {
+            if (markDirty) break default_check;
+            if (data instanceof TrackedAttachment tracked && tracked.isDirty()) break default_check;
+            if (UNCHECKED_SYNC.contains(key)) break default_check;
             @SuppressWarnings("unchecked")
             var test = DEFAULTS.computeIfAbsent(key, a -> {
                 Function<IAttachmentHolder, ?> _defact;
@@ -197,6 +201,14 @@ public class SyncAttachments extends Packet
                 return new CompoundTag();
             });
             if (tag.equals(test)) return;
+        }
+        for (var _key : new ArrayList<>(mob.getPersistentData().getAllKeys()))
+            if (_key.startsWith("thutcore:sync_attach_")) mob.getPersistentData().remove(_key);
+        if (data instanceof TrackedAttachment tracked) tracked.markClean();
+        if(ThutCore.conf.debug)
+        {
+            Tracker.SERVER_COUNTERS.computeIfAbsent("sync_attachment:" + key, _key -> new Tracker.Counter(_key, 200))
+                    .increment();
         }
         var p = new SyncAttachments(mob, tag, key);
         ThutCore.packets.sendToTrackingAndSelf(p, mob);

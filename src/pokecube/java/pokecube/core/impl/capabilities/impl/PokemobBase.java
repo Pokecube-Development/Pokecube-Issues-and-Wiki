@@ -93,10 +93,10 @@ public abstract class PokemobBase implements IPokemob
         {
             sync.setRegisterTag("pokemob");
             // Held Item timer
-            this.HELDITEMDW = sync.register(new Data_ItemStack("held_item"));
+            this.HELDITEMDW = sync.register(new Data_ItemStack("held_item")).setRealtime();
 
             // Humger timer
-            this.HUNGERDW = sync.register(new Data_Int("hunger"));
+            this.HUNGERDW = sync.register(new Data_Int("hunger")).setRealtime();
             // // for sheared status
             this.NICKNAMEDW = sync.register(new Data_String("nickname"));
             this.HAPPYDW = sync.register(new Data_Int("happiness"));

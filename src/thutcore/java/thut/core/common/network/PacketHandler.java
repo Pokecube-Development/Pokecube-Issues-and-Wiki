@@ -17,6 +17,7 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import thut.api.entity.EntityProvider;
+import thut.core.common.ThutCore;
 
 public class PacketHandler
 {
@@ -50,7 +51,7 @@ public class PacketHandler
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                ThutCore.LOGGER.error(e);
             }
         });
 
@@ -65,7 +66,7 @@ public class PacketHandler
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                ThutCore.LOGGER.error(e);
             }
         });
 
@@ -80,7 +81,7 @@ public class PacketHandler
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                ThutCore.LOGGER.error(e);
             }
         });
     }

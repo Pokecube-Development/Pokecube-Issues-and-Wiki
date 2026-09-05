@@ -140,7 +140,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     @Override
     public String getPokemobTeam()
     {
-        if (this.team.isEmpty()) this.team = TeamManager.getTeam(this.getEntity());
+        if (this.team.isEmpty()) this.team = TeamManager.getTeam(this.getTrackedEntity());
         return this.team;
     }
 
@@ -153,7 +153,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     protected void initInventory()
     {
         SimpleContainer animalchest = this.pokeChest;
-        this.pokeChest = new PokemobInventory(this.getEntity());
+        this.pokeChest = new PokemobInventory(this.getTrackedEntity());
         if (animalchest != null)
         {
             animalchest.removeListener(this);
