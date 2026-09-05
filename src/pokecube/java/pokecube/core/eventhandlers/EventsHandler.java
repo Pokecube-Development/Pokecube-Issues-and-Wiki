@@ -361,10 +361,6 @@ public class EventsHandler
         StatsHandler.register();
         MoveQueuer.register();
 
-        // Here we register the onWorldLoad for pokemob tracker, this handles
-        // initializing the tracked pokemob maps, etc.
-        ThutCore.FORGE_BUS.addListener(PokemobTracker::onWorldLoad);
-
         ResourceLocation TEXTURECAPP = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "textured_pokemob");
         ResourceLocation TEXTURECAPN = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "textured_npc");
         IMobTexturable.Defaults._REGISTRY.register(new HolderProvider.Provider<>()

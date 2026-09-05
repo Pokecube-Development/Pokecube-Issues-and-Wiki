@@ -211,6 +211,8 @@ public class TrainerSpawnHandler
         final List<ServerPlayer> players = w.players();
         if (players.isEmpty()) return;
         final Player p = players.get(w.random.nextInt(players.size()));
+        // Don't spawn trainers in before they have a time to be marked as in world.
+        if (p.tickCount < 600) return;
         int dist = Math.min(PokecubeCore.getConfig().maxSpawnRadius, Config.instance.trainerBox);
         Vector3 v = TrainerSpawnHandler.getRandomSpawningPointNearEntity(w, p, dist);
         if (v == null) return;

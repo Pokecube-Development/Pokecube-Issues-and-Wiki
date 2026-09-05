@@ -76,7 +76,7 @@ public class ManageOutMob extends BaseBattleTask
             // out next pokemob.
             if (cooldown == Config.instance.trainerSendOutDelay / 2)
             {
-                final ItemStack nextStack = trainer.getNextPokemob();
+                ItemStack nextStack = trainer.getNextPokemob();
                 if (!nextStack.isEmpty())
                 {
                     IPokemob next = PokecubeManager.itemToPokemob(nextStack, level);
@@ -86,14 +86,17 @@ public class ManageOutMob extends BaseBattleTask
                         while (next.canEvolve(next.getHeldItem()))
                         {
                             boolean evolved = next.evolve(false);
-                            PokemobCaps.updatePokecube(nextStack,
-                                    PokemobCaps.getPokemobIn(nextStack).withPokemob(next));
                             if (!evolved) break;
+                            nextStack = PokecubeManager.pokemobToItem(next);
                         }
-                        this.getMessages(living)
-                                .sendMessage(MessageState.ABOUTSEND, trainer.getTarget(), living.getDisplayName(),
-                                        next.getDisplayName(), trainer.getTarget().getDisplayName());
-                        this.getMessages(living).doAction(MessageState.ABOUTSEND,
+                        // Ensure that the stack is actually updated
+                        trainer.setPokemob(trainer.getNextSlot(), nextStack);
+                        var msg = this.getMessages(living);
+                        // Then send the messages
+                        msg.sendMessage(MessageState.ABOUTSEND, trainer.getTarget(), living.getDisplayName(),
+                                next.getDisplayName(), trainer.getTarget().getDisplayName());
+                        // Then apply the custom actions
+                        msg.doAction(MessageState.ABOUTSEND,
                                 trainer.setLatestContext(new ActionContext(trainer.getTarget(), living)));
                         if (living.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
                             living.setItemInHand(InteractionHand.MAIN_HAND, nextStack);

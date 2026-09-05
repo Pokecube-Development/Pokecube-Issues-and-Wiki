@@ -153,20 +153,6 @@ public abstract class TrainerBase extends NpcMob
     private boolean checkedMobs = false;
 
     @Override
-    public void onAddedToLevel()
-    {
-        TrainerTracker.add(this);
-        super.onAddedToLevel();
-    }
-
-    @Override
-    public void onRemovedFromLevel()
-    {
-        TrainerTracker.removeTrainer(this);
-        super.onRemovedFromLevel();
-    }
-
-    @Override
     public void aiStep()
     {
         super.aiStep();

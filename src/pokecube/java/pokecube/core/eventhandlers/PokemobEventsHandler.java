@@ -371,10 +371,8 @@ public class PokemobEventsHandler
 
         // This checks if we are an inhabitor of a nest, and we just left it. if
         // this is the case, then some extra processing is done related to
-        // finishing tasks, etc upon leaving the nest, also update PokemobTracker
+        // finishing tasks, etc upon leaving the nest
         ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onMobAddedToWorld);
-        // Update PokemobTracker about the removal
-        ThutCore.FORGE_BUS.addListener(PokemobEventsHandler::onMobRemovedFromWorld);
 
         // Checks to see if we are diving mob+dive, or flyingmob+fly, and if so,
         // we speed back up breaking.
@@ -388,18 +386,6 @@ public class PokemobEventsHandler
     public static Set<ResourceKey<Level>> BEE_RELEASE_TICK = Sets.newConcurrentHashSet();
 
     /**
-     * Here we remove the mob from the PokemobTracker
-     */
-    private static void onMobRemovedFromWorld(final EntityLeaveLevelEvent event)
-    {
-        IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
-        if (pokemob != null)
-        {
-            PokemobTracker.removePokemob(pokemob);
-            if (pokemob.isPlayerOwned() && pokemob.getOwnerId() != null) PlayerPokemobCache.UpdateCache(pokemob);
-        }
-    }
-    /**
      * Here we will check if it was a bee, added from a bee-hive, and if so, we will increment the honey level as
      * needed. We also do the adding of the pokemob to the PokemobTracker, and resetting the MoveStats
      */
@@ -411,10 +397,6 @@ public class PokemobEventsHandler
             // Initialise these when added to world.
             pokemob.getMoveStats().reset();
             WorldTickManager.scheduleTask(event.getEntity().level(), () -> PokecubeAttributes.resetToEntry(pokemob));
-
-            // Init the tracker
-            PokemobTracker.addPokemob(pokemob);
-            if (pokemob.isPlayerOwned() && pokemob.getOwnerId() != null) PlayerPokemobCache.UpdateCache(pokemob);
         }
 
         // We also only run server side here

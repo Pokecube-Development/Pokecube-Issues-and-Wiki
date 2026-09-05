@@ -9,16 +9,24 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.level.LevelEvent.Load;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
+import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import thut.api.maths.Vector3;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
+@EventBusSubscriber
 public class PokemobTracker
 {
     public static class MobEntry implements Comparable<MobEntry>
@@ -277,6 +285,7 @@ public class PokemobTracker
         return pokemobs;
     }
 
+    @SubscribeEvent
     public static void onWorldLoad(final Load evt)
     {
         final PokemobTracker tracker = PokemobTracker.getFor(evt.getLevel());
@@ -290,6 +299,29 @@ public class PokemobTracker
         // Reset the tracked map for this world
         tracker.liveMobs.put(key, new ArrayList<>());
         if (tracker == PokemobTracker.CLIENT) tracker.setDim(key);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onMobAddedToWorld(final EntityJoinLevelEvent event)
+    {
+        IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
+        if (pokemob != null)
+        {
+            // Init the tracker
+            PokemobTracker.addPokemob(pokemob);
+            if (pokemob.isPlayerOwned() && pokemob.getOwnerId() != null) PlayerPokemobCache.UpdateCache(pokemob);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onMobRemovedFromWorld(final EntityLeaveLevelEvent event)
+    {
+        IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
+        if (pokemob != null)
+        {
+            PokemobTracker.removePokemob(pokemob);
+            if (pokemob.isPlayerOwned() && pokemob.getOwnerId() != null) PlayerPokemobCache.UpdateCache(pokemob);
+        }
     }
 
     private void clear()
