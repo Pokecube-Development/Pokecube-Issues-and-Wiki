@@ -44,17 +44,18 @@ public class BiomeType
         for (final BiomeType b : BiomeType.values()) if (b.name.equalsIgnoreCase(name)) return b;
         if (generate)
         {
-            final BiomeType ret = new BiomeType(name);
-            return ret;
+            return new BiomeType(name);
         }
         return BiomeType.NONE;
     }
 
     public static BiomeType getType(final int id)
     {
-        if (ThutCore.proxy.isClientSide())
-            return BiomeType.typeMapClient.containsKey(id) ? BiomeType.typeMapClient.get(id) : BiomeType.NONE;
-        return BiomeType.typeMap.containsKey(id) ? BiomeType.typeMap.get(id) : BiomeType.NONE;
+        if (ThutCore.proxy.isClientSide()) return BiomeType.typeMapClient.getOrDefault(id, BiomeType.NONE);
+        synchronized (typeMap)
+        {
+            return typeMap.getOrDefault(id, BiomeType.NONE);
+        }
     }
 
     public static BiomeType merge(final BiomeType typeA, final BiomeType typeB)
@@ -93,9 +94,9 @@ public class BiomeType
             return types;
         }
         final ArrayList<BiomeType> types = Lists.newArrayList();
-        final Collection<BiomeType> values = BiomeType.typeMap.values();
-        synchronized (values)
+        synchronized (typeMap)
         {
+            final Collection<BiomeType> values = BiomeType.typeMap.values();
             types.addAll(values);
         }
         return types;
@@ -116,14 +117,15 @@ public class BiomeType
         this.name = name;
         this.readableName = "thutcore.biometype." + name;
         this.id = -1;
-        for (final BiomeType type : BiomeType.typeMap.values()) if (type.name.equals(name)) this.id = type.id;
-        if (this.id == -1) this.id = BiomeType.MAXID++;
-        BiomeType.typeMap.put(this.id, this);
-        BiomeType.typeMapClient.put(this.id, this);
-
+        synchronized (typeMap)
+        {
+            for (final BiomeType type : BiomeType.typeMap.values()) if (type.name.equals(name)) this.id = type.id;
+            if (this.id == -1) this.id = BiomeType.MAXID++;
+            BiomeType.typeMap.put(this.id, this);
+            BiomeType.typeMapClient.put(this.id, this);
+        }
         // TODO validation test for if name is a list. In this case, we should
         // populate subTypes from there!
-
     }
 
     public BiomeType setNoSave()
