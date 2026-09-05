@@ -21,8 +21,10 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.gimmicks.pokeplayer.Pokeplayer;
 import thut.api.ThutCaps;
+import thut.wearables.inventory.PlayerWearables;
 
 import java.util.List;
+import java.util.Set;
 
 public class TransformBlock extends Block {
 
@@ -48,13 +50,16 @@ public class TransformBlock extends Block {
             {
                 ItemStack heldA = pokemob.getHeldItem();
                 ItemStack heldB = pokemob.getEntity().getOffhandItem();
+                Set<ItemStack> wearables = pokemob.getEntity().getData(PlayerWearables.TYPE).getWearables();
                 pokemob.setHeldItem(ItemStack.EMPTY);
                 pokemob.setPokecube(stack);
+                pokemob.getEntity().setData(PlayerWearables.TYPE, new PlayerWearables(pokemob.getEntity()));
                 pokemob.getEntity().setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
                 int result = Pokeplayer.transformPlayer(pokemob, player);
                 if(result < 0) return ItemInteractionResult.FAIL;
                 player.addItem(heldA); // Transfer pokemob held and offhand items to player
                 player.addItem(heldB); // TODO: make these drop if they cannot be added
+                wearables.forEach(player::addItem); // Transfer wearables to player
                 player.setItemInHand(hand, ItemStack.EMPTY);
                 return ItemInteractionResult.CONSUME;
             }
@@ -71,6 +76,7 @@ public class TransformBlock extends Block {
             {
                 pokemob.setHeldItem(ItemStack.EMPTY); // Remove held and offhand items to prevent cloning
                 mob.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
+                pokemob.getEntity().setData(PlayerWearables.TYPE, new PlayerWearables(pokemob.getEntity())); // Remove wearables
                 pokemob.setHealth(pokemob.getMaxHealth());
                 cube = PokecubeManager.pokemobToItem(pokemob);
             }
