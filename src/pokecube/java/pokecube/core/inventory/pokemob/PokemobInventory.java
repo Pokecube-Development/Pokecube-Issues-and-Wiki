@@ -167,4 +167,26 @@ public class PokemobInventory extends SimpleContainer implements Nameable
         start.setChanged();
         super.setChanged();
     }
+
+    int users = 0;
+
+    @Override
+    public void startOpen(Player player)
+    {
+        super.startOpen(player);
+        users = Math.max(0, users);
+        users++;
+    }
+
+    @Override
+    public void stopOpen(Player player)
+    {
+        super.stopOpen(player);
+        users--;
+    }
+
+    public boolean isInUse()
+    {
+        return users > 0;
+    }
 }

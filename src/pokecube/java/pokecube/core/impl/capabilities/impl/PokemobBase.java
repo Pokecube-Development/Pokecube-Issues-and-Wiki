@@ -28,6 +28,7 @@ import pokecube.api.utils.TagNames;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.inventory.pokemob.PokemobInventory;
 import pokecube.core.network.pokemobs.PacketPingBoss;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.Tracker;
@@ -142,7 +143,7 @@ public abstract class PokemobBase implements IPokemob
     }
 
     /** Inventory of the pokemob. */
-    protected SimpleContainer pokeChest;
+    protected PokemobInventory pokeChest;
     /** Prevents duplication on returning to pokecubes */
     public boolean returning = false;
     /** Is this owned by a player? */

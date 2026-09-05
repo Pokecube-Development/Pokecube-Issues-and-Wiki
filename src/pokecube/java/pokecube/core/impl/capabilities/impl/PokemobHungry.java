@@ -217,7 +217,9 @@ public abstract class PokemobHungry extends PokemobMoves
             var oldHunger = this.params.HUNGERDW.get();
             boolean crossedThreshold = HungerTask.crossedAnyThreshold(oldHunger, hungerTime);
             this.params.HUNGERDW.set(hungerTime);
-            if (!(crossedThreshold || isPlayerOwned())) this.params.HUNGERDW.setDirty(false);
+            // Ensures the pokeChest is initialised
+            this.getInventory();
+            if (!(crossedThreshold || this.pokeChest.isInUse())) this.params.HUNGERDW.setDirty(false);
         }
     }
 }
