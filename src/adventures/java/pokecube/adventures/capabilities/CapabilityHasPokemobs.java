@@ -242,7 +242,7 @@ public class CapabilityHasPokemobs
 
         public DefaultPokemobs(LivingEntity user)
         {
-            this.initSync(new DataSync_Impl());
+            this.initSync(user.getData(DataSync_Impl.TYPE));
             this.init(user);
         }
 
@@ -429,7 +429,7 @@ public class CapabilityHasPokemobs
             {
                 DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(e.registryAccess(),
                         e.getStringUUID(), "npcs_defeated");
-                defeated = defeated || defeatedList.isValid(this.user, resetTimeLose, this.defeatResetKey);
+                defeated = defeatedList.isValid(this.user, resetTimeLose, this.defeatResetKey);
             }
             return defeated;
         }
