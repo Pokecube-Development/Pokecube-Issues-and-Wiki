@@ -13,6 +13,7 @@ public abstract class GuiEventComponent implements Comparable<GuiEventComponent>
 {
     public static final ResourceLocation ICON_NUMBER_FRAME = ResourceLocation.parse("pokecube:battle/number_frame");
     public static final ResourceLocation ICON_MOB_FRAME = ResourceLocation.parse("pokecube:battle/mob_frame");
+    public static final ResourceLocation ICON_TARGET_INDICATOR = ResourceLocation.parse("pokecube:icons/target_icon");
 
     public static final ResourceLocation[] ICON_MOVE_FRAMES = {
             ResourceLocation.parse("pokecube:battle/move_unselected"),

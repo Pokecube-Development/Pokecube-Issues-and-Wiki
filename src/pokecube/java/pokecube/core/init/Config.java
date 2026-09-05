@@ -723,8 +723,14 @@ public class Config extends ConfigData
 
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Display extra tooltips in the pokemob's gui. [Default: true]")
     public boolean pokemobGuiTooltips = true;
-    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Display health bars above pokemobs. [Default: true]")
-    public boolean doHealthBars = true;
+    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Display viewed info for looked at target. [Default: true]")
+    public boolean displayViewedInfo = true;
+    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Display viewed arrow pointing at target. [Default: true]")
+    public boolean displayViewedArrow = true;
+    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Only display viewed info for pokemobs. [Default: false]")
+    public boolean onlyDisplayViewedPokemob = false;
+    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Display health bars above pokemobs. [Default: false]")
+    public boolean legacyHealthBars = false;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Max distance to view health bars. [Default: 24]")
     public int maxDistance = 24;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Do health bars render when F1 is pressed. [Default: false]")

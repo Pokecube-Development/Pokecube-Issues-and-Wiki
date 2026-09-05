@@ -1,26 +1,72 @@
 package pokecube.core.handlers.playerdata;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.database.Database;
+import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
+import thut.core.common.ThutCore;
+import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 
 /** Player capture/hatch/kill stats */
 public class PokecubePlayerStats extends PlayerData
 {
+    public static boolean obfuscateName(final IPokemob pokemob)
+    {
+        boolean nametag = PokecubePlayerStats.fullNameColour(pokemob);
+        final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft.getInstance().player)
+                .getData(PokecubePlayerStats.class);
+        nametag = nametag || stats.hasInspected(pokemob.getPokedexEntry());
+        return !nametag;
+    }
+
+    public static MutableComponent obfuscate(final Component compIn)
+    {
+        String val = compIn.getString();
+        final Random rand = ThutCore.newRandom();
+        final char[] chars = val.toCharArray();
+        for (int i = 0; i < val.length(); i++)
+            for (int j = 0; j < 10; j++)
+            {
+                final int rng = rand.nextInt(256);
+                if (Character.isAlphabetic(rng))
+                {
+                    chars[i] = (char) rng;
+                    break;
+                }
+            }
+        val = new String(chars);
+        return Component.literal(val).setStyle(compIn.getStyle());
+    }
+
+    public static boolean fullNameColour(final IPokemob pokemob)
+    {
+        final boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
+        // Always full name if owned
+        if (nametag) return true;
+        final PokedexEntry name_entry = pokemob.getPokedexEntry();
+        return StatsCollector.getCaptured(name_entry, Minecraft.getInstance().player) > 0
+                || StatsCollector.getHatched(name_entry, Minecraft.getInstance().player) > 0;
+    }
+
     private Map<PokedexEntry, Integer> hatches;
     private Map<PokedexEntry, Integer> captures;
     private Map<PokedexEntry, Integer> kills;

@@ -3,7 +3,6 @@ package pokecube.core.client.gui.components;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
@@ -15,6 +14,7 @@ import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.AbleStatus;
 import pokecube.core.moves.damage.effects.StatusEffects;
+import thut.api.Tracker;
 
 public class OutMobInfo extends GuiEventComponent
 {
@@ -74,11 +74,6 @@ public class OutMobInfo extends GuiEventComponent
             var graphics = evt.getGraphics();
             var gui = Minecraft.getInstance().gui;
 
-            FormattedCharSequence displayName = pokemob.getDisplayName().getVisualOrderText();
-            if (gui.getFont().width(displayName) > 70)
-            {
-                displayName = gui.getFont().split(pokemob.getDisplayName(), 70).getFirst();
-            }
             final int currentMoveIndex = pokemob.getMoveIndex();
             evt.getMat().pushPose();
             evt.getMat().translate(this.pos.x0, this.pos.y0, 0);
@@ -145,15 +140,38 @@ public class OutMobInfo extends GuiEventComponent
                 graphics.blitSprite(STATUS_ICONS[dv], confuseOffsetX, confuseOffsetY, 100, 20, 14);
             }
 
-            // Render Name
+            // Render name plate background
             ResourceLocation plate = ICON_MOVE_FRAMES[currentMoveIndex == 5 ? 1 : 0];
             graphics.blitSprite(plate, nameOffsetX, nameOffsetY, 89, 13);
+
+            float nameMaxLen = 85;
+
+            // Render Pokemob relevant info
+
+            // Level
+            String lvlStr = "L." + level;
+            nameMaxLen -= gui.getFont().width(lvlStr);
+            graphics.drawString(gui.getFont(), lvlStr, (int) (nameOffsetX + nameMaxLen + 2), nameOffsetY + 3,
+                    GuiDisplayPokecubeInfo.lightGrey);
+            nameMaxLen -= 1; // Add some space before adding the name
+
+            // Render Name
+            var nameComp = pokemob.getDisplayName();
+            var displayName = nameComp.getString();
+            if (gui.getFont().width(nameComp) > nameMaxLen)
+            {
+                float _ratio = nameMaxLen / gui.getFont().width(nameComp);
+                int total_len = displayName.length();
+                int maxLen = (int) (total_len * _ratio);
+                int missing = total_len - maxLen;
+                if (missing > 0)
+                {
+                    int offset = (int) ((Tracker.instance().getTick() / 5) % (missing + 1));
+                    displayName = displayName.substring(offset, maxLen + offset);
+                }
+            }
             graphics.drawString(gui.getFont(), displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
-
-            // Render level
-            graphics.drawString(gui.getFont(), "Lvl" + level, nameOffsetX + 88 - gui.getFont().width("Lvl " + level),
-                    nameOffsetY + 3, GuiDisplayPokecubeInfo.lightGrey);
 
             // Draw number of pokemon
             RenderSystem.enableBlend();
@@ -175,7 +193,7 @@ public class OutMobInfo extends GuiEventComponent
             for (moveIndex = 0; moveIndex < 4; moveIndex++)
             {
                 final MoveEntry move = MovesUtils.getMove(pokemob.getMove(moveIndex));
-                final boolean disabled = moveIndex >= 0 && moveIndex < 4 && pokemob.getDisableTimer(moveIndex) > 0;
+                final boolean disabled = moveIndex >= 0 && pokemob.getDisableTimer(moveIndex) > 0;
                 if (move != null)
                 {
                     // Select background plate colour

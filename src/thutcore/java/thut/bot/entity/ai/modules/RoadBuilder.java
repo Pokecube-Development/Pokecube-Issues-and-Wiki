@@ -623,6 +623,7 @@ public class RoadBuilder extends AbstractBot
                     if (makeTorch && Math.abs(dh) == 2 && y == 1)
                     {
                         torches.add(pos);
+                        makeTorch = false;
                     }
                     else if (dh == 1 && ((int) i == 1) && y == 0 && makeSign)
                     {

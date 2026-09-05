@@ -78,44 +78,6 @@ public class Health
         return !(entity.getVehicle() instanceof Player);
     };
 
-    public static boolean fullNameColour(final IPokemob pokemob)
-    {
-        final boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
-        // Always full name if owned
-        if (nametag) return true;
-        final PokedexEntry name_entry = pokemob.getPokedexEntry();
-        return StatsCollector.getCaptured(name_entry, Minecraft.getInstance().player) > 0
-                || StatsCollector.getHatched(name_entry, Minecraft.getInstance().player) > 0;
-    }
-
-    public static boolean obfuscateName(final IPokemob pokemob)
-    {
-        boolean nametag = Health.fullNameColour(pokemob);
-        final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft.getInstance().player)
-                .getData(PokecubePlayerStats.class);
-        nametag = nametag || stats.hasInspected(pokemob.getPokedexEntry());
-        return !nametag;
-    }
-
-    public static MutableComponent obfuscate(final Component compIn)
-    {
-        String val = compIn.getString();
-        final Random rand = ThutCore.newRandom();
-        final char[] chars = val.toCharArray();
-        for (int i = 0; i < val.length(); i++)
-            for (int j = 0; j < 10; j++)
-            {
-                final int rng = rand.nextInt(256);
-                if (Character.isAlphabetic(rng))
-                {
-                    chars[i] = (char) rng;
-                    break;
-                }
-            }
-        val = new String(chars);
-        return Component.literal(val).setStyle(compIn.getStyle());
-    }
-
     private static void blit(final VertexConsumer buffer, final Matrix4f pos, final float x1, final float y1,
             final float x2, final float y2, final float z, final int r, final int g, final int b, final int a,
             final int brightness)
@@ -179,8 +141,8 @@ public class Health
             MutableComponent nameComp = (MutableComponent) pokemob.getDisplayName();
             final float s = 0.5F;
             final float namel = mc.font.width(nameComp.getString()) * s;
-            final boolean obfuscated = Health.obfuscateName(pokemob);
-            if (obfuscated) nameComp = Health.obfuscate(nameComp);
+            final boolean obfuscated = PokecubePlayerStats.obfuscateName(pokemob);
+            if (obfuscated) nameComp = PokecubePlayerStats.obfuscate(nameComp);
             if (entity instanceof Mob mob && mob.hasCustomName()) nameComp = (MutableComponent) mob.getCustomName();
             if (namel + 20 > size * 2) size = namel / 2f + 10F;
             float healthSize = size * (health / maxHealth);
@@ -237,7 +199,7 @@ public class Health
 
                 UUID owner = pokemob.getOwnerId();
                 boolean isOwner = viewerID.equals(owner);
-                boolean fullColour = Health.fullNameColour(pokemob) && !isOwner;
+                boolean fullColour = PokecubePlayerStats.fullNameColour(pokemob) && !isOwner;
 
                 if (fullColour) colour = owner != null ? config.otherOwnedNameColour : config.caughtNamedColour;
                 else if (isOwner) colour = config.ownedNameColour;
@@ -267,15 +229,17 @@ public class Health
                         mc.font.drawInBatch(lvlStr, x, y, colour, false, pos, buf, Font.DisplayMode.NORMAL, 0, br);
 
                         // HP
-                        String maxHpStr = "" + (int) (Math.round(maxHealth * 100.0) / 100.0);
-                        String hpStr = "" + (int) (Math.round(health * 100.0) / 100.0);
-                        if (maxHpStr.endsWith(".0")) maxHpStr = maxHpStr.substring(0, maxHpStr.length() - 2);
-                        if (hpStr.endsWith(".0")) hpStr = hpStr.substring(0, hpStr.length() - 2);
-                        String healthStr = hpStr + "/" + maxHpStr;
-                        x = size / (s * s1) - mc.font.width(healthStr) / 2f;
                         if (isOwner)
+                        {
+                            String maxHpStr = "" + (int) (Math.round(maxHealth * 100.0) / 100.0);
+                            String hpStr = "" + (int) (Math.round(health * 100.0) / 100.0);
+                            if (maxHpStr.endsWith(".0")) maxHpStr = maxHpStr.substring(0, maxHpStr.length() - 2);
+                            if (hpStr.endsWith(".0")) hpStr = hpStr.substring(0, hpStr.length() - 2);
+                            String healthStr = hpStr + "/" + maxHpStr;
+                            x = size / (s * s1) - mc.font.width(healthStr) / 2f;
                             mc.font.drawInBatch(healthStr, x, y, colour, false, pos, buf, Font.DisplayMode.NORMAL, 0,
                                     br);
+                        }
 
                         // Sex
                         final String sexStr = pokemob.getSexe() == IPokemob.MALE
