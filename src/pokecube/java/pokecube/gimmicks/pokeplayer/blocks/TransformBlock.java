@@ -54,7 +54,7 @@ public class TransformBlock extends Block {
                 int result = Pokeplayer.transformPlayer(pokemob, player);
                 if(result < 0) return ItemInteractionResult.FAIL;
                 player.addItem(heldA); // Transfer pokemob held and offhand items to player
-                player.addItem(heldB);
+                player.addItem(heldB); // TODO: make these drop if they cannot be added
                 player.setItemInHand(hand, ItemStack.EMPTY);
                 return ItemInteractionResult.CONSUME;
             }
@@ -72,7 +72,7 @@ public class TransformBlock extends Block {
                 pokemob.setHeldItem(ItemStack.EMPTY); // Remove held and offhand items to prevent cloning
                 mob.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
                 pokemob.setHealth(pokemob.getMaxHealth());
-                cube = pokemob.getPokecube();
+                cube = PokecubeManager.pokemobToItem(pokemob);
             }
             PokecubeManager.addToCube(cube, mob);
             if (!player.addItem(cube)) ;// TODO Should drop in here instead.
