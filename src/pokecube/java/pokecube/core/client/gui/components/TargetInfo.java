@@ -15,6 +15,8 @@ import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.init.Config;
 import pokecube.core.moves.damage.effects.StatusEffects;
+import pokecube.core.network.packets.PacketSyncBattle;
+import pokecube.core.network.pokemobs.PacketBattleTargets;
 import thut.api.Tracker;
 
 import java.util.UUID;
@@ -70,15 +72,35 @@ public class TargetInfo extends GuiEventComponent
         int n = 1, n2 = 1;
         LivingEntity target = null;
         boolean combatTarget = false;
-        if (pokemob != null && pokemob.getMoveStats().targetEnemy != null)
         {
-            combatTarget = true;
-            n = pokemob.getEnemyNumber();
-            n2 = pokemob.getMoveStats().enemyIndex + 1;
-            target = pokemob.getMoveStats().targetEnemy;
-            nameBGSprite = ICON_MOVE_FRAMES[2];
+            var list = PacketSyncBattle.getEnemies();
+            if (!list.isEmpty())
+            {
+                combatTarget = true;
+                n = list.size();
+                n2 = PacketBattleTargets.manualTargetIndex % n;
+                if (n2 < 0)
+                {
+                    n2 += n;
+                    n2 %= n;
+                }
+                target = list.get(n2);
+                if (pokemob != null)
+                {
+                    var other = pokemob.getMoveStats().targetEnemy;
+                    if (other != target)
+                    {
+                        var packet = new PacketBattleTargets(pokemob.getEntity().getId(), (byte) 3, target.getId());
+                        PokecubeCore.packets.sendToServer(packet);
+                        pokemob.getMoveStats().targetEnemy = target;
+                    }
+                    if (other != null) other.getBbWidth();
+                }
+                n2++;
+                nameBGSprite = ICON_MOVE_FRAMES[2];
+            }
         }
-        if (config.displayViewedInfo)
+        if (config.displayViewedInfo && target == null)
         {
             if (EventsHandlerClient.hovorTarget instanceof LivingEntity living && (pokemob == null
                     || living != pokemob.getEntity()))
@@ -94,13 +116,26 @@ public class TargetInfo extends GuiEventComponent
                 }
             }
         }
-        lastViewedTarget = target;
         // Return if no target, dead target, or same as our sent out mob
-        if (target == null || !target.isAlive() || (pokemob != null && target == pokemob.getTrackedEntity())) return;
+        if (target == null || !target.isAlive() || (pokemob != null && target == pokemob.getTrackedEntity()))
+        {
+            lastViewedTarget = null;
+            return;
+        }
 
         pokemob = PokemobCaps.getPokemobFor(target);
-        if (pokemob == null && !combatTarget && target.shouldShowName()) return;
-        if (pokemob == null && config.onlyDisplayViewedPokemob) return;
+        if (pokemob == null && !combatTarget && target.shouldShowName())
+        {
+            lastViewedTarget = null;
+            return;
+        }
+        if (pokemob == null && config.onlyDisplayViewedPokemob)
+        {
+            lastViewedTarget = null;
+            return;
+        }
+
+        lastViewedTarget = target;
 
         MutableComponent nameComp;
         if (target.getDisplayName() instanceof MutableComponent c) nameComp = c;

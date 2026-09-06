@@ -178,18 +178,6 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public int getEnemyNumber()
-    {
-        return this.params.ENEMYNUMDW.get();
-    }
-
-    @Override
-    public int getAllyNumber()
-    {
-        return this.params.ALLYNUMDW.get();
-    }
-
-    @Override
     public int getTargetID()
     {
         return this.params.ATTACKTARGETIDDW.get();
@@ -211,20 +199,11 @@ public abstract class PokemobMoves extends PokemobStats
     {
         // Enemy always empty when not in battle
         this.setTargetID(-1);
+        this.setAllyID(-1);
         this.setBattle(null);
 
-        // Ally is either us, or owner when not in battle.
-        int allyIndex = this.getMoveStats().allyIndex % 2;
-        if (allyIndex < 0) allyIndex = ownerOffset;
-
-        if (allyIndex == 1)
-        {
-            this.setAllyID(this.getOwner().getId());
-        }
-        else this.setAllyID(this.getEntity().getId());
-
-        this.params.ENEMYNUMDW.set(0);
-        this.params.ALLYNUMDW.set(1);
+        this.getMoveStats().targetEnemy = null;
+        this.getMoveStats().targetAlly = null;
     }
 
     @Override
@@ -308,16 +287,28 @@ public abstract class PokemobMoves extends PokemobStats
                 if (mobTarget == owner) BrainUtils.setAttackTarget(mob, trackedEntity);
             }
 
-            // Now ensure target index is in range.
-            int targetIndex = this.getMoveStats().enemyIndex;
-            if (targetIndex < 0) targetIndex = mobs.size() - 1;
-
-            // Update the appropriate number of mobs.
-            this.params.ENEMYNUMDW.set(mobs.size());
-
-            // And set the target.
-            target = mobs.isEmpty() ? null : mobs.get(targetIndex % mobs.size());
-
+            // Set to owner designated target if possible
+            if (this.getEntity().level().getEntity(this.getTargetID()) instanceof LivingEntity oldTarget)
+            {
+                target = oldTarget;
+                if (mobs.contains(target))
+                {
+                    var brainTarget = BrainUtils.getAttackTarget(this.getEntity());
+                    SwitchTargetEvent event;
+                    if (brainTarget != null) event = new SwitchTargetEvent(this, target, brainTarget);
+                    else event = new SwitchTargetEvent(this, null, target);
+                    ThutCore.FORGE_BUS.post(event);
+                    if (!event.isCanceled())
+                    {
+                        BrainUtils.setAttackTarget(this.getEntity(), target = event.getNewTarget());
+                    }
+                    else
+                    {
+                        target = brainTarget;
+                    }
+                    break battle_check;
+                }
+            }
             // Then also sync attack target in brain.
             var brainTarget = BrainUtils.getAttackTarget(this.getEntity());
             brains:
@@ -328,7 +319,6 @@ public abstract class PokemobMoves extends PokemobStats
                 int i = mobs.indexOf(brainTarget);
                 if (i != -1 && target == null)
                 {
-                    this.getMoveStats().enemyIndex = i;
                     target = brainTarget;
                     break brains;
                 }
@@ -344,33 +334,9 @@ public abstract class PokemobMoves extends PokemobStats
                 else
                 {
                     target = brainTarget;
-                    this.getMoveStats().enemyIndex = i;
                 }
             }
             this.setTargetID(target == null ? -1 : target.getId());
-
-            // Allies are simple
-            mobs = b.getAllies(trackedEntity);
-            // Update how many allies we have
-            this.params.ALLYNUMDW.set(mobs.size());
-            // Get the number for modulo, as we also include owner here if
-            // present.
-            int allyN = mobs.size();
-
-            int allyIndex = (allyN != 0) ? this.getMoveStats().allyIndex % allyN : 0;
-            // If less than 0, wrap
-            if (allyIndex < 0 && allyN > 0) allyIndex = mobs.size()-1;
-            // If max suze, and have owner, we set it as owner
-            if (allyIndex == mobs.size() && ownerOffset > 0)
-            {
-                // Ally is owner
-                if (owner != null) this.setAllyID(owner.getId());
-            }
-            // Otherwise if in bounds, set ally.
-            else if (!mobs.isEmpty())
-            {
-                this.setAllyID(mobs.get(allyIndex).getId());
-            }
         }
         // Client side we pull them from the ids.
         else
@@ -387,20 +353,6 @@ public abstract class PokemobMoves extends PokemobStats
         this.getMoveStats().targetEnemy = target;
         Entity e = PokecubeAPI.getEntity(trackedEntity.level(), this.getAllyID());
         this.getMoveStats().targetAlly = e instanceof LivingEntity living && living != trackedEntity ? living : null;
-
-        // Only owned mobs process beyond here.
-        if (owner == null) return;
-
-        // Ensure indeces are in range
-        int num = this.getAllyNumber() + 1;
-        // Cull down in this case
-        if (this.getMoveStats().allyIndex >= num) this.getMoveStats().allyIndex = 0;
-        else if (this.getMoveStats().allyIndex < 0) this.getMoveStats().allyIndex = 1;
-
-        num = this.getEnemyNumber();
-        // Cull down in this case
-        if (this.getMoveStats().enemyIndex >= num) this.getMoveStats().enemyIndex = 0;
-        else if (this.getMoveStats().enemyIndex < 0) this.getMoveStats().enemyIndex = num - 1;
     }
 
     @Override

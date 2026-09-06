@@ -86,9 +86,7 @@ public class AITools
             if (core instanceof ServerPlayer player)
             {
                 // Do not target spectator players.
-                if (player.isSpectator()) return false;
-                // Otherwise it is fine.
-                return true;
+                return !player.isSpectator();
             }
             // Confirm is not an egg or a pokecube as well
             if (core instanceof EntityPokemobEgg) return false;

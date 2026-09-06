@@ -2,6 +2,7 @@ package pokecube.api.entity.pokemob;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
@@ -72,7 +73,7 @@ public interface IHasMoves extends IHasStats
             }
             catch (final Exception ex)
             {
-                ex.printStackTrace();
+                PokecubeAPI.LOGGER.error(ex);
             }
         }
         else
@@ -212,16 +213,6 @@ public interface IHasMoves extends IHasStats
     void updateBattleInfo();
 
     /**
-     * @return number of enemies in the battle, mostly used for tracking in guis
-     */
-    int getEnemyNumber();
-
-    /**
-     * @return number of allies in the battle, mostly used for tracking in guis
-     */
-    int getAllyNumber();
-
-    /**
      * @return entityId of our target.
      */
     int getTargetID();
@@ -268,7 +259,7 @@ public interface IHasMoves extends IHasStats
      */
     default void learn(final String moveName)
     {
-        if (moveName == null || this.getEntity().level() == null || this.getEntity().level().isClientSide) return;
+        if (moveName == null || this.getEntity().level().isClientSide) return;
         if (!MovesUtils.isMoveImplemented(moveName)) return;
         final LivingEntity thisEntity = this.getEntity();
         final IPokemob thisMob = PokemobCaps.getPokemobFor(thisEntity);
@@ -310,8 +301,6 @@ public interface IHasMoves extends IHasStats
 
     /**
      * Called to notify the pokemob that a new target has been set.
-     *
-     * @param entity
      */
     default void onSetTarget(final LivingEntity entity)
     {

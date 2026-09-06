@@ -1,18 +1,11 @@
 package pokecube.adventures.ai.tasks.battle;
 
-import com.google.common.collect.Lists;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
-import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.trainers.IHasPokemobs;
-import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.moves.Battle;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.utils.AITools;
-
-import java.util.List;
 
 public class ManagePokemobTarget extends BaseBattleTask
 {
@@ -42,20 +35,9 @@ public class ManagePokemobTarget extends BaseBattleTask
         if (battle != null)
         {
             LivingEntity enemy = mob.getMoveStats().targetEnemy;
-            enemy_check:
-            if (enemy != target)
+            if (enemy != target && enemy != null)
             {
-                List<LivingEntity> mobs = Lists.newArrayList(battle.getEnemies(owner));
-                // Ensure that the mobs are valid targets.
-                mobs.removeIf(t2 -> !AITools.shouldBeAbleToAgro(mob.getEntity(), t2));
-                for (int i = 0; i < mobs.size(); i++)
-                {
-                    enemy = mobs.get(i);
-                    if (enemy != target) continue;
-                    mob.getMoveStats().enemyIndex = i;
-                    mob.updateBattleInfo();
-                    break enemy_check;
-                }
+                mob.setTargetID(enemy.getId());
             }
             BrainUtils.setAttackTarget(mob.getEntity(), target);
             mob.onSetTarget(target, true);
@@ -68,7 +50,7 @@ public class ManagePokemobTarget extends BaseBattleTask
                     var enemyPokemob = PokemobCaps.getPokemobFor(enemy);
                     if (enemyPokemob != null)
                     {
-                        enemyPokemob.getMoveStats().enemyIndex++;
+                        enemyPokemob.setTargetID(mob.getTrackedEntity().getId());
                     }
                 }
             }

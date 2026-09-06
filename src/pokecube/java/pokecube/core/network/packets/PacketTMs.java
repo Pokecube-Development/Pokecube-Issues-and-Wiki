@@ -74,7 +74,7 @@ public class PacketTMs extends Packet
         buffer.writeNbt(this.data);
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:use_tm_machine"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:use_tm_machine"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()

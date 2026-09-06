@@ -2,6 +2,7 @@ package pokecube.api.moves;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,15 +14,14 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.TeamManager;
@@ -32,7 +32,9 @@ import pokecube.api.events.combat.ExitBattleEvent;
 import pokecube.api.events.combat.JoinBattleEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.network.packets.PacketSyncBattle;
 import pokecube.core.utils.AITools;
+import thut.api.attachments.Ownable;
 import thut.api.entity.EntityProvider;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
@@ -54,7 +56,7 @@ public class Battle
 
         Map<UUID, Battle> battlesById = Maps.newHashMap();
 
-        Set<Battle> battles = Sets.newHashSet();
+        Set<Battle> battles = new HashSet<>();
 
         public void addBattle(final Battle battle)
         {
@@ -180,6 +182,12 @@ public class Battle
                 testSet.battle.markAsValid(mob1, -10);
                 testSet.invalid.set(true);
             }
+            // Also mark invalid any which are not supposed to have been in the battle to start with
+            else if (!AITools.validCombatTargets.test(mob1))
+            {
+                testSet.battle.markAsValid(mob1, -10);
+                testSet.invalid.set(true);
+            }
         });
         // Add a check to mark mobs who have a valid target
         BATTLE_TESTS.add(testSet -> {
@@ -246,14 +254,32 @@ public class Battle
         });
     }
 
+    public static record BattlePlayer(ServerPlayer player, List<LivingEntity> pside, List<LivingEntity> oside)
+    {
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (obj.getClass() != this.getClass()) return false;
+            return ((BattlePlayer) obj).player().equals(this.player());
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return player.hashCode();
+        }
+    }
+
     private final Map<UUID, LivingEntity> side1 = Maps.newHashMap();
     private final Map<UUID, LivingEntity> side2 = Maps.newHashMap();
 
     private final List<LivingEntity> s1 = Lists.newArrayList();
     private final List<LivingEntity> s2 = Lists.newArrayList();
 
-    private final Set<String> teams1 = Sets.newHashSet();
-    private final Set<String> teams2 = Sets.newHashSet();
+    private final Set<String> teams1 = new HashSet<>();
+    private final Set<String> teams2 = new HashSet<>();
+
+    public final Set<BattlePlayer> involved_players = new HashSet<>();
 
     private final UUID battleID = UUID.randomUUID();
 
@@ -395,13 +421,15 @@ public class Battle
         s1.removeIf(Entity::isRemoved);
         s2.removeIf(Entity::isRemoved);
 
-        Set<UUID> mask = Sets.newHashSet();
+        Set<UUID> mask = new HashSet<>();
         // Remove duplicates
         s1.removeIf(v -> !mask.add(v.getUUID()));
         s2.removeIf(v -> !mask.add(v.getUUID()));
 
         s1.sort(BATTLESORTER);
         s2.sort(BATTLESORTER);
+
+        PacketSyncBattle.trySendBattle(this);
     }
 
     public void addToBattle(LivingEntity mobA, LivingEntity mobB)
@@ -468,6 +496,11 @@ public class Battle
 
     public void markAsValid(LivingEntity mob)
     {
+        if (mob instanceof ServerPlayer p) involved_players.add(new BattlePlayer(p, getAllies(p), getEnemies(p)));
+        else mob.getExistingData(Ownable.TYPE).ifPresent(ownable -> {
+            if (ownable.getOwner() instanceof ServerPlayer p)
+                involved_players.add(new BattlePlayer(p, getAllies(mob), getEnemies(mob)));
+        });
         markAsValid(mob, BATTLE_END_TIMER);
     }
 
@@ -563,6 +596,7 @@ public class Battle
             if (tick < 0) stale.add(e);
             else this.aliveTracker.put(e, tick);
         });
+        this.hadPlayer |= !this.involved_players.isEmpty();
 
         // Remove anything that is stale from the battle.
         stale.forEach(this::removeFromBattle);
@@ -596,28 +630,26 @@ public class Battle
         // Copy these over in-case the act of initiating combat draws in other
         // opponents.
         List<LivingEntity> mobs = Lists.newArrayList(this.side1.values());
+        this.hadPlayer |= !this.involved_players.isEmpty();
 
         for (final LivingEntity mob1 : mobs)
         {
-            this.hadPlayer |= mob1 instanceof Player;
-            final IPokemob poke = PokemobCaps.getPokemobFor(mob1);
-            this.hadPlayer |= poke != null && poke.isPlayerOwned();
             if (!(mob1 instanceof Mob mob)) continue;
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob1);
             BrainUtils.initiateCombat(mob, main2);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
         }
         mobs = Lists.newArrayList(this.side2.values());
         for (final LivingEntity mob2 : mobs)
         {
-            this.hadPlayer |= mob2 instanceof Player;
-            final IPokemob poke = PokemobCaps.getPokemobFor(mob2);
-            this.hadPlayer |= poke != null && poke.isPlayerOwned();
             // This was already handled
             if (mob2 == main2) continue;
             if (!(mob2 instanceof Mob mob)) continue;
+            final IPokemob poke = PokemobCaps.getPokemobFor(mob2);
             BrainUtils.initiateCombat(mob, main1);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
         }
+        PacketSyncBattle.trySendBattle(this);
     }
 
     public void end()
@@ -635,6 +667,7 @@ public class Battle
             if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
             BrainUtils.deagro(mob2);
         }
+        PacketSyncBattle.trySendBattle(this);
     }
 
     private boolean hadPlayer = false;

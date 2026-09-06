@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -73,8 +72,6 @@ public abstract class PokemobBase implements IPokemob
         public Data<Integer> GENERALSTATESDW;
         public Data<Integer> LOGICSTATESDW;
         public Data<Integer> COMBATSTATESDW;
-        public Data<Integer> ALLYNUMDW;
-        public Data<Integer> ENEMYNUMDW;
         public Data<Integer> EVOLTICKDW;
         public Data<Integer> EXP;
         public Data<Byte> MOVEINDEXDW;
@@ -113,9 +110,6 @@ public abstract class PokemobBase implements IPokemob
             this.LOGICSTATESDW = sync.register(new Data_Int("logic_state").setRealtime());
             this.COMBATSTATESDW = sync.register(new Data_Int("combat_state").setRealtime());
 
-            this.ALLYNUMDW = sync.register(new Data_Int("ally_n", 1));
-            this.ENEMYNUMDW = sync.register(new Data_Int("enemy_n"));
-
             // from EntityEvolvablePokemob
             this.EVOLTICKDW = sync.register(new Data_Int("evo_timer").setRealtime());
 
@@ -129,10 +123,10 @@ public abstract class PokemobBase implements IPokemob
             this.ZMOVECD = sync.register(new Data_Int("z_cd", -1));
 
             // Flavours for various berries eaten.
-            for (int i = 0; i < 5; i++) this.FLAVOURS[i] = sync.register(new Data_Int("flav_" + i));
+            for (int i = 0; i < 5; i++) this.FLAVOURS[i] = sync.register(new Data_Int("flav_" + i)).setRealtime();
 
             // Flavours for various berries eaten.
-            for (int i = 0; i < 4; i++) this.DISABLE[i] = sync.register(new Data_Int("diable_" + i));
+            for (int i = 0; i < 4; i++) this.DISABLE[i] = sync.register(new Data_Int("diable_" + i)).setRealtime();
 
             // Ability name
             this.ABILITYNAMEID = sync.register(new Data_String("ability"));

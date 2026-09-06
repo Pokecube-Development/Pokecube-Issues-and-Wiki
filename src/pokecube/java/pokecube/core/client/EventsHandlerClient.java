@@ -346,14 +346,13 @@ public class EventsHandlerClient
         if (ClientSetupHandler.mobMove4.consumeClick()) GuiDisplayPokecubeInfo.instance().setMove(3);
 
         final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
+        if (ClientSetupHandler.previousTarget.consumeClick()) PacketBattleTargets.cycleEnemy(current, true);
+        if (ClientSetupHandler.nextTarget.consumeClick()) PacketBattleTargets.cycleEnemy(current, false);
+        if (ClientSetupHandler.previousAlly.consumeClick()) PacketBattleTargets.cycleAlly(current, true);
+        if (ClientSetupHandler.nextAlly.consumeClick()) PacketBattleTargets.cycleAlly(current, false);
+        if (ClientSetupHandler.yieldBattle.consumeClick()) PacketBattleTargets.yieldBattle(current);
         if (current != null)
         {
-            if (ClientSetupHandler.previousAlly.consumeClick()) PacketBattleTargets.cycleAlly(current, true);
-            if (ClientSetupHandler.nextAlly.consumeClick()) PacketBattleTargets.cycleAlly(current, false);
-            if (ClientSetupHandler.previousTarget.consumeClick()) PacketBattleTargets.cycleEnemy(current, true);
-            if (ClientSetupHandler.nextTarget.consumeClick()) PacketBattleTargets.cycleEnemy(current, false);
-            if (ClientSetupHandler.yieldBattle.consumeClick()) PacketBattleTargets.yieldBattle(current);
-
             if (ClientSetupHandler.gzmove.consumeClick())
             {
                 PacketCommand.sendCommand(current, Command.STANCE,
