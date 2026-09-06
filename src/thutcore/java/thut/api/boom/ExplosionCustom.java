@@ -11,7 +11,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
@@ -82,8 +81,7 @@ public class ExplosionCustom extends Explosion
     {
         default boolean shouldBreak(BlockPos pos, BlockState state, float power, ServerLevel level)
         {
-            if (ItemList.is(EXPLOSION_TRANSPARENT, state)) return false;
-            return true;
+            return !ItemList.is(EXPLOSION_TRANSPARENT, state);
         }
 
         default BlockState applyBreak(ExplosionCustom boom, BlockPos pos, BlockState state, float power,
@@ -216,7 +214,7 @@ public class ExplosionCustom extends Explosion
     boolean hasSubBooms = false;
     boolean boomDone = false;
 
-    private AbstractChecker boomApplier;
+    private final AbstractChecker boomApplier;
 
     public ExplosionCustom(final ServerLevel world, final Entity par2Entity, final double x, final double y,
             final double z, final float power)
@@ -269,17 +267,23 @@ public class ExplosionCustom extends Explosion
         return BreakTestEvent.testBreak(this.level, location.getPos(), state, this.owner);
     }
 
+    boolean madeSound = false;
     public void doExplosion()
     {
-        this.level.playSound(null, this.centre.x, this.centre.y, this.centre.z, SoundEvents.GENERIC_EXPLODE,
-                SoundSource.BLOCKS, 4.0F,
-                (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
-        this.level.addParticle(ParticleTypes.EXPLOSION, this.centre.x, this.centre.y, this.centre.z, 1.0D, 0.0D, 0.0D);
+        if (!madeSound)
+        {
+            this.level.playSound(null, this.centre.x, this.centre.y, this.centre.z, this.getExplosionSound(),
+                    SoundSource.BLOCKS, 4.0F * this.strength / 10,
+                    (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
+            this.level.addParticle(ParticleTypes.EXPLOSION, this.centre.x, this.centre.y, this.centre.z, 0.0D, 0.5D,
+                    0.0D);
+            madeSound = true;
+        }
         ThutCore.FORGE_BUS.register(this);
         boomApplier.start();
         if (this.hasSubBooms)
         {
-            this.subBooms.get(0).doExplosion();
+            this.subBooms.getFirst().doExplosion();
         }
     }
 
@@ -388,11 +392,11 @@ public class ExplosionCustom extends Explosion
             }
             else
             {
-                ExplosionCustom boom = subBooms.get(0);
+                ExplosionCustom boom = subBooms.getFirst();
                 if (boom.boomDone)
                 {
-                    subBooms.remove(0);
-                    if (subBooms.size() > 0) subBooms.get(0).doExplosion();
+                    subBooms.removeFirst();
+                    if (!subBooms.isEmpty()) subBooms.getFirst().doExplosion();
                 }
             }
             return;

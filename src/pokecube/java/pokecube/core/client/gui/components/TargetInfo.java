@@ -74,6 +74,7 @@ public class TargetInfo extends GuiEventComponent
         boolean combatTarget = false, fullDetails = false;
         {
             var list = PacketSyncBattle.getEnemies();
+            list.removeIf(t -> (t == null || !t.isAlive() || t.isRemoved()));
             if (!list.isEmpty())
             {
                 combatTarget = true;

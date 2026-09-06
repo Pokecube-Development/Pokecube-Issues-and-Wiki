@@ -42,6 +42,7 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
 import net.neoforged.neoforge.client.event.ScreenEvent.MouseScrolled;
 import net.neoforged.neoforge.client.event.ScreenEvent.Render;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import org.lwjgl.glfw.GLFW;
@@ -62,6 +63,7 @@ import pokecube.core.client.gui.GuiArranger;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.client.gui.GuiTeleport;
+import pokecube.core.client.gui.components.TargetInfo;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
@@ -70,6 +72,7 @@ import pokecube.core.init.ClientSetupHandler;
 import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.animations.MoveAnimationHelper;
+import pokecube.core.network.packets.PacketSyncBattle;
 import pokecube.core.network.pokemobs.PacketBattleTargets;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
@@ -95,37 +98,10 @@ public class EventsHandlerClient
      */
     public static void register()
     {
-        // This handles ridden input controls, auto-recalling of pokemobs, and
-        // auto-selection of moves.
-        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::onPlayerTick);
-
-        // This one handles allowing the player to interact with mobs which are
-        // larger than the vanilla hitboxes.
-        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onMouseInput);
-
-        // This one handles scrolling the message display while in chat.
-        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onMouseScroll);
-
-        // Here we handle the various keybindings for the mod
-        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::onKeyInput);
-        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::postClientTick);
-
-        // This renders the pokemob's icons over the pokecubes when alt is held
-        // in an inventory.
-        ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onRenderGUIScreenPre);
-
         // Now for some additional client side handlers
-
         // Register the handler for drawing things like evolution, etc
         ThutCore.FORGE_BUS.addListener(RenderMobOverlays::renderPost);
         ThutCore.FORGE_BUS.addListener(RenderMobOverlays::renderNameplate);
-        // Register the handler for drawing selected box around targeted
-        // entities for throwing cubes at
-        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::renderBounds);
-        // Used to dismount shoulder mobs
-        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::onLeftClickEmpty);
-        // Used to adjust overlay effects whild riding pokemobs
-        ThutCore.FORGE_BUS.addListener(EventsHandlerClient::onRenderFluidOverlay);
 
         // Initialise this gui
         GuiDisplayPokecubeInfo.instance();
@@ -147,7 +123,20 @@ public class EventsHandlerClient
         return ret;
     }
 
-    private static void onPlayerTick(final PlayerTickEvent.Post event)
+    @SubscribeEvent
+    public static void onPlayerJoinWorld(EntityJoinLevelEvent event)
+    {
+        if (event.getEntity() == Minecraft.getInstance().player)
+        {
+            PacketSyncBattle.reset();
+            TargetInfo.lastViewedTarget = null;
+        }
+    }
+
+    // This handles ridden input controls, auto-recalling of pokemobs, and
+    // auto-selection of moves.
+    @SubscribeEvent
+    public static void onPlayerTick(final PlayerTickEvent.Post event)
     {
         if (event.getEntity() != Minecraft.getInstance().player) return;
         IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
@@ -217,7 +206,8 @@ public class EventsHandlerClient
         if (hovorTarget != null && !hovorTarget.isAddedToLevel()) hovorTarget = null;
     }
 
-    private static void onMouseInput(final InputEvent.MouseButton.Pre evt)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onMouseInput(final InputEvent.MouseButton.Pre evt)
     {
         final Player player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
@@ -238,14 +228,18 @@ public class EventsHandlerClient
             if (comp.handleClick(evt.getAction(), evt.getButton(), evt.getModifiers())) break;
     }
 
-    private static void onMouseScroll(MouseScrolled.Pre event)
+    // This one handles scrolling the message display while in chat.
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onMouseScroll(MouseScrolled.Pre event)
     {
         if (!GuiInfoMessages.fullDisplay()) return;
         if (event.getScrollDeltaY() > 0) GuiDisplayPokecubeInfo.messageRenderer.offset++;
         if (event.getScrollDeltaY() < 0) GuiDisplayPokecubeInfo.messageRenderer.offset--;
     }
 
-    private static void onLeftClickEmpty(final LeftClickEmpty event)
+    // Used to dismount shoulder mobs
+    @SubscribeEvent
+    public static void onLeftClickEmpty(final LeftClickEmpty event)
     {
         if (Screen.hasShiftDown() && !Minecraft.getInstance().player.getPassengers().isEmpty())
         {
@@ -263,8 +257,12 @@ public class EventsHandlerClient
 
     private static final ResourceLocation IS_POKECUBE = ResourceLocation.parse("pokecube:pokecubes");
 
-    private static void renderBounds(final RenderLevelStageEvent event)
+    @SubscribeEvent
+    public static void renderBounds(final RenderLevelStageEvent event)
     {
+        // the handler for drawing selected box around targeted
+        // entities for throwing cubes at
+
         boolean alt = Screen.hasAltDown();
         boolean ctrl = Screen.hasControlDown();
         Pokecube.renderingOverlay = alt || ctrl;
@@ -303,7 +301,8 @@ public class EventsHandlerClient
         }
     }
 
-    private static void postClientTick(ClientTickEvent.Post evt)
+    @SubscribeEvent
+    public static void postClientTick(ClientTickEvent.Post evt)
     {
         final Player player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
@@ -362,7 +361,8 @@ public class EventsHandlerClient
         ClientSetupHandler.clearKeyUse();
     }
 
-    private static void onKeyInput(final Key evt)
+    @SubscribeEvent
+    public static void onKeyInput(final Key evt)
     {
         final Player player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
@@ -384,7 +384,9 @@ public class EventsHandlerClient
         }
     }
 
-    private static void onRenderFluidOverlay(RenderBlockScreenEffectEvent event)
+    // Used to adjust overlay effects whild riding pokemobs
+    @SubscribeEvent
+    public static void onRenderFluidOverlay(RenderBlockScreenEffectEvent event)
     {
         if (event.getPlayer().getVehicle() instanceof LivingEntity mob && event.getOverlayType() == OverlayType.WATER)
         {
@@ -396,7 +398,10 @@ public class EventsHandlerClient
         }
     }
 
-    private static void onRenderGUIScreenPre(final Render.Post event)
+    // This renders the pokemob's icons over the pokecubes when alt is held
+    // in an inventory.
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onRenderGUIScreenPre(final Render.Post event)
     {
         if (!(event.getScreen() instanceof AbstractContainerScreen<?> gui)) return;
         boolean alt = Screen.hasAltDown();
