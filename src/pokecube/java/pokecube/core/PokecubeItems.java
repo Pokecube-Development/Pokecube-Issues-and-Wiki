@@ -333,11 +333,6 @@ public class PokecubeItems extends ItemList
         return null;
     }
 
-    public static Item getEmptyCube(final ItemStack stack)
-    {
-        return PokecubeItems.getEmptyCube(PokecubeItems.getCubeId(stack));
-    }
-
     /**
      * defaults are: 0 - pokecube 1 - greatcube 2 - ultracube 3 - mastercube if
      * you request a non-registerd id, it returns pokecube.
@@ -385,18 +380,6 @@ public class PokecubeItems extends ItemList
         return ret;
     }
 
-    public static PokedexEntry getFossilEntry(final ItemStack fossil)
-    {
-        if (fossil.isEmpty()) return null;
-        PokedexEntry ret = null;
-        for (final ItemStack s : PokecubeItems.fossils.keySet()) if (Tools.isSameStack(fossil, s))
-        {
-            ret = PokecubeItems.fossils.get(s);
-            break;
-        }
-        return ret;
-    }
-
     public static ItemStack getStack(final ResourceLocation loc)
     {
         return PokecubeItems.getStack(loc, true);
@@ -405,21 +388,18 @@ public class PokecubeItems extends ItemList
     public static ItemStack getStack(final ResourceLocation loc, final boolean stacktrace)
     {
         final TagKey<Item> tag = TagKey.create(RegHelper.ITEM_REGISTRY, loc);
-        if (tag != null)
+        List<Holder<Item>> items = new ArrayList<>();
+        BuiltInRegistries.ITEM.getTagOrEmpty(tag).forEach(items::add);
+        if (!items.isEmpty())
         {
-            List<Holder<Item>> items = new ArrayList<>();
-            BuiltInRegistries.ITEM.getTagOrEmpty(tag).forEach(items::add);
-            if (!items.isEmpty())
-            {
-                final Holder<Item> item = items.get(new Random(2).nextInt(items.size()));
-                if (item != null) return new ItemStack(item);
-            }
+            final Holder<Item> item = items.get(new Random(2).nextInt(items.size()));
+            if (item != null) return new ItemStack(item);
         }
         final Item item = BuiltInRegistries.ITEM.get(loc);
         if (item != null) return new ItemStack(item);
         if (stacktrace && PokecubeItems.errored.add(loc))
         {
-            PokecubeAPI.LOGGER.error(loc + " Not found in list of items.");
+            PokecubeAPI.LOGGER.error("{} Not found in list of items.", loc);
             if (PokecubeCore.getConfig().debug_misc)
                 PokecubeAPI.LOGGER.error("stacktrace: ", new NullPointerException());
         }
@@ -656,7 +636,7 @@ public class PokecubeItems extends ItemList
         final Long[] i = PokecubeItems.times.toArray(new Long[0]);
 
         int num = 0;
-        if (nbt == null || i == null)
+        if (nbt == null)
         {
             PokecubeAPI.LOGGER.error("No Data to save for Item Validations.");
             return;

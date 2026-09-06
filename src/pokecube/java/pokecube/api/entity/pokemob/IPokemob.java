@@ -6,6 +6,7 @@ package pokecube.api.entity.pokemob;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.sounds.SoundEvent;
@@ -374,7 +375,7 @@ public interface IPokemob
      *
      * @return the name to display
      */
-    default Component getDisplayName()
+    default MutableComponent getDisplayName()
     {
         if (this.getPokemonNickname().isEmpty()) return this.getPokedexEntry().getTranslatedName();
         return Component.literal(this.getPokemonNickname());
