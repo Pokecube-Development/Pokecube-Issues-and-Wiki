@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.nfunk.jep.JEP;
-import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.IPoweredProgress;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
@@ -75,14 +74,12 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
         @Override
         public int get(final int index)
         {
-            switch (index)
+            return switch (index)
             {
-            case 0:
-                return BaseGeneticsTile.this.progress;
-            case 1:
-                return BaseGeneticsTile.this.total;
-            }
-            return 0;
+                case 0 -> BaseGeneticsTile.this.progress;
+                case 1 -> BaseGeneticsTile.this.total;
+                default -> 0;
+            };
         }
     };
 
@@ -101,7 +98,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     {
         super(tileEntityTypeIn, pos, state);
         Energy.get_raw(this, Direction.DOWN);
-        this.inventory = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
+        this.inventory = NonNullList.withSize(size, ItemStack.EMPTY);
         this.outputSlot = output;
     }
 
@@ -149,27 +146,37 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
         return !(this.getProcess() == null || !this.getProcess().valid());
     }
 
-    @Override
     /**
      * Returns true if automation can extract the given item in the given slot
      * from the given side.
-     */ public boolean canTakeItemThroughFace(final int index, final ItemStack stack, final Direction direction)
+     */
+    @Override
+    public boolean canTakeItemThroughFace(final int index, final ItemStack stack, final Direction direction)
     {
         return !this.canPlaceItem(index, stack);
     }
 
-    @Override
     /**
      * Returns true if automation can insert the given item in the given slot
      * from the given side.
-     */ public boolean canPlaceItemThroughFace(final int index, final ItemStack stack, final Direction direction)
+     */
+    @Override
+    public boolean canPlaceItemThroughFace(final int index, final ItemStack stack, final Direction direction)
     {
         return this.canPlaceItem(index, stack);
     }
 
+    private CompoundTag storedProgress = null;
+
     public void checkRecipes()
     {
         if (this.hasLevel() && this.getLevel().isClientSide) return;
+        if (storedProgress != null)
+        {
+            // Load internally calls set process on us, and updates progress counters
+            PoweredProcess.load(storedProgress, this);
+            storedProgress = null;
+        }
         if (this.getProcess() == null || !this.getProcess().valid())
         {
             if (this.check)
@@ -310,9 +317,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
         super.loadAdditional(nbt, provider);
         if (nbt.contains("progress"))
         {
-            final CompoundTag tag = nbt.getCompound("progress");
-            this.setProcess(PoweredProcess.load(tag, this));
-            if (this.getProcess() != null) this.total = this.getProcess().recipe.getEnergyCost(this);
+            storedProgress = nbt.getCompound("progress");
         }
         if (nbt.contains("inventory"))
         {
@@ -370,6 +375,12 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
+    public int getProgress()
+    {
+        return this.progress;
+    }
+
+    @Override
     public void tick()
     {
         // This internally handles the world remote checks.
@@ -379,9 +390,6 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     /**
      * If true, this will save the inventory. This is optionally false for multi-block things, where inventory is only
      * stored in the root part!
-     *
-     * @param state
-     * @return
      */
     protected boolean saveInv(final BlockState state)
     {

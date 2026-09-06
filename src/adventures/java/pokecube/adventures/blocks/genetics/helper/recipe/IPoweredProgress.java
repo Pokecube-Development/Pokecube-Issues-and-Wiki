@@ -27,4 +27,6 @@ public interface IPoweredProgress extends Container, IEnergyStorage
     void setProcess(PoweredProcess process);
 
     void setProgress(int progress);
+
+    int getProgress();
 }

@@ -51,7 +51,17 @@ public class PoweredProcess
 
     public static PoweredProcess load(final CompoundTag tag, final BaseGeneticsTile tile)
     {
-        // TODO load what is saved in save()
+        if (tag.contains("p"))
+        {
+            var process = new PoweredProcess();
+            process.setTile(tile);
+            tile.setProcess(process);
+            tile.setProgress(tag.getInt("p"));
+            if (process.recipe != null)
+            {
+                process.needed = process.recipe.getEnergyCost(process.tile) - tile.getProgress();
+            }
+        }
         return null;
     }
 
@@ -94,8 +104,9 @@ public class PoweredProcess
 
     public CompoundTag save()
     {
-        // TODO save things here?
-        return new CompoundTag();
+        CompoundTag tag = new CompoundTag();
+        tag.putInt("p", this.tile.getProgress());
+        return tag;
     }
 
     public PoweredProcess setTile(final IPoweredProgress tile)
