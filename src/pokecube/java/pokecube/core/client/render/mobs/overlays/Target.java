@@ -25,6 +25,7 @@ import java.util.function.Function;
 
 public class Target
 {
+    public static final ResourceLocation TEXTURE = ResourceLocation.parse("pokecube:textures/gui/sprites/icons/target_icon.png");
     public static final Function<ResourceLocation, RenderType> TARGET_ICON_TYPE_NODEPTH = Util.memoize(texture -> {
         RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                 .setShaderState(RenderType.RENDERTYPE_ENTITY_SOLID_SHADER)
@@ -61,8 +62,7 @@ public class Target
         float y1 = -size / 2;
         float y2 = y1 + size;
         var pos = mat.last().pose();
-        var buffer = Utils.makeBuilder(TARGET_ICON_TYPE_NODEPTH.apply(
-                ResourceLocation.parse("pokecube:textures/gui/sprites/icons/target_icon.png")), buf);
+        var buffer = Utils.makeBuilder(TARGET_ICON_TYPE_NODEPTH.apply(TEXTURE), buf);
         blit(buffer, pos, x1, y1, x2, y2, 0, 255, 255, 255, a);
         mat.popPose();
     }

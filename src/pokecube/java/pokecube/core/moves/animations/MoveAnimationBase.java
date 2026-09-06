@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.world.item.DyeColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveAnimation;
 import thut.api.util.JsonUtil;
@@ -72,8 +73,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
             }
             catch (Exception e)
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
                 values = new Values();
             }
         }
