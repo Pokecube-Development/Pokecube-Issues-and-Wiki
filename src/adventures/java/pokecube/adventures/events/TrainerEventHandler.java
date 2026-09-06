@@ -70,6 +70,7 @@ import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.api.events.PCEvent;
 import pokecube.api.events.combat.ExitBattleEvent;
 import pokecube.api.events.combat.JoinBattleEvent;
+import pokecube.api.events.combat.JoinSideEvent;
 import pokecube.api.events.combat.ValidBattleTarget;
 import pokecube.api.events.npcs.NpcBreedEvent;
 import pokecube.api.events.npcs.NpcEvent;
@@ -82,11 +83,13 @@ import pokecube.api.events.pokemobs.ai.BrainInitEvent;
 import pokecube.api.moves.Battle;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.database.Database;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
+import pokecube.core.eventhandlers.PCEventsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -321,10 +324,53 @@ public class TrainerEventHandler
 
     public static void onBattleJoin(JoinBattleEvent event)
     {
-        final IHasNPCAIStates holderA = TrainerCaps.getNPCAIStates(event.agressor);
-        final IHasNPCAIStates holderB = TrainerCaps.getNPCAIStates(event.target);
+        var holderA = TrainerCaps.getNPCAIStates(event.agressor);
+        var holderB = TrainerCaps.getNPCAIStates(event.target);
         if (holderA != null && holderA.getAIState(AIState.PERMFRIENDLY)) event.setCanceled(true);
         if (holderB != null && holderB.getAIState(AIState.PERMFRIENDLY)) event.setCanceled(true);
+    }
+
+    public static void onBattleAdded(JoinSideEvent event)
+    {
+        var holder = TrainerCaps.getNPCAIStates(event.joining);
+        if (holder != null && holder.getAIState(AIState.PERMFRIENDLY))
+        {
+            event.setCanceled(true);
+        }
+        else
+        {
+            var trainer = TrainerCaps.getHasPokemobs(event.joining);
+            if (trainer != null)
+            {
+                var outMob = trainer.getOutMob();
+                if (outMob == null)
+                {
+                    var mobs = PCEventsHandler.getOutMobs(event.joining, false);
+                    if (!mobs.isEmpty())
+                    {
+                        boolean found = false;
+                        for (final Entity mob : mobs)
+                            // Ones not added to chunk are in pokecubes, so wait for them to
+                            // exit.
+                            if (mob.isAddedToLevel())
+                            {
+                                outMob = PokemobCaps.getPokemobFor(mob);
+                                if (outMob != null && !found)
+                                {
+                                    trainer.setOutMob(outMob);
+                                    found = true;
+                                }
+                            }
+                        if (!found) trainer.setOutMob(null);
+                    }
+                }
+                if (outMob != null)
+                {
+                    var target = BrainUtils.getAttackTarget(outMob.getEntity());
+                    if (target != null) trainer.onSetTarget(target, true);
+                }
+            }
+        }
     }
 
     public static void onBattleExit(ExitBattleEvent event)

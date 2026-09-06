@@ -346,10 +346,9 @@ public abstract class PokemobAI extends PokemobEvolves
     }
 
     @Override
-    public void onSetTarget(final LivingEntity entity, final boolean forced)
+    public void onSetTarget(LivingEntity entity, final boolean forced)
     {
-        final boolean remote = this.getEntity().level().isClientSide;
-        if (remote) return;
+        if (this.getEntity().level().isClientSide()) return;
         if (entity == null)
         {
             if (forced && this.targetFinder != null) this.targetFinder.clear(this.getEntity());
@@ -368,29 +367,32 @@ public abstract class PokemobAI extends PokemobEvolves
              */
             if (entity == this.getEntity())
             {
-                if (BrainUtils.getAttackTarget(this.getEntity()) == this.getEntity())
-                    BrainUtils.clearAttackTarget(this.getEntity());
-                return;
+                entity = null;
             }
             else if (target != null && this.getOwnerId() != null && this.getOwnerId().equals(target.getOwnerId())
                     && !mateFight)
             {
-                BrainUtils.clearAttackTarget(this.getEntity());
-                return;
+                entity = null;
             }
             else if (!PokecubeCore.getConfig().teamsBattleEachOther && TeamManager.sameTeam(entity, this.getEntity())
                     && !mateFight)
             {
-                BrainUtils.clearAttackTarget(this.getEntity());
-                return;
+                entity = null;
             }
             else if (!forced && !AITools.validCombatTargets.test(entity))
             {
-                BrainUtils.clearAttackTarget(this.getEntity());
-                return;
+                entity = null;
             }
-            this.setLogicState(LogicStates.SITTING, false);
-            if (this.getAbility() != null) this.getAbility().onAgress(this, entity);
+            this.getMoveStats().setTargetEnemy(entity);
+            if (entity == null)
+            {
+                BrainUtils.clearAttackTarget(this.getEntity());
+            }
+            else
+            {
+                this.setLogicState(LogicStates.SITTING, false);
+                if (this.getAbility() != null) this.getAbility().onAgress(this, entity);
+            }
         }
     }
 

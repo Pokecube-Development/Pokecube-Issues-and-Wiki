@@ -399,8 +399,8 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
             int aggroDistance = Tags.POKEMOB.isIn(AITools.HOSTILE, pokemob.getPokedexEntry().getTrimmedName())
                     ? PokecubeCore.getConfig().hostileAggroRadius
                     : PokecubeCore.getConfig().aggressiveAggroRadius;
-            Player player = entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).get();
-            if (player != null && player.distanceTo(entity) > aggroDistance) player = null;
+            Player player = entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).orElseThrow();
+            if (player.distanceTo(entity) > aggroDistance) player = null;
             if (player != null && AITools.validAgroTarget.test(player))
             {
                 this.initiateBattle(player, entity);
@@ -447,7 +447,7 @@ public class FindTargetsTask extends PokemobBehaviour implements IAICombat, ITar
             }
             else
             {
-                var targetId = brain.getMemory(MemoryModules.ATTACKTARGETID.get()).get();
+                var targetId = brain.getMemory(MemoryModules.ATTACKTARGETID.get()).orElseThrow();
                 if (!target.getUUID().equals(targetId))
                 {
                     brain.setMemory(MemoryModules.ATTACKTARGETID.get(), target.getUUID());

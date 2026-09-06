@@ -62,6 +62,7 @@ public class SetupHandler
         // Manages npcs joining battles, such as preventing always friendly ones
         // from doing so.
         ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onBattleJoin);
+        ThutCore.FORGE_BUS.addListener(TrainerEventHandler::onBattleAdded);
         // Remove combat target if we have been removed from a battle
         ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, TrainerEventHandler::onBattleExit);
         // Remove combat target if target is npc, and npcs are not allowed to be agressed
@@ -111,17 +112,19 @@ public class SetupHandler
             var brain = testSet.mob().getBrain();
             if (brain.checkMemory(MemoryTypes.BATTLETARGET.get(), MemoryStatus.VALUE_PRESENT))
             {
-                var battleTarget = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get().target();
+                var battleTarget = brain.getMemory(MemoryTypes.BATTLETARGET.get()).orElseThrow().target();
                 var battleTarget_t = EntityProvider.getTracked(battleTarget);
                 if (battleTarget_t != null && testSet.otherSideMap().containsKey(battleTarget_t.getUUID()))
                 {
                     testSet.battle().markAsValid(testSet.mob());
                     testSet.battle().markAsValid(testSet.otherSideMap().get(battleTarget_t.getUUID()));
+                    testSet.invalid().set(false);
                 }
                 else if (battleTarget != null && testSet.otherSideMap().containsKey(battleTarget.getUUID()))
                 {
                     testSet.battle().markAsValid(testSet.mob());
                     testSet.battle().markAsValid(testSet.otherSideMap().get(battleTarget.getUUID()));
+                    testSet.invalid().set(false);
                 }
             }
         });

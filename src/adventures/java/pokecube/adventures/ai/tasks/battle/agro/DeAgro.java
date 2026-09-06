@@ -40,10 +40,10 @@ public class DeAgro extends BaseBattleTask
     protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
     {
         var brain = owner.getBrain();
-        var target = brain.getMemory(MemoryTypes.BATTLETARGET.get()).get().target();
+        var target = brain.getMemory(MemoryTypes.BATTLETARGET.get()).orElseThrow().target();
         boolean deagro = !target.isAlive() || target.getHealth() <= 0;
         int noSeeTicks = brain.getMemory(MemoryTypes.NO_SEEN_TARGET_TIMER.get()).orElse(0);
-        int deagroTimer = brain.getMemory(MemoryTypes.DE_AGRO_TIMER.get()).orElse(20);
+        int deagroTimer = brain.getMemory(MemoryTypes.DE_AGRO_TIMER.get()).orElse(Config.instance.trainerDeAgressTicks);
         boolean won = false;
 
         // Check if trainer has any pokemobs, if not, cancel agression, no
@@ -67,7 +67,7 @@ public class DeAgro extends BaseBattleTask
         final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
 
         final LivingEntity lastHitBy = brain.hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY) ? brain.getMemory(
-                MemoryModuleType.HURT_BY_ENTITY).get() : null;
+                MemoryModuleType.HURT_BY_ENTITY).orElseThrow() : null;
         boolean hitUs = lastHitBy == target;
 
         hitUs = hitUs && owner.tickCount - owner.getLastHurtMobTimestamp() > 20;
@@ -94,14 +94,14 @@ public class DeAgro extends BaseBattleTask
                         if (mob.isAddedToLevel() && mob.distanceToSqr(target) < 32 * 32)
                         {
                             final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
-                            if (pokemob != null && !found)
+                            if (pokemob != null)
                             {
                                 other.setOutMob(pokemob);
                                 found = true;
                                 break;
                             }
                         }
-                    if (found) deagroTimer = 20;
+                    if (found) deagroTimer = Config.instance.trainerDeAgressTicks;
                 }
                 if (deagroTimer-- < 0) deagro = true;
             }

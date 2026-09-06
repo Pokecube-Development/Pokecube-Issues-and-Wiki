@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
+import thut.api.Tracker;
 import thut.api.entity.EntityProvider;
 import thut.core.common.network.Packet;
 
@@ -20,6 +21,7 @@ public class PacketSyncBattle extends Packet
 {
     private static final List<LivingEntity> OUR_SIDE = new ArrayList<>();
     private static final List<LivingEntity> OTHER_SIDE = new ArrayList<>();
+    private static volatile long clearTick = 0;
 
     public static List<LivingEntity> getEnemies()
     {
@@ -41,8 +43,19 @@ public class PacketSyncBattle extends Packet
         return ret;
     }
 
+    public static void checkReset()
+    {
+        if (clearTick == 0) return;
+        long tick = Tracker.instance().getTick();
+        if (tick > clearTick)
+        {
+            reset();
+        }
+    }
+
     public static void reset()
     {
+        clearTick = 0;
         synchronized (OUR_SIDE)
         {
             OTHER_SIDE.clear();
@@ -91,6 +104,8 @@ public class PacketSyncBattle extends Packet
     @Override
     public void handleClient(Player player)
     {
+        // Give it 1.5s to clear if not heard from, battle should since once every 20 ticks
+        clearTick = Tracker.instance().getTick() + 30;
         synchronized (OUR_SIDE)
         {
             OUR_SIDE.clear();

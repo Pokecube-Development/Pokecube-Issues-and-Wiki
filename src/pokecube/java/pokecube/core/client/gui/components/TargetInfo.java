@@ -84,17 +84,12 @@ public class TargetInfo extends GuiEventComponent
                 if (pokemob != null)
                 {
                     var other = pokemob.getMoveStats().getTargetEnemy();
-                    var dTick = PacketBattleTargets.recvEnemyTick - PacketBattleTargets.sentEnemyTick;
+                    var dTick = PacketBattleTargets.recvEnemyTick;
                     // Check if we have been re-sent a target from server since last check.
-                    if (dTick > 10)
+                    if (dTick > 0)
                     {
                         PacketBattleTargets.recvEnemyTick = -1;
-                        if (list.contains(other))
-                        {
-                            target = other;
-                            PacketBattleTargets.manualTargetIndex = n2 = list.indexOf(other);
-                            System.out.println("Set back to server value! " + dTick);
-                        }
+                        if (list.contains(other)) target = other;
                     }
                     // Otherwise update server with our selection
                     if (other != target)

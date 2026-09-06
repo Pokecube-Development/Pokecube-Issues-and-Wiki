@@ -2,6 +2,7 @@ package pokecube.api.moves;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -30,10 +31,13 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.events.combat.ExitBattleEvent;
 import pokecube.api.events.combat.JoinBattleEvent;
+import pokecube.api.events.combat.JoinSideEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.network.packets.PacketSyncBattle;
 import pokecube.core.utils.AITools;
+import thut.api.ThutCaps;
+import thut.api.Tracker;
 import thut.api.attachments.Ownable;
 import thut.api.entity.EntityProvider;
 import thut.api.maths.Vector3;
@@ -89,7 +93,90 @@ public class Battle
         @Override
         public void onTickStart(final ServerLevel world)
         {
-            for (final Battle battle : this.battles) battle.tick();
+            // Force cleanup any battles which duplicated
+            List<Battle> stale = new ArrayList<>();
+            Set<Battle> registered = new HashSet<>(this.battlesById.values());
+            for (var b : this.battles)
+            {
+                if (!registered.contains(b)) stale.add(b);
+            }
+            for (var b : stale)
+            {
+                b.end();
+                this.battles.remove(b);
+            }
+            stale.clear();
+
+            var d2 = PokecubeCore.getConfig().chaseDistance * PokecubeCore.getConfig().chaseDistance;
+            Map<UUID, Set<Battle>> merges = new HashMap<>();
+            for (final Battle battle : this.battles)
+            {
+                battle.tick();
+                for (var mob : battle.s1)
+                {
+                    var uuid = mob.getUUID();
+                    var list = merges.getOrDefault(uuid, new HashSet<>());
+                    if (!merges.containsKey(uuid))
+                    {
+                        merges.put(uuid, list);
+                    }
+                    list.add(battle);
+                    if (mob.hasData(Ownable.TYPE))
+                    {
+                        var owner = ThutCaps.getOwnable(mob).getOwner();
+                        if (owner != null && owner.distanceToSqr(battle.centre.toVec3d()) < d2)
+                        {
+                            uuid = owner.getUUID();
+                            list = merges.getOrDefault(uuid, new HashSet<>());
+                            if (!merges.containsKey(uuid))
+                            {
+                                merges.put(uuid, list);
+                            }
+                            list.add(battle);
+                        }
+                    }
+                }
+                for(var mob: battle.s2)
+                {
+                    var uuid = mob.getUUID();
+                    var list = merges.getOrDefault(uuid, new HashSet<>());
+                    if (!merges.containsKey(uuid))
+                    {
+                        merges.put(uuid, list);
+                    }
+                    list.add(battle);
+                    if (mob.hasData(Ownable.TYPE))
+                    {
+                        var owner = ThutCaps.getOwnable(mob).getOwner();
+                        if (owner != null && owner.distanceToSqr(battle.centre.toVec3d()) < d2)
+                        {
+                            uuid = owner.getUUID();
+                            list = merges.getOrDefault(uuid, new HashSet<>());
+                            if (!merges.containsKey(uuid))
+                            {
+                                merges.put(uuid, list);
+                            }
+                            list.add(battle);
+                        }
+                    }
+                }
+            }
+            for (var pair : merges.entrySet())
+            {
+                var set = pair.getValue();
+
+                stale.clear();
+                for (var b : set) if (b.ended) stale.add(b);
+                for (var b : stale) set.remove(b);
+
+                if (set.size() > 1)
+                {
+                    var list = new ArrayList<>(set);
+                    var bA = list.removeFirst();
+                    list.forEach(bA::mergeIntoUs);
+                    bA.sortSides();
+                }
+            }
             this.battles.removeIf(b -> {
                 final boolean ended = b.ended;
                 if (ended)
@@ -330,6 +417,12 @@ public class Battle
         if (otherSideMap.containsKey(uuid)) return;
         if (manager.battlesById.containsKey(uuid)) return;
         var sideList = sideMap == side1 ? s1 : s2;
+
+        var otherList = sideList == s1 ? s2 : s1;
+        var event = new JoinSideEvent(this, toAdd, sideList, otherList);
+        ThutCore.FORGE_BUS.post(event);
+        if (event.isCanceled()) return;
+
         markAsValid(toAdd);
         sideList.add(toAdd);
         sideMap.put(uuid, toAdd);
@@ -350,6 +443,12 @@ public class Battle
         if (otherSideMap.containsKey(uuid)) return;
         if (manager.battlesById.containsKey(uuid)) return;
         var sideList = sideMap == side1 ? s1 : s2;
+
+        var otherList = sideList == s1 ? s2 : s1;
+        var event = new JoinSideEvent(this, toAdd, sideList, otherList);
+        ThutCore.FORGE_BUS.post(event);
+        if (event.isCanceled()) return;
+
         markAsValid(toAdd);
         sideList.add(toAdd);
         sideMap.put(toAdd.getUUID(), toAdd);
@@ -382,30 +481,77 @@ public class Battle
         }
     }
 
+    private void mergeIntoUs(Battle other)
+    {
+        var allInvolved = new ArrayList<>(other.s1);
+        allInvolved.addAll(other.s2);
+        // Find which mob is
+        for (var m : allInvolved)
+        {
+            // Try merging the mobs from side 1
+            if (this.s1.contains(m))
+            {
+                for (var mob : other.s1)
+                {
+                    if (mob == m) continue;
+                    this.addAlly(m, mob);
+                }
+                continue;
+            }
+            else if (this.s2.contains(m))
+            {
+                for (var mob : other.s1)
+                {
+                    if (mob == m) continue;
+                    this.addEnemy(m, mob);
+                }
+                continue;
+            }
+            // Try merging the mobs from side 2
+            if (this.s1.contains(m))
+            {
+                for (var mob : other.s2)
+                {
+                    if (mob == m) continue;
+                    this.addAlly(m, mob);
+                }
+            }
+            else if (this.s2.contains(m))
+            {
+                for (var mob : other.s2)
+                {
+                    if (mob == m) continue;
+                    this.addEnemy(m, mob);
+                }
+            }
+        }
+        other.end();
+    }
+
     private void mergeFrom(LivingEntity mobA, LivingEntity mobB, final Battle other)
     {
         mobA = EntityProvider.getTracked(mobA);
         mobB = EntityProvider.getTracked(mobB);
 
-        final boolean mobAisSide1 = this.side1.containsKey(mobA.getUUID());
-        final boolean mobBisSide1 = other.side1.containsKey(mobB.getUUID());
+        var mobAisSide1 = this.side1.containsKey(mobA.getUUID());
+        var mobBisSide1 = other.side1.containsKey(mobB.getUUID());
 
-        final Map<UUID, LivingEntity> sideAUs = mobAisSide1 ? this.side1 : this.side2;
-        final Map<UUID, LivingEntity> sideBThem = mobBisSide1 ? other.side1 : other.side2;
+        var sideAUs = mobAisSide1 ? this.side1 : this.side2;
+        var sideBThem = mobBisSide1 ? other.side1 : other.side2;
 
-        final Map<UUID, LivingEntity> sideBUs = mobAisSide1 ? this.side2 : this.side1;
-        final Map<UUID, LivingEntity> sideAThem = mobBisSide1 ? other.side2 : other.side1;
+        var sideBUs = mobAisSide1 ? this.side2 : this.side1;
+        var sideAThem = mobBisSide1 ? other.side2 : other.side1;
 
         sideBThem.forEach((id, mob) -> {
             sideBUs.put(id, mob);
-            List<LivingEntity> s = sideBUs == side1 ? s1 : s2;
-            if (!s.contains(mob)) s.add(mob);
+            var sideList = sideBUs == side1 ? s1 : s2;
+            if (!sideList.contains(mob)) sideList.add(mob);
             this.manager.battlesById.put(id, this);
         });
         sideAThem.forEach((id, mob) -> {
             sideAUs.put(id, mob);
-            List<LivingEntity> s = sideBUs == side1 ? s1 : s2;
-            if (!s.contains(mob)) s.add(mob);
+            var sideList = sideBUs == side1 ? s1 : s2;
+            if (!sideList.contains(mob)) sideList.add(mob);
             this.manager.battlesById.put(id, this);
         });
 
@@ -428,8 +574,6 @@ public class Battle
 
         s1.sort(BATTLESORTER);
         s2.sort(BATTLESORTER);
-
-        PacketSyncBattle.trySendBattle(this);
     }
 
     public void addToBattle(LivingEntity mobA, LivingEntity mobB)
@@ -546,7 +690,6 @@ public class Battle
             for (var test : BATTLE_TESTS)
             {
                 test.accept(testSet);
-                if (invalid.get()) break;
             }
             if (!invalid.get() && !s1.contains(mob1) && !s2.contains(mob1))
             {
@@ -561,7 +704,6 @@ public class Battle
             for (var test : BATTLE_TESTS)
             {
                 test.accept(testSet);
-                if (invalid.get()) break;
             }
             if (!invalid.get() && !s1.contains(mob2) && !s2.contains(mob2))
             {
@@ -588,12 +730,18 @@ public class Battle
 
         s1.forEach(e -> {
             int tick = this.aliveTracker.getInt(e) - 1;
-            if (tick < 0) stale.add(e);
+            if (tick < 0)
+            {
+                stale.add(e);
+            }
             else this.aliveTracker.put(e, tick);
         });
         s2.forEach(e -> {
             int tick = this.aliveTracker.getInt(e) - 1;
-            if (tick < 0) stale.add(e);
+            if (tick < 0)
+            {
+                stale.add(e);
+            }
             else this.aliveTracker.put(e, tick);
         });
         this.hadPlayer |= !this.involved_players.isEmpty();
@@ -617,6 +765,9 @@ public class Battle
             for(var a: this.side2.values()) centre.addTo(a.getX(), a.getY(), a.getZ());
             centre.scalarMultBy(1.0/numAfter);
         }
+        // Send updates once per second otherwise.
+        if (changed || numAfter != numBefore || Tracker.instance().getTick() % 20 == 0)
+            PacketSyncBattle.trySendBattle(this);
     }
 
     private void start()

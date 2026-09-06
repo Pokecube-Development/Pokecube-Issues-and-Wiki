@@ -51,7 +51,10 @@ public class BrainUtils extends BrainUtil
         if (brain.checkMemory(MemoryModules.ATTACKTARGET.get(), MemoryStatus.REGISTERED))
             if (target != null) brain.setMemory(MemoryModules.ATTACKTARGET.get(), target);
             else brain.eraseMemory(MemoryModules.ATTACKTARGET.get());
-        if (mobIn instanceof Mob mob) mob.setTarget(target);
+        if (mobIn instanceof Mob mob)
+        {
+            mob.setTarget(target);
+        }
     }
 
     public static void setHuntTarget(final LivingEntity mobIn, final LivingEntity target)

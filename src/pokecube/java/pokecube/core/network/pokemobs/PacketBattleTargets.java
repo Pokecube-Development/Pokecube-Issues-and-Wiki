@@ -48,24 +48,24 @@ public class PacketBattleTargets extends Packet
 
     public static void cycleEnemy(IPokemob pokemob, boolean up)
     {
-        manualTargetIndex += (up ? 1 : -1);
+        int i = manualTargetIndex;
+        i += (up ? 1 : -1);
         var list = PacketSyncBattle.getEnemies();
         if(list.isEmpty()) return;
         int n = list.size();
-        manualTargetIndex %= n;
-        if (manualTargetIndex < 0) manualTargetIndex += n;
+        i %= n;
+        if (i < 0) i += n;
         if (pokemob == null)
         {
             return;
         }
-        var entity = list.get(manualTargetIndex);
+        var entity = list.get(i);
         setEnemy(pokemob, entity);
     }
 
     public static void setEnemy(IPokemob pokemob, LivingEntity entity)
     {
         long tick = Tracker.instance().getTick();
-        pokemob.getMoveStats().setTargetEnemy(entity);
         if (tick == sentEnemyTick) return;
         sentEnemyTick = tick;
         int id = entity.getId();
@@ -75,7 +75,6 @@ public class PacketBattleTargets extends Packet
     public static void setAlly(IPokemob pokemob, LivingEntity entity)
     {
         long tick = Tracker.instance().getTick();
-        pokemob.getMoveStats().setTargetAlly(entity);
         if (tick == sentAllyTick) return;
         sentAllyTick = tick;
         int id = entity.getId();
@@ -89,8 +88,9 @@ public class PacketBattleTargets extends Packet
             // TODO decide if we want to handle this for not pokemobs?
             var list = PacketSyncBattle.getEnemies();
             int n = list.size();
-            manualTargetIndex %= n;
-            var target = list.get(PacketBattleTargets.manualTargetIndex);
+            int i = manualTargetIndex;
+            i %= n;
+            var target = list.get(i);
             pokemob = PokemobCaps.getPokemobFor(target);
             if (pokemob != null && pokemob.getPokedexEntry().stock)
             {
@@ -144,26 +144,40 @@ public class PacketBattleTargets extends Packet
         Entity e = id == -1 ? player : PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
         final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
         Entity e2;
-        if (pokemob == null || player != pokemob.getOwner()) return;
         switch (type)
         {
         case TYPE_ALLY:
             recvAllyTick = Tracker.instance().getTick();
             e2 = PokecubeAPI.getEntityProvider().getEntity(player.level(), order, false);
-            if (e2 instanceof LivingEntity living)
+            if (pokemob != null && pokemob.getOwner() == player)
             {
-                pokemob.getMoveStats().setTargetAlly(living);
+                if (e2 instanceof LivingEntity living)
+                {
+                    pokemob.getMoveStats().setTargetAlly(living);
+                }
+                else pokemob.getMoveStats().setTargetAlly(null);
             }
-            else pokemob.getMoveStats().setTargetAlly(null);
             break;
         case TYPE_ENEMY:
             recvEnemyTick = Tracker.instance().getTick();
             e2 = PokecubeAPI.getEntityProvider().getEntity(player.level(), order, false);
+            if (pokemob != null && pokemob.getOwner() == player)
+            {
+                if (e2 instanceof LivingEntity living)
+                {
+                    pokemob.getMoveStats().setTargetEnemy(living);
+                }
+                else
+                {
+                    pokemob.getMoveStats().setTargetEnemy(null);
+                }
+            }
             if (e2 instanceof LivingEntity living)
             {
-                pokemob.getMoveStats().setTargetEnemy(living);
+                manualTargetIndex = PacketSyncBattle.getEnemies().indexOf(living);
+                if (manualTargetIndex == -1) manualTargetIndex = 0;
             }
-            else pokemob.getMoveStats().setTargetEnemy(null);
+            else manualTargetIndex = 0;
             break;
         default:
         }

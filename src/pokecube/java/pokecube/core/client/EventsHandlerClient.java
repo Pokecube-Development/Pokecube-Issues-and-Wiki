@@ -134,11 +134,12 @@ public class EventsHandlerClient
     }
 
     // This handles ridden input controls, auto-recalling of pokemobs, and
-    // auto-selection of moves.
+    // auto-selection of moves, also checks battle target listings
     @SubscribeEvent
     public static void onPlayerTick(final PlayerTickEvent.Post event)
     {
         if (event.getEntity() != Minecraft.getInstance().player) return;
+        PacketSyncBattle.checkReset();
         IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob != null && PokecubeCore.getConfig().autoSelectMoves)
         {

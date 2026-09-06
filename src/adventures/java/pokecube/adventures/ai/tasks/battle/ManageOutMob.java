@@ -18,9 +18,11 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
+import pokecube.api.moves.Battle;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.PCEventsHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.attachments.Ownable;
 
 import java.util.List;
 
@@ -140,15 +142,29 @@ public class ManageOutMob extends BaseBattleTask
     @Override
     protected void tick(final ServerLevel worldIn, final LivingEntity owner, final long gameTime)
     {
-        final boolean hasMob = this.getTrainer(owner).getOutMob() != null;
+        var trainer = this.getTrainer(owner);
+        var hasMob = trainer.getOutMob() != null;
         var brain = owner.getBrain();
         var targOpt = brain.getMemory(MemoryTypes.BATTLETARGET.get());
         targOpt.ifPresent(target -> {
+            // Consider swapping battle target if we are targetting something that is owned.
+            var targetMob = target.target();
+            var targetBattle = Battle.getBattle(targetMob);
+            var targetOwnable = targetMob.getExistingData(Ownable.TYPE).orElse(null);
+            if (targetOwnable != null && targetOwnable.getOwner() != null && targetBattle != null)
+            {
+                if (targetBattle.getAllies(targetOwnable.getOwner()).contains(targetOwnable.getOwner()))
+                {
+                    targetMob = targetOwnable.getOwner();
+                    // Replace the memory value with the owner
+                    brain.setMemory(MemoryTypes.BATTLETARGET.get(), new BattleTarget(target.battlePos(), targetMob));
+                }
+            }
             if (brain.checkMemory(MemoryModuleType.WALK_TARGET, MemoryStatus.REGISTERED))
             {
                 brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(target.battlePos(), 1, 1));
             }
-            BehaviorUtils.lookAtEntity(owner, target.target());
+            BehaviorUtils.lookAtEntity(owner, targetMob);
         });
         if (hasMob) this.considerSwapPokemob(owner);
         else this.doAggression(owner, worldIn);
