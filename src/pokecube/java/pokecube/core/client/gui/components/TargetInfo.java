@@ -71,7 +71,7 @@ public class TargetInfo extends GuiEventComponent
         var nameBGSprite = ICON_MOVE_FRAMES[0];
         int n = 1, n2 = 1;
         LivingEntity target = null;
-        boolean combatTarget = false;
+        boolean combatTarget = false, fullDetails = false;
         {
             var list = PacketSyncBattle.getEnemies();
             if (!list.isEmpty())
@@ -153,8 +153,20 @@ public class TargetInfo extends GuiEventComponent
         evt.getMat().translate(18, 0, 0);
 
         RenderSystem.enableBlend();
+
+        boolean obfuscated = false, isOwner = false, fullColour = false;
+        UUID owner = null;
+        if (pokemob != null)
+        {
+            obfuscated = PokecubePlayerStats.obfuscateName(pokemob, Minecraft.getInstance().player);
+            owner = pokemob.getOwnerId();
+            isOwner = viewerID.equals(owner);
+            fullColour = PokecubePlayerStats.fullNameColour(pokemob, Minecraft.getInstance().player) && !isOwner;
+            fullDetails = isOwner;
+        }
+
         // Render Box behind Mob
-        graphics.blitSprite(ICON_MOB_FRAME, 1, 0, -2, 42, 42);
+        if (combatTarget || fullDetails) graphics.blitSprite(ICON_MOB_FRAME, 1, 0, -2, 42, 42);
 
         // Render HP
         graphics.blitSprite(ICON_HEALTH_EXP[0], hpOffsetX, hpOffsetY, 89, 7);
@@ -188,12 +200,6 @@ public class TargetInfo extends GuiEventComponent
         if (pokemob != null)
         {
             mobScale = 0.75f;
-            boolean obfuscated = PokecubePlayerStats.obfuscateName(pokemob, Minecraft.getInstance().player);
-
-            UUID owner = pokemob.getOwnerId();
-            boolean isOwner = viewerID.equals(owner);
-            boolean fullColour = PokecubePlayerStats.fullNameColour(pokemob, Minecraft.getInstance().player) && !isOwner;
-
             if (fullColour) colour = owner != null ? config.otherOwnedNameColour : config.caughtNamedColour;
             else if (isOwner) colour = config.ownedNameColour;
             else if (!obfuscated) colour = config.scannedNameColour;
@@ -272,26 +278,29 @@ public class TargetInfo extends GuiEventComponent
         // Render Name
         graphics.drawString(gui.getFont(), displayName, nameOffsetX + 3, nameOffsetY + 3, colour);
 
-        RenderSystem.enableBlend();
-        // Render Mob
+        if(combatTarget || fullDetails)
+        {
 
-        float f = 30;
-        float yBodyRot = target.yBodyRot;
-        float yBodyRotO = target.yBodyRotO;
-        float yHeadRot = target.yHeadRot;
-        float yHeadRotO = target.yHeadRotO;
+            RenderSystem.enableBlend();
+            // Render Mob
 
-        target.yBodyRot = target.yBodyRotO = 180.0F + f * 20.0F;
-        target.yHeadRot = target.yHeadRotO = target.yBodyRot;
+            float f = 30;
+            float yBodyRot = target.yBodyRot;
+            float yBodyRotO = target.yBodyRotO;
+            float yHeadRot = target.yHeadRot;
+            float yHeadRotO = target.yHeadRotO;
 
-        float tick = evt.getTick();
-        GuiPokemobHelper.renderMob(evt.getMat(), target, -30, -25, 0, 0, mobScale, tick, true);
+            target.yBodyRot = target.yBodyRotO = 180.0F + f * 20.0F;
+            target.yHeadRot = target.yHeadRotO = target.yBodyRot;
 
-        target.yBodyRot = yBodyRot;
-        target.yBodyRotO = yBodyRotO;
-        target.yHeadRot = yHeadRot;
-        target.yHeadRotO = yHeadRotO;
+            float tick = evt.getTick();
+            GuiPokemobHelper.renderMob(evt.getMat(), target, -30, -25, 0, 0, mobScale, tick, true);
 
+            target.yBodyRot = yBodyRot;
+            target.yBodyRotO = yBodyRotO;
+            target.yHeadRot = yHeadRot;
+            target.yHeadRotO = yHeadRotO;
+        }
         evt.getMat().popPose();
 
     }

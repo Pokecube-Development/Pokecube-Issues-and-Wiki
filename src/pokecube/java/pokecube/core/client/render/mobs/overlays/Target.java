@@ -27,8 +27,7 @@ public class Target
 {
     public static final Function<ResourceLocation, RenderType> TARGET_ICON_TYPE_NODEPTH = Util.memoize(texture -> {
         RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
-                .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_EMISSIVE_SHADER)
-                .setDepthTestState(RenderType.NO_DEPTH_TEST)
+                .setShaderState(RenderType.RENDERTYPE_ENTITY_SOLID_SHADER).setDepthTestState(RenderType.NO_DEPTH_TEST)
                 .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
                 .setCullState(RenderType.NO_CULL).setLightmapState(RenderType.LIGHTMAP).createCompositeState(true);
         return RenderType.create("target_info_icon", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256,
