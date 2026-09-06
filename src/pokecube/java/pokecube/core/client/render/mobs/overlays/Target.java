@@ -53,7 +53,8 @@ public class Target
 
         int a = 196;
 
-        float size = 8*viewPoint.distanceTo(entity);
+        float size = 8 * viewPoint.distanceTo(entity);
+        size = Math.max(16, size);
         float x1 = -size - 12 + 2 * Mth.sin((partialTick + entity.tickCount) / 10);
         float x2 = x1 + size;
         float y1 = -size / 2;

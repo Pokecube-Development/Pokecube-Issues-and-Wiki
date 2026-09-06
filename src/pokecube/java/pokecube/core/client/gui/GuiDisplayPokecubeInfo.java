@@ -251,19 +251,19 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics
             boolean sameTeam = TeamManager.sameTeam(input, player);
 
             // Cache the old target
-            var oldMob = sameTeam ? pokemob.getMoveStats().targetAlly : pokemob.getMoveStats().targetEnemy;
+            var oldMob = sameTeam ? pokemob.getMoveStats().getTargetAlly() : pokemob.getMoveStats().getTargetEnemy();
 
             // Temporarily set the target to the input
-            if (sameTeam) pokemob.getMoveStats().targetAlly = living;
-            else pokemob.getMoveStats().targetEnemy = living;
+            if (sameTeam) pokemob.getMoveStats().setTargetAlly(living);
+            else pokemob.getMoveStats().setTargetEnemy(living);
 
             MoveEntry move = pokemob.getSelectedMove();
             // Check if is valid
             boolean valid = MoveApplicationRegistry.isValidTarget(pokemob, living, move);
 
             // Reset target to cached value
-            if (sameTeam) pokemob.getMoveStats().targetAlly = oldMob;
-            else pokemob.getMoveStats().targetEnemy = oldMob;
+            if (sameTeam) pokemob.getMoveStats().setTargetAlly(oldMob);
+            else pokemob.getMoveStats().setTargetEnemy(oldMob);
 
             // Return valid.
             return valid;

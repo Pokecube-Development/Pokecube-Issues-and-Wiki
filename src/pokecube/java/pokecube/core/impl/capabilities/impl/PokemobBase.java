@@ -161,7 +161,7 @@ public abstract class PokemobBase implements IPokemob
     /** The pokecube this mob is "in" */
     protected ItemStack pokecube = ItemStack.EMPTY;
     /** Tracker for things related to moves. */
-    protected PokemobMoveStats moveInfo = new PokemobMoveStats();
+    protected PokemobMoveStats moveInfo = new PokemobMoveStats(this);
     /** Used for size when pathing */
     protected Vector3 sizes = new Vector3();
     /** Cooldown for hunger AI */

@@ -278,7 +278,7 @@ public class EntityMoveUse extends ThrowableProjectile
             {
                 boolean newCombat = target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != user;
                 if (b != null && b.getEnemies(user).contains(target)) newCombat = false;
-                if (b == null && userMob.getMoveStats().targetAlly == target) newCombat = false;
+                if (b == null && userMob.getMoveStats().getTargetAlly() == target) newCombat = false;
                 if (target instanceof Mob mob && newCombat) Battle.createOrAddToBattle(mob, user);
             }
 

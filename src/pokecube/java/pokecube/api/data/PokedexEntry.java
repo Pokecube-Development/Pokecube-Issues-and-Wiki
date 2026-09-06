@@ -750,13 +750,6 @@ public class PokedexEntry
 
     public boolean generated = false;
 
-    // Values in Stats
-
-    @CopyToGender
-    public int[] stats = null;
-    @CopyToGender
-    public byte[] evs;
-
     /** The abilities available to the pokedex entry. */
     @CopyToGender
     public ArrayList<String> abilities = Lists.newArrayList();
@@ -766,26 +759,10 @@ public class PokedexEntry
 
     // Simple values from Stats
 
-    /** base xp given from defeating */
-    @CopyToGender
-    @Required
-    public int baseXP = -1;
-    @CopyToGender
-    @Required
-    public int catchRate = -1;
-
     /** The relation between xp and level */
     @CopyToGender
     @Required
     public int evolutionMode = -1;
-
-    @CopyToGender
-    @Required
-    public int sexeRatio = -1;
-    /** Mass of the pokemon in kg. */
-    @CopyToGender
-    @Required
-    public double mass = -1;
 
     /**
      * If the forme is supposed to have a custom sound, rather than using base, it will be set to this.
@@ -1247,8 +1224,6 @@ public class PokedexEntry
             throw new IllegalArgumentException("Cannot add a second base form");
         e.pokedexNb = this.pokedexNb;
 
-        if (e.stats == null && this.stats != null) e.stats = this.stats.clone();
-        if (e.evs == null && this.evs != null) e.evs = this.evs.clone();
         if (e.mobType == 0) e.mobType = this.mobType;
         if (e.type1 == null) e.type1 = this.type1;
         if (e.type2 == null) e.type2 = this.type2;

@@ -153,7 +153,7 @@ public class EventsHandlerClient
         IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob != null && PokecubeCore.getConfig().autoSelectMoves)
         {
-            Entity target = pokemob.getEntity().level().getEntity(pokemob.getTargetID());
+            Entity target = pokemob.getMoveStats().getTargetEnemy();
             if (target instanceof LivingEntity living && !pokemob.getGeneralState(GeneralStates.MATING))
                 EventsHandlerClient.setMostDamagingMove(pokemob, living);
         }

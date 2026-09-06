@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
@@ -178,19 +177,7 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public int getTargetID()
-    {
-        return this.params.ATTACKTARGETIDDW.get();
-    }
-
-    @Override
     public void setTargetID(final int id) {this.params.ATTACKTARGETIDDW.set(id);}
-
-    @Override
-    public int getAllyID()
-    {
-        return this.params.ALLYTARGETIDDW.get();
-    }
 
     @Override
     public void setAllyID(final int id) {this.params.ALLYTARGETIDDW.set(id);}
@@ -202,8 +189,8 @@ public abstract class PokemobMoves extends PokemobStats
         this.setAllyID(-1);
         this.setBattle(null);
 
-        this.getMoveStats().targetEnemy = null;
-        this.getMoveStats().targetAlly = null;
+        this.getMoveStats().setTargetEnemy(null);
+        this.getMoveStats().setTargetAlly(null);
     }
 
     @Override
@@ -288,7 +275,7 @@ public abstract class PokemobMoves extends PokemobStats
             }
 
             // Set to owner designated target if possible
-            if (this.getEntity().level().getEntity(this.getTargetID()) instanceof LivingEntity oldTarget)
+            if (this.getMoveStats().getTargetEnemy() instanceof LivingEntity oldTarget)
             {
                 target = oldTarget;
                 if (mobs.contains(target))
@@ -338,21 +325,16 @@ public abstract class PokemobMoves extends PokemobStats
             }
             this.setTargetID(target == null ? -1 : target.getId());
         }
-        // Client side we pull them from the ids.
-        else
+
+        // Then update enemy server side, and sent appropriate packets, ally is updated when client sends packet back
+        if (!trackedEntity.level().isClientSide())
         {
-            int id = this.getTargetID();
-            Entity e = PokecubeAPI.getEntity(trackedEntity.level(), id);
-            if (e instanceof LivingEntity living)
+            var oldTarget = this.getMoveStats().getTargetEnemy();
+            if (oldTarget != target)
             {
-                target = living;
+                this.getMoveStats().setTargetEnemy(target);
             }
         }
-
-        // Then both sides update targetEnemy and targetAlly
-        this.getMoveStats().targetEnemy = target;
-        Entity e = PokecubeAPI.getEntity(trackedEntity.level(), this.getAllyID());
-        this.getMoveStats().targetAlly = e instanceof LivingEntity living && living != trackedEntity ? living : null;
     }
 
     @Override

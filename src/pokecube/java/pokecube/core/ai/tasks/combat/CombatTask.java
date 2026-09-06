@@ -36,7 +36,7 @@ public abstract class CombatTask extends PokemobBehaviour implements IAICombat
     public final LivingEntity getAttackTarget(Mob entityIn)
     {
         var pokemob = PokemobCaps.getPokemobFor(entityIn);
-        if (pokemob.getMoveStats().targetEnemy != null) return pokemob.getMoveStats().targetEnemy;
+        if (pokemob.getMoveStats().getTargetEnemy() != null) return pokemob.getMoveStats().getTargetEnemy();
         return BrainUtils.getAttackTarget(entityIn);
     }
 }

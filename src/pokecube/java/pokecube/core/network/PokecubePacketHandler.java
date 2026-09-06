@@ -69,7 +69,7 @@ public class PokecubePacketHandler
         PokecubeCore.packets.registerToServerMessage(PokemobPacketHandler.MessageServer.class);
         PokecubeCore.packets.registerToServerMessage(PacketUpdateAI.class);
         PokecubeCore.packets.registerBiDirectionalMessage(PacketPingBoss.class);
-        PokecubeCore.packets.registerToServerMessage(PacketBattleTargets.class);
+        PokecubeCore.packets.registerBiDirectionalMessage(PacketBattleTargets.class);
 
         PacketCommand.init();
         PacketUpdateAI.init();

@@ -213,16 +213,6 @@ public interface IHasMoves extends IHasStats
     void updateBattleInfo();
 
     /**
-     * @return entityId of our target.
-     */
-    int getTargetID();
-
-    /**
-     * @return ID of ally to target for single target moves when fighting multiples
-     */
-    int getAllyID();
-
-    /**
      * @param id - new entityId of target, -1 for no target.
      */
     void setTargetID(int id);

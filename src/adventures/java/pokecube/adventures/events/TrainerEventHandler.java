@@ -554,9 +554,9 @@ public class TrainerEventHandler
             // If the npc was battling, we need to ensure that the target
             // pokemob has a cooldown set, otherwise it might auto-switch to us
             // directly.
-            if (recalled.getMoveStats().targetEnemy != null)
+            if (recalled.getMoveStats().getTargetEnemy() != null)
             {
-                IPokemob targetMob = PokemobCaps.getPokemobFor(recalled.getMoveStats().targetEnemy);
+                IPokemob targetMob = PokemobCaps.getPokemobFor(recalled.getMoveStats().getTargetEnemy());
                 if (targetMob != null)
                 {
                     // If we have a new pokemob to send out, add an attack

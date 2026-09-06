@@ -83,7 +83,6 @@ public class JsonPokedexEntry
         @Override
         public void accept(PokedexEntry t)
         {
-//            t.stats = new int[] { hp, attack, defense, special_attack, special_defense, speed };
         }
 
         public void set(int[] stats)
@@ -112,13 +111,6 @@ public class JsonPokedexEntry
      */
     public static class EVs extends Stats
     {
-        @Override
-        public void accept(PokedexEntry t)
-        {
-            t.evs = new byte[] { (byte) hp, (byte) attack, (byte) defense, (byte) special_attack,
-                    (byte) special_defense, (byte) speed };
-        }
-
         public void set(byte[] stats)
         {
             this.hp = stats[0];

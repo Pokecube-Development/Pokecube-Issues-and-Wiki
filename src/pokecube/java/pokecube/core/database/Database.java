@@ -168,6 +168,7 @@ public class Database
         Database.missingno.type2 = PokeType.unknown;
         Database.missingno.base = true;
         Database.missingno.mobType = 15;
+        Database.missingno.evolutionMode = 0;
         Database.addEntry(Database.missingno);
     }
 

@@ -2,6 +2,7 @@ package pokecube.api.entity.pokemob.moves;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
@@ -11,6 +12,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
+import pokecube.core.network.pokemobs.PacketBattleTargets;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 
 import java.lang.reflect.Field;
@@ -96,14 +98,26 @@ public class PokemobMoveStats
      */
     public Ability battleAbility = null;
 
-    public LivingEntity targetEnemy = null;
-    public LivingEntity targetAlly = null;
+    private LivingEntity targetEnemy = null;
+    private LivingEntity targetAlly = null;
 
     public int transformId = -1;
     /** The array of moves. */
     private String[] baseMoves = new String[4];
     /** The array of moves. */
     private final String[] movesToUse = new String[4];
+
+    private final IPokemob pokemob;
+
+    private PokemobMoveStats()
+    {
+        this.pokemob = null;
+    }
+
+    public PokemobMoveStats(IPokemob pokemob)
+    {
+        this.pokemob = pokemob;
+    }
 
     public void reset()
     {
@@ -195,5 +209,29 @@ public class PokemobMoveStats
     {
         if (baseMoves == movesToUse) Thread.dumpStack();
         this.baseMoves = baseMoves;
+    }
+
+    public LivingEntity getTargetEnemy()
+    {
+        return targetEnemy;
+    }
+
+    public void setTargetEnemy(LivingEntity targetEnemy)
+    {
+        this.targetEnemy = targetEnemy;
+        if (this.pokemob.getOwner() instanceof ServerPlayer player)
+            PacketBattleTargets.sentToClient(player, this.pokemob, true);
+    }
+
+    public LivingEntity getTargetAlly()
+    {
+        return targetAlly;
+    }
+
+    public void setTargetAlly(LivingEntity targetAlly)
+    {
+        this.targetAlly = targetAlly;
+        if (this.pokemob.getOwner() instanceof ServerPlayer player)
+            PacketBattleTargets.sentToClient(player, this.pokemob, false);
     }
 }

@@ -16,6 +16,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.network.pokemobs.PacketBattleTargets;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
 
 public class AttackEntityHandler extends DefaultHandler
@@ -83,7 +84,7 @@ public class AttackEntityHandler extends DefaultHandler
             Battle b = Battle.getBattle(pokemob.getEntity());
             if(b!=null) {
                 var enemies = b.getEnemies(pokemob.getEntity());
-                if(enemies.contains(living)) pokemob.setTargetID(living.getId());
+                if(enemies.contains(living)) PacketBattleTargets.setEnemy(pokemob, living);
             }
         }
         else if (PokecubeCore.getConfig().debug_commands)

@@ -250,7 +250,7 @@ public class OutMobInfo extends GuiEventComponent
             mob.yHeadRot = yHeadRot;
             mob.yHeadRotO = yHeadRotO;
 
-            LivingEntity ally = pokemob.getMoveStats().targetAlly;
+            LivingEntity ally = pokemob.getMoveStats().getTargetAlly();
             if (ally != null && ally != pokemob.getEntity())
             {
                 evt.getMat().pushPose();

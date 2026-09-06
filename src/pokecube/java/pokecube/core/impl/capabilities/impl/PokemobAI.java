@@ -354,7 +354,7 @@ public abstract class PokemobAI extends PokemobEvolves
         {
             if (forced && this.targetFinder != null) this.targetFinder.clear(this.getEntity());
             if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Null Target Set for " + this.getEntity());
-            this.setTargetID(-1);
+            this.getMoveStats().setTargetEnemy(null);
             this.getEntity().getPersistentData().putString("lastMoveHitBy", "");
         }
         else

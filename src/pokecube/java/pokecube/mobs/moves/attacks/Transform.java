@@ -29,7 +29,7 @@ public class Transform implements PostMoveUse, PreProcessor
         MoveApplication packet = t.move();
         if (packet.canceled || packet.failed) return;
 
-        if (packet.getTarget() != packet.getUser().getMoveStats().targetEnemy) return;
+        if (packet.getTarget() != packet.getUser().getMoveStats().getTargetEnemy()) return;
 
         IPokemob attacker = packet.getUser();
         LivingEntity attacked = packet.getTarget();

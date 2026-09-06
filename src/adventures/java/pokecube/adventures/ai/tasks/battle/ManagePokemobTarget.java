@@ -6,6 +6,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.Battle;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.network.pokemobs.PacketBattleTargets;
 
 public class ManagePokemobTarget extends BaseBattleTask
 {
@@ -34,10 +35,10 @@ public class ManagePokemobTarget extends BaseBattleTask
 
         if (battle != null)
         {
-            LivingEntity enemy = mob.getMoveStats().targetEnemy;
+            LivingEntity enemy = mob.getMoveStats().getTargetEnemy();
             if (enemy != target && enemy != null)
             {
-                mob.setTargetID(enemy.getId());
+                PacketBattleTargets.setEnemy(mob, enemy);
             }
             BrainUtils.setAttackTarget(mob.getEntity(), target);
             mob.onSetTarget(target, true);
@@ -46,11 +47,12 @@ public class ManagePokemobTarget extends BaseBattleTask
                 var enemyTarget = BrainUtils.getAttackTarget(enemy);
                 if (enemyTarget == owner)
                 {
-                    BrainUtils.setAttackTarget(enemy, mob.getTrackedEntity());
+                    var entity = mob.getTrackedEntity();
+                    BrainUtils.setAttackTarget(enemy, entity);
                     var enemyPokemob = PokemobCaps.getPokemobFor(enemy);
                     if (enemyPokemob != null)
                     {
-                        enemyPokemob.setTargetID(mob.getTrackedEntity().getId());
+                        PacketBattleTargets.setEnemy(enemyPokemob, entity);
                     }
                 }
             }

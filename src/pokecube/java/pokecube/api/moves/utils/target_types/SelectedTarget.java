@@ -17,21 +17,21 @@ public class SelectedTarget implements IMoveTargetter
         // is the ally
         if (targetsAllyIfPossible)
         {
-            boolean isTargetAlly = move.getTarget() == move.getUser().getMoveStats().targetAlly;
+            boolean isTargetAlly = move.getTarget() == move.getUser().getMoveStats().getTargetAlly();
             if (isTargetAlly) valid = true;
         }
 
         if (!valid)
         {
-            boolean noAllyTarget = move.getUser().getMoveStats().targetAlly == null
-                    || move.getUser().getMoveStats().targetAlly == move.getUserEntity();
+            boolean noAllyTarget = move.getUser().getMoveStats().getTargetAlly() == null
+                    || move.getUser().getMoveStats().getTargetAlly() == move.getUserEntity();
 
             // If if doesn't target allies, or there is no selected ally, then
             // let
             // the move apply to enemy.
             if (!targetsAllyIfPossible || noAllyTarget)
             {
-                valid = move.getTarget() == move.getUser().getMoveStats().targetEnemy;
+                valid = move.getTarget() == move.getUser().getMoveStats().getTargetEnemy();
             }
         }
         return valid;

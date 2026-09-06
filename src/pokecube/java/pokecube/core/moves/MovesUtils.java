@@ -633,9 +633,9 @@ public class MovesUtils implements IMoveConstants
             // Actual target first.
             options.add(target);
             // Then targetted enemy
-            options.add(pokemob.getMoveStats().targetEnemy);
+            options.add(pokemob.getMoveStats().getTargetEnemy());
             // Then targetted ally
-            options.add(pokemob.getMoveStats().targetAlly);
+            options.add(pokemob.getMoveStats().getTargetAlly());
             // Then all enemies
             options.addAll(battle.getEnemies(user));
             // Then all allies

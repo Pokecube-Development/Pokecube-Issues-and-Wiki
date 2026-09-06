@@ -1,5 +1,6 @@
 package pokecube.core.client.gui.components;
 
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.MutableComponent;
@@ -79,20 +80,26 @@ public class TargetInfo extends GuiEventComponent
                 combatTarget = true;
                 n = list.size();
                 n2 = PacketBattleTargets.manualTargetIndex % n;
-                if (n2 < 0)
-                {
-                    n2 += n;
-                    n2 %= n;
-                }
                 target = list.get(n2);
                 if (pokemob != null)
                 {
-                    var other = pokemob.getMoveStats().targetEnemy;
+                    var other = pokemob.getMoveStats().getTargetEnemy();
+                    var dTick = PacketBattleTargets.recvEnemyTick - PacketBattleTargets.sentEnemyTick;
+                    // Check if we have been re-sent a target from server since last check.
+                    if (dTick > 10)
+                    {
+                        PacketBattleTargets.recvEnemyTick = -1;
+                        if (list.contains(other))
+                        {
+                            target = other;
+                            PacketBattleTargets.manualTargetIndex = n2 = list.indexOf(other);
+                            System.out.println("Set back to server value! " + dTick);
+                        }
+                    }
+                    // Otherwise update server with our selection
                     if (other != target)
                     {
-                        var packet = new PacketBattleTargets(pokemob.getEntity().getId(), (byte) 3, target.getId());
-                        PokecubeCore.packets.sendToServer(packet);
-                        pokemob.getMoveStats().targetEnemy = target;
+                        PacketBattleTargets.setEnemy(pokemob, target);
                     }
                     if (other != null) other.getBbWidth();
                 }
@@ -234,7 +241,8 @@ public class TargetInfo extends GuiEventComponent
             // Level
             String lvlStr = "L." + pokemob.getLevel();
             nameMaxLen -= gui.getFont().width(lvlStr);
-            graphics.drawString(gui.getFont(), lvlStr, (int) (nameOffsetX + nameMaxLen + 2), nameOffsetY + 3, colour);
+            graphics.drawString(gui.getFont(), lvlStr, (int) (nameOffsetX + nameMaxLen + 2), nameOffsetY + 3,
+                    GuiDisplayPokecubeInfo.lightGrey);
 
             // Sex
             String sexStr = pokemob.getSexe() == IPokemob.MALE ? "♂" : pokemob.getSexe() == IPokemob.FEMALE ? "♀" : "";
@@ -247,7 +255,6 @@ public class TargetInfo extends GuiEventComponent
                 graphics.drawString(gui.getFont(), sexStr, (int) (nameOffsetX + nameMaxLen + 1), nameOffsetY + 3,
                         colour2);
             }
-
             nameMaxLen -= 3; // Add some space between this and actual name
         }
 
