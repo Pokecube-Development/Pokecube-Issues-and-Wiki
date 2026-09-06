@@ -63,7 +63,7 @@ public class RenderMobOverlays
                 }
             }
             // Otherwise we also disable this here. TODO maybe see if we need to handle name tags?
-            if (PokecubeCore.getConfig().displayViewedInfo)
+            if (PokecubeCore.getConfig().displayViewedInfo && PokecubeCore.getConfig().displayViewedArrow)
             {
                 MultiBufferSource buf = event.getMultiBufferSource();
                 PoseStack mat = event.getPoseStack();

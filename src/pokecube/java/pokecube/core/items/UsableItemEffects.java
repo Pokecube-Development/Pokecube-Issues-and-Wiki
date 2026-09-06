@@ -47,8 +47,6 @@ public class UsableItemEffects
          * Called every tick while this item is the active held item for the
          * pokemob.
          *
-         * @param pokemob
-         * @param stack
          * @return something happened
          */
         @Override
@@ -62,9 +60,6 @@ public class UsableItemEffects
          * clicking the pokemob with the itemstack. It can also be called via
          * onTick or onMoveTick, in which case user will be pokemob.getEntity()
          *
-         * @param user
-         * @param pokemob
-         * @param stack
          * @return something happened
          */
         @Override
@@ -77,10 +72,8 @@ public class UsableItemEffects
             final float maxHealth = pokemob.getMaxHealth();
             if (user == mob)
                 if (health >= maxHealth / 3) return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
-            if (health + 20 < maxHealth) pokemob.setHealth(health + 20);
-            else pokemob.setHealth(maxHealth);
-            boolean useStack = true;
-            if (user instanceof Player player && player.getAbilities().instabuild) useStack = false;
+            pokemob.setHealth(Math.min(health + 20, maxHealth));
+            boolean useStack = !(user instanceof Player player) || !player.getAbilities().instabuild;
             if (useStack) stack.split(1);
             return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
         }
@@ -94,11 +87,6 @@ public class UsableItemEffects
 
         public static Int2ObjectArrayMap<BerryEffect> effects = new Int2ObjectArrayMap<>();
 
-        /**
-         * @param pokemob
-         * @param stack
-         * @return
-         */
         @Override
         public InteractionResultHolder<ItemStack> onMoveTick(final IPokemob pokemob, final ItemStack stack,
                 final MoveApplication moveuse, boolean pre)
@@ -118,8 +106,6 @@ public class UsableItemEffects
          * Called every tick while this item is the active held item for the
          * pokemob.
          *
-         * @param pokemob
-         * @param stack
          * @return something happened
          */
         @Override
@@ -141,9 +127,6 @@ public class UsableItemEffects
          * clicking the pokemob with the itemstack. It can also be called via
          * onTick or onMoveTick, in which case user will be pokemob.getEntity()
          *
-         * @param user
-         * @param pokemob
-         * @param stack
          * @return something happened
          */
         @Override
@@ -170,9 +153,6 @@ public class UsableItemEffects
          * clicking the pokemob with the itemstack. It can also be called via
          * onTick or onMoveTick, in which case user will be pokemob.getEntity()
          *
-         * @param user
-         * @param pokemob
-         * @param stack
          * @return something happened
          */
         @Override
@@ -259,9 +239,6 @@ public class UsableItemEffects
          * clicking the pokemob with the itemstack. It can also be called via
          * onTick or onMoveTick, in which case user will be pokemob.getEntity()
          *
-         * @param user
-         * @param pokemob
-         * @param stack
          * @return something happened
          */
         @Override

@@ -215,7 +215,7 @@ public class SendOutManager
         return pokemob.getEntity();
     }
 
-    private static void make(final ServerLevel world, final Entity mob, final Vector3 v, final IPokemob pokemob,
+    private static void make(final ServerLevel world, final Entity mob, final IPokemob pokemob,
             final boolean summon)
     {
         if (summon)
@@ -252,14 +252,14 @@ public class SendOutManager
         final Entity test = world.getEntity(mob.getUUID());
         final Vector3 vec = v.copy();
         final UUID id = mob.getUUID();
-        if (test == null) SendOutManager.make(world, mob, vec, pokemob, summon);
+        if (test == null) SendOutManager.make(world, mob, pokemob, summon);
         else
         {
             PokecubeAPI.LOGGER.warn("Replacing errored UUID mob! {}", mob);
             test.discard();
             mob.getPersistentData().putUUID("old_uuid", id);
             mob.setUUID(UUID.randomUUID());
-            SendOutManager.make(world, mob, vec, pokemob, summon);
+            SendOutManager.make(world, mob, pokemob, summon);
             final IRunnable task = w -> {
                 // Ensure the chunk is loaded here.
                 w.getChunk(vec.getPos());

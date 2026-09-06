@@ -109,22 +109,21 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
     public boolean shouldRun(Mob entity)
     {
         var pokemob = PokemobCaps.getPokemobFor(entity);
+        // If we are a copy mob, or otherwise not the tracked entity, we skip this
+        if (pokemob.getEntity() != pokemob.getTrackedEntity() || entity.getId() < 0) return false;
+        // Only player owned will do this.
         if (!(pokemob.getOwner() instanceof Player player)) return false;
         // Always allow running if we are already on shoulder, incase
         // happiness changes to prevent the check below from suceeding.
         if (entity.getVehicle() == player) return true;
         // Configs can set this to -1 to disable idle movement entirely.
         if (IdleWalkTask.IDLETIMER <= 0) return false;
-
         // Wander disabled, so don't run.
         if (!pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;
-
         // Shoulder disabled, so don't run.
         if (!pokemob.isRoutineEnabled(ShoulderMobs.SHOULDER)) return false;
-
         // Only happy mobs do this!
         if (pokemob.getHappiness() < 200) return false;
-
         // Mobs set to stay do not run this.
         return !pokemob.getGeneralState(GeneralStates.STAYING);
     }

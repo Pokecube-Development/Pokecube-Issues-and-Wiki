@@ -145,7 +145,7 @@ public class ItemTM extends Item
     public static boolean teachToPokemob(final ItemStack tm, final IPokemob mob)
     {
         var info = tm.get(TM_DATA);
-        if (tm != null)
+        if (info != null)
         {
             final String name = info.moveName();
             if (name.contentEquals("")) return false;

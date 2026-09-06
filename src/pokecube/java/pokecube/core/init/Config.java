@@ -248,6 +248,7 @@ public class Config extends ConfigData
 
         Set<String> _guiRefs = new HashSet<>();
         _guiRefs.add("top_left");
+        _guiRefs.add("top_middle");
         _guiRefs.add("middle_left");
         _guiRefs.add("bottom_left");
         _guiRefs.add("top_right");
