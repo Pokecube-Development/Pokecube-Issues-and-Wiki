@@ -68,21 +68,8 @@ public class TransformBlock extends Block {
         // If transformed, revert the player
         if (!notTransformed)
         {
-            var mob = copy.getCopiedMob();
-            var cube = new ItemStack(PokecubeItems.getEmptyCube(ResourceLocation.parse("pokecube:pokecube")));
-            var pokemob = PokemobCaps.getPokemobFor(mob);
             int result = Pokeplayer.transformPlayer(null, player);
             if (result < 0) return ItemInteractionResult.FAIL;
-            if (pokemob != null && !pokemob.getPokecube().isEmpty())
-            {
-                pokemob.setHeldItem(ItemStack.EMPTY); // Remove held and offhand items to prevent cloning
-                mob.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
-                pokemob.getEntity().setData(PlayerWearables.TYPE, new PlayerWearables(pokemob.getEntity())); // Remove wearables
-                pokemob.setHealth(pokemob.getMaxHealth());
-                cube = PokecubeManager.pokemobToItem(pokemob);
-            }
-            PokecubeManager.addToCube(cube, mob);
-            ItemHandlerHelper.giveItemToPlayer(player, cube);
         }
         return ItemInteractionResult.SUCCESS;
     }
