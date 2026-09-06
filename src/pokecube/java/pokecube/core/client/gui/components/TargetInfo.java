@@ -1,6 +1,5 @@
 package pokecube.core.client.gui.components;
 
-import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.MutableComponent;
@@ -101,7 +100,6 @@ public class TargetInfo extends GuiEventComponent
                     {
                         PacketBattleTargets.setEnemy(pokemob, target);
                     }
-                    if (other != null) other.getBbWidth();
                 }
                 n2++;
                 nameBGSprite = ICON_MOVE_FRAMES[2];
@@ -190,11 +188,11 @@ public class TargetInfo extends GuiEventComponent
         if (pokemob != null)
         {
             mobScale = 0.75f;
-            boolean obfuscated = PokecubePlayerStats.obfuscateName(pokemob);
+            boolean obfuscated = PokecubePlayerStats.obfuscateName(pokemob, Minecraft.getInstance().player);
 
             UUID owner = pokemob.getOwnerId();
             boolean isOwner = viewerID.equals(owner);
-            boolean fullColour = PokecubePlayerStats.fullNameColour(pokemob) && !isOwner;
+            boolean fullColour = PokecubePlayerStats.fullNameColour(pokemob, Minecraft.getInstance().player) && !isOwner;
 
             if (fullColour) colour = owner != null ? config.otherOwnedNameColour : config.caughtNamedColour;
             else if (isOwner) colour = config.ownedNameColour;

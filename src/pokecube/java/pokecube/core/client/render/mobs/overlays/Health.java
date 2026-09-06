@@ -141,7 +141,7 @@ public class Health
             MutableComponent nameComp = (MutableComponent) pokemob.getDisplayName();
             final float s = 0.5F;
             final float namel = mc.font.width(nameComp.getString()) * s;
-            final boolean obfuscated = PokecubePlayerStats.obfuscateName(pokemob);
+            final boolean obfuscated = PokecubePlayerStats.obfuscateName(pokemob, Minecraft.getInstance().player);
             if (obfuscated) nameComp = PokecubePlayerStats.obfuscate(nameComp);
             if (entity instanceof Mob mob && mob.hasCustomName()) nameComp = (MutableComponent) mob.getCustomName();
             if (namel + 20 > size * 2) size = namel / 2f + 10F;
@@ -199,7 +199,7 @@ public class Health
 
                 UUID owner = pokemob.getOwnerId();
                 boolean isOwner = viewerID.equals(owner);
-                boolean fullColour = PokecubePlayerStats.fullNameColour(pokemob) && !isOwner;
+                boolean fullColour = PokecubePlayerStats.fullNameColour(pokemob, Minecraft.getInstance().player) && !isOwner;
 
                 if (fullColour) colour = owner != null ? config.otherOwnedNameColour : config.caughtNamedColour;
                 else if (isOwner) colour = config.ownedNameColour;

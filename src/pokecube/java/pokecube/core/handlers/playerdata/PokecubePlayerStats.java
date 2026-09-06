@@ -7,7 +7,6 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -29,10 +28,10 @@ import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 /** Player capture/hatch/kill stats */
 public class PokecubePlayerStats extends PlayerData
 {
-    public static boolean obfuscateName(final IPokemob pokemob)
+    public static boolean obfuscateName(final IPokemob pokemob, Player player)
     {
-        boolean nametag = PokecubePlayerStats.fullNameColour(pokemob);
-        final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft.getInstance().player)
+        boolean nametag = PokecubePlayerStats.fullNameColour(pokemob, player);
+        final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(player)
                 .getData(PokecubePlayerStats.class);
         nametag = nametag || stats.hasInspected(pokemob.getPokedexEntry());
         return !nametag;
@@ -57,14 +56,14 @@ public class PokecubePlayerStats extends PlayerData
         return Component.literal(val).setStyle(compIn.getStyle());
     }
 
-    public static boolean fullNameColour(final IPokemob pokemob)
+    public static boolean fullNameColour(final IPokemob pokemob, Player player)
     {
         final boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
         // Always full name if owned
         if (nametag) return true;
         final PokedexEntry name_entry = pokemob.getPokedexEntry();
-        return StatsCollector.getCaptured(name_entry, Minecraft.getInstance().player) > 0
-                || StatsCollector.getHatched(name_entry, Minecraft.getInstance().player) > 0;
+        return StatsCollector.getCaptured(name_entry, player) > 0
+                || StatsCollector.getHatched(name_entry, player) > 0;
     }
 
     private Map<PokedexEntry, Integer> hatches;
