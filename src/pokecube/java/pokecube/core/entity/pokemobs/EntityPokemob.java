@@ -27,6 +27,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -59,14 +60,12 @@ import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.helper.PokemobRidable;
 import pokecube.core.eventhandlers.SpawnHandler;
-import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.Config;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
-import pokecube.core.utils.PokemobTracker;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.IAnimated;
@@ -197,26 +196,23 @@ public class EntityPokemob extends PokemobRidable
         final Variance variance = entry.getVariance(record);
         if (variance != null) overrideLevel = variance.apply(overrideLevel);
 
-        if (pokemob != null)
+        final long time = System.nanoTime();
+        int maxXP;
+        int level;
+        if (orig_override == -1) level = SpawnHandler.getSpawnLevel(context, variance, overrideLevel);
+        else
         {
-            final long time = System.nanoTime();
-            int maxXP;
-            int level;
-            if (orig_override == -1) level = SpawnHandler.getSpawnLevel(context, variance, overrideLevel);
-            else
-            {
-                final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(context, overrideLevel, variance);
-                PokecubeAPI.POKEMOB_BUS.post(event);
-                level = event.getLevel();
-            }
-            maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
-            pokemob.getEntity().getPersistentData().putInt(TagNames.SPAWN_EXP, maxXP);
-            final double dt = (System.nanoTime() - time) / 10e3D;
-            if (PokecubeCore.getConfig().debug_spawning && dt > 100)
-            {
-                final String toLog = "location: %1$s took: %2$sµs to spawn Init for %3$s";
-                PokecubeAPI.logInfo(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
-            }
+            final SpawnEvent.PickLevel event = new SpawnEvent.PickLevel(context, overrideLevel, variance);
+            PokecubeAPI.POKEMOB_BUS.post(event);
+            level = event.getLevel();
+        }
+        maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
+        pokemob.getEntity().getPersistentData().putInt(TagNames.SPAWN_EXP, maxXP);
+        final double dt = (System.nanoTime() - time) / 10e3D;
+        if (PokecubeCore.getConfig().debug_spawning && dt > 100)
+        {
+            final String toLog = "location: %1$s took: %2$sµs to spawn Init for %3$s";
+            PokecubeAPI.logInfo(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
         }
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn);
     }
@@ -231,17 +227,12 @@ public class EntityPokemob extends PokemobRidable
     }
 
     @Override
-    public boolean causeFallDamage(final float distance, final float damageMultiplier, final DamageSource source)
+    protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos)
     {
-        // TODO maybe do something here?
-        // Vanilla plays sound and does damage, but only plays the sound if
-        // damage occurred, maybe we should just play the sound instead?
-        return super.causeFallDamage(distance, damageMultiplier, source);
+        // We just increase the default setting here, so they can jump a bit more in battle
+        this.getAttribute(Attributes.SAFE_FALL_DISTANCE).setBaseValue(5);
+        super.checkFallDamage(y, onGround, state, pos);
     }
-
-    @Override
-    protected void checkFallDamage(final double y, final boolean onGroundIn, final BlockState state, final BlockPos pos)
-    {}
 
     @Override
     protected SoundEvent getAmbientSound()
