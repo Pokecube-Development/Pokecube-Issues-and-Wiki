@@ -6,6 +6,8 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.UsableItemEffects.BaseUseable;
+import pokecube.gimmicks.zmoves.ZPower;
+import pokecube.legends.handlers.ZPowerHandler;
 import pokecube.legends.items.zmove.ItemZCrystal;
 
 public class UsableItemZMoveEffects
@@ -23,5 +25,6 @@ public class UsableItemZMoveEffects
     public static void init()
     {
         UsableItemEffects.REGISTRY.put(i -> i instanceof ItemZCrystal, ZMoveUsable::new);
+        ZPower.addZPower(new ZPowerHandler());
     }
 }
