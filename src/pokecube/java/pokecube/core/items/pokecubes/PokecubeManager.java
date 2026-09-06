@@ -140,7 +140,7 @@ public class PokecubeManager
             }
             catch (final Throwable e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
         }
     }

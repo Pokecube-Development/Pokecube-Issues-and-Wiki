@@ -30,19 +30,17 @@ import java.util.UUID;
 /** @author Manchou */
 public class EntityPokemobEgg extends AgeableMob
 {
-    int delayBeforeCanPickup = 0;
+    int delayBeforeCanPickup;
     int lastIncubate = 0;
     public IPokemob mother = null;
     Vector3 here = new Vector3();
-    boolean init = false;
+    boolean init;
 
     private IPokemob toHatch = null;
     private IPokemob sounds = null;
 
     /**
      * Do not call this, this is here only for vanilla reasons
-     *
-     * @param world
      */
     public EntityPokemobEgg(final EntityType<EntityPokemobEgg> type, final Level world)
     {
@@ -54,8 +52,9 @@ public class EntityPokemobEgg extends AgeableMob
         this.delayBeforeCanPickup = 20;
     }
 
+    /** Called when the entity is attacked. */
     @Override
-    /** Called when the entity is attacked. */ public boolean hurt(final DamageSource source, final float damage)
+    public boolean hurt(final DamageSource source, final float damage)
     {
         if (this.delayBeforeCanPickup > 0) return false;
         final Entity e = source.getDirectEntity();
@@ -127,8 +126,6 @@ public class EntityPokemobEgg extends AgeableMob
     /**
      * Returns a generic pokemob instance with the data of the one in the egg, this is not to be used for spawning into
      * the world.
-     *
-     * @return
      */
     public IPokemob getPokemob(final boolean real)
     {

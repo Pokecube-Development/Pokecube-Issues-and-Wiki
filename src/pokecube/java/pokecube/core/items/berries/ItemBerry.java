@@ -144,7 +144,7 @@ public class ItemBerry extends BlockItem implements IMoveConstants
     protected BlockState getPlacementState(BlockPlaceContext context)
     {
         BlockState state = BerryManager.getCrop(this).defaultBlockState();
-        return state != null && this.canPlace(context, state) ? state : null;
+        return this.canPlace(context, state) ? state : null;
     }
 
     @Override

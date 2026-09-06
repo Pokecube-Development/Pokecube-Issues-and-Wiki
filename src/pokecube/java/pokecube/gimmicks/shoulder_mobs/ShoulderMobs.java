@@ -197,7 +197,7 @@ public class ShoulderMobs
                 }
             }
 
-            if (living.getVehicle() instanceof ServerPlayer player)
+            if (living.getVehicle() instanceof ServerPlayer player && living.getId() >= 0)
             {
                 CompoundTag tag = PokecubePlayerDataHandler.getCustomDataTag(player);
                 int[] rid = tag.getIntArray("rider");

@@ -82,11 +82,6 @@ public class MoveEventsHandler
             super(worldIn, playerIn, handIn, stackIn, rayTraceResultIn);
         }
 
-        public BlockHitResult getBlockHitResult()
-        {
-            return this.getHitResult();
-        }
-
         public BlockPos getHitPos()
         {
             return this.getHitResult().getBlockPos();
@@ -110,7 +105,6 @@ public class MoveEventsHandler
     private static void removeAction(IMoveWorldEffect action)
     {
         actionsLists.computeIfPresent(action.getMoveName(), (name, list) -> {
-            if (list == null) return null;
             list.remove(action);
             return list.isEmpty() ? null : list;
         });
@@ -234,7 +228,7 @@ public class MoveEventsHandler
         // This handles application of world actions for the moves.
         PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::preStatusAdded);
         // This handles application of world actions for the moves.
-        PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onComputeStats);
+        PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::onComputeIFFStats);
         // Setup recipes for moves that may have loaded in.
         ThutCore.FORGE_BUS.addListener(EventPriority.LOWEST, false, MoveEventsHandler::initServerMoveRecipes);
     }
@@ -244,8 +238,10 @@ public class MoveEventsHandler
      * applies to your own side in battle, then this will decrease the user accuracy, and increase the
      * target evasion for the attack's application on the target, if the target and user are on the same side.
      */
-    private static void onComputeStats(ComputeStatEvent event)
+    private static void onComputeIFFStats(ComputeStatEvent event)
     {
+        if (event.stat != IPokemob.Stats.ACCURACY && event.stat != IPokemob.Stats.EVASION) return;
+
         var moveApplication = event.context;
         var us = event.affected.getEntity();
         var them = moveApplication.getTarget();
@@ -395,7 +391,7 @@ public class MoveEventsHandler
 
         if (target == null) return;
         target.getEntity().getPersistentData().putString("lastMoveHitBy", move.getMove().name);
-        if (target != null && target.getMoveStats().substituteHP > 0)
+        if (target.getMoveStats().substituteHP > 0)
         {
             final float damage = MovesUtils.getAttackStrength(attacker, target, move.getMove().getCategory(attacker),
                     move.pwr, move.getMove(), move.stat_multipliers);
@@ -416,7 +412,7 @@ public class MoveEventsHandler
 
         Ability ab;
         if ((ab = attacker.getAbility()) != null) ab.preMoveUse(attacker, move);
-        if (target != null && (ab = target.getAbility()) != null) ab.preMoveUse(target, move);
+        if ((ab = target.getAbility()) != null) ab.preMoveUse(target, move);
 
         if (attack.getName().equals(IMoveNames.MOVE_FALSESWIPE)) move.noFaint = true;
         boolean blockMove = Tags.MOVE.isIn("block-moves", move.getName()); // If we are using a "block" move (e.g. protect)

@@ -152,7 +152,6 @@ public class CaptureManager
             else cube.setTime(CAPTURE_SHAKE_TIME * n + CAPTURE_SHRINK_TIMER);
             ItemStack mobsCube = cube.getItem().copy();
             mobsCube.remove(PokemobCaps.POKECUBE_DATA);
-            if(hitten!=null) hitten.setPokecube(mobsCube);
             ItemStack stack = mobsCube.copy();
             PokecubeManager.addToCube(stack, mob);
             PokecubeManager.setTilt(stack, n, cube.level());
