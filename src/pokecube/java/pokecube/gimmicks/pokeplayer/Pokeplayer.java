@@ -9,6 +9,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -33,6 +35,7 @@ import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.server.permission.PermissionAPI;
@@ -151,22 +154,16 @@ public class Pokeplayer
 
     public static int doPokeplayerCommand(String argument, Entity entity)
     {
-        if(!(entity instanceof LivingEntity player)) return -1;
+        if (!(entity instanceof LivingEntity player)) return -1;
         try
         {
             var copy = ThutCaps.getCopyMob(player);
             if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
+            IPokemob pokemob = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(Database.getEntry(argument), player.level()));
 
-            // Putting none or player into entry arg reverts a transformed player.
-            if (argument.equalsIgnoreCase("none") || argument.equalsIgnoreCase("player"))
-            {
-                player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
-                copy.setCopiedMob(player,null); // Changes player back into a player
-                // Reset the no gravity rules
-                player.setNoGravity(false);
-                return 0;
-            }
-            return transformPlayer(PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(Database.getEntry(argument), player.level())),player);
+            // A plethora of null checks in the functions used in the method
+            // allow this, please use null checks otherwise to prevent crashes.
+            return transformPlayer(pokemob, player);
         }
         catch (CommandSyntaxException c)
         {
@@ -175,33 +172,50 @@ public class Pokeplayer
         }
     }
 
-    public static int transformPlayer(IPokemob pokemob, LivingEntity player)
+    public static int transformPlayer(IPokemob pokemob, LivingEntity playerEntity)
     {
-        var copy = ThutCaps.getCopyMob(player);
+        var copy = ThutCaps.getCopyMob(playerEntity);
+        var mob = copy.getCopiedMob();
+        var transformedPokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null)
         {
-            if(player instanceof ServerPlayer splayer)
-                if(!PermissionAPI.getPermission(splayer, PermNodes.getBooleanNode(PERMTRANSFORMPLAYER)))
-                {
-                    player.sendSystemMessage(Component.translatable("pokeplayer.revert.denied"));
-                    return -1;
+            if (playerEntity instanceof Player player)
+            {
+                if (player instanceof ServerPlayer splayer)
+                    if (!PermissionAPI.getPermission(splayer, PermNodes.getBooleanNode(PERMTRANSFORMPLAYER)))
+                    {
+                        playerEntity.sendSystemMessage(Component.translatable("pokeplayer.revert.denied"));
+                        return -1;
+                    }
+
+                player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
+                copy.setCopiedMob(player, null); // Changes player back into a player
+
+                if (transformedPokemob != null)
+                { // If transformed, do these to prevent cloning
+                    player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20.0);
+                    player.setHealth(20.0f);
+                    transformedPokemob.setHeldItem(ItemStack.EMPTY); // Remove held and offhand items to prevent cloning
+                    mob.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
+                    transformedPokemob.getEntity().setData(PlayerWearables.TYPE, new PlayerWearables(transformedPokemob.getEntity())); // Remove wearables
+                    transformedPokemob.setHealth(transformedPokemob.getMaxHealth());
+                    ItemStack cube = PokecubeManager.pokemobToItem(transformedPokemob);
+                    PokecubeManager.addToCube(cube, mob);
+                    ItemHandlerHelper.giveItemToPlayer(player, cube);
                 }
-            player.sendSystemMessage(Component.literal("Reverted " + player.getName().getString() + " back into a player"));
-            copy.setCopiedMob(player, null); // Changes player back into a player
-            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20.0);
-            player.setHealth(20.0f);
+            }
             return 0;
         }
-        if(player instanceof ServerPlayer splayer)
-            if(!PermissionAPI.getPermission(splayer, PermNodes.getBooleanNode(PERMTRANSFORMPOKEMOB)))
+        if (playerEntity instanceof ServerPlayer splayer)
+            if (!PermissionAPI.getPermission(splayer, PermNodes.getBooleanNode(PERMTRANSFORMPOKEMOB)))
             {
-                player.sendSystemMessage(Component.translatable("pokeplayer.transform.denied"));
+                playerEntity.sendSystemMessage(Component.translatable("pokeplayer.transform.denied"));
                 return -1;
             }
-        copy.setCopiedMob(player, pokemob.getEntity());
-        pokemob.setTrackableEntity(player); // Mark the player as the trackable entity for the pokemob
+        copy.setCopiedMob(playerEntity, pokemob.getEntity());
+        pokemob.setTrackableEntity(playerEntity); // Mark the player as the trackable entity for the pokemob
         pokemob.updateHealth(); // Calling update health internally sets the HP for the trackable entity
-        player.sendSystemMessage(Component.literal("Transformed " + player.getName().getString() + " into " + pokemob.getDisplayName().getString()));
+        playerEntity.sendSystemMessage(Component.literal("Transformed " + playerEntity.getName().getString() + " into " + pokemob.getDisplayName().getString()));
         return 0;
     }
 
@@ -276,15 +290,15 @@ public class Pokeplayer
         final Player player = evt.getEntity();
         final ICopyMob copy = ThutCaps.getCopyMob(player);
         if (copy == null) return;
-        final LivingEntity pokemob = EntityProvider.getTracked(copy.getCopiedMob());
-        if (pokemob == null) return;
+        final LivingEntity mob = EntityProvider.getTracked(copy.getCopiedMob());
+        if (mob == null) return;
 
         Entity entity = EntityProvider.getTracked(evt.getTarget());
 
         if (entity instanceof NpcMob npc)
         {
             if (npc.getNpcType().equals(NpcType.byType("healer")))
-                PokecubeManager.heal(pokemob);
+                PokecubeManager.heal(mob);
         }
     }
 
