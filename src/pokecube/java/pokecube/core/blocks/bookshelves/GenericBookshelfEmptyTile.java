@@ -22,6 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.ModTags;
 import pokecube.core.inventory.bookshelves.GenericBookshelfMenu;
@@ -148,7 +149,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
             {
                 world.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F,
                         1.0F);
-                player.addItem(stack);
+                ItemHandlerHelper.giveItemToPlayer(player, stack);
                 this.setChanged();
                 return InteractionResult.SUCCESS;
             }

@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -57,9 +58,9 @@ public class TransformBlock extends Block {
                 pokemob.getEntity().setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
                 int result = Pokeplayer.transformPlayer(pokemob, player);
                 if(result < 0) return ItemInteractionResult.FAIL;
-                player.addItem(heldA); // Transfer pokemob held and offhand items to player
-                player.addItem(heldB); // TODO: make these drop if they cannot be added
-                wearables.forEach(player::addItem); // Transfer wearables to player
+                ItemHandlerHelper.giveItemToPlayer(player, heldA); // Transfer pokemob held and offhand items to player
+                ItemHandlerHelper.giveItemToPlayer(player, heldB);
+                wearables.forEach(item -> ItemHandlerHelper.giveItemToPlayer(player, item)); // Transfer wearables to player
                 player.setItemInHand(hand, ItemStack.EMPTY);
                 return ItemInteractionResult.CONSUME;
             }
@@ -81,7 +82,7 @@ public class TransformBlock extends Block {
                 cube = PokecubeManager.pokemobToItem(pokemob);
             }
             PokecubeManager.addToCube(cube, mob);
-            if (!player.addItem(cube)) ;// TODO Should drop in here instead.
+            ItemHandlerHelper.giveItemToPlayer(player, cube);
         }
         return ItemInteractionResult.SUCCESS;
     }
