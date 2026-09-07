@@ -19,6 +19,7 @@ import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.packets.PacketTMs;
 import pokecube.core.utils.Resources;
+import thut.core.common.ThutCore;
 
 public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 {
@@ -60,25 +61,23 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         if (this.searchBar.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_ENTER
                 || keyCode == GLFW.GLFW_KEY_KP_ENTER))
         {
+            if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
+            {
+                // Simple search by starting characters
+                var text = ThutCore.trim(this.searchBar.getValue());
+                // Find any moves that start with it
+                var s = this.menu.moves.stream().filter(s2 -> ThutCore.trim(s2).startsWith(text)).findFirst();
+                // Then change index to that
+                s.ifPresent(s1 -> this.index = this.menu.moves.indexOf(s1));
+            }
             this.searchBar.setFocused(false);
             return false;
         }
-
         if (this.searchBar.isFocused() && keyCode == GLFW.GLFW_KEY_E)
         {
             this.searchBar.setFocused(true);
             return true;
         }
-
-        //        if (this.searchBar.isFocused())
-        //        {
-        //            if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
-        //            {
-        //                // TODO search the moves list and go to the one here.
-        //            }
-        //            this.searchBar.setCanLoseFocus(true);
-        //            return true;
-        //        }
         return super.keyPressed(keyCode, b, c);
     }
 
@@ -261,7 +260,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
         final Component apply = Component.translatable("block.tm_machine.apply").withStyle(ChatFormatting.WHITE);
         this.applyButton = this.addRenderableWidget(
-                new Button.Builder(apply, (b) -> PacketTMs.sendApplyMove(this.index)).bounds(x + 105, y + 48, 19, 19)
+                new Button.Builder(apply, (b) -> PacketTMs.sendApplyMove(this.menu.moves.get(this.index))).bounds(
+                                x + 105, y + 48, 19, 19)
                         .tooltip(Tooltip.create(Component.translatable("block.tm_machine.apply.tooltip")))
                         .createNarration(supplier -> Component.translatable("block.tm_machine.apply.narrate")).build());
         this.applyButton.setAlpha(0);

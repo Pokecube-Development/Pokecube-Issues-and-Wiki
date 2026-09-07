@@ -544,7 +544,7 @@ public class MovesUtils implements IMoveConstants
 
     public static boolean isMoveImplemented(String attackName)
     {
-        if (attackName == null) return false;
+        if (attackName == null || attackName.isBlank()) return false;
         final MoveEntry move = getMove(attackName);
         return move != null;
     }

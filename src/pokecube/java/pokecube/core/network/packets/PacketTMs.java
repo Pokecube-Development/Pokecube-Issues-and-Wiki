@@ -12,16 +12,17 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import pokecube.api.events.TMMachineEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.inventory.tms.TMContainer;
+import pokecube.core.moves.MovesUtils;
 import thut.core.common.network.Packet;
 
 public class PacketTMs extends Packet
 {
     public CompoundTag data = new CompoundTag();
 
-    public static void sendApplyMove(int index)
+    public static void sendApplyMove(String move)
     {
         PacketTMs packet = new PacketTMs();
-        packet.data.putInt("m", index);
+        packet.data.putString("m", move);
         PokecubeCore.packets.sendToServer(packet);
     }
 
@@ -30,6 +31,7 @@ public class PacketTMs extends Packet
         var player = event.player;
         PacketTMs packet = new PacketTMs();
         ListTag list = new ListTag();
+        event.moves.removeIf(m -> !MovesUtils.isMoveImplemented(m));
         for (String s : event.moves) list.add(StringTag.valueOf(s));
         packet.data.put("l", list);
         PokecubeCore.packets.sendTo(packet, player);
@@ -49,9 +51,9 @@ public class PacketTMs extends Packet
         final AbstractContainerMenu cont = player.containerMenu;
         if (!(cont instanceof TMContainer container)) return;
         var moves = container.moves;
-        final int index = this.data.getInt("m");
-        if (index < moves.size())
-            container.getInv().setItem(0, container.tile.addMoveToTM(moves.get(index), container.getInv().getItem(0)));
+        String selected = this.data.getString("m");
+        if(moves.contains(selected)) return;
+        container.getInv().setItem(0, container.tile.addMoveToTM(selected, container.getInv().getItem(0)));
     }
 
     @Override
