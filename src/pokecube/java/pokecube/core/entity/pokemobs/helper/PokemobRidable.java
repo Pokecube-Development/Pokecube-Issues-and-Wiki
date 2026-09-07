@@ -21,9 +21,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.joml.Vector3f;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.utils.PokeType;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.BodyPart;
@@ -61,7 +64,9 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public boolean canBeRiddenUnderFluidType(FluidType type, Entity rider)
     {
-        // TODO add lava check as well!
+        if (type == NeoForgeMod.LAVA_TYPE.value())
+            // If it is a fire type, and marked as able to surf or dive, let them dive under lava with it.
+            return this.getPokemob().isType(PokeType.getType("fire")) && !this.dismountsUnderwater();
         return super.canBeRiddenUnderFluidType(type, rider);
     }
 

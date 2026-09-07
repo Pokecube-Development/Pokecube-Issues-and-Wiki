@@ -118,7 +118,6 @@ public class LogicMountedControl extends LogicBase
         }
     }
 
-    // TODO decide if these need an acceleration component
     public float getFlightSpeedScale()
     {
         if(FLYVITSCALER != null)

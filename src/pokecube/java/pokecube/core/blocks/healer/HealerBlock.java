@@ -7,6 +7,8 @@ import com.mojang.serialization.MapCodec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -164,7 +166,8 @@ public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWat
         // Check delay for use after placement
         if(entity instanceof HealerTile tile && Tracker.instance().getTick() < tile.placeTime)
         {
-            // TODO message or warning saying why you can't interact with it yet?
+            if (player instanceof ServerPlayer serverPlayer)
+                serverPlayer.sendSystemMessage(Component.translatable("pokecube.healer.placed.delay"));
             return InteractionResult.PASS;
         }
         player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new HealerContainer(id,

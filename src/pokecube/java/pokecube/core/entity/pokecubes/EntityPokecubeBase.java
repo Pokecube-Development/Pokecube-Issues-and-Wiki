@@ -337,7 +337,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 if (!shape.isEmpty() && !shape.bounds().move(result.getBlockPos()).intersects(axisalignedbb))
                     break trace;
             }
-            // TODO maybe do an event here?
             this.onImpact(raytraceresult);
             return;
         }

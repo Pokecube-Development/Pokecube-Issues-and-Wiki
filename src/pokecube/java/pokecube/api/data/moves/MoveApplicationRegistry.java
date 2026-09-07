@@ -138,7 +138,6 @@ public class MoveApplicationRegistry
         // step now runs it incase changes were needed for different targets.
         preApply(moveApplication);
 
-        // TODO hit rate checker in MoveApplication
         int hits = moveApplication.getMove().root_entry._max_hits;
         if (hits > 0)
         {

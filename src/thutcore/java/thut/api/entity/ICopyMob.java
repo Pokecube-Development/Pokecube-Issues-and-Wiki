@@ -162,7 +162,6 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
             else living.baseTick();
             living.onRemovedFromLevel();
 
-            // TODO eye height check?
             final float eye = living.getEyeHeight(holder.getPose());
             if (eye != holder.getEyeHeight(holder.getPose())) holder.refreshDimensions();
 

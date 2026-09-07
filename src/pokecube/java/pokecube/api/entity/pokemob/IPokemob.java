@@ -356,7 +356,6 @@ public interface IPokemob
      */
     default boolean flys()
     {
-        // TODO also include effects from external float reasons here
         return (this.getPokedexEntry().flys() || this.canUseFly() && this.getEntity().isVehicle())
                 && !this.isGrounded();
     }

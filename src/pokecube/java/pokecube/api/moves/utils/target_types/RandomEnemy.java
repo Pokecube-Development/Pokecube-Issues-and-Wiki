@@ -23,7 +23,6 @@ public class RandomEnemy implements IMoveTargetter
             if (!enemies.isEmpty())
             {
                 if (enemies.size() == 1) return move.getTarget() == enemies.getFirst();
-                // TODO Test that this reliably picks one the same one, but randomly so.
                 Random r = new Random(move.getUser().getRNGValue() ^ mob.level().getGameTime());
                 return move.getTarget() == enemies.get(r.nextInt(enemies.size()));
             }

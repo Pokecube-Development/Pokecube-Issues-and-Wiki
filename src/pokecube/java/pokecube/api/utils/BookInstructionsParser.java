@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.PokecubeAPI;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 
@@ -94,7 +95,6 @@ public class BookInstructionsParser
         {
             writable.getPages(true).forEach(lines::add);
         }
-        // TODO clean this up.
         start = start.strip();
         String start_key = start.endsWith(":") ? start : start + ":";
         lines.forEach(string -> {
@@ -115,8 +115,8 @@ public class BookInstructionsParser
             }
             catch (Exception e)
             {
-                // Some items may have funny nbt tags added, which can
-                // cause this.
+                // Some items may have funny nbt tags added, which can cause this.
+                PokecubeAPI.LOGGER.error("Error with checking item {} for instructions", source,e);
             }
         });
         // Merge together successive lines if they don't meet the header check

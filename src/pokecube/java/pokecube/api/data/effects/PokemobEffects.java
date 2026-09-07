@@ -2,8 +2,10 @@ package pokecube.api.data.effects;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -33,7 +35,16 @@ public class PokemobEffects implements IMergeable<PokemobEffects>
     public PokemobEffects mergeFrom(PokemobEffects other)
     {
         if (other.replace) return other;
-        // TODO let this merge instead of replacing.
+        Set<String> ours = new HashSet<>(this.pokemobs);
+        ours.addAll(other.pokemobs);
+        other.pokemobs.clear();
+        other.pokemobs.addAll(ours);
+        other.pokemobs.sort(null);
+        Set<JsonObject> our0 = new HashSet<>(this.material_rules);
+        our0.addAll(other.material_rules);
+        other.material_rules.clear();
+        other.material_rules.addAll(our0);
+        other.material_rules.sort(null);
         return other;
     }
 

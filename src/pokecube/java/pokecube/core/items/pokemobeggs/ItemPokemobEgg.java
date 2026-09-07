@@ -225,7 +225,6 @@ public class ItemPokemobEgg extends Item
                     world.random.nextFloat() * 360F, 0.0F);
             mob.setForSpawn(exp);
             var nest = contents.getNest();
-            // TODO maybe also let it imprint if far enough away?
             boolean imprint = nest.isEmpty();
             ItemPokemobEgg.initPokemobGenetics(mob, stack, imprint);
             mob.spawnInit();
