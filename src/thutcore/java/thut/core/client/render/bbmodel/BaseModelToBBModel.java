@@ -18,7 +18,6 @@ import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.model.parts.textures.BaseTexture;

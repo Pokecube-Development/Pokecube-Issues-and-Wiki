@@ -1,5 +1,6 @@
 package thut.api.entity.multipart;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -18,11 +19,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.attachment.AttachmentHolder;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityEvent;
-import org.joml.Matrix3f;
-import org.joml.Vector3f;
+
+import org.joml.Matrix4f;
 import thut.core.common.ThutCore;
 import thut.core.common.network.PartInteract;
 
@@ -34,7 +36,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 
         public void onLoad()
         {
-            this.parts.forEach(p -> p.onLoad());
+            this.parts.forEach(BodyPart::onLoad);
         }
     }
 
@@ -73,52 +75,38 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
                 final String id);
     }
 
-    public Vector3f r0;
-
-    public float width;
-    public float height;
-
-    public Vector3f r;
-
     public final String id;
 
-    public GenericPartEntity(E parent, final float width, final float height, final float x, final float y,
-            final float z, final String id)
+    protected GenericPartEntity(E parent, final String id)
     {
         super(parent);
-
         this.id = id;
 
-        this.width = width;
-        this.height = height;
-
-        this.dimensions = EntityDimensions.scalable(width, height);
-
-        this.r0 = new Vector3f(x + width / 2, y, z + width / 2);
-        this.r = new Vector3f(x, y, z);
+        // Hackery to use identical attachment map
+        try
+        {
+            Field F = AttachmentHolder.class.getDeclaredField("attachments");
+            F.setAccessible(true);
+            F.set(this, F.get(parent));
+        }
+        catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
+        {
+            ThutCore.LOGGER.error(e);
+        }
     }
 
-    public void update(final Matrix3f rot, final Vector3f r, final Vec3 dr)
-    {
-        this.r.set(this.r0.x, this.r0.y, this.r0.z);
-        rot.transform(this.r);
-        this.r.add(r);
-        this.setPos(this.r.x, this.r.y, this.r.z);
-        this.xOld = this.getX() + dr.x;
-        this.yOld = this.getY() + dr.y;
-        this.zOld = this.getZ() + dr.z;
-    }
+    public abstract void update(Matrix4f transform, Vec3 dr);
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder)
     {}
 
     @Override
-    protected void readAdditionalSaveData(final CompoundTag compound)
+    protected void readAdditionalSaveData(CompoundTag compound)
     {}
 
     @Override
-    protected void addAdditionalSaveData(final CompoundTag compound)
+    protected void addAdditionalSaveData(CompoundTag compound)
     {}
 
     /**
@@ -240,21 +228,4 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     {
         return this.getParent().getPickedResult(target);
     }
-
-//    TODO figure out how to sync these now...
-//    @Override
-//    public <T>  getCapability(final EntityCapability<T, C> cap, final Direction side)
-//    {
-//        // This can be null if this is called early enough
-//        if (this.getParent() == null) return super.getCapability(cap, side);
-//        return this.getParent().getCapability(cap, side);
-//    }
-//
-//    @Nullable
-//    public final <T> T getCapability(final EntityCapability<T> cap)
-//    {
-//        // This can be null if this is called early enough
-//        if (this.getParent() == null) return super.getCapability(cap);
-//        return this.getParent().getCapability(cap);
-//    }
 }

@@ -14,7 +14,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
-import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
@@ -35,8 +35,8 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         public T[] allParts;
         public T[] parts;
 
-        public Matrix3f rot = new Matrix3f();
         public Vector3f r = new Vector3f();
+        public Matrix4f transform = new Matrix4f();
         public String effective_pose = "";
 
         int tick = -1;
@@ -88,12 +88,10 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
 
     Class<T> getPartClass();
 
-    @SuppressWarnings("unchecked")
     /**
      * This is not "self" as forge used that for something in 1.19+
-     * 
-     * @return
      */
+    @SuppressWarnings("unchecked")
     default E weSelf()
     {
         return (E) this;
@@ -254,22 +252,30 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         }
         if (getHolder().holder().parts.length == 0 && getHolder().allParts().isEmpty()) return;
 
-        Matrix3f rot = getHolder().holder().rot;
-        Vector3f r = getHolder().holder().r;
-
         final Vec3 v = weSelf().position();
+        float rotY = weSelf() instanceof LivingEntity e ? e.yBodyRot : weSelf().getYRot();
+
+        // Convert to correct coordinate system and radians
+        rotY = 180 - rotY;
+        rotY *= Math.PI / 180;
+
+        var transform = getHolder().holder().transform;
+        transform.identity();
+        transform.translate((float) v.x(), (float) v.y(), (float) v.z());
+
+        transform.rotateY(rotY);
+
+        Vector3f r = getHolder().holder().r;
         r.set((float) v.x(), (float) v.y(), (float) v.z());
         final Vec3 dr = new Vec3(r.x - weSelf().xOld, r.y - weSelf().yOld, r.z - weSelf().zOld);
-        float rotY = weSelf() instanceof LivingEntity e ? e.yBodyRot : weSelf().getYRot();
-        rot.rotate((float) Math.toRadians(180 - rotY), 0, 1, 0);
         if (weSelf().isAddedToLevel())
         {
-            for (final T p : getHolder().holder().parts) p.update(rot, r, dr);
+            for (final T p : getHolder().holder().parts) p.update(transform, dr);
             if (weSelf().tickCount % 20 == 0) PartSync.sendUpdate(weSelf());
         }
         else
         {
-            for (final T p : getHolder().allParts()) p.update(rot, r, dr);
+            for (final T p : getHolder().allParts()) p.update(transform, dr);
         }
     }
 }

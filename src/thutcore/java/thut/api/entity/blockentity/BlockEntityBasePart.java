@@ -1,8 +1,8 @@
 package thut.api.entity.blockentity;
 
-import thut.api.entity.multipart.GenericPartEntity;
+import thut.api.entity.multipart.BodyPartEntity;
 
-public class BlockEntityBasePart extends GenericPartEntity<BlockEntityBase>
+public class BlockEntityBasePart extends BodyPartEntity<BlockEntityBase>
 {
 
     public BlockEntityBasePart(BlockEntityBase parent, float width, float height, float x, float y, float z, String id)
