@@ -174,6 +174,7 @@ public class Pokeplayer
 
     public static int transformPlayer(IPokemob pokemob, LivingEntity playerEntity)
     {
+        if (playerEntity == null) return 0;
         var copy = ThutCaps.getCopyMob(playerEntity);
         var mob = copy.getCopiedMob();
         var transformedPokemob = PokemobCaps.getPokemobFor(mob);
@@ -233,6 +234,9 @@ public class Pokeplayer
                 }).executes(ctx -> doPokeplayerCommand(StringArgumentType.getString(ctx, "entry_or_none"),
                         ctx.getSource().getEntity()))));
         event.getDispatcher().register(command);
+
+        var revert = Commands.literal("pokeplayerrevert").executes(ctx -> transformPlayer(null, ctx.getSource().getPlayer()));
+        event.getDispatcher().register(revert);
     }
 
     private static void onEvolve(EvolveEvent.Post event)
