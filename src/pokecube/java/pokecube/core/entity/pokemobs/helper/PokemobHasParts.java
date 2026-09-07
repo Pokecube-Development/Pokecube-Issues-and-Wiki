@@ -1,5 +1,6 @@
 package pokecube.core.entity.pokemobs.helper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,10 +25,10 @@ import pokecube.core.PokecubeCore;
 import thut.api.entity.multipart.GenericPartEntity;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.Factory;
-import thut.api.entity.multipart.IMultpart;
+import thut.api.entity.multipart.IBodyPartMulitpart;
 import thut.core.common.network.PartSync;
 
-public abstract class PokemobHasParts extends PokemobCombat implements IMultpart<PokemobPart, PokemobHasParts>
+public abstract class PokemobHasParts extends PokemobCombat implements IBodyPartMulitpart<PokemobPart, PokemobHasParts>
 {
 
     protected GenericPartEntity.Factory<PokemobPart, PokemobHasParts> factory;
@@ -53,7 +54,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         if (parts == null)
         {
             List<PokemobPart> allParts = Lists.newArrayList();
-            Map<String, PokemobPart[]> partMap = Maps.newHashMap();
+            Map<String, List<PokemobPart>> partMap = Maps.newHashMap();
             this.parts = new PartHolder<>(allParts, partMap, new Holder<>());
             this.factory = PokemobPart::new;
         }
@@ -63,9 +64,12 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     @Override
     public boolean isMultipartEntity()
     {
-        if (this.getHolder().getParts() == null) this.initParts();
-        return this.getHolder().getParts().length > 0;
+        if (this.getUseParts() == null) this.initParts();
+        return !this.getUseParts().isEmpty();
     }
+
+    List<PokemobPart> _lastParts;
+    PokemobPart[] cache;
 
     @Override
     public PokemobPart[] getParts()
@@ -73,11 +77,15 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         // This only does something complex if the parts have changed, otherwise
         // it just ensures their locations are synced to us.
         this.checkUpdateParts();
+        List<PokemobPart> parts;
         if (!this.isAddedToLevel())
         {
-            return getHolder().makeAllParts(this.getPartClass());
+            parts = getAllParts();
         }
-        return this.getHolder().getParts();
+        else parts = this.getUseParts();
+        cache = parts == _lastParts ? cache : parts.toArray(new PokemobPart[0]);
+        _lastParts = parts;
+        return cache;
     }
 
     protected void initSizes(final float size)
@@ -87,7 +95,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         // final List<PokemobPart> allParts = this.allParts;
         // We need to here send a packet to sync the IDs of the new parts vs the
         // old parts.
-        for (var part : getHolder().allParts())
+        for (var part : getAllParts())
         {
             part.remove(RemovalReason.DISCARDED);
         }
@@ -109,8 +117,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         float length = entry.getLength() * size;
         float height = entry.getHeight() * size;
 
-        getHolder().holder().colWidth = width;
-        getHolder().holder().colHeight = height;
+        colWidth = width;
+        colHeight = height;
 
         boolean subDivide = height > maxH || width > maxW || length > maxW;
 
@@ -119,18 +127,13 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
 
         if (subDivide)
         {
-            var split = this.splitToParts(width, height, length, 0, 0, 0);
-            var parts = split.toArray(new PokemobPart[0]);
-
-            getHolder().setParts(parts);
-            for (var p : parts) getHolder().allParts().add(p);
-
-            getHolder().holder().colWidth = Math.min(1, maxW);
-            getHolder().holder().colHeight = Math.min(1, maxH);
+            this.trySubDivideParts(width, length, height);
+            colWidth = Math.min(1, maxW);
+            colHeight = Math.min(1, maxH);
         }
         else
         {
-            getHolder().setParts(new PokemobPart[0]);
+            getHolder().setParts(new ArrayList<>());
         }
         if (!getHolder().partMap().containsKey("idle")) getHolder().partMap().put("idle", getHolder().holder().parts);
 
@@ -141,7 +144,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         float maxY = 0;
         float maxZ = 0;
         int n = 0;
-        for (final PokemobPart[] parts : getHolder().partMap().values())
+        for (var parts : getHolder().partMap().values())
             for (final PokemobPart part : parts)
             {
                 n++;
@@ -160,7 +163,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
             length = maxZ - minZ;
         }
 
-        boolean subDivided = getHolder().getParts().length > 0;
+        boolean subDivided = !getUseParts().isEmpty();
 
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
@@ -197,12 +200,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     {
         float size = this.getScale();
         this.initSizes(size);
-    }
-
-    @Override
-    public Class<PokemobPart> getPartClass()
-    {
-        return PokemobPart.class;
     }
 
     @Override
@@ -284,16 +281,19 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
         super.aiStep();
     }
 
+    protected float colWidth = 0;
+    protected float colHeight = 0;
+
     @Override
     public void move(final MoverType typeIn, Vec3 velocity)
     {
-        if (getHolder().holder().parts.length == 0)
+        if (getUseParts().isEmpty())
         {
             super.move(typeIn, velocity);
             return;
         }
         final EntityDimensions backup = this.dimensions;
-        this.dimensions = EntityDimensions.fixed(getHolder().holder().colWidth, getHolder().holder().colHeight);
+        this.dimensions = EntityDimensions.fixed(colWidth, colHeight);
 
         final boolean first = this.firstTick;
         this.firstTick = true;
@@ -346,20 +346,20 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     @Override
     public void updatePartsPos()
     {
-        PokemobPart[] parts = getHolder().holder().parts;
-        IMultpart.super.updatePartsPos();
-        if (parts != getHolder().holder().parts || (parts.length > 0 && lowerList.isEmpty()))
+        var parts = getUseParts();
+        IBodyPartMulitpart.super.updatePartsPos();
+        if (parts != getUseParts() || (!parts.isEmpty() && lowerList.isEmpty()))
         {
             this.upperList.clear();
             this.lowerList.clear();
             float minY = Float.MAX_VALUE;
             float maxY = Float.MIN_VALUE;
-            for (PokemobPart part : getHolder().holder().parts)
+            for (PokemobPart part : getUseParts())
             {
                 minY = Math.min(minY, part.r0.y);
                 maxY = Math.max(maxY, part.r0.y);
             }
-            for (PokemobPart part : getHolder().holder().parts)
+            for (PokemobPart part : getUseParts())
             {
                 if (Math.abs(part.r0.y - minY) < 0.5) this.lowerList.add(part);
                     // Only allow it to be in one list, prioritsing lower, these are

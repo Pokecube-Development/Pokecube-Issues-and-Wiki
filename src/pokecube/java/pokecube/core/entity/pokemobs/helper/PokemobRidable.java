@@ -24,7 +24,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.joml.Vector3f;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
 import thut.api.entity.IMultiplePassengerEntity;
@@ -323,6 +322,8 @@ public abstract class PokemobRidable extends PokemobHasParts
         }
     }
 
+    float last_size = -1;
+
     @Override
     protected void initSizes(final float size)
     {
@@ -336,8 +337,8 @@ public abstract class PokemobRidable extends PokemobHasParts
             c = entry.getLength() * size;
             h = Math.max(a, Math.max(b, c));
         }
-        if (h == getHolder().holder().last_size) return;
-        getHolder().holder().last_size = h;
+        if (h == last_size) return;
+        last_size = h;
         this.init = false;
         this.initSeats();
         super.initSizes(size);

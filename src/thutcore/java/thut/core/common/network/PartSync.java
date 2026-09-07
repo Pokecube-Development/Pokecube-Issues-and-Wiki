@@ -52,7 +52,7 @@ public class PartSync extends BigPacket
     {
         if (!(mob.level() instanceof ServerLevel level)) return null;
         if (!(mob instanceof IMultpart<?, ?> parts)) return null;
-        if (parts.getHolder().allParts().isEmpty()) return null;
+        if (parts.getAllParts().isEmpty()) return null;
 
         FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
         buffer.writeInt(mob.getId());
@@ -60,9 +60,9 @@ public class PartSync extends BigPacket
 
         if (remove)
         {
-            int[] arr = new int[parts.getHolder().allParts().size()];
+            int[] arr = new int[parts.getAllParts().size()];
             int i = 0;
-            for (var part : parts.getHolder().allParts())
+            for (var part : parts.getAllParts())
             {
                 arr[i++] = part.getId();
             }
@@ -71,7 +71,7 @@ public class PartSync extends BigPacket
         }
         else
         {
-            int[] arr = new int[parts.getHolder().getParts().length];
+            int[] arr = new int[parts.getUseParts().size()];
             // Forge manually cleans up the dragonparts more "properly", hence
             // breaking our dynmaic parts. We get around this by manually
             // re-adding
@@ -82,12 +82,12 @@ public class PartSync extends BigPacket
             // Clear out the old parts first.
             for (var part : old)
             {
-                if (part.getParent() == null || part.getParent() == mob || part.getParent().isRemoved())
+                if (part.getParent() == mob || part.getParent().isRemoved())
                     partMap.remove(part.getId());
             }
             for (int i = 0; i < arr.length; i++)
             {
-                PartEntity<?> part = parts.getHolder().getParts()[i];
+                PartEntity<?> part = parts.getUseParts().get(i);
                 arr[i] = part.getId();
                 partMap.put(arr[i], part);
             }
@@ -139,6 +139,7 @@ public class PartSync extends BigPacket
             {
                 list.add(partMap.remove(i));
             }
+            // TODO Remove the parts?
             return;
         }
         Entity mob = EntityProvider.provider.getEntity(world, id);
@@ -150,13 +151,12 @@ public class PartSync extends BigPacket
         // Clear out the old parts first.
         for (var part : old)
         {
-            if (part.getParent() == null || part.getParent() == mob || part.getParent().isRemoved())
+            if (part.getParent() == mob || part.getParent().isRemoved())
                 partMap.remove(part.getId());
         }
-        if (remove) return;
-        for (int i = 0; i < Math.min(parts.getHolder().getParts().length, arr.length); i++)
+        for (int i = 0; i < Math.min(parts.getUseParts().size(), arr.length); i++)
         {
-            PartEntity<?> part = parts.getHolder().getParts()[i];
+            PartEntity<?> part = parts.getUseParts().get(i);
             part.setId(arr[i]);
             partMap.put(arr[i], part);
         }
