@@ -2,14 +2,11 @@ package thut.api.level.terrain;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import thut.core.common.ThutCore;
 
@@ -58,29 +55,6 @@ public class BiomeType
         }
     }
 
-    public static BiomeType merge(final BiomeType typeA, final BiomeType typeB)
-    {
-        final Set<String> noDupes = Sets.newHashSet();
-        if (typeA.subTypes.isEmpty()) noDupes.add(typeA.name);
-        else noDupes.addAll(typeA.subTypes);
-        if (typeB.subTypes.isEmpty()) noDupes.add(typeB.name);
-        else noDupes.addAll(typeB.subTypes);
-        final List<String> names = Lists.newArrayList(noDupes);
-        Collections.sort(names);
-        final BiomeType type = BiomeType.getBiome(names.toString(), true);
-        if (type.subTypes.isEmpty()) type.setSubTypes(names);
-        return type;
-    }
-
-    public static BiomeType remove(final BiomeType container, final BiomeType toRemove)
-    {
-        final List<String> names = Lists.newArrayList(container.subTypes);
-        names.remove(toRemove.name);
-        final BiomeType type = BiomeType.getBiome(names.toString(), true);
-        if (type.subTypes.isEmpty()) type.setSubTypes(names);
-        return type;
-    }
-
     public static ArrayList<BiomeType> values()
     {
         if (ThutCore.proxy.isClientSide())
@@ -110,8 +84,6 @@ public class BiomeType
 
     private boolean save = true;
 
-    private List<String> subTypes = Lists.newArrayList();
-
     private BiomeType(final String name)
     {
         this.name = name;
@@ -124,19 +96,11 @@ public class BiomeType
             BiomeType.typeMap.put(this.id, this);
             BiomeType.typeMapClient.put(this.id, this);
         }
-        // TODO validation test for if name is a list. In this case, we should
-        // populate subTypes from there!
     }
 
     public BiomeType setNoSave()
     {
         this.save = false;
-        return this;
-    }
-
-    private BiomeType setSubTypes(final List<String> names)
-    {
-        this.subTypes = names;
         return this;
     }
 
@@ -161,7 +125,7 @@ public class BiomeType
     public boolean contains(final BiomeType other)
     {
         if (this == BiomeType.ALL) return true;
-        return other == this || this.subTypes.contains(other.name);
+        return other == this;
     }
 
     public boolean anyMatch(final Set<BiomeType> biomes)

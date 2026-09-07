@@ -1,5 +1,6 @@
 package pokecube.api.items;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -18,6 +19,7 @@ import pokecube.api.events.pokemobs.CaptureEvent.Post;
 import pokecube.api.events.pokemobs.CaptureEvent.Pre;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.maths.Vector3;
 
 public interface IPokecube
@@ -58,6 +60,7 @@ public interface IPokecube
     public static abstract class PokecubeBehaviour
     {
         public static Map<ResourceLocation, PokecubeBehaviour> BEHAVIORS = Maps.newHashMap();
+        public static Map<ResourceLocation, Integer> CUBE_NAME_COLOURS = new HashMap<>();
 
         // Whoever registers the default pokecube should set this.
         public static ResourceLocation DEFAULTCUBE = null;
@@ -70,15 +73,23 @@ public interface IPokecube
         public static void addCubeBehavior(final PokecubeBehaviour behaviour)
         {
             BEHAVIORS.put(behaviour.getKey(), behaviour);
+            CUBE_NAME_COLOURS.put(behaviour.getKey(), behaviour.colour);
         }
 
         public String name;
+        public int colour = 0xEEEEEE;
         private ResourceLocation key;
 
         public PokecubeBehaviour setName(String name)
         {
             this.name = name;
             this.key = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, name + "cube");
+            return this;
+        }
+
+        public PokecubeBehaviour colour(int colour)
+        {
+            this.colour = colour;
             return this;
         }
 

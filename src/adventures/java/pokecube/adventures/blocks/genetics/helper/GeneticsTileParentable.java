@@ -16,6 +16,7 @@ import net.neoforged.neoforge.attachment.AttachmentHolder;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
+import pokecube.api.PokecubeAPI;
 
 public abstract class GeneticsTileParentable<TYPE extends GeneticsTileParentable<?>> extends BaseGeneticsTile
 {
@@ -66,7 +67,7 @@ public abstract class GeneticsTileParentable<TYPE extends GeneticsTileParentable
                 }
                 catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
                 {
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.error(e);
                 }
             }
         }
@@ -250,6 +251,13 @@ public abstract class GeneticsTileParentable<TYPE extends GeneticsTileParentable
     }
 
     @Override
+    public int getProgress()
+    {
+        if (this.getParent() != null) return parent.getProgress();
+        else return super.getProgress();
+    }
+
+    @Override
     public boolean canPlaceItem(final int index, final ItemStack stack)
     {
         if (this.getParent() != null) return this.getParent().canPlaceItem(index, stack);
@@ -305,10 +313,10 @@ public abstract class GeneticsTileParentable<TYPE extends GeneticsTileParentable
         return super.receiveEnergy(maxReceive, simulate);
     }
 
-    @Override
     /**
      * We are the multiblock case where only parent should save anything.
      */
+    @Override
     protected boolean saveInv(final BlockState state)
     {
         return this.getParent() == null;

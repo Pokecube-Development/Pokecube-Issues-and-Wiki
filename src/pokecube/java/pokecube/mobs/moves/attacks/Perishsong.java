@@ -1,8 +1,12 @@
 package pokecube.mobs.moves.attacks;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
@@ -24,10 +28,14 @@ public class Perishsong extends Move_Ongoing
     @Override
     public void doOngoingEffect(final LivingEntity user, final IOngoingAffected mob, final IOngoingEffect effect)
     {
-        if (effect.getDuration() == 0) this.damageTarget(mob.getEntity(), user, Integer.MAX_VALUE);
+        var target = mob.getEntity();
+        if (effect.getDuration() == 0) this.damageTarget(target, user, Integer.MAX_VALUE);
         else
         {
-            // TODO perish counter here.
+            target.level().playSound(null, target, SoundEvents.APPLY_EFFECT_BAD_OMEN, SoundSource.HOSTILE,0.5f, 1);
+            if(target instanceof ServerPlayer player){
+                player.sendSystemMessage(Component.translatable("pokecube.perish.song.counter", effect.getDuration()));
+            }
         }
     }
 

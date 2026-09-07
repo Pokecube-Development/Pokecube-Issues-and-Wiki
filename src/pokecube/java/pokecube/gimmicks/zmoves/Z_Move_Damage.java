@@ -17,10 +17,7 @@ public class Z_Move_Damage implements PowerProvider
         if (index >= 0 && index < 4)
         {
             final MoveEntry tmp = user.getSelectedMove();
-            if (tmp != null)
-            {
-                pwr = tmp.power;
-            }
+            pwr = tmp.power;
         }
         if (orig_pwr > 0) return orig_pwr;
         if (pwr < 55) return 100;

@@ -3,6 +3,8 @@ package pokecube.gimmicks.zmoves;
 import com.google.common.collect.Maps;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -114,14 +116,17 @@ public class GZMoveManager
         {
             long tick = Tracker.instance().getTick();
             owner.getPersistentData().putLong("pokecube:used-z-move", tick);
-            pokemob.getEntity().getPersistentData().remove("pokecube:use-z-move");
-
+            // Reset displayed moves back.
             String[] g_z_moves = pokemob.getMoveStats().getMovesToUse();
             for (int i = 0; i < 4; i++)
             {
-                String move = pokemob.getMove(i);
-                String zmove = GZMoveManager.getZMove(pokemob, move);
-                if (zmove != null) g_z_moves[i] = pokemob.getMoveStats().getBaseMoves()[i];
+                g_z_moves[i] = pokemob.getMoveStats().getBaseMoves()[i];
+            }
+            // Sent send packet to say that we reset
+            var mode = new ModeInfo(pokemob, false, StanceHandler.MODE);
+            if (owner instanceof ServerPlayer)
+            {
+                ZMoveModeHandler.HANDLER.accept(mode);
             }
         }
     }
@@ -136,7 +141,22 @@ public class GZMoveManager
             var pokemob = t.pokemob();
             if (pokemob.getEntity().getPersistentData().contains("pokecube:use-z-move"))
                 pokemob.getEntity().getPersistentData().remove("pokecube:use-z-move");
-            else pokemob.getEntity().getPersistentData().putBoolean("pokecube:use-z-move", true);
+            else {
+                // In this case, we validate if we can actually z-move, if not, return early.
+                final ZPower checker = ZPower.get(pokemob.getEntity());
+                if(checker._onZCooldown(pokemob))
+                {
+                    // Needs to make a notification that you can't z-move
+                    var owner = pokemob.getOwner();
+                    if (owner instanceof ServerPlayer player)
+                    {
+                        player.playNotifySound(SoundEvents.NOTE_BLOCK_SNARE.value(), SoundSource.PLAYERS,
+                                0.5f, 1);
+                    }
+                    return;
+                }
+                pokemob.getEntity().getPersistentData().putBoolean("pokecube:use-z-move", true);
+            }
 
             CompoundTag nbt = new CompoundTag();
             nbt.putBoolean("M", pokemob.getEntity().getPersistentData().contains("pokecube:use-z-move"));
@@ -153,7 +173,7 @@ public class GZMoveManager
         @Override
         public void read(CompoundTag nbt, ServerPlayer player)
         {
-            Level level = null;
+            Level level;
             // This case, it was sent from server to client, an update packet!
             if (player == null)
             {

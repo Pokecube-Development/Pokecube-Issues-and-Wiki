@@ -114,9 +114,7 @@ public class ManageOutMob extends BaseBattleTask
 
     private boolean considerSwapPokemob(LivingEntity living)
     {
-        // TODO check if the target pokemob is bad matchup, consider swapping to
-        // better choice.
-
+        // TODO check if the target pokemob is bad matchup, consider swapping to better choice.
         // check if can mega evolve
         final IPokemob out = this.getTrainer(living).getOutMob();
         if (this.getTrainer(living).canMegaEvolve() && out != null)

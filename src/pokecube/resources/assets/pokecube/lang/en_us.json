@@ -1024,5 +1024,7 @@
 
     "_comment": "Misc",
 
-    "biome.pokecube.secret_base": "Secret Base"
+    "biome.pokecube.secret_base": "Secret Base",
+    "pokecube.healer.placed.delay": "The pokecenter is still setting up, please wait.",
+    "pokecube.perish.song.counter": "§cYour perish counter has fallen to %1$s!"
 }

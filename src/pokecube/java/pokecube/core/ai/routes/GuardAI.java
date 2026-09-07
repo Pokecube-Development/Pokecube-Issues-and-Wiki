@@ -100,8 +100,6 @@ public class GuardAI extends Goal
             PokecubeAPI.LOGGER.error("No guard cap for {}", this.entity);
             return false;
         }
-        // TODO find some way to determine actual length of day
-        // for things like AR support.
         if (null == this.entity || !this.entity.isAlive() || !this.capability.hasActiveTask(this.entity.level()
                 .getDayTime(), 24000)) return false;
         final IGuardTask task = this.capability.getActiveTask();

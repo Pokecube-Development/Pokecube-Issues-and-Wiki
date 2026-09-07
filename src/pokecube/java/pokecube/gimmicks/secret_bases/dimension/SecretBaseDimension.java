@@ -5,8 +5,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.core.SectionPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -28,19 +26,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
-import net.minecraft.world.phys.AABB;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.event.entity.EntityEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.core.PokecubeCore;
-import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.entity.teleporting.TeleDest;
@@ -51,7 +37,6 @@ import thut.lib.RegHelper;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 
 public class SecretBaseDimension
 {
@@ -93,7 +78,7 @@ public class SecretBaseDimension
                 GlobalPos old;
                 try
                 {
-                    old = GlobalPos.CODEC.decode(NbtOps.INSTANCE, exito).result().get().getFirst();
+                    old = GlobalPos.CODEC.decode(NbtOps.INSTANCE, exito).result().orElseThrow().getFirst();
                 }
                 catch (final Exception e)
                 {
@@ -151,7 +136,7 @@ public class SecretBaseDimension
             final CompoundTag exit = tag.getCompound("secret_base_exit");
             try
             {
-                return GlobalPos.CODEC.decode(NbtOps.INSTANCE, exit).result().get().getFirst();
+                return GlobalPos.CODEC.decode(NbtOps.INSTANCE, exit).result().orElseThrow().getFirst();
             }
             catch (final Exception e)
             {
@@ -163,8 +148,9 @@ public class SecretBaseDimension
 
     public static class SecretChunkGenerator extends ChunkGenerator
     {
-        public static final MapCodec<SecretChunkGenerator> CODEC = RecordCodecBuilder.mapCodec((builder) -> builder.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter(m -> m.biomeSource))
-                .apply(builder, SecretChunkGenerator::new));
+        public static final MapCodec<SecretChunkGenerator> CODEC = RecordCodecBuilder.mapCodec(
+                (builder) -> builder.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter(m -> m.biomeSource))
+                        .apply(builder, SecretChunkGenerator::new));
 
         BlockState[] states = new BlockState[256];
 
@@ -181,14 +167,14 @@ public class SecretBaseDimension
 
         @Override
         public int getBaseHeight(final int x, final int z, final Types heightmapType,
-                final LevelHeightAccessor p_156156_, RandomState p_223211_)
+                final LevelHeightAccessor height, RandomState random)
         {
             return 64;
         }
 
         @Override
-        public NoiseColumn getBaseColumn(final int x, final int z, final LevelHeightAccessor p_156152_,
-                RandomState p_223211_)
+        public NoiseColumn getBaseColumn(final int x, final int z, final LevelHeightAccessor height,
+                RandomState random)
         {
             return new NoiseColumn(0, this.states);
         }
@@ -222,7 +208,6 @@ public class SecretBaseDimension
         @Override
         public void addDebugScreenInfo(List<String> info, RandomState rng, BlockPos pos)
         {
-            // TODO include owner of secret base?
         }
 
         @Override
@@ -242,15 +227,12 @@ public class SecretBaseDimension
                             false);
                     if (stone) for (int j = 57; j < 64; j++)
                     {
-                        state = j < 64 && j > 57 && k > 3 && k < 12 && i > 3 && i < 12
+                        state = j > 57 && k > 3 && k < 12 && i > 3 && i < 12
                                 ? Blocks.STONE.defaultBlockState()
                                 : Blocks.AIR.defaultBlockState();
                         chunk.setBlockState(blockpos$mutableblockpos.set(i, j, k), state, false);
-                        if (j < 64)
-                        {
-                            heightmap.update(i, j, k, state);
-                            heightmap1.update(i, j, k, state);
-                        }
+                        heightmap.update(i, j, k, state);
+                        heightmap1.update(i, j, k, state);
                     }
                 }
             return CompletableFuture.completedFuture(chunk);

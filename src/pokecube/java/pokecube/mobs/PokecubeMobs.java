@@ -273,10 +273,10 @@ public class PokecubeMobs
         final PokecubeHelper helper = new PokecubeHelper();
         PokecubeBehaviour.DEFAULTCUBE = ResourceLocation.fromNamespaceAndPath("pokecube", "pokecube");
 
-        event.register(new NormalPokecubeBehaviour(1).setName("poke"));
-        event.register(new NormalPokecubeBehaviour(1.5).setName("great"));
-        event.register(new NormalPokecubeBehaviour(2).setName("ultra"));
-        event.register(new NormalPokecubeBehaviour(255).setName("master"));
+        event.register(new NormalPokecubeBehaviour(1).setName("poke").colour(0xEE0000));
+        event.register(new NormalPokecubeBehaviour(1.5).setName("great").colour(0x0B90CE));
+        event.register(new NormalPokecubeBehaviour(2).setName("ultra").colour(0xDCA937));
+        event.register(new NormalPokecubeBehaviour(255).setName("master").colour(0x5B53AC));
         event.register(new DefaultPokecubeBehaviour()
         {
             @Override

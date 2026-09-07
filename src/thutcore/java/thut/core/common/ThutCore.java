@@ -91,19 +91,6 @@ public class ThutCore
     // generic minecraft events.)
     public static class MobEvents
     {
-        //        private static final ResourceLocation CAPID = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID,
-        //                "inventory");
-        //
-        //        @SubscribeEvent
-        //        public static void onMobCapabilityAttach(final NewRegistryEvent event)
-        //        {
-        //          // TODO fixme
-        //        	event.registerEntity(null, null, null);
-        //            if (event.getCapabilities().containsKey(MobEvents.CAPID)) return;
-        //            if (!(event.getObject() instanceof IBlockEntity)) return;
-        //            event.addCapability(MobEvents.CAPID, new BlockEntityInventory((IBlockEntity) event.getObject()));
-        //        }
-
         public static EntityHitResult rayTraceEntities(final Entity shooter, final Vec3 startVec, final Vec3 endVec,
                 final AABB boundingBox, final Predicate<Entity> filter, final double distance)
         {
@@ -355,7 +342,7 @@ public class ThutCore
                 // TODO regex for {} instead to support number formatting like
                 // {:.2f}
                 if (o instanceof Component c) o = c.getString();
-                key = key.replaceFirst("\\{\\}", o == null ? "null" : o.toString());
+                key = key.replaceFirst("\\{}", o == null ? "null" : o.toString());
             }
             logger.accept(key);
         }

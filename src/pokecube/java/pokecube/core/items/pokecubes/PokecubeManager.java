@@ -3,6 +3,8 @@ package pokecube.core.items.pokecubes;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +23,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import thut.api.entity.genetics.GeneHolder;
+import thut.api.item.ItemList;
 import thut.core.common.genetics.DefaultGenetics;
 
 import java.util.UUID;
@@ -187,9 +190,8 @@ public class PokecubeManager
         itemStack = itemStack.copy();
         PokecubeManager.addToCube(itemStack, pokemob.getEntity());
         itemStack.setCount(1);
-        PokecubeManager.setColor(itemStack);
         var statusIns = StatusEffects.getStatusEffect(pokemob.getEntity());
-        Component name = pokemob.getDisplayName();
+        var name = pokemob.getDisplayName();
         if (statusIns != null)
         {
             var status = statusIns.getEffect();
@@ -199,36 +201,19 @@ public class PokecubeManager
             else if (status == StatusEffects.SLEEP) name = Component.translatableEscape("pokecube.filled.slp", name);
             else if (status == StatusEffects.POISON) name = Component.translatableEscape("pokecube.filled.psn", name);
         }
-        itemStack.set(DataComponents.ITEM_NAME, name);
+        setColouredName(itemStack, name);
         return itemStack;
     }
 
-    public static void setColor(final ItemStack itemStack)
+    public static void setColouredName(final ItemStack itemStack, MutableComponent name)
     {
-        // TODO tooltip colour
-        //        int color = 0xEEEEEE;
-        //
-        //        final ResourceLocation id = PokecubeItems.getCubeId(itemStack);
-        //
-        //        if (ItemList.is(PokecubeItems.POKEMOBEGG, itemStack)) color = 0x78C848;
-        //        else if (id != null) if (id.getPath().equals("poke")) color = 0xEE0000;
-        //        else if (id.getPath().equals("great")) color = 0x0B90CE;
-        //        else if (id.getPath().equals("ultra")) color = 0xDCA937;
-        //        else if (id.getPath().equals("master")) color = 0x332F6A;
-        //
-        //        CompoundTag var3 = itemStack.getTag();
-        //
-        //        if (var3 == null)
-        //        {
-        //            var3 = new CompoundTag();
-        //            itemStack.setTag(var3);
-        //        }
-        //
-        //        final CompoundTag var4 = var3.getCompound("display");
-        //
-        //        if (!var3.contains("display")) var3.put("display", var4);
-        //
-        //        var4.putInt("cubecolor", color);
+        int colour = 0xEEEEEE;
+        var id = PokecubeItems.getCubeId(itemStack);
+        if (ItemList.is(PokecubeItems.POKEMOBEGG, itemStack)) colour = 0x78C848;
+        else if (id != null) colour = PokecubeBehaviour.CUBE_NAME_COLOURS.getOrDefault(id, 0xEEEEEE);
+        // Copy the tag so that it doesn't replace the mob's actual name
+        name = name.copy().setStyle(name.getStyle().withColor(TextColor.fromRgb(colour)));
+        itemStack.set(DataComponents.ITEM_NAME, name);
     }
 
     public static void setTilt(final ItemStack stack, final int number, Level level)

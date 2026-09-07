@@ -43,7 +43,6 @@ import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -747,7 +746,6 @@ public class PokemobEventsHandler
 
     private static void onBreakSpeed(final PlayerEvent.BreakSpeed evt)
     {
-        // TODO see if this is still needed, or instead should use attributes. See Player.getDigSpeed
         Entity mount = evt.getEntity().getVehicle();
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mount);
         if (pokemob == null) return;
@@ -756,7 +754,7 @@ public class PokemobEventsHandler
         boolean inAir = !evt.getEntity().onGround();
 
         if (inWater && pokemob.canUseDive())
-        {
+        { // This could be moved to a Attributes.SUBMERGED_MINING_SPEED, but the air below cannot...
             evt.setNewSpeed(evt.getNewSpeed() * 5);
         }
         if (inAir && pokemob.canUseFly())

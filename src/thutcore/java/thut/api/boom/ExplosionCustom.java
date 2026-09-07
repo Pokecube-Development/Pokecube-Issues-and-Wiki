@@ -224,7 +224,6 @@ public class ExplosionCustom extends Explosion
 
     public ExplosionCustom(final ServerLevel world, final Entity par2Entity, final Vector3 center, final float power)
     {
-        // TODO replace the 2 nulls here with damage source and context!
         super(world, par2Entity, center.x, center.y, center.z, power, false, BlockInteraction.DESTROY);
         this.level = world;
         this.exploder = par2Entity;

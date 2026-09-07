@@ -878,9 +878,6 @@ public class Config extends ConfigData
 
         this.berryStackScale = Math.max(1, this.berryStackScale);
 
-        // TODO Init secret bases resizing
-        // DimensionSecretBase.init(baseSizeFunction);
-
         SpawnBiomeMatcher.SOFTBLACKLIST.clear();
         for (final String name : this.softSpawnBiomeBlacklist)
         {

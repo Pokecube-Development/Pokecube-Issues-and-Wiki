@@ -36,6 +36,7 @@ import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import thut.api.ThutCaps;
 import thut.api.block.ITickTile;
 import thut.api.inventory.InvWrapper;
+import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
 import java.util.HashSet;
@@ -126,13 +127,14 @@ public class NestTile extends InteractableTile implements ITickTile
     public void addResident(final IPokemob resident)
     {
         this.residents.add(resident);
-        // TODO also decide on setting a home pos and distance to the resident here.
         final IInhabitable hab = this.getWrappedHab();
         if (resident.getEntity().getBrain().checkMemory(MemoryModules.NEST_POS.get(), MemoryStatus.REGISTERED))
         {
             resident.getEntity().getBrain()
                     .setMemory(MemoryModules.NEST_POS.get(), GlobalPos.of(level.dimension(), getBlockPos()));
         }
+        var v1 = new Vector3(this);
+        resident.setHome(v1.intX(), v1.intY(), v1.intZ(), 16);
         if (hab != null) hab.addResident(resident.getEntity());
     }
 

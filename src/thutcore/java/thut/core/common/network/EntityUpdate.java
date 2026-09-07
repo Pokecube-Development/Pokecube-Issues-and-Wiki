@@ -1,6 +1,5 @@
 package thut.core.common.network;
 
-import java.lang.reflect.Method;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -28,22 +27,7 @@ public class EntityUpdate extends NBTPacket
 
     public static final ResourceLocation NOREAD = ResourceLocation.fromNamespaceAndPath(ThutCore.MODID, "additional_only_server");
 
-    private static Set<EntityType<?>> errorSet = Sets.newHashSet();
-
-    public static Method GETMOBCAPS;
-
-    static
-    {
-        try
-        {
-//            EntityUpdate.GETMOBCAPS = CapabilityProvider.class.getDeclaredMethod("getCapabilities");
-//            EntityUpdate.GETMOBCAPS.setAccessible(true);
-        }
-        catch (final Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
+    private static final Set<EntityType<?>> errorSet = Sets.newHashSet();
 
     public static final PacketAssembly<EntityUpdate> ASSEMBLER = PacketAssembly.registerAssembler(EntityUpdate.class,
             EntityUpdate::new, ThutCore.packets);
@@ -76,7 +60,7 @@ public class EntityUpdate extends NBTPacket
         {
             // If we got to here then it means the above mob needs to be added
             // to the tag!
-            ThutCore.LOGGER.error("Error loading " + RegHelper.getKey(mob)+ " on client side!");
+            ThutCore.LOGGER.error("Error loading {} on client side!", RegHelper.getKey(mob));
             EntityUpdate.errorSet.add(mob.getType());
         }
 
@@ -93,18 +77,6 @@ public class EntityUpdate extends NBTPacket
             {
                 ThutCore.LOGGER.warn("Failed to parse entity custom name {}", s, exception);
             }
-        }
-        // Then try the capabilities
-        if (tag.contains("ForgeCaps", 10)) try
-        {
-            // TODO sync caps?
-//            final CapabilityDispatcher disp = (CapabilityDispatcher) EntityUpdate.GETMOBCAPS.invoke(mob);
-//            if (disp != null) disp.deserializeNBT(tag.getCompound("ForgeCaps"));
-        }
-        catch (final Exception e)
-        {
-            ThutCore.LOGGER.error("Error Loading Caps for: {}", RegHelper.getKey(mob));
-            ThutCore.LOGGER.error(e);
         }
         mob.refreshDimensions();
 
@@ -125,7 +97,7 @@ public class EntityUpdate extends NBTPacket
         if (mob != null) EntityUpdate.readMob(mob, this.getTag().getCompound("tag"));
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("thutcore:entity_sync"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("thutcore:entity_sync"));
 	@Override
 	public Type<? extends CustomPacketPayload> type() {
 		return TYPE;

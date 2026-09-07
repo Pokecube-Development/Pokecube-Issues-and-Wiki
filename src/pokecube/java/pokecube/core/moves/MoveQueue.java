@@ -70,7 +70,7 @@ public class MoveQueue
         }
     }
 
-    public List<EntityMoveUse> moves = Lists.newArrayList();
+    public final List<EntityMoveUse> moves = Lists.newArrayList();
     final LevelAccessor world;
 
     public MoveQueue(final LevelAccessor iWorld)
@@ -82,7 +82,7 @@ public class MoveQueue
     {
         synchronized (this.moves)
         {
-            Collections.sort(this.moves, (o1, o2) -> {
+            this.moves.sort((o1, o2) -> {
                 final IPokemob user1 = PokemobCaps.getPokemobFor(o1.getUser());
                 final IPokemob user2 = PokemobCaps.getPokemobFor(o2.getUser());
                 final int speed1 = user1 == null ? 0 : user1.getStat(Stats.VIT, true);
