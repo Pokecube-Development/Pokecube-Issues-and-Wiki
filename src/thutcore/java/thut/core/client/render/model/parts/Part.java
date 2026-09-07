@@ -392,13 +392,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         if (this.isDisabled()) return;
         // TODO render adders for new rendering setup
-        Material.startRender();
+        MaterialRenderable.startRender();
         for (var adder : this.renderAdders) adder.onRender(mat, this);
         for (final Mesh s : this.renderShapes)
         {
             s.cullScale = ds / ds2;
             // Render each Shape
-            s.setPose(mat);
+            s.poseInfo.set(mat.last());
             s.renderShape(buffer);
         }
     }
@@ -662,7 +662,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 var matOpt = materials.stream().filter(m1->old.compareTo(m1)==0).findFirst();
                 var mat = matOpt.orElse(old);
                 shape.material = mat;
-                shape.renderMaterial = mat;
                 if (this.matcache.add(mat))
                 {
                     this.materials.add(mat);

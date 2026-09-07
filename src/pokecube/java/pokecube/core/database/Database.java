@@ -84,7 +84,7 @@ public class Database
     public static class XMLStarterItems
     {
         @XmlElement(name = "Item")
-        private final List<JsonElement> drops = Lists.newArrayList();
+        public List<JsonElement> drops = Lists.newArrayList();
     }
 
     public static class ReloadListener implements PreparableReloadListener
@@ -96,23 +96,20 @@ public class Database
                 final ResourceManager resourceManager, final ProfilerFiller preparationsProfiler,
                 final ProfilerFiller reloadProfiler, final Executor backgroundExecutor, final Executor gameExecutor)
         {
-            return CompletableFuture.supplyAsync(() ->
-                    this.prepare(resourceManager, preparationsProfiler), backgroundExecutor)
-                    .thenCompose(stage::wait).thenAcceptAsync((object) -> {
-                this.apply(object, resourceManager, reloadProfiler);
-            }, gameExecutor);
+            return CompletableFuture.supplyAsync(this::prepare,
+                            backgroundExecutor).thenCompose(stage::wait)
+                    .thenAcceptAsync((object) -> this.apply(resourceManager), gameExecutor);
         }
 
         /**
          * Performs any reloading that can be done off-thread, such as file IO
          */
-        protected Object prepare(final ResourceManager resourceManagerIn, final ProfilerFiller profilerIn)
+        protected Object prepare()
         {
             return null;
         }
 
-        protected void apply(final Object objectIn, final ResourceManager resourceManagerIn,
-                final ProfilerFiller profilerIn)
+        protected void apply(final ResourceManager resourceManagerIn)
         {
             Database.listener.loaded = needs_reload = true;
             Database.listener.add(resourceManagerIn);
@@ -161,6 +158,8 @@ public class Database
         return diff;
     };
 
+    public static ReloadableResourceManager resourceManager = new ReloadableResourceManager(PackType.SERVER_DATA);
+
     // Init some stuff for the missignno entry.
     static
     {
@@ -170,11 +169,11 @@ public class Database
         Database.missingno.mobType = 15;
         Database.missingno.evolutionMode = 0;
         Database.addEntry(Database.missingno);
+
+        ResourceHelper.RESOURCE_FALLBACK = () -> Database.resourceManager;
     }
 
     static int lastCount = -1;
-
-    public static ReloadableResourceManager resourceManager = new ReloadableResourceManager(PackType.SERVER_DATA);
 
     public static PokedexEntry[] starters = {};
 
@@ -247,18 +246,14 @@ public class Database
 
 
     public static PokedexEntry checkEntryExists(String name){
-        final PokedexEntry ret = null;
         if (name == null) return null;
         name = ThutCore.trim(name);
         if (name.trim().isEmpty()) return null;
-        final PokedexEntry test = Database.data2.get(name);
-        if (test != null) return test;
-        return ret;
+        return Database.data2.get(name);
     }
 
     public static PokedexEntry getEntry(String name)
     {
-        final PokedexEntry ret = null;
         if (name == null) return null;
         name = ThutCore.trim(name);
         if (name.trim().isEmpty()) return null;
@@ -279,7 +274,7 @@ public class Database
         }
         if (ThutCore.trim(name).contains("mega_"))
             return Database.getEntry((ThutCore.trim(name).replace("mega_", "") + "_mega").trim());
-        return ret;
+        return null;
     }
 
     public static List<PokedexEntry> getFormes(final int number)
@@ -459,7 +454,7 @@ public class Database
             {
                 e.type1 = PokeType.unknown;
                 if (e.getPokedexNb() > 0)
-                    PokecubeAPI.LOGGER.error("Error with typing for " + e + " " + e.getType2());
+                    PokecubeAPI.LOGGER.error("Error with typing for {} {}", e, e.getType2());
             }
             if (e.getType2() == null) e.type2 = PokeType.unknown;
             if (e.dummy) dummies++;
@@ -570,10 +565,10 @@ public class Database
         /* Remove the non-registered entries found earlier */
         for (final PokedexEntry p : toRemove)
         {
+            if (p == Database.getEntry(p.pokedexNb) && p.dummy)
+                PokecubeAPI.logInfo("Error with " + p + ", It is still listed as base forme, as well as being dummy.");
             if (p == Database.getEntry(p.pokedexNb) && !p.dummy)
             {
-                if (p.dummy) PokecubeAPI.logInfo(
-                        "Error with " + p + ", It is still listed as base forme, as well as being dummy.");
                 Database.data.remove(p.pokedexNb);
                 Database.baseFormes.remove(p.pokedexNb);
                 Database.formLists.remove(p.pokedexNb);

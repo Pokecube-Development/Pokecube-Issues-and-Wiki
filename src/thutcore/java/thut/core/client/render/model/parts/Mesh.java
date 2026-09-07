@@ -7,25 +7,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-
-import net.minecraft.util.FastColor;
-import pokecube.api.PokecubeAPI;
 import thut.core.client.render.model.IModelCustom;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 
 public class Mesh implements Comparable<Mesh>
 {
+    public static interface MeshFactory
+    {
+        Mesh create(Integer[] order, Vector3f[] vert, Vector3f[] norm, Vector2f[] tex, int GL_FORMAT);
+    }
+
+    public static interface MeshMergeFactory
+    {
+        Mesh create(Vector3f[] vert, Vector3f[] norm, Vector3f[] normList, Vector2f[] tex, int GL_FORMAT,
+                Object material);
+    }
+
+    public static MeshFactory MESH_FACTORY = Mesh::new;
+    public static MeshMergeFactory MERGE_FACTORY = Mesh::new;
+
     public static boolean debug = false;
 
     public static float windowScale = 1;
@@ -57,7 +63,7 @@ public class Mesh implements Comparable<Mesh>
                 normsList.addAll(Arrays.stream(mesh.normalList).toList());
                 texs.addAll(Arrays.stream(mesh.textureCoordinates).toList());
             }
-            var mesh = new Mesh(verts.toArray(new Vector3f[0]),
+            var mesh = MERGE_FACTORY.create(verts.toArray(new Vector3f[0]),
                     norms.toArray(new Vector3f[0]),normsList.toArray(new Vector3f[0]),
                     texs.toArray(new Vector2f[0]), format, first.material);
             mesh.poseInfo = first.poseInfo;
@@ -83,18 +89,13 @@ public class Mesh implements Comparable<Mesh>
      * it is whatever results from the model loading set of code.
      */
     public Material material;
-    /**
-     * This is the material to be used in the next render pass,
-     * it will be reset to material after being rendered.
-     */
-    public Material renderMaterial;
     public String name;
     public boolean overrideColour = false;
     public boolean hidden = false;
     public boolean is2D = false;
-    private final double[] uvShift =
+    protected final double[] uvShift =
     { 0, 0 };
-    final int GL_FORMAT;
+    public final int GL_FORMAT;
     /**
      * Face normals,computed from render order itself.
      */
@@ -104,9 +105,7 @@ public class Mesh implements Comparable<Mesh>
 
     public int[] rgbabro = new int[6];
 
-    private boolean same_mat = false;
-
-    public final Mode vertexMode;
+    protected boolean same_mat = false;
 
     Vector3f min = new Vector3f();
     Vector3f max = new Vector3f();
@@ -130,15 +129,13 @@ public class Mesh implements Comparable<Mesh>
         }
     }
 
-    private Mesh(final Vector3f[] vert, final Vector3f[] norm, final Vector3f[] normList, final Vector2f[] tex,
-            final int GL_FORMAT, Material material){
+    protected Mesh(final Vector3f[] vert, final Vector3f[] norm, final Vector3f[] normList, final Vector2f[] tex,
+            final int GL_FORMAT, Object material){
         this.vertices= vert;
         this.normals = norm;
         this.normalList = normList;
         this.textureCoordinates = tex;
         this.GL_FORMAT = GL_FORMAT;
-        vertexMode = GL_FORMAT == TRIANGLE_FMT ? Mode.TRIANGLES : Mode.QUADS;
-        this.material = this.renderMaterial = material;
         initStats();
     }
 
@@ -158,8 +155,6 @@ public class Mesh implements Comparable<Mesh>
         Vector3f vertex;
         Vector3f normal;
         int iter = GL_FORMAT == TRIANGLE_FMT ? 3 : 4;
-
-        vertexMode = GL_FORMAT == TRIANGLE_FMT ? Mode.TRIANGLES : Mode.QUADS;
 
         final Vector3f a = new Vector3f(),b = new Vector3f(),c = new Vector3f();
 
@@ -219,18 +214,11 @@ public class Mesh implements Comparable<Mesh>
         this.textureCoordinates = _tex.toArray(new Vector2f[0]);
 
         initStats();
-
-        // Initialize a "default" material for us
-        this.material = this.renderMaterial = new Material("auto:" + this.name);
-        this.material.vertexMode = this.vertexMode;
     }
-
-    private final Vector3f dn = new Vector3f();
-    private final Vector4f dp = new Vector4f();
-    private final Vector2f texdR = new Vector2f(), texdS = new Vector2f(), texUV =new Vector2f();
 
     private void initStats()
     {
+        Vector3f dn = new Vector3f();
         dn.set(normalList[0]);
         double epsD = 1e-10;
         is2D = true;
@@ -254,155 +242,30 @@ public class Mesh implements Comparable<Mesh>
         len = (float) Math.sqrt(_len.dot(_len));
     }
 
-    protected final void doRender(Vector3f[] normals, Matrix3f norms, Matrix4f pos, int argb, int overlayUV, int lightmapUV, VertexConsumer buffer)
+    @OnlyIn(Dist.CLIENT)
+    public void renderShape(com.mojang.blaze3d.vertex.VertexConsumer buffer)
     {
-        // Hopefully the JIT sees what goes on here and optimises it...
-        for(int i = 0; i<vertices.length; i++)
-        {
-            // Compute transformed normal
-            normals[i].mul(norms, dn);
-            // Then the vertex
-            dp.set(vertices[i], 1);
-            dp.mul(pos);
-            // Then the texture
-            texdR.fma(textureCoordinates[i], texdS, texUV);
-            // We use the default mob format, since that is what mobs use.
-            // This means we need these in this order!
-            buffer.addVertex(
-            //@formatter:off
-                dp.x, dp.y, dp.z,
-                argb,
-                texUV.x, texUV.y,
-                overlayUV, lightmapUV,
-                dn.x, dn.y, dn.z);
-            //@formatter:on
-        }
-    }
 
-    public void setPose(PoseStack mat)
-    {
-        poseInfo.set(mat.last());
-    }
-
-    public void renderShape(VertexConsumer buffer)
-    {
-        render:
-        if(!hidden)
-        {
-            // Check culling
-            if (modelCullThreshold > 0)
-            {
-                Matrix4f pos = poseInfo.pose();
-                float a = windowScale;
-                float s = len * cullScale;
-
-                dp.set(s, s, s, 0);
-                dp.mul(pos);
-                dp.mul(a);
-                double dr2_us = dp.dot(dp);
-
-                dp.set(0, 0, 0, 1);
-                dp.mul(pos);
-                double dr2_2 = dp.dot(dp);
-
-                boolean size_cull = modelCullThreshold * dr2_2 >= dr2_us;
-
-                if (size_cull) break render;
-            }
-
-            float du = (float) this.uvShift[0], dv = (float) this.uvShift[1];
-            float su = 1, sv = 1;
-
-            // Apply Texturing.
-            var texturer = texChangeHolder.get();
-            if (texturer != null)
-            {
-                texturer.shiftUVs(this.renderMaterial.name, this.uvShift);
-                if (texturer.isHidden(this.renderMaterial.name)) break render;
-                if (!same_mat && texturer.isHidden(this.name)) break render;
-                texturer.modifiyRGBA(this.renderMaterial.name, rgbabro);
-                if (!same_mat) texturer.modifiyRGBA(this.name, rgbabro);
-
-                var texture = this.renderMaterial.getTexture();
-                if (texture != null && (du != 0 || dv != 0))
-                {
-                    float[] ouv = texture.getTexOffset();
-                    float[] suv = texture.getTexScale();
-                    du += ouv[0];
-                    dv += ouv[1];
-
-                    su *= suv[0];
-                    sv *= suv[1];
-                }
-            }
-
-            // Apply material effects
-            if (this.renderMaterial.emissiveMagnitude > 0)
-            {
-                final int j = (int) (this.renderMaterial.emissiveMagnitude * 15);
-                rgbabro[4] = j << 20 | j << 4;
-            }
-            texdR.set(du, dv);
-            texdS.set(su, sv);
-
-            // Find buffer to render to, this is presently most expensive part here...
-            buffer = this.renderMaterial.preRender(buffer, this.vertexMode);
-
-            // Update colouring as needed
-            int red = this.rgbabro[0];
-            int green = this.rgbabro[1];
-            int blue = this.rgbabro[2];
-            int alpha = (int) (this.renderMaterial.alpha * this.rgbabro[3]);
-            int lightmapUV = this.rgbabro[4];
-            int overlayUV = this.rgbabro[5];
-            int argb;
-            if (Material.HAS_IRIS && material.isShadow)
-            {
-                argb = Material.SHADOW_ARGB;
-                lightmapUV = overlayUV = 0;
-            }
-            else argb = FastColor.ARGB32.color(alpha, red, green, blue);
-
-            final boolean flat = this.material.flat;
-            Vector3f[] normals = flat ? this.normalList : this.normals;
-            final Matrix3f norms = poseInfo.normal();
-            final Matrix4f pos = poseInfo.pose();
-            // Finally render, this should be JIT Compiler friendly
-            doRender(normals, norms, pos, argb, overlayUV, lightmapUV, buffer);
-        }
-        this.renderMaterial = this.material;
     }
 
     public void setMaterial(final Material material)
     {
-        this.material = this.renderMaterial = material;
+        this.material = material;
         this.name = material.name;
         same_mat = true;
     }
 
-    public Material getRenderMaterial()
+    @OnlyIn(Dist.CLIENT)
+    protected MaterialRenderable materialRenderable;
+    @OnlyIn(Dist.CLIENT)
+    public MaterialRenderable getRenderMaterial()
     {
-        return this.renderMaterial;
-    }
-
-    public void setRenderMaterial(Material material)
-    {
-        if(material.vertexMode!=this.material.vertexMode)
-        {
-            PokecubeAPI.LOGGER.error("Warning, material mode miss-match, cancelling set");
-            material = this.material;
-        }
-        this.renderMaterial = material;
+        return this.materialRenderable;
     }
 
     @Override
-    public int compareTo(@NotNull Mesh o)
+    public int compareTo(Mesh o)
     {
-        // Compares by material, ignores edited flag check
-        boolean editO = this.renderMaterial.edited;
-        this.renderMaterial.edited = o.renderMaterial.edited;
-        int comp = this.renderMaterial.compareTo(o.renderMaterial);
-        this.renderMaterial.edited = editO;
-        return comp;
+        return this.name.compareTo(o.name);
     }
 }

@@ -56,7 +56,6 @@ public class BBModelPart extends Part
             }
         }
         BBModelPart root = make(t, allShapes, nextName(names, group), group, -1, parentOffsets);
-        root.markAsAnimated(); // TODO instead check if this is the case
         ours.add(root);
         parts.add(root);
         // then handle groups
@@ -158,10 +157,10 @@ public class BBModelPart extends Part
             List<Object> order = lists.get(0);
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
-            Mesh m = new Mesh(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]), null,
+            Mesh m = Mesh.MESH_FACTORY.create(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]), null,
                     tex.toArray(new Vector2f[0]), Mesh.QUAD_FMT);
             m.name = ThutCore.trim(key);
-            Material mat = mats.getOrDefault(m.name, new Material(m.name));
+            Material mat = mats.getOrDefault(m.name, Material.create(m.name));
             mat.expectedTexH = t.resolution.height;
             mat.expectedTexW = t.resolution.width;
             mats.put(m.name, mat);
@@ -175,10 +174,10 @@ public class BBModelPart extends Part
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
 
-            Mesh m = new Mesh(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]), null,
+            Mesh m = Mesh.MESH_FACTORY.create(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]), null,
                     tex.toArray(new Vector2f[0]), Mesh.TRIANGLE_FMT);
             m.name = ThutCore.trim(key);
-            Material mat = mats.getOrDefault(m.name, new Material(m.name));
+            Material mat = mats.getOrDefault(m.name, Material.create(m.name));
             mat.expectedTexH = t.resolution.height;
             mat.expectedTexW = t.resolution.width;
             mats.put(m.name, mat);

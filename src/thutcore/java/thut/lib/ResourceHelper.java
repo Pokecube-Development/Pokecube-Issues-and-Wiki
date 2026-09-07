@@ -3,19 +3,25 @@ package thut.lib;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 public class ResourceHelper
 {
+    public static Supplier<ResourceManager> RESOURCE_SOURCE = () -> ServerLifecycleHooks.getCurrentServer()
+            .getResourceManager();
+    public static Supplier<ResourceManager> RESOURCE_FALLBACK = () -> ServerLifecycleHooks.getCurrentServer()
+            .getResourceManager();
+
     public static BufferedReader getReader(ResourceLocation l)
     {
-        return getReader(l, Minecraft.getInstance().getResourceManager());
+        return getReader(l, RESOURCE_SOURCE.get());
     }
 
     @Nullable
@@ -25,15 +31,25 @@ public class ResourceHelper
         {
             return source.openAsReader(l);
         }
-        catch (IOException e)
+        catch (Exception e)
         {
+            try
+            {
+                var testSrc = RESOURCE_SOURCE.get();
+                var testFb = RESOURCE_FALLBACK.get();
+                if (source == testSrc && testSrc != testFb) return getReader(l, testFb);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
             return null;
         }
     }
 
     public static InputStream getStream(ResourceLocation l)
     {
-        return getStream(l, Minecraft.getInstance().getResourceManager());
+        return getStream(l, RESOURCE_SOURCE.get());
     }
 
     @Nullable
@@ -43,15 +59,25 @@ public class ResourceHelper
         {
             return source.open(l);
         }
-        catch (IOException e)
+        catch (Exception e)
         {
+            try
+            {
+                var testSrc = RESOURCE_SOURCE.get();
+                var testFb = RESOURCE_FALLBACK.get();
+                if (source == testSrc && testSrc != testFb) return getStream(l, testFb);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
             return null;
         }
     }
 
     public static boolean exists(ResourceLocation l)
     {
-        return exists(l, Minecraft.getInstance().getResourceManager());
+        return exists(l, RESOURCE_SOURCE.get());
     }
 
     public static boolean exists(ResourceLocation l, ResourceManager source)
@@ -63,6 +89,16 @@ public class ResourceHelper
         }
         catch (Exception e)
         {
+            try
+            {
+                var testSrc = RESOURCE_SOURCE.get();
+                var testFb = RESOURCE_FALLBACK.get();
+                if (source == testSrc && testSrc != testFb) return exists(l, testFb);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
             return false;
         }
     }

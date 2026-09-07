@@ -271,15 +271,15 @@ public class VanillaPokemobs
         {
             File root = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
                     .resolve("__vanilla_template__").toFile();
-            if(root.mkdirs()) PokecubeAPI.logInfo("Made datapack template root");
+            if (root.mkdirs()) PokecubeAPI.logInfo("Made datapack template root");
             File data = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
                     .resolve("__vanilla_template__").resolve("data").resolve("my_addon").resolve("database")
                     .resolve("pokemobs").resolve("pokedex_entries").toFile();
-            if(data.mkdirs()) PokecubeAPI.logInfo("Made datapack template entries directory");
+            if (data.mkdirs()) PokecubeAPI.logInfo("Made datapack template entries directory");
 
-            String metacontents = "{\r\n" + "  \"pack\": {\r\n" + "    \"pack_format\": 8,\r\n".replace("8",
+            String metacontents = "{\r\n" + "  \"pack\": {\r\n" + "    \"pack_format\": 48,\r\n".replace("8",
                     "" + SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA))
-                    + "    \"description\": \"Sample Adding Mobs for Pokecube \\n (MC 1.16.4+)\"\r\n" + "  }\r\n" + "}";
+                    + "    \"description\": \"Vanilla Mobs Template\"\r\n" + "  }\r\n" + "}";
             File mcmeta = new File(root, "pack.mcmeta");
 
             try

@@ -3,7 +3,6 @@ package pokecube.core.database.resources;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackLocationInfo;
@@ -24,7 +23,6 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import thut.api.world.mobs.data.Data;
 import thut.lib.ResourceHelper;
 
 import javax.annotation.Nullable;
@@ -42,7 +40,6 @@ public class PackFinder implements RepositorySource
 {
     public static long time_listing = 0;
     public static long time_getting_1 = 0;
-    public static long time_getting_2 = 0;
 
     static final PackSource DECORATOR;
 
@@ -125,8 +122,6 @@ public class PackFinder implements RepositorySource
 
         return ret;
     }
-
-    public static boolean PRE_REG_INIT = true;
 
     public static final PackFinder DEFAULT_FINDER = new PackFinder();
 
@@ -217,13 +212,8 @@ public class PackFinder implements RepositorySource
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("data packs: " + map);
         for (final Pack info : map.values())
         {
-            final PackResources pack = info.open();
-            if (pack != null)
-            {
-                this.allPacks.add(info::open);
-                this.folderPacks.add(info::open);
-            }
-            else PokecubeAPI.LOGGER.error("No Pack found for " + info);
+            this.allPacks.add(info::open);
+            this.folderPacks.add(info::open);
         }
     }
 

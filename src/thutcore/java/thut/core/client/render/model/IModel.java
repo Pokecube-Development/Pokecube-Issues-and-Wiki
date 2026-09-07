@@ -116,7 +116,7 @@ public interface IModel
     default void updateMaterial(final Mat mat)
     {
         mat.name = ThutCore.trim(mat.name);
-        final Material material = new Material(mat.name);
+        final Material material = Material.create(mat.name);
         material.expectedTexH = mat.height;
         material.expectedTexW = mat.width;
         material.diffuseColor = new Vector3f(1, 1, 1);

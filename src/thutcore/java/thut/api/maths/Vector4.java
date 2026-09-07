@@ -14,7 +14,6 @@ import thut.core.common.ThutCore;
 public class Vector4
 {
     public float x, y, z, w;
-    @OnlyIn(value = Dist.CLIENT)
     private Quaternionf quat;
 
     public Vector4()
@@ -23,7 +22,6 @@ public class Vector4
         this.w = 1;
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     public Vector4(final Quaternionf quat)
     {
         // TODO: Check this
@@ -31,7 +29,6 @@ public class Vector4
         this.quat = quat;
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     public Vector4 set(final Quaternionf quat)
     {
         // TODO: Check this
@@ -179,8 +176,6 @@ public class Vector4
 
     /**
      * The default is axis angle for use with openGL
-     *
-     * @return
      */
     public Vector4 toAxisAngle()
     {
@@ -268,15 +263,12 @@ public class Vector4
         nbt.putFloat("w", this.w);
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     public Quaternionf toMCQ()
     {
-        // TODO: Check this
         if (this.quat != null) return this.quat;
         return this.quat = new Quaternionf(this.x, this.y, this.z, this.w);
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     public Quaternionf toMCQInv()
     {
         final Quaternionf quat = this.toMCQ();

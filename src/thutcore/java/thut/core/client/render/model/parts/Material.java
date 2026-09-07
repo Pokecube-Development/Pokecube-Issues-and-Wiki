@@ -1,53 +1,21 @@
 package thut.core.client.render.model.parts;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor;
-import net.neoforged.fml.ModList;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import thut.core.client.render.model.parts.textures.BaseTexture;
 
+import java.util.function.Function;
+
 public class Material implements Comparable<Material>
 {
-    static final RenderType WATER_MASK = RenderType.create("water_mask_", DefaultVertexFormat.POSITION,
-            VertexFormat.Mode.TRIANGLES, 256,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.RENDERTYPE_WATER_MASK_SHADER)
-                    .setTextureState(RenderStateShard.NO_TEXTURE).setWriteMaskState(RenderStateShard.DEPTH_WRITE)
-                    .createCompositeState(false));
+    public static Function<String, Material> MATERIAL_FACTORY = Material::new;
 
-    public static final Map<String, RenderStateShard.ShaderStateShard> SHADERS = Maps.newHashMap();
-
-    public static boolean HAS_IRIS;
-    public static int SHADOW_ARGB;
-    static
+    public static Material create(String name)
     {
-        SHADERS.put("alpha_shader", RenderStateShard.RENDERTYPE_ENTITY_ALPHA_SHADER);
-        SHADERS.put("eyes_shader", RenderStateShard.RENDERTYPE_EYES_SHADER);
-        SHADERS.put("swirl_shader", RenderStateShard.RENDERTYPE_ENERGY_SWIRL_SHADER);
-
-        HAS_IRIS = ModList.get().isLoaded("iris");
-        SHADOW_ARGB = FastColor.ARGB32.color(0,0,0,0);
-    }
-
-    static long renderTick = 0;
-
-    public static void startRender()
-    {
-        renderTick++;
+        return MATERIAL_FACTORY.apply(name);
     }
 
     public String name;
@@ -77,22 +45,26 @@ public class Material implements Comparable<Material>
     public float expectedTexW = -1;
 
     public BaseTexture texture_object;
-    public Mode vertexMode = null;
-
-    private long lastTick = -1;
 
     public String shader = "";
-
-    public RenderTypeProvider renderType = RenderTypeProvider.NORMAL;
-
-    MultiBufferSource bufferSource = null;
-
-    final Map<String, RenderType> types = new Object2ObjectOpenHashMap<>(2);
 
     public Material(final String name)
     {
         this.name = name;
         this.render_name = "thutcore:mat_" + name + "_";
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Material> T init(final String texture, final Vector3f diffuse, final Vector3f specular,
+            final Vector3f emissive, final float ambient, final float shiny){
+        this.texture = texture;
+        this.diffuseColor = diffuse;
+        this.specularColor = specular;
+        this.emissiveColor = emissive;
+        this.emissiveMagnitude = Math.min(emissive.x / 0.8f, 1);
+        this.ambientIntensity = ambient;
+        this.shininess = shiny;
+        return (T) this;
     }
 
     @Override
@@ -126,62 +98,14 @@ public class Material implements Comparable<Material>
         return name.compareTo(o.name);
     }
 
-    public Material(final String name, final String texture, final Vector3f diffuse, final Vector3f specular,
-            final Vector3f emissive, final float ambient, final float shiny)
+    @OnlyIn(Dist.CLIENT)
+    public com.mojang.blaze3d.vertex.VertexConsumer preRender(final com.mojang.blaze3d.vertex.VertexConsumer buffer)
     {
-        this(name);
-        this.texture = texture;
-        this.diffuseColor = diffuse;
-        this.specularColor = specular;
-        this.emissiveColor = emissive;
-        this.emissiveMagnitude = Math.min(emissive.x / 0.8f, 1);
-        this.ambientIntensity = ambient;
-        this.shininess = shiny;
+        return null;
     }
 
-    public void makeVertexBuilder(final ResourceLocation texture, final MultiBufferSource buffer)
-    {
-        this.tex = texture;
-        bufferSource = buffer;
-    }
-
-    public RenderType makeRenderType(final ResourceLocation tex, Mode mode)
-    {
-        return renderType.makeRenderType(this, tex, mode);
-    }
-
-    public VertexConsumer preRender(final VertexConsumer buffer)
-    {
-        return preRender(buffer, Mode.TRIANGLES);
-    }
-
-    public VertexConsumer preRender(final VertexConsumer buffer, Mode mode)
-    {
-        isShadow = false;
-        if(HAS_IRIS)
-        {
-            var s = RenderSystem.getShader();
-            isShadow= s != null && s.getName().startsWith("shadow_terrain");
-            if(isShadow) return buffer;
-        }
-        if (bufferSource == null) bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        if (this.tex == null || bufferSource == null) return buffer;
-        // Incase someone swaps models faster than a tick can run?
-        if (lastTick == renderTick && renderMode == mode && LAST_BUILDER == this) return renderCache;
-        this.vertexMode = renderMode = mode;
-        this.lastTick = renderTick;
-        LAST_BUILDER = this;
-        final RenderType type = this.makeRenderType(this.tex, mode);
-        return renderCache = bufferSource.getBuffer(type);
-    }
-
-    private static Material LAST_BUILDER;
-
-    private VertexConsumer renderCache;
-    private Mode renderMode;
-
-    public BaseTexture getTexture()
-    {
-        return texture_object;
-    }
+    @OnlyIn(Dist.CLIENT)
+    public void makeVertexBuilder(final ResourceLocation texture,
+            final net.minecraft.client.renderer.MultiBufferSource buffer)
+    {}
 }

@@ -67,6 +67,8 @@ public class PacketBattleTargets extends Packet
     {
         long tick = Tracker.instance().getTick();
         if (tick == sentEnemyTick) return;
+        if (!entity.level().isClientSide()) return;
+        if (!(pokemob.getOwner() instanceof Player)) return;
         sentEnemyTick = tick;
         int id = entity.getId();
         PokecubeCore.packets.sendToServer(new PacketBattleTargets(pokemob.getEntity().getId(), TYPE_ENEMY, id));
@@ -76,6 +78,8 @@ public class PacketBattleTargets extends Packet
     {
         long tick = Tracker.instance().getTick();
         if (tick == sentAllyTick) return;
+        if (!entity.level().isClientSide()) return;
+        if (!(pokemob.getOwner() instanceof Player)) return;
         sentAllyTick = tick;
         int id = entity.getId();
         PokecubeCore.packets.sendToServer(new PacketBattleTargets(pokemob.getEntity().getId(), TYPE_ALLY, id));

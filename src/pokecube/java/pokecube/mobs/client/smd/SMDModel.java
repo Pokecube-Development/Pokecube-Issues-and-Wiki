@@ -400,7 +400,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void updateMaterial(final Mat mat)
     {
         final String mat_name = ThutCore.trim(mat.name);
-        final Material material = new Material(mat_name);
+        final Material material = Material.create(mat_name);
         material.diffuseColor = new Vector3f(1, 1, 1);
         material.emissiveColor = new Vector3f(1, 1, 1);
         material.specularColor = new Vector3f(1, 1, 1);

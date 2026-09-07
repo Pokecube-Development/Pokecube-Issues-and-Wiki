@@ -451,7 +451,7 @@ public class AnimationLoader
                         else
                         {
                             // In this case, we convert to a Material
-                            Material m = new Material(part.name);
+                            Material m = Material.create(part.name);
                             m.tex = tex;
                             Mat m2 = new Mat();
                             m2.name = part.name;

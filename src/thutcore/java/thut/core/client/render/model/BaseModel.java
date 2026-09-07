@@ -25,6 +25,7 @@ import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.model.parts.Material;
+import thut.core.client.render.model.parts.MaterialRenderable;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -322,7 +323,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         Matrix4f pos = new Matrix4f();
         Matrix3f norm = new Matrix3f();
 
-        Material.startRender();
+        MaterialRenderable.startRender();
 
         for(var m: this.renderOrderMeshs)
         {

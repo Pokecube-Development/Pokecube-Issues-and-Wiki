@@ -14,7 +14,7 @@ import thut.core.client.render.model.parts.textures.TextureFactory;
 
 public interface RenderTypeProvider
 {
-    RenderType makeRenderType(final Material material, final ResourceLocation tex, Mode mode);
+    RenderType makeRenderType(final MaterialRenderable material, final ResourceLocation tex, Mode mode);
 
     public static RenderTypeProvider NORMAL = (material, tex, mode) -> {
         material.tex = tex;
@@ -34,8 +34,8 @@ public interface RenderTypeProvider
         if (material.render_name.contains("water_mask_"))
         {
             material.cull = false;
-            material.types.put(key, Material.WATER_MASK);
-            return Material.WATER_MASK;
+            material.types.put(key, MaterialRenderable.WATER_MASK);
+            return MaterialRenderable.WATER_MASK;
         }
 
         RenderType type;
@@ -60,20 +60,20 @@ public interface RenderTypeProvider
             builder.setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST);
         }
         builder.setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY);
-        RenderStateShard.ShaderStateShard shard = Material.SHADERS.get(material.shader);
+        RenderStateShard.ShaderStateShard shard = MaterialRenderable.SHADERS.get(material.shader);
         if (shard == null)
         {
             ShaderInstance shader = Minecraft.getInstance().gameRenderer.getShader(material.shader);
             if (shader == null)
             {
-                Material.SHADERS.put(material.shader,
+                MaterialRenderable.SHADERS.put(material.shader,
                         shard = RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER);
             }
             else
             {
                 shard = new RenderStateShard.ShaderStateShard(
                         () -> Minecraft.getInstance().gameRenderer.getShader(material.shader));
-                Material.SHADERS.put(material.shader, shard);
+                MaterialRenderable.SHADERS.put(material.shader, shard);
             }
         }
         if (material.emissiveMagnitude > 0 && (shard == RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER

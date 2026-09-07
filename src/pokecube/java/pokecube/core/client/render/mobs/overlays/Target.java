@@ -1,9 +1,12 @@
 package pokecube.core.client.render.mobs.overlays;
 
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import mezz.jei.neoforge.platform.RenderHelper;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
@@ -48,6 +51,7 @@ public class Target
         float scale = .02f;
         mat.pushPose();
         var renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
+
         mat.translate(vec3.x, vec3.y, vec3.z);
         mat.mulPose(renderManager.cameraOrientation());
         mat.mulPose(AxisAngles.ZN.rotationDegrees(90));
@@ -62,8 +66,12 @@ public class Target
         float y1 = -size / 2;
         float y2 = y1 + size;
         var pos = mat.last().pose();
-        var buffer = Utils.makeBuilder(TARGET_ICON_TYPE_NODEPTH.apply(TEXTURE), buf);
+        Lighting.setupForEntityInInventory();
+        var irendertypebuffer$impl = Minecraft.getInstance().renderBuffers().bufferSource();
+        var buffer = Utils.makeBuilder(TARGET_ICON_TYPE_NODEPTH.apply(TEXTURE), irendertypebuffer$impl);
         blit(buffer, pos, x1, y1, x2, y2, 0, 255, 255, 255, a);
+        irendertypebuffer$impl.endBatch();
+        Lighting.setupFor3DItems();
         mat.popPose();
     }
 

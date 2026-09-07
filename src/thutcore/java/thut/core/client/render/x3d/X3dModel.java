@@ -68,7 +68,7 @@ public class X3dModel extends BaseModel
                 texName = ThutCore.trim(texName);
             }
             else texName = null;
-            if (material == null) material = new Material(matName, texName, mat.getDiffuse(), mat.getSpecular(),
+            if (material == null) material = Material.create(matName).init(texName, mat.getDiffuse(), mat.getSpecular(),
                     mat.getEmissive(), mat.ambientIntensity, mat.shininess);
             if (isDef)
             {
@@ -145,7 +145,7 @@ public class X3dModel extends BaseModel
             for (final X3dXML.Shape shape : group.shapes)
             {
                 final IndexedTriangleSet triangleSet = shape.triangleSet;
-                final Mesh renderShape = new Mesh(triangleSet.getOrder(), triangleSet.getVertices(),
+                final Mesh renderShape = Mesh.MESH_FACTORY.create(triangleSet.getOrder(), triangleSet.getVertices(),
                         triangleSet.getNormals(), triangleSet.getTexture(), Mesh.TRIANGLE_FMT);
                 shapes.add(renderShape);
                 final Appearance appearance = shape.appearance;

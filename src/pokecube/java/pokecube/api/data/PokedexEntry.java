@@ -78,6 +78,7 @@ import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.item.ItemList;
 import thut.api.level.terrain.BiomeType;
 import thut.api.util.JsonUtil;
+import thut.core.client.render.bbmodel.BBModel;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
@@ -976,6 +977,7 @@ public class PokedexEntry
     public ResourceLocation animation = PokedexEntry.ANIMNO;
 
     public Map<String, BodyNode> poseShapes = null;
+    public BBModel bodyModel = null;
 
     // Here we have things that need to wait until loaded for initialization, so
     // we cache them.

@@ -3,7 +3,7 @@ package thut.core.client.render.bbmodel;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -18,7 +18,10 @@ import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IExtendedModelPart;
+import thut.core.client.render.model.parts.Material;
+import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
+import thut.core.client.render.model.parts.textures.BaseTexture;
 import thut.lib.AxisAngles;
 
 import javax.imageio.ImageIO;
@@ -37,6 +40,21 @@ import java.util.UUID;
 
 public class BaseModelToBBModel
 {
+    public static float computeSimpleVolume(Vector3f[] verts)
+    {
+        var v0 = new Vector3f();
+        float v = 0;
+        for (int i = 0; i < verts.length; i += 3)
+        {
+            var v1 = verts[i];
+            var v2 = verts[i + 1];
+            var v3 = verts[i + 2];
+            v += v1.dot(v2.cross(v3, v0)) / 6f;
+        }
+        return v;
+    }
+
+
     public static String randomKey(Set<String> existing, int len)
     {
         String var = RandomStringUtils.randomAlphanumeric(len);
@@ -44,7 +62,7 @@ public class BaseModelToBBModel
         return var;
     }
 
-    public static BBModelTemplate convert(BaseModel model, Map<String, List<Animation>> animations)
+    public static BBModelTemplate convert(BaseModel model, Map<String, List<Animation>> animations, boolean simplifiy)
     {
         BBModelTemplate result = new BBModelTemplate();
         result.name = model.name;
@@ -106,17 +124,150 @@ public class BaseModelToBBModel
                 // Handle adding the element
                 if (!part.getRenderMeshes().isEmpty())
                 {
-                    elements_by_id.put(element.uuid, element);
                     Map<Vector3f, String> vertices = new HashMap<>();
+
+                    // Maps containing relevant information pulled from the mesh
+                    Map<String, Mesh> namedMesh = new HashMap<>();
+                    Map<String, Vector3f[]> faceVerts = new HashMap<>();
+                    Map<String, Vector2f[]> faceTex = new HashMap<>();
+                    Map<String, Integer> faceModes = new HashMap<>();
+                    Map<String, ResourceLocation> faceMats = new HashMap<>();
+
+                    // Collect info for the maps
                     part.getRenderMeshes().forEach(mesh -> {
+                        var mesh_key = randomKey(keys, 4);
+                        namedMesh.put(mesh_key, mesh);
+                        var material = mesh.getRenderMaterial();
+                        NativeImage img;
+                        try
+                        {
+                            var vertexMode = mesh.GL_FORMAT == Mesh.TRIANGLE_FMT ? Mode.TRIANGLES : Mode.QUADS;
+                            material.makeRenderType(material.tex, vertexMode);
+                            BaseTexture texture = material.getTexture();
+                            img = texture.getImage();
+                        }
+                        catch (Exception e)
+                        {
+                            img = null;
+                        }
+                        if (!textures.contains(material.tex))
+                        {
+                            textures.add(material.tex);
+                            images.put(material.tex, img);
+                        }
+                        faceMats.put(mesh_key, material.tex);
+                        faceVerts.put(mesh_key, mesh.vertices);
+                        faceTex.put(mesh_key, mesh.textureCoordinates);
+                        faceModes.put(mesh_key, mesh.GL_FORMAT == Mesh.TRIANGLE_FMT ? 3 : 4);
+                    });
+
+                    // Here we can perform whatever edits on the maps as needed.
+                    List<String> faces = new ArrayList<>(faceMats.keySet());
+
+                    // Lets try to simplify, down to just a bounding cube for each one
+                    if (simplifiy)
+                    {
+                        List<String> remove = new ArrayList<>();
+                        for (var meshKey : faces)
+                        {
+                            var meshVerts = faceVerts.get(meshKey);
+                            var meshTex = faceTex.get(meshKey);
+
+                            Vector3f min = new Vector3f();
+                            Vector3f max = new Vector3f();
+                            Vector2f minU = new Vector2f();
+                            Vector2f maxU = new Vector2f();
+                            for (int i = 0; i < meshVerts.length; i++)
+                            {
+                                var t = meshTex[i];
+                                var v = meshVerts[i];
+                                min = min.min(v);
+                                max = max.max(v);
+                                minU = minU.min(t);
+                                maxU = maxU.max(t);
+                            }
+
+                            float volume = computeSimpleVolume(meshVerts);
+                            if (Math.abs(volume) < 1e-4)
+                            {
+                                remove.add(meshKey);
+                                continue;
+                            }
+                            float newVolume = (max.x - min.x) * (max.y - min.y) * (max.z - min.z);
+
+                            if (newVolume / volume > 5)
+                            {
+                                PokecubeAPI.LOGGER.warn("Warning, volume expanded greatly for part {} in {}",
+                                        part.getName(), model.name);
+                            }
+
+                            List<Vector3f> cube = new ArrayList<>();
+                            List<Vector2f> cubeTex = new ArrayList<>();
+                            // Now build the cube
+                            cube.add(new Vector3f(min.x, min.y, min.z));
+                            cube.add(new Vector3f(min.x, max.y, min.z));
+                            cube.add(new Vector3f(min.x, max.y, max.z));
+                            cube.add(new Vector3f(min.x, min.y, max.z));
+
+                            cube.add(new Vector3f(min.x, min.y, min.z));
+                            cube.add(new Vector3f(max.x, min.y, min.z));
+                            cube.add(new Vector3f(max.x, max.y, min.z));
+                            cube.add(new Vector3f(min.x, max.y, min.z));
+
+                            cube.add(new Vector3f(min.x, min.y, min.z));
+                            cube.add(new Vector3f(max.x, min.y, min.z));
+                            cube.add(new Vector3f(max.x, min.y, max.z));
+                            cube.add(new Vector3f(min.x, min.y, max.z));
+
+                            cube.add(new Vector3f(max.x, max.y, max.z));
+                            cube.add(new Vector3f(max.x, min.y, max.z));
+                            cube.add(new Vector3f(max.x, min.y, min.z));
+                            cube.add(new Vector3f(max.x, max.y, min.z));
+
+                            cube.add(new Vector3f(max.x, max.y, max.z));
+                            cube.add(new Vector3f(min.x, max.y, max.z));
+                            cube.add(new Vector3f(min.x, min.y, max.z));
+                            cube.add(new Vector3f(max.x, min.y, max.z));
+
+                            cube.add(new Vector3f(max.x, max.y, max.z));
+                            cube.add(new Vector3f(min.x, max.y, max.z));
+                            cube.add(new Vector3f(min.x, max.y, min.z));
+                            cube.add(new Vector3f(max.x, max.y, min.z));
+
+                            for (int i = 0; i < 6; i++)
+                            {
+                                cubeTex.add(new Vector2f(minU.x, minU.y));
+                                cubeTex.add(new Vector2f(minU.x, maxU.y));
+                                cubeTex.add(new Vector2f(maxU.x, maxU.y));
+                                cubeTex.add(new Vector2f(maxU.x, minU.y));
+                            }
+
+                            faceModes.put(meshKey, 4);
+                            faceVerts.put(meshKey, cube.toArray(new Vector3f[0]));
+                            faceTex.put(meshKey, cubeTex.toArray(new Vector2f[0]));
+                        }
+                        faces.removeAll(remove);
+                    }
+                    // Now make the faces
+                    for (var meshKey : faces)
+                    {
+                        var matTex = faceMats.get(meshKey);
+                        var img = images.get(matTex);
+
+                        int imgW = img != null ? img.getWidth() : 16;
+                        int imgH = img != null ? img.getHeight() : 16;
+
+                        int texID = textures.indexOf(matTex);
+                        var meshVerts = faceVerts.get(meshKey);
+                        var iter = faceModes.get(meshKey);
+                        var uvs = faceTex.get(meshKey);
+                        var mesh = namedMesh.get(meshKey);
 
                         // Transform to global coordinates
                         last.pose().mul(mesh.poseInfo.pose(), posMat);
                         mesh.poseInfo.pose().set(posMat);
-
-                        for (int i = 0; i < mesh.vertices.length; i++)
+                        for (Vector3f vert : meshVerts)
                         {
-                            var vert = mesh.vertices[i];
                             if (!vertices.containsKey(vert))
                             {
                                 String key = randomKey(keys, 4);
@@ -128,31 +279,21 @@ public class BaseModelToBBModel
                                 element.vertices.put(key, _vert);
                             }
                         }
-                        int iter = mesh.vertexMode == VertexFormat.Mode.TRIANGLES ? 3 : 4;
-                        var material = mesh.material;
-                        material.makeRenderType(material.tex, mesh.vertexMode);
-                        var texture = material.getTexture();
-                        var img = texture.getImage();
-                        if (!textures.contains(material.tex))
-                        {
-                            textures.add(material.tex);
-                            images.put(material.tex, img);
-                        }
-                        int texID = textures.indexOf(material.tex);
-                        for (int i = 0; i < mesh.vertices.length; i += iter)
+
+                        for (int i = 0; i < meshVerts.length; i += iter)
                         {
                             String faceKey = randomKey(keys, 8);
                             List<String> verts = new ArrayList<>();
                             Map<String, float[]> faceUVs = new HashMap<>();
                             for (int j = 0; j < iter; j++)
                             {
-                                var vert = mesh.vertices[i + j];
-                                var uv_ = mesh.textureCoordinates[i + j];
+                                var vert = meshVerts[i + j];
+                                var uv_ = uvs[i + j];
                                 String vertKey = vertices.get(vert);
                                 verts.add(vertKey);
                                 var _uv = new Vector2f(uv_);
-                                _uv.x *= img.getWidth();
-                                _uv.y *= img.getHeight();
+                                _uv.x *= imgW;
+                                _uv.y *= imgH;
                                 float[] uv = { _uv.x, _uv.y };
                                 faceUVs.put(vertKey, uv);
                             }
@@ -163,7 +304,8 @@ public class BaseModelToBBModel
                             String faceJsonStr = JsonUtil.gson.toJson(face);
                             element.faces.put(faceKey, JsonUtil.gson.fromJson(faceJsonStr, JsonObject.class));
                         }
-                    });
+                    }
+                    if (!simplifiy || !faces.isEmpty()) elements_by_id.put(element.uuid, element);
                 }
                 var partID = partsToUUID.get(part);
                 if (!partsToGroup.containsKey(partID))
@@ -227,29 +369,39 @@ public class BaseModelToBBModel
             }
         });
 
-        for(var resource: textures)
+        for (int index = 0; index < textures.size(); index++)
         {
-            var image = images.get(resource);
-            var path = resource.getPath().split("/");
-            var location = path[path.length-1];
+            var resource = textures.get(index);
             var texture = new BBModelTemplate.Texture();
             texture.uuid = UUID.randomUUID().toString();
-            texture.id = ""+textures.indexOf(resource);
+            if (resource == null)
+            {
+                resource = ResourceLocation.parse("null:null");
+                if (!simplifiy) PokecubeAPI.LOGGER.error("Error with a texture for {}", model.name);
+            }
+            texture.id = "" + index;
+            var path = resource.getPath().split("/");
+            var location = path[path.length - 1];
             texture.name = location.replace(".png", "");
+            result.textures.add(texture);
+
+            var image = images.get(resource);
+
+            if (image == null) continue;
+
             texture.width = texture.uv_width = image.getWidth();
             texture.height = texture.uv_height = image.getHeight();
             texture.file_format = "png";
 
-            final BufferedImage img_buffer = new BufferedImage(texture.width, texture.height, BufferedImage.TYPE_INT_ARGB);
-            for(int i = 0; i< texture.width; i++)
+            final BufferedImage img_buffer = new BufferedImage(texture.width, texture.height,
+                    BufferedImage.TYPE_INT_ARGB);
+            for (int i = 0; i < texture.width; i++)
             {
-                for(int j = 0; j< texture.height; j++)
+                for (int j = 0; j < texture.height; j++)
                 {
-                    int abgr = image.getPixelRGBA(i,j);
-                    int argb = FastColor.ARGB32.color(FastColor.ABGR32.alpha(abgr),
-                            FastColor.ABGR32.red(abgr),
-                            FastColor.ABGR32.green(abgr),
-                            FastColor.ABGR32.blue(abgr));
+                    int abgr = image.getPixelRGBA(i, j);
+                    int argb = FastColor.ARGB32.color(FastColor.ABGR32.alpha(abgr), FastColor.ABGR32.red(abgr),
+                            FastColor.ABGR32.green(abgr), FastColor.ABGR32.blue(abgr));
                     img_buffer.setRGB(i, j, argb);
                 }
             }
@@ -258,13 +410,11 @@ public class BaseModelToBBModel
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ImageIO.write(img_buffer, texture.file_format, baos);
                 var asString = Base64.getEncoder().encodeToString(baos.toByteArray());
-                texture.source = "data:image/png;base64,"+asString;
+                texture.source = "data:image/png;base64," + asString;
             }
             catch (IOException ignored)
             {
             }
-
-            result.textures.add(texture);
         }
 
         // Now for animations
@@ -283,7 +433,7 @@ public class BaseModelToBBModel
                 {
                     if (!(pair.getValue() instanceof Animators.KeyframeAnimator frames)) continue;
                     var key = partNameToUUID.get(pair.getKey());
-                    if(key==null)
+                    if (key == null)
                     {
                         PokecubeAPI.logInfo("Did not find mapping for {}", pair.getKey());
                         continue;
