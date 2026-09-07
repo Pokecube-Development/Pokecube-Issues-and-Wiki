@@ -14,7 +14,7 @@ import thut.core.common.ThutCore;
 public class LevelEntityEventClient
 {
     @Inject(method = "broadcastEntityEvent", at = @At(value = "RETURN"))
-    public void pokecube$onBroadcastEntityEvent(Entity entity, byte key, CallbackInfo cb)
+    public void thutcore$onBroadcastEntityEvent(Entity entity, byte key, CallbackInfo cb)
     {
         ThutCore.FORGE_BUS.post(new LevelEntityEvent(entity, key));
     }

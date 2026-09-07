@@ -6,6 +6,7 @@
   "refmap": "thutcore.refmap.json",
   "mixins": [
     "accessors.WalkAniAccessor",
+    "entity.EntityPartCapabilities",
     "entity.LevelEntityEventClient",
     "entity.LevelEntityEventServer",
     "terrain.ChunkAccessTerrain"
