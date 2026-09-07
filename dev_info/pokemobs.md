@@ -162,8 +162,9 @@ The default actions are applied during a low priority event listener in step 2.
 9. Apply recoil via `RecoilApplier.applyRecoil`
 10. Apply healing via `HealProvider.applyHealing`
 11. Apply ongoing effects if present via `OngoingApplier.applyOngoingEffects`
-12. Apply `PostMoveUse.applyPostMove`
-13. Fires a `DuringUse.Post` event on the `PokecubeAPI.MOVE_BUS` then exits
+12. Apply the effect of the last move that hit the user via `LastMoveEffect.applyLastMoveEffect`
+13. Apply `PostMoveUse.applyPostMove`
+14. Fires a `DuringUse.Post` event on the `PokecubeAPI.MOVE_BUS` then exits
 
 The various appliers mentioned above do the following for their default behaviour:
 
