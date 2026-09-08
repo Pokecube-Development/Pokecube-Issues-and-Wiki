@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -64,7 +65,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                 this.toLoad.wrapped = new Model(this.res);
                 this.toLoad.initBounds();
                 this.toLoad.wrapped.usesMaterials = true;
-                this.toLoad.animations.addAll(this.toLoad.wrapped.anims.keySet());
+                // TODO SMD animations map here?
+//                this.toLoad.animations.addAll(this.toLoad.wrapped.anims.keySet());
                 this.toLoad.mats.addAll(this.toLoad.wrapped.body.matsToFaces.keySet());
                 // Flag as loaded before running the callback
                 this.toLoad.loaded = true;
@@ -90,7 +92,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     private final List<IExtendedModelPart> order = Lists.newArrayList();
 
     private final Set<String> nullHeadSet = Sets.newHashSet();
-    private final Set<String> animations = Sets.newHashSet();
+    private final Map<String, List<Animation>> animations = Maps.newHashMap();
     private final List<Material> mats = Lists.newArrayList();
 
     protected boolean valid = true;
@@ -183,7 +185,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public Set<String> getBuiltInAnimations()
+    public Map<String, List<Animation>> getBuiltInAnimations()
     {
         return this.animations;
     }

@@ -1,9 +1,6 @@
 package thut.api.entity.multipart;
 
 import java.lang.reflect.Field;
-import java.util.List;
-
-import com.google.common.collect.Lists;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -25,55 +22,18 @@ import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityEvent;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import thut.core.common.ThutCore;
 import thut.core.common.network.PartInteract;
 
 public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 {
-    public static class BodyNode
-    {
-        public List<BodyPart> parts = Lists.newArrayList();
+    public Vector3f ride_point = null;
 
-        public void onLoad()
-        {
-            this.parts.forEach(BodyPart::onLoad);
-        }
-    }
+    public Vector3f r0;
 
-    public static class BodyPart
-    {
-        public String name;
-        public String offset;
-        public String size;
-
-        public String ride;
-
-        public Vec3 __pos__;
-        public Vec3 __size__;
-        public Vec3 __ride__;
-
-        public void onLoad()
-        {
-            String[] args = this.offset.split(",");
-            this.__pos__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]),
-                    Double.parseDouble(args[2]));
-            args = this.size.split(",");
-            this.__size__ = new Vec3(Double.parseDouble(args[0]), Double.parseDouble(args[1]),
-                    Double.parseDouble(args[2]));
-            if (this.ride != null)
-            {
-                args = this.ride.split(",");
-                this.__ride__ = new Vec3(Double.parseDouble(args[0]) - __pos__.x,
-                        Double.parseDouble(args[1]) - __pos__.y, Double.parseDouble(args[2]) - __pos__.z);
-            }
-        }
-    }
-
-    public static interface Factory<T extends GenericPartEntity<E>, E extends Entity>
-    {
-        T create(E parent, final float width, final float height, final float x, final float y, final float z,
-                final String id);
-    }
+    public float width;
+    public float height;
 
     public final String id;
 

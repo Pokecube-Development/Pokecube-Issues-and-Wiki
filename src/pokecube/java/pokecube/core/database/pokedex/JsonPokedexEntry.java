@@ -28,7 +28,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.IMergeable;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.legacy.RegistryChangeFixer;
-import thut.api.entity.multipart.GenericPartEntity.BodyNode;
+import thut.api.entity.multipart.BodyPartEntity.BodyNode;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;

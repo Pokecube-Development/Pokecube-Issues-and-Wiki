@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
@@ -27,27 +26,18 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         public Matrix4f transform = new Matrix4f();
         public String effective_pose = "";
 
-        int tick = -1;
+        public int tick = -1, animTick=-1;
 
         public void clear()
         {
-            allParts = null;
-            parts = null;
+            allParts = new ArrayList<>();
+            parts = new ArrayList<>();
         }
     }
 
     public static record PartHolder<E extends GenericPartEntity<?>> (List<E> allParts, Map<String, List<E>> partMap,
             Holder<E> holder)
     {
-        public List<E> makeAllParts()
-        {
-            if (holder.allParts == null || holder.allParts.size() != allParts.size())
-            {
-                holder.allParts = new ArrayList<>(allParts);
-            }
-            return holder.allParts;
-        }
-
         public List<E> getParts()
         {
             return holder.parts;
@@ -66,15 +56,19 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         }
     }
 
-    List<T> getAllParts();
+    default List<T> getAllParts()
+    {
+        return getHolder().allParts();
+    }
 
-    List<T> getUseParts();
+    default List<T> getUseParts()
+    {
+        return getHolder().getParts();
+    }
 
     PartHolder<T> getHolder();
 
     void initParts();
-
-    GenericPartEntity.Factory<T, E> getFactory();
 
     /**
      * This is not "self" as forge used that for something in 1.19+
@@ -85,7 +79,16 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         return (E) this;
     }
 
-    void checkUpdateParts();
+    default void checkUpdateParts()
+    {
+        // This only does something complex if the parts have changed, otherwise
+        // it just ensures their locations are synced to us.
+        if (getHolder().holder().tick != weSelf().tickCount)
+        {
+            getHolder().holder().tick = weSelf().tickCount;
+            this.initParts();
+        }
+    }
 
     default boolean sameMob(Entity entityIn)
     {
@@ -104,46 +107,14 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         return 2;
     }
 
+    void applyAnimations(IAnimated animHolder);
+
     default void updatePartsPos()
     {
         this.initParts();
         // check if effective_pose needs updating
         final IAnimated animHolder = ThutCaps.getAnimated(weSelf());
-        anims:
-        if (animHolder != null)
-        {
-            final List<String> anims = animHolder.getChoices();
-            String old_pose = getHolder().holder.effective_pose;
-            getHolder().holder().effective_pose = "idle";
-
-            for (final String s : anims) if (getHolder().partMap().containsKey(s))
-            {
-                getHolder().holder().effective_pose = s;
-                break;
-            }
-            if (old_pose.equals(getHolder().holder().effective_pose)) break anims;
-            // Update the partmap if we know about this pose.
-            if (getHolder().partMap().containsKey(getHolder().holder().effective_pose))
-            {
-                getHolder().setParts(getHolder().partMap().get(getHolder().holder().effective_pose));
-
-                boolean subDivided = !getHolder().getParts().isEmpty();
-
-                if (subDivided)
-                {
-                    float width = Math.min(weSelf().dimensions.width(), maxW());
-                    float height = Math.min(weSelf().dimensions.height(), maxH());
-                    weSelf().dimensions = EntityDimensions.fixed(width, height);
-                    weSelf().noCulling = true;
-
-                    final boolean first = weSelf().firstTick;
-                    weSelf().firstTick = true;
-                    weSelf().refreshDimensions();
-                    weSelf().firstTick = first;
-                }
-                PartSync.sendUpdate(weSelf());
-            }
-        }
+        if (animHolder != null) applyAnimations(animHolder);
         if (getHolder().holder().parts.isEmpty() && getHolder().allParts().isEmpty()) return;
 
         final Vec3 v = weSelf().position();

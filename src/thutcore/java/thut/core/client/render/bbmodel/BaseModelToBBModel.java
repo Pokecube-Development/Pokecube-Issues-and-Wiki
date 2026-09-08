@@ -15,6 +15,7 @@ import pokecube.api.PokecubeAPI;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animators;
 import thut.api.entity.animation.CapabilityAnimation;
+import thut.api.entity.multipart.IBBPartMultipart;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -39,21 +40,6 @@ import java.util.UUID;
 
 public class BaseModelToBBModel
 {
-    public static float computeSimpleVolume(Vector3f[] verts)
-    {
-        var v0 = new Vector3f();
-        float v = 0;
-        for (int i = 0; i < verts.length; i += 3)
-        {
-            var v1 = verts[i];
-            var v2 = verts[i + 1];
-            var v3 = verts[i + 2];
-            v += v1.dot(v2.cross(v3, v0)) / 6f;
-        }
-        return v;
-    }
-
-
     public static String randomKey(Set<String> existing, int len)
     {
         String var = RandomStringUtils.randomAlphanumeric(len);
@@ -186,7 +172,7 @@ public class BaseModelToBBModel
                                 maxU = maxU.max(t);
                             }
 
-                            float volume = computeSimpleVolume(meshVerts);
+                            float volume = IBBPartMultipart.computeSimpleVolume(meshVerts);
                             if (Math.abs(volume) < 1e-4)
                             {
                                 remove.add(meshKey);

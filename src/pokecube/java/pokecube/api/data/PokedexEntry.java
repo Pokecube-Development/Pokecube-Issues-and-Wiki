@@ -74,7 +74,7 @@ import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.utils.TimePeriod;
 import thut.api.Tracker;
-import thut.api.entity.multipart.GenericPartEntity.BodyNode;
+import thut.api.entity.multipart.BodyPartEntity.BodyNode;
 import thut.api.item.ItemList;
 import thut.api.level.terrain.BiomeType;
 import thut.api.util.JsonUtil;

@@ -27,12 +27,11 @@ import org.joml.Vector3f;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
 import thut.api.entity.IMultiplePassengerEntity;
-import thut.api.entity.multipart.GenericPartEntity.BodyNode;
-import thut.api.entity.multipart.GenericPartEntity.BodyPart;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.types.Data_Seat;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -358,21 +357,17 @@ public abstract class PokemobRidable extends PokemobHasParts
         final PokedexEntry entry = this.getPokemob().getPokedexEntry();
         this.lastPose = getHolder().holder().effective_pose;
         this.init = true;
-        final List<BodyPart> bodySeats = Lists.newArrayList();
-        BodyNode body;
-        if (entry.poseShapes != null && (body = entry.poseShapes.get(this.lastPose)) != null)
-            for (final BodyPart part : body.parts) if (part.__ride__ != null) bodySeats.add(part);
+        List<Vector3f> bodySeats = new ArrayList<>();
+        var parts = this.getParts();
+        if (parts != null) for (var part : parts) if (part.ride_point != null) bodySeats.add(part.ride_point);
         final float size = this.getPokemob().getEntity().getScale();
         if (!bodySeats.isEmpty())
         {
             this.seatCount = bodySeats.size();
             for (int index = 0; index < this.seatCount; index++)
             {
-                final Vector3f seat = new Vector3f();
-                final BodyPart part = bodySeats.get(index);
-                seat.x = (float) (part.__ride__.x) * size;
-                seat.y = (float) (part.__ride__.y) * size;
-                seat.z = (float) (part.__ride__.z) * size;
+                final Vector3f seat = new Vector3f(bodySeats.get(index));
+                seat.mul(size);
                 final Seat newSeat = (Seat) this.getSeat(index).clone();
                 newSeat.seat = seat;
                 SEAT[index].set(newSeat);

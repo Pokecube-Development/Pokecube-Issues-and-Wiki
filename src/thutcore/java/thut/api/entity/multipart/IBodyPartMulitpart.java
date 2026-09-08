@@ -3,8 +3,11 @@ package thut.api.entity.multipart;
 import com.google.common.collect.Sets;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.phys.Vec3;
+import thut.api.entity.IAnimated;
 import thut.core.common.ThutCore;
+import thut.core.common.network.PartSync;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,7 +16,18 @@ import java.util.Set;
 
 public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entity> extends IMultpart<T, E>
 {
-    default T makePart(final GenericPartEntity.BodyPart part, final float size, final Set<String> names)
+
+    @Override
+    default void trySubDivideParts(float width, float length, float height)
+    {
+        var split = this.splitToParts(width, height, length, 0, 0, 0);
+        getHolder().setParts(split);
+        for (var p : split) getHolder().allParts().add(p);
+    }
+
+    BodyPartEntity.Factory<T, E> getFactory();
+
+    default T makePart(final BodyPartEntity.BodyPart part, final float size, final Set<String> names)
     {
         final float dx = (float) (part.__pos__.x * size);
         final float dy = (float) (part.__pos__.y * size);
@@ -51,10 +65,10 @@ public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entit
             for (int x = 0; x < nx; x++)
                 for (int z = 0; z < nz; z++)
                 {
-                    GenericPartEntity.BodyPart _part = new GenericPartEntity.BodyPart();
+                    BodyPartEntity.BodyPart _part = new BodyPartEntity.BodyPart();
                     _part.name = "part_" + i;
                     _part.__size__ = new Vec3(dw, dh, dw);
-                    _part.__pos__ = new Vec3(x * dx - nx * dx / 2f + x0, y * dy + y0, z * dz - nz * dz / 2f);
+                    _part.__pos__ = new Vec3(x * dx - nx * dx / 2f + x0, y * dy + y0, z * dz - nz * dz / 2f + z0);
                     var part = makePart(_part, 1, names);
                     ret.add(part);
                     i++;
@@ -62,39 +76,43 @@ public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entit
         return ret;
     }
 
-    @Override
-    default void trySubDivideParts(float width, float length, float height)
+    default void applyAnimations(IAnimated animHolder)
     {
-        var split = this.splitToParts(width, height, length, 0, 0, 0);
-        getHolder().setParts(split);
-        for (var p : split) getHolder().allParts().add(p);
-    }
+        final List<String> anims = animHolder.getChoices();
+        String old_pose = getHolder().holder().effective_pose;
+        getHolder().holder().effective_pose = "idle";
 
-    @Override
-    default List<T> getAllParts()
-    {
-        return getHolder().allParts();
-    }
-
-    @Override
-    default List<T> getUseParts()
-    {
-        return getHolder().getParts();
-    }
-
-    @Override
-    default void checkUpdateParts()
-    {
-        // This only does something complex if the parts have changed, otherwise
-        // it just ensures their locations are synced to us.
-        if (getHolder().holder().tick != weSelf().tickCount)
+        for (final String s : anims)
         {
-            getHolder().holder().tick = weSelf().tickCount;
-            this.initParts();
+            if (getHolder().partMap().containsKey(s))
+            {
+                getHolder().holder().effective_pose = s;
+                break;
+            }
+        }
+        if (old_pose.equals(getHolder().holder().effective_pose)) return;
+        // Update the partmap if we know about this pose.
+        if (getHolder().partMap().containsKey(getHolder().holder().effective_pose))
+        {
+            getHolder().setParts(getHolder().partMap().get(getHolder().holder().effective_pose));
+            boolean subDivided = !getHolder().getParts().isEmpty();
+            if (subDivided)
+            {
+                float width = Math.min(weSelf().dimensions.width(), maxW());
+                float height = Math.min(weSelf().dimensions.height(), maxH());
+                weSelf().dimensions = EntityDimensions.fixed(width, height);
+                weSelf().noCulling = true;
+
+                final boolean first = weSelf().firstTick;
+                weSelf().firstTick = true;
+                weSelf().refreshDimensions();
+                weSelf().firstTick = first;
+            }
+            PartSync.sendUpdate(weSelf());
         }
     }
 
-    default void addPart(final String key, final float size, final GenericPartEntity.BodyNode node)
+    default void addPart(final String key, final float size, final BodyPartEntity.BodyNode node)
     {
         try
         {
@@ -123,7 +141,9 @@ public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entit
                 }
                 else
                 {
-                    var part = this.makePart(node.parts.get(i), size, names);
+                    var nodePart = node.parts.get(i);
+                    var part = this.makePart(nodePart, size, names);
+                    if (nodePart.__ride__ != null) part.ride_point = nodePart.__ride__.toVector3f();
                     list.add(part);
                     getHolder().allParts().add(part);
                 }

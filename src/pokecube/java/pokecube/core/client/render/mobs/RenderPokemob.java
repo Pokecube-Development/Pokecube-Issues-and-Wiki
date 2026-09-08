@@ -16,9 +16,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
-import net.neoforged.fml.ModLoader;
-import net.neoforged.fml.ModWorkManager;
-import net.neoforged.fml.loading.progress.StartupNotificationManager;
 import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -57,8 +54,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
 
 public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 {
@@ -261,7 +256,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             var animator = this.getAnimationChanger();
             if (animator != null && animator.hasAnimation(phase)) return true;
             return IModelRenderer.DEFAULTPHASE.equals(phase) || this.animations.containsKey(phase)
-                    || this.wrapper.getModel().getBuiltInAnimations().contains(phase);
+                    || this.wrapper.getModel().getBuiltInAnimations().containsKey(phase);
         }
 
         @Override

@@ -19,14 +19,15 @@ import thut.lib.ResourceHelper;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 public class BBModel extends BaseModel
 {
     private BBModelTemplate template;
-    private Set<String> builtin_anims = new HashSet<>();
+    private final Map<String, List<Animation>> builtin_anims_map = new HashMap<>();
 
     public BBModel(final ResourceLocation l, IModelCallback callback)
     {
@@ -60,9 +61,9 @@ public class BBModel extends BaseModel
     }
 
     @Override
-    public Set<String> getBuiltInAnimations()
+    public Map<String, List<Animation>> getBuiltInAnimations()
     {
-        return builtin_anims;
+        return builtin_anims_map;
     }
 
     @Override
@@ -71,12 +72,12 @@ public class BBModel extends BaseModel
         try
         {
             var loaded = AnimationConversion.make_animations(this.template, this);
-            this.builtin_anims = new HashSet<>();
+            this.builtin_anims_map.clear();
             for (var entry : loaded.entrySet())
             {
                 String key = entry.getKey();
                 var list = entry.getValue();
-                this.builtin_anims.add(key);
+                builtin_anims_map.put(key, list);
                 tblAnims.addAll(list);
             }
         }

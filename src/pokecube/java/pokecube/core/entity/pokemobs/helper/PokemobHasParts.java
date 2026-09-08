@@ -22,16 +22,14 @@ import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityEvent;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
-import thut.api.entity.multipart.GenericPartEntity;
-import thut.api.entity.multipart.GenericPartEntity.BodyNode;
-import thut.api.entity.multipart.GenericPartEntity.Factory;
+import thut.api.entity.multipart.BodyPartEntity;
+import thut.api.entity.multipart.BodyPartEntity.BodyNode;
+import thut.api.entity.multipart.BodyPartEntity.Factory;
 import thut.api.entity.multipart.IBodyPartMulitpart;
 import thut.core.common.network.PartSync;
 
 public abstract class PokemobHasParts extends PokemobCombat implements IBodyPartMulitpart<PokemobPart, PokemobHasParts>
 {
-
-    protected GenericPartEntity.Factory<PokemobPart, PokemobHasParts> factory;
     private PartHolder<PokemobPart> parts;
 
     private final List<PokemobPart> lowerList = Lists.newArrayList();
@@ -42,6 +40,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBodyPart
         super(type, worldIn);
     }
 
+    protected BodyPartEntity.Factory<PokemobPart, PokemobHasParts> factory;
     @Override
     public Factory<PokemobPart, PokemobHasParts> getFactory()
     {
@@ -80,9 +79,10 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBodyPart
         List<PokemobPart> parts;
         if (!this.isAddedToLevel())
         {
-            parts = getAllParts();
+            parts = this.getAllParts();
         }
         else parts = this.getUseParts();
+        if (parts == null || parts.isEmpty()) return null;
         cache = parts == _lastParts ? cache : parts.toArray(new PokemobPart[0]);
         _lastParts = parts;
         return cache;

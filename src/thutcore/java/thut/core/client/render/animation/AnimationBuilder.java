@@ -34,11 +34,6 @@ public class AnimationBuilder
     /**
      * Constructs a new Animation, and assigns components based on the
      * definitions in the XML node.
-     *
-     * @param node
-     * @param set2
-     * @param renamer
-     * @return
      */
     public static Animation build(final Phase node, final Set<String> valid_names, @Nullable final IPartRenamer renamer)
     {
@@ -96,8 +91,7 @@ public class AnimationBuilder
                     if (!component.scaleFuncs.isBlank()) Animators.fillJEPs(scale, component.scaleFuncs);
                     if (!component.opacFuncs.isBlank())
                     {
-                        var func = component.opacFuncs;
-                        comp._opacFunction = func;
+                        comp._opacFunction = component.opacFuncs;
                     }
 
                     if (component.name != null) comp.name = component.name;
@@ -179,7 +173,7 @@ public class AnimationBuilder
     {
         if (list.isEmpty()) return null;
         final Animation newAnim = new Animation();
-        var old = list.get(0);
+        var old = list.getFirst();
         newAnim.name = old.name;
         newAnim.identifier = old.identifier;
         newAnim.loops = old.loops;

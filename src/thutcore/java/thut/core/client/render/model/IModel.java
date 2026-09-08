@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -28,11 +29,11 @@ public interface IModel
         void run(IModel model);
     }
 
-    public static ImmutableSet<String> emptyAnims = ImmutableSet.of();
+    public static ImmutableMap<String, List<Animation>> emptyAnims = ImmutableMap.of();
 
     void applyAnimation(Entity entity, IModelRenderer<?> renderer);
 
-    default Set<String> getBuiltInAnimations()
+    default Map<String, List<Animation>> getBuiltInAnimations()
     {
         return IModel.emptyAnims;
     }
