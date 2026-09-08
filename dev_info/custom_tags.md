@@ -9,7 +9,7 @@ These tags are located in datapacks as follows:
 -   `BREEDING` (`tags/pokemob_egg_groups/`) - mobs with `PokedexEntry`s in the same tag can breed, example: [bird](https://github.com/Pokecube-Development/PokecubeMobs/tree/main/pokecube_mobs/data/pokecube/tags/pokemob_egg_groups/bird.json)
 -   `POKEMOB` (`tags/pokemob/`) - used for a variety of general pokemob lists, these also use `PokedexEntry` names in the `values`, example: [starters](https://github.com/Pokecube-Development/PokecubeMobs/tree/main/pokecube_mobs/data/pokecube/tags/pokemob/starters.json)
 -   `MOVEMENT` (`tags/pokemob_movements/`) - movement types for `PokedexEntry`s, ie whether they walk, fly, float or swim, can be in multiple tags, example: [floats](https://github.com/Pokecube-Development/PokecubeMobs/tree/main/pokecube_mobs/data/pokecube/tags/pokemob__movements/floats.json)
--   `GENES` (`database/genes/`) - These allow for genetic mutations on breeding, example: [breeding_mutations](../src/main/resources/data/pokecube_mobs/database/genes/breeding_mutations.json)
+-   `GENES` (`database/genes/`) - These allow for genetic mutations on breeding, example: [breeding_mutations](../src/pokecube/resources/data/pokecube_mobs/database/genes/breeding_mutations.json)
 
 ## Pokemob Tags
 

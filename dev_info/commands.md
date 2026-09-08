@@ -39,9 +39,9 @@ if `[location]` and `[player]` are specified, then the pokemob will be assigned 
 -   `raid` - makes this mob a raid boss of specified type
     - examples: `raid:random`, `raid:terastal`, `raid:dynamax`
 
-Before the above is processed, there is a [PokemakeArgumentEvent](../src/main/java/pokecube/api/events/init/PokemakeArgumentEvent.java) fired. This event allows pre-processing the pokemob, and adding additional handlers.
+Before the above is processed, there is a [PokemakeArgumentEvent](../src/pokecube/java/pokecube/api/events/init/PokemakeArgumentEvent.java) fired. This event allows pre-processing the pokemob, and adding additional handlers.
 
-By default, there is 1 such example in the [Gimmicks](gimmicks.md), the [TerastalMechanic](../src/main/java/pokecube/gimmicks/terastal/TerastalMechanic.java#L274-295) adds the additional arguments:
+By default, there is 1 such example in the [Gimmicks](gimmicks.md), the [TerastalMechanic](../src/pokecube/java/pokecube/gimmicks/terastal/TerastalMechanic.java#L274-295) adds the additional arguments:
 -   `tera_type` - terastal type for the mob
     - examples: `tera_type:fire`, `tera_type:ice`
 -   `is_tera` - whether it spawns terastalized
@@ -51,4 +51,4 @@ By default, there is 1 such example in the [Gimmicks](gimmicks.md), the [Terasta
 
 This command deletes all of the pokemobs presently loaded. It will normally ignore tamed ones, though they can be targetted via `/pokecube kill_all`.
 
-If you want to prevent a mob from being killed this way, listen for the [KillCommandEvent](../src/main/java/pokecube/core/commands/Kill.java), and cancel it.
+If you want to prevent a mob from being killed this way, listen for the [KillCommandEvent](../src/pokecube/java/pokecube/core/commands/Kill.java), and cancel it.
