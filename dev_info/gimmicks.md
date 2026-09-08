@@ -19,7 +19,7 @@ Gimmicks in Pokecube are generally small, mostly standalone features which are a
     -   Example of AI adding
 -   [terastal](../src/pokecube/java/pokecube/gimmicks/terastal/TerastalMechanic.java) - Terastal implementation
     -   Example of new genes adding
--   [zmoves](../src/main/java/pokecube/gimmicks/zmoves/GZMoveManager.java) - Z moves implementation
-  - [pokeplayer](../src/main/java/pokecube/gimmicks/pokeplayer/Pokeplayer.java) - Pokeplayer implementation
+-   [zmoves](../src/pokecube/java/pokecube/gimmicks/zmoves/GZMoveManager.java) - Z moves implementation
+  - [pokeplayer](../src/pokecube/java/pokecube/gimmicks/pokeplayer/Pokeplayer.java) - Pokeplayer implementation
     -   Example of adding and handling packets.
     -   Example of adding and handling custom keybinds.
