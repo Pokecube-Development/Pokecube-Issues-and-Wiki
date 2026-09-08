@@ -8,6 +8,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import thut.core.client.render.model.parts.Part;
+import thut.lib.AxisAngles;
 
 public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
 {
@@ -49,7 +50,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m.identity();
         m.mul(transform);
         m0.set(poseInfo.pose());
-        m0.rotateZ(90);
+        m.rotate(AxisAngles.ZP.rotationDegrees(90));
         m.mul(m0);
         r.set(r0, 1);
 
@@ -64,7 +65,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         w1 = Math.max(m2.x - m1.x, m2.z - m1.z);
 
         this.setPos(r.x, r.y, r.z);
-        if(!this.level().isClientSide()) System.out.println(part.getName()+" "+r);
+        if(!this.level().isClientSide()) System.out.println(part.getName()+" "+r+" "+m1+" "+m2);
 
         this.xOld = this.getX() + dr.x;
         this.yOld = this.getY() + dr.y;

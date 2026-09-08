@@ -32,6 +32,7 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
     default void applyAnimations(IAnimated animHolder)
     {
         var model = getBBModel();
+        if (model == null) return;
         var us = weSelf();
         var partHolder = this.getHolder();
         // Test with once per tick for now, might be
