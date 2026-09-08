@@ -1,16 +1,16 @@
 package pokecube.core.entity.pokemobs.helper;
 
 import pokecube.api.entity.pokemob.IPokemob;
-import thut.api.entity.multipart.BodyPartEntity;
+import thut.api.entity.multipart.BBPartEntity;
+import thut.core.client.render.model.parts.Part;
 
-public class PokemobPart extends BodyPartEntity<PokemobHasParts>
+public class PokemobPart extends BBPartEntity<PokemobHasParts>
 {
     public final IPokemob pokemob;
 
-    public PokemobPart(final PokemobHasParts base, final float width, final float height, final float x, final float y,
-            final float z, final String id)
+    public PokemobPart(final PokemobHasParts base, Part part)
     {
-        super(base, width, height, x, y, z, id);
+        super(base, part);
         this.pokemob = base.getPokemob();
     }
 }

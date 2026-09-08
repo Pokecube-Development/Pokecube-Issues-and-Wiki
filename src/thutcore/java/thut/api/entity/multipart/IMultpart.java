@@ -30,7 +30,6 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
 
         public void clear()
         {
-            allParts = new ArrayList<>();
             parts = new ArrayList<>();
         }
     }
@@ -133,14 +132,7 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         Vector3f r = getHolder().holder().r;
         r.set((float) v.x(), (float) v.y(), (float) v.z());
         final Vec3 dr = new Vec3(r.x - weSelf().xOld, r.y - weSelf().yOld, r.z - weSelf().zOld);
-        if (weSelf().isAddedToLevel())
-        {
-            for (final T p : getHolder().holder().parts) p.update(transform, dr);
-            if (weSelf().tickCount % 20 == 0) PartSync.sendUpdate(weSelf());
-        }
-        else
-        {
-            for (final T p : getHolder().allParts()) p.update(transform, dr);
-        }
+        for (final T p : getUseParts()) p.update(transform, dr);
+        if (weSelf().isAddedToLevel() && weSelf().tickCount % 20 == 0) PartSync.sendUpdate(weSelf());
     }
 }

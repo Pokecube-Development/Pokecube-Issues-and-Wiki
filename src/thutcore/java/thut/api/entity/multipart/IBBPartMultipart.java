@@ -27,11 +27,11 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
     }
 
     BBPartEntity.Factory<T, E> getFactory();
-    BBModel getModel();
+    BBModel getBBModel();
 
     default void applyAnimations(IAnimated animHolder)
     {
-        var model = getModel();
+        var model = getBBModel();
         var us = weSelf();
         var partHolder = this.getHolder();
         // Test with once per tick for now, might be
@@ -51,14 +51,16 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
     {
         var holder = this.getHolder();
         // Sync both lists to each other.
-        holder.setParts(holder.allParts());
         holder.clear();
-        for (var part : this.getModel().getPartsList())
+        holder.setParts(holder.allParts());
+        var model = getBBModel();
+        var parts = model.getPartsList();
+        for (var part : parts)
         {
-            if(part instanceof Part p)
+            if (part instanceof Part p)
             {
                 T partEntity = getFactory().create(weSelf(), p);
-                holder.allParts().add(partEntity);
+                if (partEntity.height != 0 && partEntity.width != 0) holder.allParts().add(partEntity);
             }
         }
     }
@@ -66,6 +68,6 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
     @Override
     default void trySubDivideParts(float width, float length, float height)
     {
-
+        // TODO subdivide us here? maybe via a "fake" set of parts?
     }
 }

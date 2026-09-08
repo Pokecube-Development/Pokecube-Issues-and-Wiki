@@ -63,6 +63,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Vector3f meshMid = new Vector3f(), dMid = new Vector3f();
     public Vector4 rotations = new Vector4();
 
+    public Vector3f meshMin = new Vector3f();
+    public Vector3f meshMax = new Vector3f();
+
     protected Quaternionf _quat = new Quaternionf(0, 0, 0, 1);
     protected Vector4 _rot = new Vector4();
 
@@ -247,6 +250,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             this.is2D = true;
             Vector3f norm = null;
             double epsD = 1e-10;
+            this.meshMax.set(1e-10);
+            this.meshMin.set(1e+10);
             for (var m : this.renderShapes)
             {
                 if (norm == null) norm = m.normalList[0];
@@ -254,10 +259,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 {
                     n++;
                     this.meshMid.add(v);
+                    this.meshMin.min(v);
+                    this.meshMax.max(v);
                 }
-                this.is2D &= m.is2D && Math.abs(norm.dot(m.normalList[0]))>1-epsD;
+                this.is2D &= m.is2D && Math.abs(norm.dot(m.normalList[0])) > 1 - epsD;
             }
             if (n > 0) this.meshMid.div(n);
+            else
+            {
+                meshMin.set(0);
+                meshMax.set(0);
+            }
         }
     }
 

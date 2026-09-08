@@ -73,12 +73,14 @@ import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.utils.TimePeriod;
+import thut.api.ModelHolder;
 import thut.api.Tracker;
 import thut.api.entity.multipart.BodyPartEntity.BodyNode;
 import thut.api.item.ItemList;
 import thut.api.level.terrain.BiomeType;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.bbmodel.BBModel;
+import thut.core.client.render.model.ModelFactory;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
@@ -977,6 +979,7 @@ public class PokedexEntry
     public ResourceLocation animation = PokedexEntry.ANIMNO;
 
     public Map<String, BodyNode> poseShapes = null;
+    @CopyToGender
     public BBModel bodyModel = null;
 
     // Here we have things that need to wait until loaded for initialization, so
@@ -1076,6 +1079,19 @@ public class PokedexEntry
      */
     public void onResourcesReloaded()
     {
+        // Disable async models for this step
+        var old = ThutCore.conf.asyncModelLoads;
+        ThutCore.conf.asyncModelLoads = false;
+        // Load in the model
+        var _model = new ModelHolder(ResourceLocation.fromNamespaceAndPath(this.model().getNamespace(),
+                "database/pokemobs/pokemob_hitboxes/" + this.getTrimmedName()));
+        if (ModelFactory.create(_model) instanceof BBModel bbModel && bbModel.isValid() && bbModel.isLoaded())
+        {
+            for (var p : bbModel.getParts().values()) p.markAsAnimated();
+            this.bodyModel = bbModel;
+        }
+        // Re-enable the async models
+        ThutCore.conf.asyncModelLoads = old;
         this.formeItems.clear();
         this.interactionLogic.stackActions.clear();
         // Apply loaded interactions

@@ -3,7 +3,6 @@ package pokecube.core.entity.pokemobs.helper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -22,13 +21,13 @@ import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityEvent;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
-import thut.api.entity.multipart.BodyPartEntity;
-import thut.api.entity.multipart.BodyPartEntity.BodyNode;
-import thut.api.entity.multipart.BodyPartEntity.Factory;
-import thut.api.entity.multipart.IBodyPartMulitpart;
+import thut.api.entity.multipart.BBPartEntity;
+import thut.api.entity.multipart.BBPartEntity.Factory;
+import thut.api.entity.multipart.IBBPartMultipart;
+import thut.core.client.render.bbmodel.BBModel;
 import thut.core.common.network.PartSync;
 
-public abstract class PokemobHasParts extends PokemobCombat implements IBodyPartMulitpart<PokemobPart, PokemobHasParts>
+public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMultipart<PokemobPart, PokemobHasParts>
 {
     private PartHolder<PokemobPart> parts;
 
@@ -40,7 +39,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBodyPart
         super(type, worldIn);
     }
 
-    protected BodyPartEntity.Factory<PokemobPart, PokemobHasParts> factory;
+    protected BBPartEntity.Factory<PokemobPart, PokemobHasParts> factory;
     @Override
     public Factory<PokemobPart, PokemobHasParts> getFactory()
     {
@@ -88,9 +87,16 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBodyPart
         return cache;
     }
 
+    @Override
+    public BBModel getBBModel()
+    {
+        return this.getPokemob().getPokedexEntry().bodyModel;
+    }
+
     protected void initSizes(final float size)
     {
         final PokedexEntry entry = this.getPokemob().getPokedexEntry();
+//        entry.onResourcesReloaded();
 
         // final List<PokemobPart> allParts = this.allParts;
         // We need to here send a packet to sync the IDs of the new parts vs the
@@ -104,11 +110,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBodyPart
         upperList.clear();
         lowerList.clear();
 
-        if (entry.poseShapes != null)
+        if (entry.bodyModel != null)
         {
-            getHolder().partMap().clear();
-            for (final Entry<String, BodyNode> s : entry.poseShapes.entrySet())
-                this.addPart(s.getKey(), size, s.getValue());
+            this.initFromBBModel();
         }
 
         final float maxH = this.maxH();
@@ -125,17 +129,19 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBodyPart
         // Special handling for client side gui only mobs:
         subDivide = subDivide && (!level.isClientSide() || this.isAddedToLevel());
 
-        if (subDivide)
+        if (entry.bodyModel != null)
         {
-            this.trySubDivideParts(width, length, height);
-            colWidth = Math.min(1, maxW);
-            colHeight = Math.min(1, maxH);
+            if (subDivide)
+            {
+                this.trySubDivideParts(width, length, height);
+                colWidth = Math.min(1, maxW);
+                colHeight = Math.min(1, maxH);
+            }
+            else
+            {
+                getHolder().setParts(new ArrayList<>());
+            }
         }
-        else
-        {
-            getHolder().setParts(new ArrayList<>());
-        }
-        if (!getHolder().partMap().containsKey("idle")) getHolder().partMap().put("idle", getHolder().holder().parts);
 
         float minX = 0;
         float minY = 0;
@@ -144,17 +150,16 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBodyPart
         float maxY = 0;
         float maxZ = 0;
         int n = 0;
-        for (var parts : getHolder().partMap().values())
-            for (final PokemobPart part : parts)
-            {
-                n++;
-                minX = Math.min(minX, part.r0.x - part.width);
-                minZ = Math.min(minZ, part.r0.z - part.width);
-                minY = Math.min(minY, part.r0.y);
-                maxX = Math.max(maxX, part.r0.x + part.width);
-                maxZ = Math.max(maxZ, part.r0.z + part.width);
-                maxY = Math.max(maxY, part.r0.y + part.height);
-            }
+        for (final PokemobPart part : getHolder().allParts())
+        {
+            n++;
+            minX = Math.min(minX, part.r0.x - part.width);
+            minZ = Math.min(minZ, part.r0.z - part.width);
+            minY = Math.min(minY, part.r0.y);
+            maxX = Math.max(maxX, part.r0.x + part.width);
+            maxZ = Math.max(maxZ, part.r0.z + part.width);
+            maxY = Math.max(maxY, part.r0.y + part.height);
+        }
 
         if (n != 0)
         {
@@ -347,7 +352,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBodyPart
     public void updatePartsPos()
     {
         var parts = getUseParts();
-        IBodyPartMulitpart.super.updatePartsPos();
+        IBBPartMultipart.super.updatePartsPos();
         if (parts != getUseParts() || (!parts.isEmpty() && lowerList.isEmpty()))
         {
             this.upperList.clear();
