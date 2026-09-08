@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -153,6 +154,7 @@ public class BaseModelToBBModel
                     if (simplifiy)
                     {
                         List<String> remove = new ArrayList<>();
+                        Map<String, Matrix3f> boxes = new HashMap<>();
                         for (var meshKey : faces)
                         {
                             var meshVerts = faceVerts.get(meshKey);
@@ -173,13 +175,13 @@ public class BaseModelToBBModel
                             }
 
                             float volume = IBBPartMultipart.computeSimpleVolume(meshVerts);
-                            if (Math.abs(volume) < 1e-4)
+                            float newVolume = (max.x - min.x) * (max.y - min.y) * (max.z - min.z);
+                            if (Math.abs(volume) < 1e-4 || newVolume < 1e-4)
                             {
                                 remove.add(meshKey);
                                 continue;
                             }
-                            float newVolume = (max.x - min.x) * (max.y - min.y) * (max.z - min.z);
-
+                            boxes.put(meshKey, new Matrix3f(min, max, new Vector3f()));
                             if (newVolume / volume > 5)
                             {
                                 PokecubeAPI.LOGGER.warn("Warning, volume expanded greatly for part {} in {}",
@@ -232,6 +234,28 @@ public class BaseModelToBBModel
                             faceTex.put(meshKey, cubeTex.toArray(new Vector2f[0]));
                         }
                         faces.removeAll(remove);
+                        // Now check if any added cubes entirely fit inside ours
+                        remove.clear();
+                        Vector3f testA = new Vector3f(), testB = new Vector3f(), testC = new Vector3f();
+                        for (var meshKeyA: faces)
+                        {
+                            var mA = boxes.get(meshKeyA);
+                            mA.getColumn(0, testA);
+                            mA.getColumn(1, testB);
+                            // Loop over others, see if
+                            for (var meshKeyB : faces)
+                            {
+                                if (meshKeyA == meshKeyB || remove.contains(meshKeyB)) continue;
+                                // If b is inside A, quit
+                                var mB = boxes.get(meshKeyB);
+                                mB.getColumn(0, testC);
+                                boolean inside = testC.max(testB).equals(testB);
+                                inside &= testC.max(testA).equals(testA);
+                                if (inside) remove.add(meshKeyB);
+                            }
+                        }
+                        faces.removeAll(remove);
+                        System.out.println(part.getName()+" "+faces);
                     }
                     // Now make the faces
                     for (var meshKey : faces)

@@ -129,7 +129,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         // Special handling for client side gui only mobs:
         subDivide = subDivide && (!level.isClientSide() || this.isAddedToLevel());
 
-        if (entry.bodyModel != null)
+        if (entry.bodyModel == null)
         {
             if (subDivide)
             {

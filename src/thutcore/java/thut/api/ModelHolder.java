@@ -46,7 +46,7 @@ public class ModelHolder
 
     public void setLoadedOffset(Vector3f loadedOffset)
     {
-        this.loadedOffset = loadedOffset;
+        this.loadedOffset = new Vector3f(loadedOffset);
     }
 
     public Vector3f getLoadedScale()
@@ -56,6 +56,6 @@ public class ModelHolder
 
     public void setLoadedScale(Vector3f loadedScale)
     {
-        this.loadedScale = loadedScale;
+        this.loadedScale = new Vector3f(loadedScale);
     }
 }

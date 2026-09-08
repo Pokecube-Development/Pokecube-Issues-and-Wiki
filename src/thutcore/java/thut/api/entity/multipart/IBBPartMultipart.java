@@ -39,13 +39,16 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
         // able to make it slower for not ridden cases?
         if (partHolder.holder().animTick == us.tickCount) return;
 
-        var holder = AnimationHelper.getHolder(us);
-        final List<String> anims = animHolder.getChoices();
-        var pose = anims.stream().filter(s -> model.getBuiltInAnimations().containsKey(s))
-                .findFirst().orElse("idle");
-        partHolder.holder().effective_pose = pose;
-        List<Animation> runAnims = model.getBuiltInAnimations().getOrDefault(pose, List.of());
-        model.updateAnimation(runAnims, holder);
+        synchronized (model)
+        {
+            var holder = AnimationHelper.getHolder(us);
+            final List<String> anims = animHolder.getChoices();
+            var pose = anims.stream().filter(s -> model.getBuiltInAnimations().containsKey(s)).findFirst()
+                    .orElse("idle");
+            partHolder.holder().effective_pose = pose;
+            List<Animation> runAnims = model.getBuiltInAnimations().getOrDefault(pose, List.of());
+            model.updateAnimation(runAnims, holder);
+        }
     }
 
     default void initFromBBModel()
@@ -60,7 +63,7 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
         {
             if (part instanceof Part p)
             {
-                T partEntity = getFactory().create(weSelf(), p);
+                T partEntity = getFactory().create(weSelf(), p, model);
                 if (partEntity.height != 0 && partEntity.width != 0) holder.allParts().add(partEntity);
             }
         }

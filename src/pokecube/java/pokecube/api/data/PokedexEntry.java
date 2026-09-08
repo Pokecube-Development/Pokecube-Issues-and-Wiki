@@ -1085,7 +1085,7 @@ public class PokedexEntry
         // Load in the model
         var _model = new ModelHolder(ResourceLocation.fromNamespaceAndPath(this.model().getNamespace(),
                 "database/pokemobs/pokemob_hitboxes/" + this.getTrimmedName()));
-        if (ModelFactory.create(_model) instanceof BBModel bbModel && bbModel.isValid() && bbModel.isLoaded())
+        if (ModelFactory.createScaled(_model) instanceof BBModel bbModel && bbModel.isValid() && bbModel.isLoaded())
         {
             for (var p : bbModel.getParts().values()) p.markAsAnimated();
             this.bodyModel = bbModel;

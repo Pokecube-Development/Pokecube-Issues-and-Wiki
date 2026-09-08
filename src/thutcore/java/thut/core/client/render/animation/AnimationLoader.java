@@ -158,6 +158,7 @@ public class AnimationLoader
             }
             final List<Animation> xmlAnimations = new ArrayList<>();
             for (final Phase phase : file.model.phases)
+            {
                 // Handle global, merges and presets
                 if (phase.name != null)
                 {
@@ -200,6 +201,7 @@ public class AnimationLoader
                         xmlAnimations.add(anim);
                     }
                 }
+            }
 
             // Handle merges
             for (final Merge merge : file.model.merges)
@@ -218,8 +220,11 @@ public class AnimationLoader
                 }
             }
 
-            if (renderer != null) renderer.getAnimations().clear();
-            model.initBuiltInAnimations(renderer, animations);
+            if (renderer != null)
+            {
+                renderer.getAnimations().clear();
+                model.initBuiltInAnimations(renderer, animations);
+            }
             animations.addAll(xmlAnimations);
 
             // Handle worn offsets.
