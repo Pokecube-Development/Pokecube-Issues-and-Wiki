@@ -25,7 +25,7 @@ The instructions are a list of not-blank lines, including the key line, but not 
     -   does not include key
 -   `item filters` - Treats the list as a list of item tags
     -   does not include key
--   [build](../src/main/java/pokecube/gimmicks/builders/builders/BuilderManager.java#L161-L1178) - Argument parsing defined by `<key>:<value>`, order defined as below
+-   [build](../src/pokecube/java/pokecube/gimmicks/builders/builders/BuilderManager.java#L161-L1178) - Argument parsing defined by `<key>:<value>`, order defined as below
     1.   `build` - type of structure to build, defaults allowed are `jigsaw`, `building`, `save`, and `saved`
     2.   Next line is the resource location to build, following lines can be in any order, and are all optional
     -   `o` - origin - override location for where the structure is built

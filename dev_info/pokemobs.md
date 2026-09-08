@@ -2,13 +2,13 @@
 
 ## Main Pokemob Structure
 
-Pokemobs consist of an [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) providing capability attached to an entity.
+Pokemobs consist of an [IPokemob](../src/pokecube/java/pokecube/api/entity/pokemob/IPokemob.java) providing capability attached to an entity.
 
-- [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) inherits from:
+- [IPokemob](../src/pokecube/java/pokecube/api/entity/pokemob/IPokemob.java) inherits from:
   - `IHasMobAIStates` - provides state tracking for combat, states of the mob's orders, etc
-    - `IHasEntry` - tracking of a [PokedexEntry](../src/main/java/pokecube/api/data/PokedexEntry.java) and some breeding related methods
+    - `IHasEntry` - tracking of a [PokedexEntry](../src/pokecube/java/pokecube/api/data/PokedexEntry.java) and some breeding related methods
   - `IHasMoves` - provides ability to use attacks, combat tracking, etc
-  - `ICanEvolve` - provies ability to change to different [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) types
+  - `ICanEvolve` - provies ability to change to different [IPokemob](../src/pokecube/java/pokecube/api/entity/pokemob/IPokemob.java) types
   - `IHasOwner` - provides tracking for an owner, as well as for sending messages to the owner, also tracks traded status and the pokecube the pokemob is in, as well as the controller for when ridden
     - `IOwnable` - [ThutAPI](thut_api.md#generic-ownable-objects) for generic ownable things
   - `IHasStats` - Tracks the pokemob's `Ability`, `Nature`, `PokeType`s, combat stats, etc
@@ -18,11 +18,11 @@ Pokemobs consist of an [IPokemob](../src/main/java/pokecube/api/entity/pokemob/I
   - `IShearable` - Handles a generic "sheared" state, similar to vanilla sheep
   - `ICopyMob` - Handles the ability for the pokemob to copy the appearance of another mob, mostly for transform and similar
 
-[IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) has the following for storing other information:
+[IPokemob](../src/pokecube/java/pokecube/api/entity/pokemob/IPokemob.java) has the following for storing other information:
 
 - `Mob` via `IHasEntry.getEntity()` - A vanilla mob associated with the Pokemob, if we are attached to a `Mob`, this will be what we are attached to, otherwise it will be a `Mob` that has the relevant values synced to/from the attached entity
-- [PokedexEntry](../src/main/java/pokecube/api/data/PokedexEntry.java) via `IHasEntry.getPokedexEntry()` - Contains most of the standard pokemon related information for the pokemob
-- `FormeHolder` - via `IPokemob.getCustomHolder()` - can be null, contains override information for the model/texture/types/etc for the individual [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java), separate from the standard [PokedexEntry](../src/main/java/pokecube/api/data/PokedexEntry.java) for it.
+- [PokedexEntry](../src/pokecube/java/pokecube/api/data/PokedexEntry.java) via `IHasEntry.getPokedexEntry()` - Contains most of the standard pokemon related information for the pokemob
+- `FormeHolder` - via `IPokemob.getCustomHolder()` - can be null, contains override information for the model/texture/types/etc for the individual [IPokemob](../src/pokecube/java/pokecube/api/entity/pokemob/IPokemob.java), separate from the standard [PokedexEntry](../src/pokecube/java/pokecube/api/data/PokedexEntry.java) for it.
 - `PokemobMoveStats` - holder for a variety of combat related things, such as `Ability` as modified in battle, the target for combat, the selected moves, etc
 - `StatModifiers` - Holds type information for the Pokemob, as well as modifications for stats for use in combat
 
@@ -32,54 +32,54 @@ Pokemob AI is done using a list of `Behavior` (Vanilla type) objects just like s
 
 These are arranged into three groupings:
 
-- [IDLE](../src/main/java/pokecube/core/ai/tasks/Tasks.java#L85-L156) - handles most non-combat AI
-    - [GuardEggTask](../src/main/java/pokecube/core/ai/tasks/misc/GuardEggTask.java)
-    - [MateTask](../src/main/java/pokecube/core/ai/tasks/idle/MateTask.java)
-    - [HungerTask](../src/main/java/pokecube/core/ai/tasks/idle/HungerTask.java)
-    - [IdleWalkTask](../src/main/java/pokecube/core/ai/tasks/idle/IdleWalkTask.java)
-    - [IdleRestTask](../src/main/java/pokecube/core/ai/tasks/idle/IdleRestTask.java)
-    - [IdleJumpOnShoulderTask](../src/main/java/pokecube/core/ai/tasks/idle/IdleJumpOnShoulderTask.java)
-    - [FollowOwnerTask](../src/main/java/pokecube/core/ai/tasks/misc/FollowOwnerTask.java)
-- [COMBAT](../src/main/java/pokecube/core/ai/tasks/Tasks.java#L159-L214) - handles combat movement, move use, enemy management, etc
-    - [SelectMoveTask](../src/main/java/pokecube/core/ai/tasks/combat/attacks/SelectMoveTask.java)
-    - [UseAttacksTask](../src/main/java/pokecube/core/ai/tasks/combat/attacks/UseAttacksTask.java)
-    - [DodgeTask](../src/main/java/pokecube/core/ai/tasks/combat/movement/DodgeTask.java)
-    - [LeapTask](../src/main/java/pokecube/core/ai/tasks/combat/movement/LeapTask.java)
-    - [CicleTask](../src/main/java/pokecube/core/ai/tasks/combat/movement/CicleTask.java)
-    - [ForgetTargetTask](../src/main/java/pokecube/core/ai/tasks/combat/management/ForgetTargetTask.java)
-    - [CallForHelpTask](../src/main/java/pokecube/core/ai/tasks/combat/management/CallForHelpTask.java)
-    - [FindTargetsTask](../src/main/java/pokecube/core/ai/tasks/combat/management/FindTargetsTask.java)
-- [UTILITY](../src/main/java/pokecube/core/ai/tasks/Tasks.java#L217-L271) - handles item gathering and out-of-combat move use
-    - [StoreTask](../src/main/java/pokecube/core/ai/tasks/utility/StoreTask.java)
-    - [GatherTask](../src/main/java/pokecube/core/ai/tasks/utility/GatherTask.java)
-    - [UseMoveTask](../src/main/java/pokecube/core/ai/tasks/utility/UseMoveTask.java)
-    - [ForgetHuntedByTask](../src/main/java/pokecube/core/ai/tasks/idle/ForgetHuntedByTask.java)
+- [IDLE](../src/pokecube/java/pokecube/core/ai/tasks/Tasks.java#L85-L156) - handles most non-combat AI
+    - [GuardEggTask](../src/pokecube/java/pokecube/core/ai/tasks/misc/GuardEggTask.java)
+    - [MateTask](../src/pokecube/java/pokecube/core/ai/tasks/idle/MateTask.java)
+    - [HungerTask](../src/pokecube/java/pokecube/core/ai/tasks/idle/HungerTask.java)
+    - [IdleWalkTask](../src/pokecube/java/pokecube/core/ai/tasks/idle/IdleWalkTask.java)
+    - [IdleRestTask](../src/pokecube/java/pokecube/core/ai/tasks/idle/IdleRestTask.java)
+    - [IdleJumpOnShoulderTask](../src/pokecube/java/pokecube/core/ai/tasks/idle/IdleJumpOnShoulderTask.java)
+    - [FollowOwnerTask](../src/pokecube/java/pokecube/core/ai/tasks/misc/FollowOwnerTask.java)
+- [COMBAT](../src/pokecube/java/pokecube/core/ai/tasks/Tasks.java#L159-L214) - handles combat movement, move use, enemy management, etc
+    - [SelectMoveTask](../src/pokecube/java/pokecube/core/ai/tasks/combat/attacks/SelectMoveTask.java)
+    - [UseAttacksTask](../src/pokecube/java/pokecube/core/ai/tasks/combat/attacks/UseAttacksTask.java)
+    - [DodgeTask](../src/pokecube/java/pokecube/core/ai/tasks/combat/movement/DodgeTask.java)
+    - [LeapTask](../src/pokecube/java/pokecube/core/ai/tasks/combat/movement/LeapTask.java)
+    - [CicleTask](../src/pokecube/java/pokecube/core/ai/tasks/combat/movement/CicleTask.java)
+    - [ForgetTargetTask](../src/pokecube/java/pokecube/core/ai/tasks/combat/management/ForgetTargetTask.java)
+    - [CallForHelpTask](../src/pokecube/java/pokecube/core/ai/tasks/combat/management/CallForHelpTask.java)
+    - [FindTargetsTask](../src/pokecube/java/pokecube/core/ai/tasks/combat/management/FindTargetsTask.java)
+- [UTILITY](../src/pokecube/java/pokecube/core/ai/tasks/Tasks.java#L217-L271) - handles item gathering and out-of-combat move use
+    - [StoreTask](../src/pokecube/java/pokecube/core/ai/tasks/utility/StoreTask.java)
+    - [GatherTask](../src/pokecube/java/pokecube/core/ai/tasks/utility/GatherTask.java)
+    - [UseMoveTask](../src/pokecube/java/pokecube/core/ai/tasks/utility/UseMoveTask.java)
+    - [ForgetHuntedByTask](../src/pokecube/java/pokecube/core/ai/tasks/idle/ForgetHuntedByTask.java)
 
 ### Adding/Modifying AI
 
-The `InitAIEvent.Init` events are fired when the above lists are populated. This can be used to add to or modify the lists, if using the `IAIRunnable` type of task. An example of this usage can be found via the [Structure Builder Gimmick](../src/main/java/pokecube/gimmicks/builders/BuilderTasks.java), which adds 2 tasks to the `UTILITY` tasks list.
+The `InitAIEvent.Init` events are fired when the above lists are populated. This can be used to add to or modify the lists, if using the `IAIRunnable` type of task. An example of this usage can be found via the [Structure Builder Gimmick](../src/pokecube/java/pokecube/gimmicks/builders/BuilderTasks.java), which adds 2 tasks to the `UTILITY` tasks list.
 
-AI tasks can also be set to be automatically added by registering a [ITaskAdder](../src/main/java/pokecube/api/ai/ITaskAdder.java) with [TaskAdders.register](../src/main/java/pokecube/api/ai/TaskAdders.java). An example of this can be found via the [Ant Nest Gimmick](../src/main/java/pokecube/gimmicks/nests/tasks/ants/AntTasks.java), where it adds a variety of sensors, memories and tasks. This method allows adding any arbitrary task type, rather than just `IAIRunnable`.
+AI tasks can also be set to be automatically added by registering a [ITaskAdder](../src/pokecube/java/pokecube/api/ai/ITaskAdder.java) with [TaskAdders.register](../src/pokecube/java/pokecube/api/ai/TaskAdders.java). An example of this can be found via the [Ant Nest Gimmick](../src/pokecube/java/pokecube/gimmicks/nests/tasks/ants/AntTasks.java), where it adds a variety of sensors, memories and tasks. This method allows adding any arbitrary task type, rather than just `IAIRunnable`.
 
 ### Additional Tick Logic
 
 There is then an additional list of `Logic` objects, obtainable via `IPokemob.getTickLogic()`
 
 These are presently as follows:
-- [LogicMountedControl](../src/main/java/pokecube/core/ai/logic/LogicMountedControl.java) - handles controls while ridden, effects like water breathing for dive, etc
-- [LogicInLiquid](../src/main/java/pokecube/core/ai/logic/LogicInLiquid.java) - any needed adjustments for when the pokemob is in water or lava
-- [LogicMovesUpdates](../src/main/java/pokecube/core/ai/logic/LogicMovesUpdates.java) - Ticks abilities while in combat, checks held item use, etc
-- [LogicInMaterials](../src/main/java/pokecube/core/ai/logic/LogicInMaterials.java) - Handles additional effects for when the pokemob is inside a material (damage from water, etc)
-- [LogicFloatFlySwim](../src/main/java/pokecube/core/ai/logic/LogicFloatFlySwim.java) - deals with switching path finders/navigators for mobs which swim/fly/etc
-- [LogicMiscUpdate](../src/main/java/pokecube/core/ai/logic/LogicMiscUpdate.java) - ticks inventory items, validates AI states, checks for particle effects and animations for the mob
+- [LogicMountedControl](../src/pokecube/java/pokecube/core/ai/logic/LogicMountedControl.java) - handles controls while ridden, effects like water breathing for dive, etc
+- [LogicInLiquid](../src/pokecube/java/pokecube/core/ai/logic/LogicInLiquid.java) - any needed adjustments for when the pokemob is in water or lava
+- [LogicMovesUpdates](../src/pokecube/java/pokecube/core/ai/logic/LogicMovesUpdates.java) - Ticks abilities while in combat, checks held item use, etc
+- [LogicInMaterials](../src/pokecube/java/pokecube/core/ai/logic/LogicInMaterials.java) - Handles additional effects for when the pokemob is inside a material (damage from water, etc)
+- [LogicFloatFlySwim](../src/pokecube/java/pokecube/core/ai/logic/LogicFloatFlySwim.java) - deals with switching path finders/navigators for mobs which swim/fly/etc
+- [LogicMiscUpdate](../src/pokecube/java/pokecube/core/ai/logic/LogicMiscUpdate.java) - ticks inventory items, validates AI states, checks for particle effects and animations for the mob
 
 ## Combat Structure
 
-Combat consists of a [Battle](../src/main/java/pokecube/api/moves/Battle.java), where there are 2 lists of `LivingEntity` which are listed as on opposing teams. A [Battle](../src/main/java/pokecube/api/moves/Battle.java) ends when one of the teams is empty.
+Combat consists of a [Battle](../src/pokecube/java/pokecube/api/moves/Battle.java), where there are 2 lists of `LivingEntity` which are listed as on opposing teams. A [Battle](../src/pokecube/java/pokecube/api/moves/Battle.java) ends when one of the teams is empty.
 
-The `PokemobMoveStats` for the [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) contains a tracker for both the current enemy `LivingEntity`, and the index of the `LivingEntity` in the list in the [Battle](../src/main/java/pokecube/api/moves/Battle.java). The owner of the [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) can change the target by setting that index.
+The `PokemobMoveStats` for the [IPokemob](../src/pokecube/java/pokecube/api/entity/pokemob/IPokemob.java) contains a tracker for both the current enemy `LivingEntity`, and the index of the `LivingEntity` in the list in the [Battle](../src/pokecube/java/pokecube/api/moves/Battle.java). The owner of the [IPokemob](../src/pokecube/java/pokecube/api/entity/pokemob/IPokemob.java) can change the target by setting that index.
 
-Once a [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) has a target, it is up to the `COMBAT` AI tasks to deal with what to do, and that is where the actual combat is done. The default behaviour is as follows:
+Once a [IPokemob](../src/pokecube/java/pokecube/api/entity/pokemob/IPokemob.java) has a target, it is up to the `COMBAT` AI tasks to deal with what to do, and that is where the actual combat is done. The default behaviour is as follows:
 
 - `UseAttacksTask` - Queues up a move use for the pokemob if the position/timing conditions are correct
 - `DodgeTask` - Attempts to dodge incoming moves
@@ -99,7 +99,7 @@ A move gets excuted normally via the `IHasMoves.executeMove` method, which takes
   - Otherwise if the pokemob has flinched, is confused, or is infatuated, that is then checked next, and if the negative condition occurs, we exit here
 4. Finally `MovesUtils.useMove` is called to generate and start application of the move.
 
-In `MovesUtils.useMove` a `MoveApplication` is made for the attack, and it is applied to targets based on the result of testing targets via `MoveApplicationRegistry.getValidator`. The targets are selected either from the active [Battle](../src/main/java/pokecube/api/moves/Battle.java) that the pokemob is in, or from just the target location and given user (for cases of out of combat move use). Before queueing the attack for application, a `MoveUse.ActualMoveUse.Init` event is fired on the `PokecubeAPI.MOVE_BUS`, and if it is cancelled, the attack will not be queued.
+In `MovesUtils.useMove` a `MoveApplication` is made for the attack, and it is applied to targets based on the result of testing targets via `MoveApplicationRegistry.getValidator`. The targets are selected either from the active [Battle](../src/pokecube/java/pokecube/api/moves/Battle.java) that the pokemob is in, or from just the target location and given user (for cases of out of combat move use). Before queueing the attack for application, a `MoveUse.ActualMoveUse.Init` event is fired on the `PokecubeAPI.MOVE_BUS`, and if it is cancelled, the attack will not be queued.
 
 Queueing of the move consists of constructing a `EntityMoveUse`, and marking it as ready to start applying next tick. Here is also where the `CombatStates.USEDZMOVE` for the mob is recorded if nessisary. The queued moves get executed the next tick, and are sorted by priority there (including checks to `VIT` stat), this however is not generally relevant. The `EntityMoveUse` is then added to the level, and the move's hunger cost is applied to the pokemob, and a message about the move use is sent to those involved.
 
@@ -211,8 +211,8 @@ Abilities are implemented via classes which extend the `Ability` class, they wil
 
 Abilities have the following methods:
 
-- `startCombat` - called when a pokemob is added to a [Battle](../src/main/java/pokecube/api/moves/Battle.java)
-- `endCombat` - called when the pokemob is removed from the [Battle](../src/main/java/pokecube/api/moves/Battle.java)
+- `startCombat` - called when a pokemob is added to a [Battle](../src/pokecube/java/pokecube/api/moves/Battle.java)
+- `endCombat` - called when the pokemob is removed from the [Battle](../src/pokecube/java/pokecube/api/moves/Battle.java)
 - `beforeDamage` - called from the `DamageApplier.applyDamage` to possibly modify damage dealt
 - `canChange` - Ability dependant check for mega evolution
 - `onAgress` - called when combat target is set
@@ -226,27 +226,27 @@ Abilities have the following methods:
 
 Pokemobs use the [genetics system](thut_api.md#genetics-system) provided by ThutAPI. Pokemobs by default track the following genes:
 
-- [AbilityGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/AbilityGene.java)
-- [ColourGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/ColourGene.java)
-- [SpeciesGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/SpeciesGene.java)
-- [IVsGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/IVsGene.java)
-- [EVsGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/epigenes/EVsGene.java)
-- [MovesGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/epigenes/MovesGene.java)
-- [NatureGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/NatureGene.java)
-- [ShinyGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/ShinyGene.java)
-- [SizeGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/SizeGene.java)
-- [DynamaxGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/DynamaxGene.java)
-- [TeraTypeGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/TeraTypeGene.java)
+- [AbilityGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/AbilityGene.java)
+- [ColourGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/ColourGene.java)
+- [SpeciesGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/SpeciesGene.java)
+- [IVsGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/IVsGene.java)
+- [EVsGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/epigenes/EVsGene.java)
+- [MovesGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/epigenes/MovesGene.java)
+- [NatureGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/NatureGene.java)
+- [ShinyGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/ShinyGene.java)
+- [SizeGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/SizeGene.java)
+- [DynamaxGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/DynamaxGene.java)
+- [TeraTypeGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/TeraTypeGene.java)
 
 ## Pokemob Data Structure
 
-Pokemobs are loaded from data via files placed in `database/pokemobs/pokedex_entries`, such as [Abra](../src/generated/resources/data/pokecube_mobs/database/pokemobs/pokedex_entries/abra.json). Normally these are generated by the data generation [scripts](../processing_scripts/database_update/readme.md), from data at PokeAPI. These are first loaded as either a [JsonPokedexEntry](../src/main/java/pokecube/core/database/pokedex/JsonPokedexEntry.java) or a list thereof. Then each `JsonPokedexEntry` is converted to [PokedexEntry](../src/main/java/pokecube/api/data/PokedexEntry.java).
+Pokemobs are loaded from data via files placed in `database/pokemobs/pokedex_entries`, such as [Abra](../src/generated/resources/data/pokecube_mobs/database/pokemobs/pokedex_entries/abra.json). Normally these are generated by the data generation [scripts](../processing_scripts/database_update/readme.md), from data at PokeAPI. These are first loaded as either a [JsonPokedexEntry](../src/pokecube/java/pokecube/core/database/pokedex/JsonPokedexEntry.java) or a list thereof. Then each `JsonPokedexEntry` is converted to [PokedexEntry](../src/pokecube/java/pokecube/api/data/PokedexEntry.java).
 
 If the value of `stock` for the `JsonPokedexEntry` is `true`, then a minecraft `EntityType` is registered for that entry. Otherwise it will be linked to the `pokecube:missingno` entity type.
 
 ## Pokemob Animation States
 
-Pokemob animations are run by selecting the first state which occurs in the list provided by the [IAnimated](../src/main/java/thut/api/entity/IAnimated.java) associated with the pokemob. These are populated in the orders listed below. If the mob is being ridden, then "ridden_\<anim>" is added to the list before each of the strings listed below.
+Pokemob animations are run by selecting the first state which occurs in the list provided by the [IAnimated](../src/pokecube/java/thut/api/entity/IAnimated.java) associated with the pokemob. These are populated in the orders listed below. If the mob is being ridden, then "ridden_\<anim>" is added to the list before each of the strings listed below.
 
 Once an animation is selected, it may then be randomised if sub-animations are registered via the xml files for that animation.
 
@@ -255,7 +255,7 @@ Once an animation is selected, it may then be randomised if sub-animations are r
 These are put in `IAnimated.getChoices()`
 
 - "dead" - if the mob is dying
-- lower case names of active [LogicStates](../src/main/java/pokecube/api/entity/pokemob/ai/LogicStates.java) in order
+- lower case names of active [LogicStates](../src/pokecube/java/pokecube/api/entity/pokemob/ai/LogicStates.java) in order
 - "floating" - if the mob is not moving horizontally, and has pose `FALL_FLYING`
 - "flying" - if the mob has pose, has pose `FALL_FLYING`
 - "floating" - if the mob is moving horizontally, and has pose `FALL_FLYING`
@@ -267,8 +267,8 @@ These are put in `IAnimated.getChoices()`
 - "sprinting" - if the mob is sprinting
 - "guarding_walking" - if the mob is guarding and walking
 - "walking" - if the mob is walking
-- lower case names of active [CombatStates](../src/main/java/pokecube/api/entity/pokemob/ai/CombatStates.java) in order
-- lower case names of active [GeneralStates](../src/main/java/pokecube/api/entity/pokemob/ai/CombatStates.java) in order
+- lower case names of active [CombatStates](../src/pokecube/java/pokecube/api/entity/pokemob/ai/CombatStates.java) in order
+- lower case names of active [GeneralStates](../src/pokecube/java/pokecube/api/entity/pokemob/ai/CombatStates.java) in order
 - "idle"
 
 ### Transient animations
@@ -276,7 +276,7 @@ These are put in `IAnimated.getChoices()`
 These are put in `IAnimated.transientAnimations()`
 
 - "blink" - randomly approximately every 4 seconds
-- "attack_\<name\>" - if the mob is [EXECUTINGMOVE](../src/main/java/pokecube/api/entity/pokemob/ai/CombatStates.java), where `<name>` is the name of the attack being used.
+- "attack_\<name\>" - if the mob is [EXECUTINGMOVE](../src/pokecube/java/pokecube/api/entity/pokemob/ai/CombatStates.java), where `<name>` is the name of the attack being used.
 - "attack_contact" - similar to above, but using a contact move
 - "attack_ranged" - similar to above, but using a ranged move
 - "attack_status" - similar to above, but using a status move
@@ -285,4 +285,4 @@ These are put in `IAnimated.transientAnimations()`
 
 ### Editing animations via addons
 
-The [AnimationSelectionEvent](../src/main/java/pokecube/api/events/pokemobs/ai/AnimationSelectionEvent.java) is fired on the `PokecubeAPI.POKEMOB_BUS` after the above lists are populated, this can be used to edit them accordingly.
+The [AnimationSelectionEvent](../src/pokecube/java/pokecube/api/events/pokemobs/ai/AnimationSelectionEvent.java) is fired on the `PokecubeAPI.POKEMOB_BUS` after the above lists are populated, this can be used to edit them accordingly.
