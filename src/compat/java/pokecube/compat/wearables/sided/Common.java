@@ -21,6 +21,7 @@ import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.bling.client.render.Util;
 import thut.core.client.render.animation.AnimationHelper;
+import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
 import thut.core.client.render.model.ModelFactory;
@@ -87,7 +88,10 @@ public class Common
         {
             boolean reload = Util.shouldReloadModel();
             if ((this.model == null || reload) && this._model != null)
+            {
                 this.model = ModelFactory.createScaled(new ModelHolder(this._model));
+                if (this.model != null) this.model.getPartsList().forEach(IExtendedModelPart::markAsAnimated);
+            }
             if(model!=null)
             {
                 IAnimated.IAnimationHolder holder = AnimationHelper.getHolder(wearer);
