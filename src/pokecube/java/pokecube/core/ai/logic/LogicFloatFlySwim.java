@@ -266,11 +266,11 @@ public class LogicFloatFlySwim extends LogicBase
             if (Math.signum(vy) != Math.signum(push.y)) push.addVelocities(entity);
         }
 
-        if (air && this.entity.isAlive())
+        if (air && this.entity.isAlive() && !this.pokemob.isGrounded())
         {
             if (this.state != NaviState.FLY)
             {
-                this.entity.setNoGravity(!this.pokemob.isGrounded());
+                this.entity.setNoGravity(true);
                 this.pokemob.getEntity().navigation = this.flyPather;
                 this.pokemob.getEntity().moveControl = this.flyController;
                 this.flyPather.setCanOpenDoors(this.pokemob.isRoutineEnabled(AIRoutine.USEDOORS));

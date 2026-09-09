@@ -19,6 +19,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityEvent;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
 import thut.api.entity.multipart.BBPartEntity;
@@ -230,6 +231,13 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             var dw2 = Math.max(containing.getXsize(), containing.getZsize());
             colWidth = (float) dw2;
             colHeight = (float) dh2;
+            if (colWidth * colHeight > 190)
+            {
+                // Throttle warning to once per 5s
+                if (this.tickCount % 100 == 0) PokecubeAPI.LOGGER.warn("Warning, {} is too big!", this);
+                colHeight = Math.min(9, colHeight);
+                colWidth = Math.min(21, colWidth);
+            }
         }
 
         final EntityEvent.Size sizeEvent = EventHooks.getEntitySizeForge(this, pose, this.getDimensions(pose));
@@ -237,7 +245,11 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         this.dimensions = entitysize1;
         this.fixupDimensions();
         final double d0 = entitysize1.width() / 2.0D;
-        if (containing != null) this.setBoundingBox(containing);
+        if (containing != null)
+        {
+            this.setBoundingBox(containing);
+//            this.fudgePositionAfterSizeChange(entitysize1);
+        }
         else this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0,
                 this.getY() + entitysize1.height(), this.getZ() + d0));
     }
@@ -310,8 +322,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
 
         boolean horizontalCollision = false;
         boolean minorHorizontalCollision = false;
-        boolean onGround = false;
         boolean verticalCollision = false;
+        boolean verticalCollisionBelow = false;
 
         // Check lower parts first (ground most likely to hit first and stop
         // motion)
@@ -322,8 +334,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             velocity = part.position().subtract(before);
             horizontalCollision |= part.horizontalCollision;
             minorHorizontalCollision |= part.minorHorizontalCollision;
-            onGround |= part.onGround();
             verticalCollision |= part.verticalCollision;
+            verticalCollisionBelow |= part.verticalCollisionBelow;
         }
         // Then check upper parts
         for (PokemobPart part : upperList)
@@ -333,8 +345,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             velocity = part.position().subtract(before);
             horizontalCollision |= part.horizontalCollision;
             minorHorizontalCollision |= part.minorHorizontalCollision;
-            onGround |= part.onGround();
             verticalCollision |= part.verticalCollision;
+            verticalCollisionBelow |= part.verticalCollisionBelow;
         }
 
         // Finally apply it to us to actually shift hitbox.
@@ -342,11 +354,13 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
 
         this.horizontalCollision = horizontalCollision;
         this.minorHorizontalCollision = minorHorizontalCollision;
-        this.setOnGround(onGround);
         this.verticalCollision = verticalCollision;
+        this.verticalCollisionBelow = verticalCollisionBelow;
+        this.setOnGroundWithMovement(verticalCollisionBelow, velocity);
 
         this.dimensions = backup;
         this.firstTick = true;
+
         this.refreshDimensions();
         this.firstTick = first;
     }
@@ -360,19 +374,26 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         {
             this.upperList.clear();
             this.lowerList.clear();
+
+            if (this.getUseParts().size() < 25)
+            {
+                this.lowerList.addAll(this.getUseParts());
+                return;
+            }
+
             float minY = Float.MAX_VALUE;
             float maxY = Float.MIN_VALUE;
             for (PokemobPart part : getUseParts())
             {
-                minY = (float) Math.min(minY, part.getY());
-                maxY = (float) Math.max(maxY, part.getY());
+                minY = (float) Math.min(minY, Math.abs(part.getY()-this.getY()));
+                maxY = (float) Math.max(maxY, Math.abs(part.getY()-this.getY()));
             }
             for (PokemobPart part : getUseParts())
             {
-                if (Math.abs(part.getY() - minY) < 0.5) this.lowerList.add(part);
+                if (Math.abs(Math.abs(part.getY()-this.getY()) - minY) < 0.5) this.lowerList.add(part);
                     // Only allow it to be in one list, prioritsing lower, these are
                     // just used for ordered collision checks anyway.
-                else if (Math.abs(part.getY() - maxY) < 0.5) this.upperList.add(part);
+                else if (Math.abs(Math.abs(part.getY()-this.getY()) - maxY) < 0.5) this.upperList.add(part);
             }
         }
     }

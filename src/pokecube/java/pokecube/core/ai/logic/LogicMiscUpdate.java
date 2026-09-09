@@ -512,7 +512,7 @@ public class LogicMiscUpdate extends LogicBase
         if (this.entity.deathTime > 0 || this.entity.isDeadOrDying()) next = Pose.DYING;
         else if (sleeping) next = Pose.SLEEPING;
         else if (this.entity.isInWater() || this.entity.isInLava()) next = Pose.SWIMMING;
-        else if (this.floatTimer < 2) next = Pose.STANDING;
+        else if (this.floatTimer < 10) next = Pose.STANDING;
         else next = Pose.FALL_FLYING;
         if (next != old) entity.setPose(next);
     }
@@ -565,7 +565,7 @@ public class LogicMiscUpdate extends LogicBase
         {
             pose = Pose.FALL_FLYING;
         }
-        boolean walking = this.floatTimer < 2 && moving;
+        boolean walking = this.floatTimer < 10 && moving;
         boolean noBlink = false;
         boolean guarding = pokemob.getCombatState(CombatStates.GUARDING);
         if (pose == Pose.DYING || entity.deathTime > 0)

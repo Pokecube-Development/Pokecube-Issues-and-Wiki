@@ -126,7 +126,6 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         var transform = getHolder().holder().transform;
         transform.identity();
         transform.translate((float) v.x(), (float) v.y(), (float) v.z());
-
         transform.rotateY(rotY);
 
         Vector3f r = getHolder().holder().r;
