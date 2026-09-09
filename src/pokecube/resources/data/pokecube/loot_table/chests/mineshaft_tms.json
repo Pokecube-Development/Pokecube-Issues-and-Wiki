@@ -1,0 +1,32 @@
+{
+  "pools": [
+    {
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "move": "cut",
+          "type": "pokecube:tm"
+        },
+        {
+          "move": "flash",
+          "type": "pokecube:tm"
+        },
+        {
+          "move": "dig",
+          "type": "pokecube:tm"
+        },
+        {
+          "move": "rock-smash",
+          "type": "pokecube:tm"
+        }
+      ],
+      "name": "pool_0",
+      "rolls": 1
+    }
+  ],
+  "type": "minecraft:chest"
+}
