@@ -9,17 +9,13 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.attachment.AttachmentHolder;
 import net.neoforged.neoforge.entity.PartEntity;
-import net.neoforged.neoforge.event.EventHooks;
-import net.neoforged.neoforge.event.entity.EntityEvent;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -29,8 +25,6 @@ import thut.core.common.network.PartInteract;
 public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 {
     public Vector3f ride_point = null;
-
-    public Vector3f r0;
 
     public float width;
     public float height;
@@ -150,30 +144,19 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public void refreshDimensions()
     {
-        final EntityDimensions entitysize = this.getDimensions(null);
-        final Pose pose = this.getPose();
-        
-        final EntityEvent.Size sizeEvent = EventHooks
-                .getEntitySizeForge(this, pose, this.getDimensions(pose));
-        final EntityDimensions entitysize1 = sizeEvent.getNewSize();
-        this.dimensions = entitysize1;
-        if (entitysize1.width() < entitysize.width())
-        {
-            final double d0 = entitysize1.width() / 2.0D;
-            this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0,
-                    this.getY() + entitysize1.height(), this.getZ() + d0));
-        }
-        else
-        {
-            final AABB axisalignedbb = this.getBoundingBox();
-            this.setBoundingBox(new AABB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ,
-                    axisalignedbb.minX + entitysize1.width(), axisalignedbb.minY + entitysize1.height(),
-                    axisalignedbb.minZ + entitysize1.width()));
-            if (entitysize1.width() > entitysize.width() && !this.firstTick && !this.level().isClientSide)
-            {
-                final float f = entitysize.width() - entitysize1.width();
-                this.move(MoverType.SELF, new Vec3(f, 0.0D, f));
-            }
+        EntityDimensions entitydimensions = this.dimensions;
+        Pose pose = this.getPose();
+        EntityDimensions entitydimensions1 = this.getDimensions(pose);
+        this.dimensions = entitydimensions1;
+        this.reapplyPosition();
+        boolean flag = (double)entitydimensions1.width() <= 4.0 && (double)entitydimensions1.height() <= 4.0;
+        if (!this.level.isClientSide
+                && !this.firstTick
+                && !this.noPhysics
+                && flag
+                && (entitydimensions1.width() > entitydimensions.width() || entitydimensions1.height() > entitydimensions.height())
+                ) { // had a player check here
+            this.fudgePositionAfterSizeChange(entitydimensions);
         }
     }
 

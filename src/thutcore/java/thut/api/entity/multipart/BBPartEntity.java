@@ -18,27 +18,27 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         T create(E parent, Part part, BBModel model);
     }
 
-    private final Vector4f r = new Vector4f();
+    public final Vector4f r = new Vector4f(), r1 = new Vector4f();
+    public final Vector3f dr = new Vector3f();
     private final Matrix4f m, m0;
     public final Part part;
     public final BBModel model;
-    private float h1, w1, s0;
+    private float h1;
+    private float w1;
     private boolean wasHidden = false;
+    public boolean leftBounds = false;
 
     public BBPartEntity(E parent, Part part, BBModel model)
     {
         super(parent, part.getName());
         this.part = part;
         this.model = model;
-        // We all start at origin, our pose translates us accordingly.
-        this.r0 = new Vector3f(part.meshMid);
+
         m = new Matrix4f();
         m0 = new Matrix4f();
         m0.identity();
 
-        s0 = ((Part) model.root_part).basePreScale.x;
-
-        r0.z = part.meshMin.z;
+        float s0 = ((Part) model.root_part).basePreScale.x;
 
         this.height = part.meshMax.z - part.meshMin.z;
         this.width = Math.max(part.meshMax.x - part.meshMin.x, part.meshMax.y - part.meshMin.y);
@@ -64,13 +64,10 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m.rotate(AxisAngles.XN.rotationDegrees(90));
 
         m.mul(m0);
-        r.set(r0, 1);
+        r.set(part.meshMid.x, part.meshMid.y, part.meshMin.z, 1);
 
         r.mul(m);
 
-        // Only do this if we are collided with the ground?
-        if (this.getParent().verticalCollisionBelow || this.verticalCollisionBelow || this.getParent().onGround())
-            r.y = (float) Math.max(r.y, this.getParent().getY());
         boolean isHidden = (part.isHidden()) && part.getParent() != null;
         if (isHidden)
         {
@@ -86,10 +83,16 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
             wasHidden = false;
         }
 
+        this.r1.set(r);
+        r.y = (float) Math.max(r.y, getParent().getY());
         this.setPos(r.x, r.y, r.z);
 
         this.xOld = this.getX() + dr.x;
         this.yOld = this.getY() + dr.y;
         this.zOld = this.getZ() + dr.z;
+//
+//        var bb = this.getBoundingBox();
+//        var test = this.getParent().getBoundingBox();
+//        this.leftBounds = !bb.minmax(test).equals(test);
     }
 }

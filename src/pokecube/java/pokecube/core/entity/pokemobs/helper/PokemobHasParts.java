@@ -19,6 +19,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityEvent;
+import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
@@ -248,7 +249,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         if (containing != null)
         {
             this.setBoundingBox(containing);
-//            this.fudgePositionAfterSizeChange(entitysize1);
         }
         else this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0,
                 this.getY() + entitysize1.height(), this.getZ() + d0));
@@ -307,7 +307,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     @Override
     public void move(final MoverType typeIn, Vec3 velocity)
     {
-        if (getUseParts().isEmpty())
+        var useParts = getUseParts();
+        if (useParts.isEmpty())
         {
             super.move(typeIn, velocity);
             return;
@@ -325,13 +326,22 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         boolean verticalCollision = false;
         boolean verticalCollisionBelow = false;
 
+        Vec3 oldV = this.getDeltaMovement();
+        Vector3f newV = new Vector3f(1e18f), subV = new Vector3f();
         // Check lower parts first (ground most likely to hit first and stop
         // motion)
         for (PokemobPart part : lowerList)
         {
             Vec3 before = part.position();
+            part.setDeltaMovement(oldV);
             part.move(typeIn, velocity);
             velocity = part.position().subtract(before);
+            var _v = part.getDeltaMovement();
+            subV.set(_v.x, _v.y, _v.z);
+            // Can't use "min" as we need a "minAbs"
+            if(Math.abs(_v.x)<Math.abs(newV.x)) newV.x = subV.x;
+            if(Math.abs(_v.y)<Math.abs(newV.y)) newV.y = subV.y;
+            if(Math.abs(_v.z)<Math.abs(newV.z)) newV.z = subV.z;
             horizontalCollision |= part.horizontalCollision;
             minorHorizontalCollision |= part.minorHorizontalCollision;
             verticalCollision |= part.verticalCollision;
@@ -341,16 +351,34 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         for (PokemobPart part : upperList)
         {
             Vec3 before = part.position();
+            part.setDeltaMovement(oldV);
             part.move(typeIn, velocity);
             velocity = part.position().subtract(before);
+            var _v = part.getDeltaMovement();
+            subV.set(_v.x, _v.y, _v.z);
+            // Can't use "min" as we need a "minAbs"
+            if(Math.abs(_v.x)<Math.abs(newV.x)) newV.x = subV.x;
+            if(Math.abs(_v.y)<Math.abs(newV.y)) newV.y = subV.y;
+            if(Math.abs(_v.z)<Math.abs(newV.z)) newV.z = subV.z;
             horizontalCollision |= part.horizontalCollision;
             minorHorizontalCollision |= part.minorHorizontalCollision;
             verticalCollision |= part.verticalCollision;
             verticalCollisionBelow |= part.verticalCollisionBelow;
         }
 
+        // Clip velocity to account for collisions
+        velocity = new Vec3(newV.x == 0 ? 0 : velocity.x, newV.y == 0 ? 0 : velocity.y, newV.z == 0 ? 0 : velocity.z);
+
+        // Move each part to translated root coordinate, then add velocity
+        for (var p : useParts)
+        {
+            p.setPos(p.r1.x + velocity.x, p.r1.y + velocity.y, p.r1.z + velocity.z);
+        }
+
         // Finally apply it to us to actually shift hitbox.
+        this.noPhysics = true;
         super.move(typeIn, velocity);
+        this.noPhysics = false;
 
         this.horizontalCollision = horizontalCollision;
         this.minorHorizontalCollision = minorHorizontalCollision;

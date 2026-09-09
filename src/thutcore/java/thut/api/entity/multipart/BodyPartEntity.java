@@ -57,6 +57,7 @@ public class BodyPartEntity<E extends Entity> extends GenericPartEntity<E>
                 final String id);
     }
 
+    public Vector3f r0;
     private final Vector4f r = new Vector4f();
 
     public BodyPartEntity(E parent, final float width, final float height, final float x, final float y,
