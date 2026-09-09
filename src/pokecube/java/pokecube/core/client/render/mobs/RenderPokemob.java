@@ -5,6 +5,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Axis;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.SharedConstants;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -12,10 +15,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
+import net.neoforged.fml.loading.FMLPaths;
 import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -26,6 +31,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
+import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.impl.capabilities.TextureableCaps.PokemobCap;
@@ -37,18 +43,25 @@ import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
+import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.client.render.bbmodel.BaseModelToBBModel;
+import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.model.PartInfo;
+import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 import javax.xml.namespace.QName;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -383,21 +396,148 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
     }
 
+    public static void convertModeltoBBModel(Holder renderHolder, Mob entity)
+    {
+        if (renderHolder.wrapper.getModel() instanceof BaseModel _model)
+        {
+            try
+            {
+                renderHolder.wrapper.setMob(entity, Minecraft.getInstance().renderBuffers().bufferSource(),
+                        ResourceLocation.parse("minecraft:stone"), LightTexture.FULL_BLOCK);
+                renderHolder.wrapper.prepareMobModel(entity, 0, 0, 0);
+                var bb = BaseModelToBBModel.convert(_model, renderHolder.animations, Part.mergeMeshes);
+
+                String json = JsonUtil.smol_gson.toJson(bb);
+                var rootDir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("bbmodels");
+                if (rootDir.toFile().mkdirs()) PokecubeAPI.logInfo("Made bbmodel folder");
+                File dir = rootDir.resolve(bb.name + ".bbmodel").toFile();
+                FileOutputStream outS = new FileOutputStream(dir);
+                outS.write(json.getBytes());
+                outS.close();
+            }
+            catch (Exception e)
+            {
+                PokecubeAPI.LOGGER.error("Error making bbmodel for {}", entity, e);
+            }
+        }
+    }
+
+    public static void saveModelForServer(Holder renderHolder, Mob entity)
+    {
+        if (renderHolder.wrapper.getModel() instanceof BaseModel _model)
+        {
+            try
+            {
+                var bb = BaseModelToBBModel.convert(_model, renderHolder.animations, Part.mergeMeshes);
+                var json = JsonUtil.smol_gson.toJson(bb);
+
+                File root = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
+                        .resolve("__pokemob_server_hitboxes__").toFile();
+                if (root.mkdirs()) PokecubeAPI.logInfo("Made datapack template root");
+                File data = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
+                        .resolve("__pokemob_server_hitboxes__").resolve("data").resolve("pokecube_mobs").resolve("database")
+                        .resolve("pokemobs").resolve("pokemob_hitboxes").toFile();
+                if (data.mkdirs()) PokecubeAPI.logInfo("Made datapack template entries directory");
+
+                String metacontents = "{\r\n" + "  \"pack\": {\r\n" + "    \"pack_format\": 48,\r\n".replace("8",
+                        "" + SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA))
+                        + "    \"description\": \"Computed Pokemob Hitboxes\"\r\n" + "  }\r\n" + "}";
+                File mcmeta = new File(root, "pack.mcmeta");
+
+                FileOutputStream writer = new FileOutputStream(mcmeta);
+                writer.write(metacontents.getBytes());
+                writer.close();
+
+                var dir = new File(data, bb.name + ".bbmodel");
+                var outS = new FileOutputStream(dir);
+                outS.write(json.getBytes());
+                outS.close();
+
+                // Copy the animation xml over as well, as that is used to give global hitbox size
+                var anim = renderHolder.wrapper.model.animation;
+                try
+                {
+
+                    dir = new File(data, bb.name + ".xml");
+                    if(!dir.exists())
+                    {
+                        var src = ResourceHelper.getStream(anim);
+                        var bytes = src.readAllBytes();
+                        src.close();
+                        outS = new FileOutputStream(dir);
+                        outS.write(bytes);
+                        outS.close();
+                    }
+                }
+                catch (Exception ignored)
+                {
+                    System.out.println("Unable to get animation for " + anim);
+                }
+            }
+            catch (Exception e)
+            {
+                PokecubeAPI.LOGGER.error("Error making server bbmodel for {}", entity, e);
+            }
+        }
+    }
+
     public static void reloadModel(final PokedexEntry entry)
     {
         long time = Tracker.instance().getTick();
         if (RenderPokemob.holders.containsKey(entry))
         {
             var holder = RenderPokemob.holders.get(entry);
-            if (holder.wrapper != null) holder.wrapper.lastInit = 0;
+            if (PokecubeCore.getConfig().outputBBModels && PokecubeCore.proxy.getWorld() != null)
+            {
+                var pokemob = AnimationGui.getRenderMob(entry);
+                var entity = pokemob.getEntity();
+                var old = ThutCore.conf.asyncModelLoads;
+                ThutCore.conf.asyncModelLoads = false;
+                // Step 1, save as a bbmodel for client side use
+                Part.mergeMeshes = true; // Mesh merging for this conversion
+                // Then re-do it the normal way
+                if (holder.wrapper != null) holder.wrapper.lastInit = -1;
+                holder.init(time);
+                convertModeltoBBModel(holder, entity);
+                Part.mergeMeshes = false; // No Mesh merging for this conversion
+                if (holder.wrapper != null) holder.wrapper.lastInit = -1;
+                holder.init(time);
+                Part.mergeMeshes = true; // Re-enable it
+                saveModelForServer(holder, entity);
+                ThutCore.conf.asyncModelLoads = old;
+            }
+            // Then re-do it the normal way
+            if (holder.wrapper != null) holder.wrapper.lastInit = -1;
             holder.init(time);
         }
-        for (final Holder custom : RenderPokemob.customs.values())
-            if (custom.entry == entry)
+        for (final Holder holder : RenderPokemob.customs.values())
+        {
+            if (holder.entry == entry)
             {
-                if (custom.wrapper != null) custom.wrapper.lastInit = 0;
-                custom.init(time);
+                if (PokecubeCore.getConfig().outputBBModels && PokecubeCore.proxy.getWorld() != null)
+                {
+                    var pokemob = AnimationGui.getRenderMob(entry);
+                    var entity = pokemob.getEntity();
+                    var old = ThutCore.conf.asyncModelLoads;
+                    ThutCore.conf.asyncModelLoads = false;
+                    // Step 1, save as a bbmodel for client side use
+                    Part.mergeMeshes = true; // Mesh merging for this conversion
+                    // Then re-do it the normal way
+                    if (holder.wrapper != null) holder.wrapper.lastInit = -1;
+                    holder.init(time);
+                    convertModeltoBBModel(holder, entity);
+                    Part.mergeMeshes = false; // No Mesh merging for this conversion
+                    if (holder.wrapper != null) holder.wrapper.lastInit = -1;
+                    holder.init(time);
+                    saveModelForServer(holder, entity);
+                    Part.mergeMeshes = true; // Re-enable it
+                    ThutCore.conf.asyncModelLoads = old;
+                }
+                // Then re-do it the normal way
+                if (holder.wrapper != null) holder.wrapper.lastInit = -1;
+                holder.init(time);
             }
+        }
     }
 
     public static final Map<ResourceLocation, Holder> customs = new Object2ObjectOpenHashMap<>();

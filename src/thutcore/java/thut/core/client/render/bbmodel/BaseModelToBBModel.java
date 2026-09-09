@@ -255,7 +255,6 @@ public class BaseModelToBBModel
                             }
                         }
                         faces.removeAll(remove);
-                        System.out.println(part.getName()+" "+faces);
                     }
                     // Now make the faces
                     for (var meshKey : faces)
