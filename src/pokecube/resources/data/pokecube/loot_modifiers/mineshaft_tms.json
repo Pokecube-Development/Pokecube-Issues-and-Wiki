@@ -1,0 +1,15 @@
+{
+  "type": "neoforge:add_table",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/abandoned_mineshaft"
+    },
+    {
+      "chance": 0.1,
+      "condition": "random_chance"
+    }
+  ],
+  "priority": 1000,
+  "table": "pokecube:chests/mineshaft_tms"
+}
