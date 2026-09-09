@@ -429,8 +429,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick)
     {
         var v = this.getSeat(entity);
-        float yaw = this.yBodyRot;
-        if (v != null) return new Vec3(v.x, v.y, v.z).yRot(-yaw * (float) (Math.PI / 180.0));
+        if (v != null) return new Vec3(v.x, v.y, v.z);//.yRot(-this.yBodyRot * (float) (Math.PI / 180.0));
         return super.getPassengerAttachmentPoint(entity, dimensions, partialTick);
     }
 

@@ -127,6 +127,11 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         transform.identity();
         transform.translate((float) v.x(), (float) v.y(), (float) v.z());
         transform.rotateY(rotY);
+        if(weSelf() instanceof LivingEntity e)
+        {
+            float scale = e.getScale();
+            transform.scale(scale);
+        }
 
         Vector3f r = getHolder().holder().r;
         r.set((float) v.x(), (float) v.y(), (float) v.z());
