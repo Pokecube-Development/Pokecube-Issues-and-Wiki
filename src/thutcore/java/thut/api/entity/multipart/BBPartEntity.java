@@ -30,7 +30,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         this.part = part;
         this.model = model;
         // We all start at origin, our pose translates us accordingly.
-        this.r0 = new Vector3f();
+        this.r0 = new Vector3f(part.meshMid);
         m = new Matrix4f();
         m0 = new Matrix4f();
         m0.identity();
@@ -59,6 +59,8 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m.mul(transform);
         m0.set(poseInfo.pose());
         m.rotate(AxisAngles.XN.rotationDegrees(90));
+        m.translate(0, 0, -1.5f * s0);
+
         m.mul(m0);
         r.set(r0, 1);
 

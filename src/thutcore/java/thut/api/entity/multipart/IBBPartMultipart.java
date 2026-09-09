@@ -47,6 +47,7 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
             var pose = anims.stream().filter(s -> model.getBuiltInAnimations().containsKey(s)).findFirst()
                     .orElse("idle");
             partHolder.holder().effective_pose = pose;
+            for (var p : model.getPartsList()) p.resetToInit();
             List<Animation> runAnims = model.getBuiltInAnimations().getOrDefault(pose, List.of());
             model.updateAnimation(runAnims, holder);
         }
@@ -62,6 +63,7 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
         var parts = model.getPartsList();
         for (var part : parts)
         {
+            part.resetToInit();
             if (part instanceof Part p)
             {
                 T partEntity = getFactory().create(weSelf(), p, model);

@@ -110,11 +110,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         upperList.clear();
         lowerList.clear();
 
-        if (entry.bodyModel != null)
-        {
-            this.initFromBBModel();
-        }
-
         final float maxH = this.maxH();
         final float maxW = this.maxW();
         float width = entry.getWidth() * size;
@@ -129,7 +124,11 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         // Special handling for client side gui only mobs:
         subDivide = subDivide && (!level.isClientSide() || this.isAddedToLevel());
 
-        if (entry.bodyModel == null)
+        if (entry.bodyModel != null)
+        {
+            this.initFromBBModel();
+        }
+        else
         {
             if (subDivide)
             {
@@ -143,23 +142,18 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             }
         }
 
-        AABB box = this.getBoundingBox();
         AABB containing = null;
-
         for (final PokemobPart part : getHolder().allParts())
         {
-            if(containing==null) containing = part.getBoundingBox();
+            if (containing == null) containing = part.getBoundingBox();
             else containing = containing.minmax(part.getBoundingBox());
         }
-        var dh = box.getYsize();
-        var dw = Math.max(box.getXsize(), box.getZsize());
         if (containing != null)
         {
             var dh2 = containing.getYsize();
             var dw2 = Math.max(containing.getXsize(), containing.getZsize());
             colWidth = (float) dw2;
             colHeight = (float) dh2;
-            System.out.println(dh + " " + dw + ", " + dh2 + " " + dw2);
         }
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
@@ -371,15 +365,15 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             float maxY = Float.MIN_VALUE;
             for (PokemobPart part : getUseParts())
             {
-                minY = Math.min(minY, part.r0.y);
-                maxY = Math.max(maxY, part.r0.y);
+                minY = (float) Math.min(minY, part.getY());
+                maxY = (float) Math.max(maxY, part.getY());
             }
             for (PokemobPart part : getUseParts())
             {
-                if (Math.abs(part.r0.y - minY) < 0.5) this.lowerList.add(part);
+                if (Math.abs(part.getY() - minY) < 0.5) this.lowerList.add(part);
                     // Only allow it to be in one list, prioritsing lower, these are
                     // just used for ordered collision checks anyway.
-                else if (Math.abs(part.r0.y - maxY) < 0.5) this.upperList.add(part);
+                else if (Math.abs(part.getY() - maxY) < 0.5) this.upperList.add(part);
             }
         }
     }
