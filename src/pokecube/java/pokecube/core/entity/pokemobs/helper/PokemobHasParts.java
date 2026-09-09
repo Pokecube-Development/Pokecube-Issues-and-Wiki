@@ -96,7 +96,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     protected void initSizes(final float size)
     {
         final PokedexEntry entry = this.getPokemob().getPokedexEntry();
-        entry.onResourcesReloaded();
 
         // final List<PokemobPart> allParts = this.allParts;
         // We need to here send a packet to sync the IDs of the new parts vs the
@@ -119,12 +118,12 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         colWidth = width;
         colHeight = height;
 
-        boolean subDivide = height > maxH || width > maxW || length > maxW;
+        boolean subDivide = height > maxH || width > maxW || length > maxW || getPokemob().isPlayerOwned();
 
         // Special handling for client side gui only mobs:
         subDivide = subDivide && (!level.isClientSide() || this.isAddedToLevel());
 
-        if (entry.bodyModel != null)
+        if (entry.bodyModel != null && subDivide)
         {
             this.initFromBBModel();
         }
