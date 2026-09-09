@@ -32,6 +32,7 @@ public class BBModel extends BaseModel
     public BBModel(final ResourceLocation l, IModelCallback callback)
     {
         super(l, callback);
+        this.doLoad();
     }
 
     @Override
@@ -72,19 +73,19 @@ public class BBModel extends BaseModel
         try
         {
             var loaded = AnimationConversion.make_animations(this.template, this);
-            this.builtin_anims_map.clear();
+            getBuiltInAnimations().clear();
             for (var entry : loaded.entrySet())
             {
                 String key = entry.getKey();
                 var list = entry.getValue();
-                builtin_anims_map.put(key, list);
+                getBuiltInAnimations().put(key, list);
                 tblAnims.addAll(list);
             }
         }
         catch (Throwable e)
         {
             PokecubeAPI.LOGGER.error("Error loading animations for {}", this.template, e);
-            throw new RuntimeException(e);
+            return;
         }
     }
 

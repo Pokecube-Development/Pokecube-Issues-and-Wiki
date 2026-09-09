@@ -2,6 +2,7 @@ package thut.api.entity.multipart;
 
 import net.minecraft.world.entity.Entity;
 import org.joml.Vector3f;
+import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.animation.Animation;
 import thut.core.client.render.animation.AnimationHelper;
@@ -67,6 +68,9 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
                 if (partEntity.height != 0 && partEntity.width != 0) holder.allParts().add(partEntity);
             }
         }
+        holder.holder().animTick = -1;
+        final IAnimated animHolder = ThutCaps.getAnimated(weSelf());
+        if (animHolder != null) applyAnimations(animHolder);
     }
 
     @Override

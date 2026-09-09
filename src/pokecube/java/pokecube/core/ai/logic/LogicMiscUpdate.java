@@ -43,6 +43,7 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IAnimated.MolangVars;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.core.client.render.animation.AnimationHelper;
 import thut.core.common.ThutCore;
 
 import java.util.ArrayList;
@@ -536,6 +537,21 @@ public class LogicMiscUpdate extends LogicBase
         Vec3 velocity = entity.getDeltaMovement();
         float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z);
         boolean onGround = entity.onGround();
+
+        // Server side less often computation of molangs for body animation and positioning
+        if (this.pokemob.getPokedexEntry().bodyModel != null && !entity.level().isClientSide())
+        {
+            var holder = AnimationHelper.getHolder(entity);
+            var limbSwing = entity.walkAnimation.position();
+            var limbSwingAmount = entity.walkAnimation.speed();
+
+            float f = entity.yBodyRotO;
+            float f1 = entity.yHeadRotO;
+            float netHeadYaw = f1 - f;
+            holder.initHeadInfoAndMolangs(entity, limbSwing, limbSwingAmount, entity.tickCount-1, netHeadYaw,
+                    entity.getXRot());
+        }
+
         if (onGround)
         {
             // This includes bouncing up/down for flying mobs, so we only want to account for it when walking.

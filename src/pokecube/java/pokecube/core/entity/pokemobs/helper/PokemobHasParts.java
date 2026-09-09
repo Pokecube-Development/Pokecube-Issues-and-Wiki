@@ -96,7 +96,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     protected void initSizes(final float size)
     {
         final PokedexEntry entry = this.getPokemob().getPokedexEntry();
-//        entry.onResourcesReloaded();
+        entry.onResourcesReloaded();
 
         // final List<PokemobPart> allParts = this.allParts;
         // We need to here send a packet to sync the IDs of the new parts vs the
@@ -143,44 +143,29 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             }
         }
 
-        float minX = 0;
-        float minY = 0;
-        float minZ = 0;
-        float maxX = 0;
-        float maxY = 0;
-        float maxZ = 0;
-        int n = 0;
+        AABB box = this.getBoundingBox();
+        AABB containing = null;
+
         for (final PokemobPart part : getHolder().allParts())
         {
-            n++;
-            minX = Math.min(minX, part.r0.x - part.width);
-            minZ = Math.min(minZ, part.r0.z - part.width);
-            minY = Math.min(minY, part.r0.y);
-            maxX = Math.max(maxX, part.r0.x + part.width);
-            maxZ = Math.max(maxZ, part.r0.z + part.width);
-            maxY = Math.max(maxY, part.r0.y + part.height);
+            if(containing==null) containing = part.getBoundingBox();
+            else containing = containing.minmax(part.getBoundingBox());
         }
-
-        if (n != 0)
+        var dh = box.getYsize();
+        var dw = Math.max(box.getXsize(), box.getZsize());
+        if (containing != null)
         {
-            height = maxY - minY;
-            width = maxX - minX;
-            length = maxZ - minZ;
+            var dh2 = containing.getYsize();
+            var dw2 = Math.max(containing.getXsize(), containing.getZsize());
+            colWidth = (float) dw2;
+            colHeight = (float) dh2;
+            System.out.println(dh + " " + dw + ", " + dh2 + " " + dw2);
         }
-
-        boolean subDivided = !getUseParts().isEmpty();
-
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
         // calculations.
-        if (subDivided)
-        {
-            width = Math.min(Math.max(width, length), maxW);
-            height = Math.min(height, maxH);
-            this.dimensions = EntityDimensions.fixed(width, height);
-            this.noCulling = true;
-        }
-        else this.dimensions = EntityDimensions.fixed(Math.max(width, length), height);
+        this.dimensions = EntityDimensions.fixed(Math.max(width, length), height);
+
         final boolean first = this.firstTick;
         this.firstTick = true;
         this.refreshDimensions();
@@ -220,6 +205,13 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         return dr2 < d0;
     }
 
+    @Override
+    protected EntityDimensions getDefaultDimensions(Pose pose)
+    {
+        if (!this.isMultipartEntity()) return super.getDefaultDimensions(pose);
+        return EntityDimensions.scalable(colWidth, colHeight);
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public void refreshDimensions()
@@ -229,13 +221,31 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             super.refreshDimensions();
             return;
         }
-        final Pose pose = this.getPose();
+        Pose pose = this.getPose();
+        // Vanilla hardcodes sleeping pose check inside the final getDimensions
+        if (pose == Pose.SLEEPING) pose = Pose.STANDING;
+
+        AABB containing = null;
+        for (final PokemobPart part : getHolder().allParts())
+        {
+            if (containing == null) containing = part.getBoundingBox();
+            else containing = containing.minmax(part.getBoundingBox());
+        }
+        if (containing != null)
+        {
+            var dh2 = containing.getYsize();
+            var dw2 = Math.max(containing.getXsize(), containing.getZsize());
+            colWidth = (float) dw2;
+            colHeight = (float) dh2;
+        }
+
         final EntityEvent.Size sizeEvent = EventHooks.getEntitySizeForge(this, pose, this.getDimensions(pose));
         final EntityDimensions entitysize1 = sizeEvent.getNewSize();
         this.dimensions = entitysize1;
         this.fixupDimensions();
         final double d0 = entitysize1.width() / 2.0D;
-        this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0,
+        if (containing != null) this.setBoundingBox(containing);
+        else this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0,
                 this.getY() + entitysize1.height(), this.getZ() + d0));
     }
 

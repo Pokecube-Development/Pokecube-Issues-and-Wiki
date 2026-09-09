@@ -36,6 +36,7 @@ public class X3dModel extends BaseModel
     public X3dModel(final ResourceLocation l, IModelCallback callback)
     {
         super(l, callback);
+        this.doLoad();
     }
 
     private void addChildren(final Set<Transform> allTransforms, final Transform transform)

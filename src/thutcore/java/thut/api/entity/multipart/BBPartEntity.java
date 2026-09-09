@@ -69,11 +69,13 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m1.mul(m);
         m2.mul(m);
 
-//        h1 = m2.y - m1.y;
-//        w1 = Math.max(m2.x - m1.x, m2.z - m1.z);
+        h1 = s0*(m2.y - m1.y);
+        w1 = s0*Math.max(m2.x - m1.x, m2.z - m1.z);
 
+        // Only do this if we are collided with the ground?
+        if (this.getParent().verticalCollisionBelow || this.verticalCollisionBelow || this.getParent().onGround())
+            r.y = (float) Math.max(r.y, this.getParent().getY());
         this.setPos(r.x, r.y, r.z);
-        if(!this.level().isClientSide()) System.out.println(part.getName()+" "+r+" "+height+" "+width);
 
         this.xOld = this.getX() + dr.x;
         this.yOld = this.getY() + dr.y;

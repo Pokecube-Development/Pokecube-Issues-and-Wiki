@@ -106,35 +106,40 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     protected boolean valid;
     protected boolean loaded = false;
     protected boolean loading = false;
-    protected ResourceLocation last_loaded = null;
+    protected ResourceLocation last_loaded = null, pending_load = null;
 
     protected IModelCallback callback = null;
 
+
     public BaseModel(final ResourceLocation l, IModelCallback callback)
+    {
+        this.pending_load = l;
+        this.callback = callback;
+    }
+
+    protected void doLoad()
     {
         this.valid = true;
         try
         {
             // Check if the model even exists
-            this.last_loaded = l;
-            if (!ResourceHelper.exists(l))
+            this.last_loaded = pending_load;
+            if (!ResourceHelper.exists(pending_load))
             {
                 this.valid = false;
                 return;
             }
             loading = true;
-            this.callback = callback;
             // If it did exist, then lets schedule load on another thread
-            Loader loader = new Loader(this, l);
+            Loader loader = new Loader(this, pending_load);
             loader.start();
         }
         catch (final Exception e)
         {
             // Otherwise mark as invalid and exit
             this.valid = false;
-            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading {}", l, e);
+            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading {}", pending_load, e);
         }
-
     }
 
     protected abstract void loadModel(final ResourceLocation model);

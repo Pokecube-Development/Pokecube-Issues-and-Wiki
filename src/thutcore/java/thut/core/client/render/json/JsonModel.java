@@ -21,6 +21,7 @@ public class JsonModel extends BaseModel
     public JsonModel(final ResourceLocation l, IModelCallback callback)
     {
         super(l, callback);
+        this.doLoad();
     }
 
     @Override

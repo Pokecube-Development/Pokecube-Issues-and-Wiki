@@ -223,8 +223,8 @@ public class AnimationLoader
             if (renderer != null)
             {
                 renderer.getAnimations().clear();
-                model.initBuiltInAnimations(renderer, animations);
             }
+            model.initBuiltInAnimations(renderer, animations);
             animations.addAll(xmlAnimations);
 
             // Handle worn offsets.
@@ -480,7 +480,7 @@ public class AnimationLoader
         }
         catch (final Exception e)
         {
-            ThutCore.LOGGER.debug("No Animation found for " + holder.name + " " + holder.model, e);
+            ThutCore.LOGGER.debug("No Animation found for {} {}", holder.name, holder.model, e);
         }
     }
 
