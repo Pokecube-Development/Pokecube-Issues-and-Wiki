@@ -123,7 +123,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         boolean subDivide = height > maxH || width > maxW || length > maxW || getPokemob().isPlayerOwned();
 
         // Special handling for client side gui only mobs:
-        subDivide = subDivide && (!level.isClientSide() || this.isAddedToLevel());
+//        subDivide = subDivide && (!level.isClientSide() || this.isAddedToLevel());
 
         if (entry.bodyModel != null && subDivide)
         {
@@ -159,7 +159,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
         // calculations.
-        this.dimensions = EntityDimensions.fixed(Math.max(width, length), height);
+        this.dimensions = EntityDimensions.fixed(Math.max(width, length), height).withEyeHeight(0.75f*height);
 
         final boolean first = this.firstTick;
         this.firstTick = true;
@@ -201,10 +201,17 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     }
 
     @Override
+    public void setPose(Pose pose)
+    {
+        // NO-OP, we handle pose differently
+        //        super.setPose(pose);
+    }
+
+    @Override
     protected EntityDimensions getDefaultDimensions(Pose pose)
     {
         if (!this.isMultipartEntity()) return super.getDefaultDimensions(pose);
-        return EntityDimensions.scalable(colWidth, colHeight);
+        return this.dimensions.scale(1 / this.getScale());
     }
 
     @SuppressWarnings("deprecation")
@@ -245,13 +252,17 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         final EntityDimensions entitysize1 = sizeEvent.getNewSize();
         this.dimensions = entitysize1;
         this.fixupDimensions();
-        final double d0 = entitysize1.width() / 2.0D;
+        double dx = entitysize1.width() / 2.0D;
+        double dz = dx;
+        double dh = entitysize1.height();
         if (containing != null)
         {
-            this.setBoundingBox(containing);
+            dh = containing.getYsize();
+            dx = containing.getXsize() / 2;
+            dz = containing.getZsize() / 2;
         }
-        else this.setBoundingBox(new AABB(this.getX() - d0, this.getY(), this.getZ() - d0, this.getX() + d0,
-                this.getY() + entitysize1.height(), this.getZ() + d0));
+        this.setBoundingBox(new AABB(this.getX() - dx, this.getY(), this.getZ() - dz, this.getX() + dx,
+                this.getY() + dh, this.getZ() + dz));
     }
 
     @Override
@@ -298,6 +309,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     public void aiStep()
     {
         this.updatePartsPos();
+        colHeight = this.dimensions.height();
+        colWidth = this.dimensions.width();
         super.aiStep();
     }
 
@@ -313,13 +326,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             super.move(typeIn, velocity);
             return;
         }
-        final EntityDimensions backup = this.dimensions;
-        this.dimensions = EntityDimensions.fixed(colWidth, colHeight);
-
-        final boolean first = this.firstTick;
-        this.firstTick = true;
-        this.refreshDimensions();
-        this.firstTick = first;
 
         boolean horizontalCollision = false;
         boolean minorHorizontalCollision = false;
@@ -385,12 +391,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         this.verticalCollision = verticalCollision;
         this.verticalCollisionBelow = verticalCollisionBelow;
         this.setOnGroundWithMovement(verticalCollisionBelow, velocity);
-
-        this.dimensions = backup;
-        this.firstTick = true;
-
-        this.refreshDimensions();
-        this.firstTick = first;
     }
 
     @Override

@@ -109,7 +109,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         if (this.ride_point != null)
         {
             r2.sub(r);
-            this.ride_point.set(r2.x, r2.y-0.75, r2.z);
+            this.ride_point.set(r2.x, r2.y, r2.z);
         }
 
         this.xOld = this.getX() + dr.x;

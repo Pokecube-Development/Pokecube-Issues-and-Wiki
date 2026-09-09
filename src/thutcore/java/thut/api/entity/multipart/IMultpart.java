@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import org.joml.Matrix4f;
@@ -111,13 +113,14 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
     default void updatePartsPos()
     {
         this.initParts();
+        var self = weSelf();
         // check if effective_pose needs updating
-        final IAnimated animHolder = ThutCaps.getAnimated(weSelf());
+        final IAnimated animHolder = ThutCaps.getAnimated(self);
         if (animHolder != null) applyAnimations(animHolder);
         if (getHolder().holder().parts.isEmpty() && getHolder().allParts().isEmpty()) return;
 
-        final Vec3 v = weSelf().position();
-        float rotY = weSelf() instanceof LivingEntity e ? e.yBodyRot : weSelf().getYRot();
+        final Vec3 v = self.position();
+        float rotY = self instanceof LivingEntity e ? e.yBodyRot : self.getYRot();
 
         // Convert to correct coordinate system and radians
         rotY = 180 - rotY;
@@ -127,7 +130,7 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         transform.identity();
         transform.translate((float) v.x(), (float) v.y(), (float) v.z());
         transform.rotateY(rotY);
-        if(weSelf() instanceof LivingEntity e)
+        if(self instanceof LivingEntity e)
         {
             float scale = e.getScale();
             transform.scale(scale);
@@ -135,8 +138,35 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
 
         Vector3f r = getHolder().holder().r;
         r.set((float) v.x(), (float) v.y(), (float) v.z());
-        final Vec3 dr = new Vec3(r.x - weSelf().xOld, r.y - weSelf().yOld, r.z - weSelf().zOld);
-        for (final T p : getUseParts()) p.update(transform, dr);
-        if (weSelf().isAddedToLevel() && weSelf().tickCount % 20 == 0) PartSync.sendUpdate(weSelf());
+        final Vec3 dr = new Vec3(r.x - self.xOld, r.y - self.yOld, r.z - self.zOld);
+        AABB total = null;
+        for (final T p : getUseParts())
+        {
+            p.update(transform, dr);
+            total = total == null ? p.getBoundingBox() : total.minmax(p.getBoundingBox());
+        }
+        float dw = (float) Math.max(total.getXsize(), total.getZsize());
+        float dh = (float) total.getYsize();
+        float dsigma = dw*dh;
+        float dsigmaO = self.dimensions.height()*self.dimensions.width();
+        float ratio = dsigmaO / dsigma;
+        if (Math.abs(ratio > 1 ? ratio : 1 / ratio) > 1.1)
+        {
+            var dims = EntityDimensions.fixed(dw, dh)
+                    .withEyeHeight((float) (total.getYsize() * 0.75));//TODO pull from marker
+            self.dimensions = dims;
+            if(self instanceof LivingEntity e)
+            {
+                System.out.println(e.getEyeHeight()+" before "+dims.eyeHeight() +" "+dims);
+                e.refreshDimensions();
+                System.out.println(e.getEyeHeight()+" after "+e.dimensions.eyeHeight()+" "+dims);
+            }
+            self.setBoundingBox(total);
+            self.dimensions = dims;
+        }
+        if (self.isAddedToLevel() && self.tickCount % 20 == 0 && !self.level().isClientSide())
+        {
+            PartSync.sendUpdate(self);
+        }
     }
 }
