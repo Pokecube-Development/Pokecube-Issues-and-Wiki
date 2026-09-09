@@ -231,7 +231,7 @@ public class EntityPokemob extends PokemobRidable
     {
         // We just increase the default setting here, so they can jump a bit more in battle
         this.getAttribute(Attributes.SAFE_FALL_DISTANCE).setBaseValue(5);
-        super.checkFallDamage(y, onGround, state, pos);
+        if (!(getPokemob().flys() || getPokemob().floats())) super.checkFallDamage(y, onGround, state, pos);
     }
 
     @Override

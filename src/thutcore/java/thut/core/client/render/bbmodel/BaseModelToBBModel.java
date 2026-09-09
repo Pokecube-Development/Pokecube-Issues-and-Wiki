@@ -508,6 +508,12 @@ public class BaseModelToBBModel
                                 break;
                             case "scale":
                                 break;
+                            case "hidden":
+                                frame.channel = "scale";
+                                point.x = 0;
+                                point.y = 0;
+                                point.z = 1;
+                                break;
                             }
                             if(point.x instanceof String s){
                                 s = s.replace("sin(", "math.sin(");

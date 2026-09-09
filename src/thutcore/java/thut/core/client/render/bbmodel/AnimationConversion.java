@@ -106,6 +106,7 @@ public class AnimationConversion
     {
         final float time;
         boolean has_scale = false;
+        boolean isHidden = false;
         boolean forcedLimbs;
         List<String> interpolations = new ArrayList<>();
         Object[] rotations =
@@ -209,6 +210,10 @@ public class AnimationConversion
                 this.scales[2] = y;
                 interpolations.set(2, normalInterpolation(keyframe.interpolation));
                 has_scale = true;
+                if (x instanceof Double a && z instanceof Double b)
+                {
+                    isHidden |= a == 0 && b == 0;
+                }
                 break;
             }
         }
@@ -282,6 +287,7 @@ public class AnimationConversion
             }
 
             segment.limbBased = this.forcedLimbs;
+            segment.hidden = this.isHidden || first_frame.isHidden;
 
             boolean all_not_func = true;
 

@@ -48,6 +48,7 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
                     .orElse("idle");
             partHolder.holder().effective_pose = pose;
             for (var p : model.getPartsList()) p.resetToInit();
+            holder.setContext(ThutCaps.getAnimated(us));
             List<Animation> runAnims = model.getBuiltInAnimations().getOrDefault(pose, List.of());
             model.updateAnimation(runAnims, holder);
         }

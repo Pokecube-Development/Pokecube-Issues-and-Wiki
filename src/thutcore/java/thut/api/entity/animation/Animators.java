@@ -19,7 +19,6 @@ import com.google.common.collect.Sets;
 
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IAnimated.MolangVars;
-import thut.api.maths.Vector3;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.parts.Part;
 import thut.core.common.ThutCore;
@@ -562,7 +561,6 @@ public class Animators
                 if (component == null) break scales;
                 animated = true;
                 float time = component.limbBased || limb ? t2 : t1;
-                aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
 
@@ -581,6 +579,9 @@ public class Animators
                 sx *= Math.fma(component.scaleChange[0], ratio, component.scaleOffset[0]);
                 sy *= Math.fma(component.scaleChange[1], ratio, component.scaleOffset[1]);
                 sz *= Math.fma(component.scaleChange[2], ratio, component.scaleOffset[2]);
+
+                // bbmodel scale style hidden check
+                any_hidden |= sx == 0 && sz == 0;
             }
 
             channel = CHANNEL.OPACITY;
@@ -623,6 +624,8 @@ public class Animators
                 final float ratio = componentTimer / length;
 
                 alpha_scale *= Math.fma(component.opacityChange, ratio, component.opacityOffset);
+
+                any_hidden |= alpha_scale == 0;
             }
 
             channel = CHANNEL.COLOUR;

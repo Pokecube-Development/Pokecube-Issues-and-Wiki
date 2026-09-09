@@ -23,6 +23,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
     public final Part part;
     public final BBModel model;
     private float h1, w1, s0;
+    private boolean wasHidden = false;
 
     public BBPartEntity(E parent, Part part, BBModel model)
     {
@@ -37,18 +38,20 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
 
         s0 = ((Part) model.root_part).basePreScale.x;
 
+        r0.z = part.meshMin.z;
+
         this.height = part.meshMax.z - part.meshMin.z;
         this.width = Math.max(part.meshMax.x - part.meshMin.x, part.meshMax.y - part.meshMin.y);
-        h1 = this.height * s0;
-        w1 = this.width * s0;
-
-        this.dimensions = EntityDimensions.scalable(width = w1, height = h1);
+        this.height  *= s0;
+        this.width *= s0;
+        w1 = h1 = 1;
+        this.dimensions = EntityDimensions.fixed(width, height);
     }
 
     @Override
     public EntityDimensions getDimensions(Pose poseIn)
     {
-        return this.dimensions.scale(h1/this.height, w1/this.width);
+        return EntityDimensions.fixed(w1*width, h1*height);
     }
 
     @Override
@@ -59,24 +62,30 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m.mul(transform);
         m0.set(poseInfo.pose());
         m.rotate(AxisAngles.XN.rotationDegrees(90));
-        m.translate(0, 0, -1.5f * s0);
 
         m.mul(m0);
         r.set(r0, 1);
 
-        Vector4f m1 = new Vector4f(part.meshMin,1);
-        Vector4f m2 = new Vector4f(part.meshMax,1);
-
         r.mul(m);
-        m1.mul(m);
-        m2.mul(m);
-
-        h1 = s0*(m2.y - m1.y);
-        w1 = s0*Math.max(m2.x - m1.x, m2.z - m1.z);
 
         // Only do this if we are collided with the ground?
         if (this.getParent().verticalCollisionBelow || this.verticalCollisionBelow || this.getParent().onGround())
             r.y = (float) Math.max(r.y, this.getParent().getY());
+        boolean isHidden = (part.isHidden()) && part.getParent() != null;
+        if (isHidden)
+        {
+            h1 = 0.01f;
+            w1 = 0.01f;
+            if(!wasHidden) refreshDimensions();
+            wasHidden = true;
+        }
+        else if (wasHidden)
+        {
+            w1 = h1 = 1;
+            refreshDimensions();
+            wasHidden = false;
+        }
+
         this.setPos(r.x, r.y, r.z);
 
         this.xOld = this.getX() + dr.x;
