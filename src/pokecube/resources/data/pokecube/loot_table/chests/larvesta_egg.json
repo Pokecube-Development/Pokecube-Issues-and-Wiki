@@ -1,0 +1,20 @@
+{
+  "pools": [
+    {
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "entry": "larvesta",
+          "type": "pokecube:pokemob_egg"
+        }
+      ],
+      "name": "pool_0",
+      "rolls": 1
+    }
+  ],
+  "type": "minecraft:chest"
+}
