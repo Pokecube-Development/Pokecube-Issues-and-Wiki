@@ -46,6 +46,7 @@ import thut.api.entity.animation.IAnimationChanger;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.client.render.bbmodel.BBModelPart;
 import thut.core.client.render.bbmodel.BaseModelToBBModel;
 import thut.core.client.render.model.BaseModel;
 import thut.core.client.render.model.IModel;
@@ -494,16 +495,20 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 var old = ThutCore.conf.asyncModelLoads;
                 ThutCore.conf.asyncModelLoads = false;
                 // Step 1, save as a bbmodel for client side use
-                Part.mergeMeshes = true; // Mesh merging for this conversion
-                // Then re-do it the normal way
+                BBModelPart.mergeMeshs = false;
+                Part.mergeMeshes = false;
                 if (holder.wrapper != null) holder.wrapper.lastInit = -1;
                 holder.init(time);
                 convertModeltoBBModel(holder, entity);
-                Part.mergeMeshes = false; // No Mesh merging for this conversion
+                // Now re-do with merging enabled for server side
+                BBModelPart.mergeMeshs = true;
+                Part.mergeMeshes = true;
                 if (holder.wrapper != null) holder.wrapper.lastInit = -1;
                 holder.init(time);
-                Part.mergeMeshes = true; // Re-enable it
+                // Then save as a bbmodel for server
                 saveModelForServer(holder, entity);
+                BBModelPart.mergeMeshs = false;
+                Part.mergeMeshes = true; // then set this back as is
                 ThutCore.conf.asyncModelLoads = old;
             }
             // Then re-do it the normal way
@@ -727,10 +732,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         return switch (bedDir)
         {
             case SOUTH -> 90.0F;
-            case WEST -> 0.0F;
             case NORTH -> 270.0F;
             case EAST -> 180.0F;
-            default -> 0.0F;
+            default -> 0.0F; // EAST is default
         };
     }
 

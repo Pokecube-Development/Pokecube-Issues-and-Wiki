@@ -22,6 +22,8 @@ import java.util.Set;
 
 public class BBModelPart extends Part
 {
+    public static boolean mergeMeshs = false;
+
     private static String nextName(Set<String> names, IBBPart part)
     {
         String nextName = part.getName();
@@ -105,6 +107,7 @@ public class BBModelPart extends Part
         use[2] = offsets[1];
 
         part.offset.set(use);
+        if (!mergeMeshs) part.markAsAnimated();
         return part;
     }
 
