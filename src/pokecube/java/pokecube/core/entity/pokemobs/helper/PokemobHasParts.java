@@ -15,7 +15,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -37,7 +36,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     private PartHolder<PokemobPart> parts;
 
     private final List<PokemobPart> lowerList = Lists.newArrayList();
-    private final List<PokemobPart> upperList = Lists.newArrayList();
 
     public PokemobHasParts(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
@@ -45,6 +43,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     }
 
     protected BBPartEntity.Factory<PokemobPart, PokemobHasParts> factory;
+
     @Override
     public Factory<PokemobPart, PokemobHasParts> getFactory()
     {
@@ -111,7 +110,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         }
 
         getHolder().clear();
-        upperList.clear();
         lowerList.clear();
 
         final float maxH = this.maxH();
@@ -162,7 +160,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
         // calculations.
-        this.dimensions = EntityDimensions.fixed(Math.max(width, length), height).withEyeHeight(0.75f*height);
+        this.dimensions = EntityDimensions.fixed(Math.max(width, length), height).withEyeHeight(0.75f * height);
 
         final boolean first = this.firstTick;
         this.firstTick = true;
@@ -269,8 +267,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             dx = containing.getXsize() / 2;
             dz = containing.getZsize() / 2;
         }
-        this.setBoundingBox(new AABB(this.getX() - dx, this.getY(), this.getZ() - dz, this.getX() + dx,
-                this.getY() + dh, this.getZ() + dz));
+        this.setBoundingBox(
+                new AABB(this.getX() - dx, this.getY(), this.getZ() - dz, this.getX() + dx, this.getY() + dh,
+                        this.getZ() + dz));
     }
 
     @Override
@@ -339,68 +338,42 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         boolean minorHorizontalCollision = false;
         boolean verticalCollision = false;
         boolean verticalCollisionBelow = false;
-        boolean walking = this.onGround();
 
-        Vec3 oldV = this.getDeltaMovement();
-        Vector3f newV = new Vector3f(1e18f), subV = new Vector3f();
-        double y, oldY = this.getY(), oldvY = velocity.y, dy, maxdY=0;
-        double step = this.getAttributeValue(Attributes.STEP_HEIGHT);
-
+        Vector3f subV = new Vector3f();
+        double stepUpAmount = 0;
+        boolean doDebug = tickCount%100==0&&this.level().isClientSide();
+        Vector3f allowed = null;
         // Check parts for collision
         for (PokemobPart part : useParts)
         {
-            Vec3 before = part.position();
-            part.setDeltaMovement(oldV);
-            y = part.getY();
-
-            // Construct a bounding box that goes down to the floor, but otherwise is
-            // the same as our cross-section.
-            // this allows walking properly
-            if (walking && (y - oldY) <= step)
+            var dr = part.limitMove(typeIn, velocity);
+            if (doDebug) System.out.println("   " + part.id + " " + dr);
+            if (allowed == null) allowed = dr;
+            else
             {
-                AABB box = part.getBoundingBox();
-                box = box.setMinY(oldY);
-                part.setBoundingBox(box);
-                part.walkBox = box;
-                part.setPos(part.getX(), y, part.getZ());
+                subV.set(dr.x, dr.y, dr.z);
+                // Can't use "min" as we need a "minAbs"
+                if (Math.abs(subV.x) < Math.abs(allowed.x)) allowed.x = subV.x;
+                if (Math.abs(subV.y) < Math.abs(allowed.y)) allowed.y = subV.y;
+                if (Math.abs(subV.z) < Math.abs(allowed.z)) allowed.z = subV.z;
+
+                // If any step up, allow that as a step
+                if (velocity.y < 0 && dr.y > 0)
+                {
+                    stepUpAmount = Math.max(stepUpAmount, dr.y);
+                }
             }
-            part.move(typeIn, velocity);
-            part.walkBox = null;
-            dy = part.getY()-y;
-            maxdY = Math.max(dy, maxdY);
-            velocity = part.position().subtract(before);
-            var _v = part.getDeltaMovement();
-            subV.set(_v.x, _v.y, _v.z);
-            // Can't use "min" as we need a "minAbs"
-            if(Math.abs(_v.x)<Math.abs(newV.x)) newV.x = subV.x;
-            if(Math.abs(_v.y)<Math.abs(newV.y)) newV.y = subV.y;
-            if(Math.abs(_v.z)<Math.abs(newV.z)) newV.z = subV.z;
-//            if(this.tickCount%20==0 && part.horizontalCollision) System.out.println(part.id);
             horizontalCollision |= part.horizontalCollision;
             minorHorizontalCollision |= part.minorHorizontalCollision;
             verticalCollision |= part.verticalCollision;
             verticalCollisionBelow |= part.verticalCollisionBelow;
         }
 
-        // Clip velocity to account for collisions
-        velocity = new Vec3(newV.x == 0 ? 0 : velocity.x, newV.y == 0 ? 0 : velocity.y, newV.z == 0 ? 0 : velocity.z);
+        velocity = new Vec3(allowed.x, allowed.y, allowed.z);
 
-        // Calculate step offset
-        if (oldvY <= 0) y = maxdY;
-        else y = 0;
-
-//        if(this.tickCount%20==0)
-//            System.out.println(this+" "+horizontalCollision+" "+verticalCollisionBelow);
-
-        // Move each part to translated root coordinate, then add velocity
-        for (var p : useParts)
-        {
-            p.setPos(p.r1.x + velocity.x, p.r1.y + velocity.y + y, p.r1.z + velocity.z);
-        }
-
-        // Finally apply it to us to actually shift hitbox.
+        // Next apply it to us to actually shift hitbox.
         this.noPhysics = true;
-        super.move(typeIn, velocity);
+        super.move(typeIn, velocity.add(0, stepUpAmount, 0));
         this.noPhysics = false;
 
         // Then set the boolean flags calculated

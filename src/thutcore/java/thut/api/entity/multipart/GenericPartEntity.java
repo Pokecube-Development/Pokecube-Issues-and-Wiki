@@ -101,12 +101,6 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     }
 
     @Override
-    public EntityDimensions getDimensions(final Pose poseIn)
-    {
-        return this.dimensions;
-    }
-
-    @Override
     public InteractionResult interactAt(final Player player, final Vec3 vec, final InteractionHand hand)
     {
         if (this.level().isClientSide)
@@ -175,6 +169,18 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
                 ) { // had a player check here
             this.fudgePositionAfterSizeChange(entitydimensions);
         }
+    }
+
+    @Override
+    public EntityDimensions getDimensions(Pose poseIn)
+    {
+        return EntityDimensions.fixed(width, height);
+    }
+
+    @Override
+    public boolean onGround()
+    {
+        return this.getParent().onGround();
     }
 
     @Override
