@@ -15,6 +15,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -338,16 +339,35 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         boolean minorHorizontalCollision = false;
         boolean verticalCollision = false;
         boolean verticalCollisionBelow = false;
+        boolean walking = this.onGround();
 
         Vec3 oldV = this.getDeltaMovement();
         Vector3f newV = new Vector3f(1e18f), subV = new Vector3f();
-        // Check lower parts first (ground most likely to hit first and stop
-        // motion)
-        for (PokemobPart part : lowerList)
+        double y, oldY = this.getY(), oldvY = velocity.y, dy, maxdY=0;
+        double step = this.getAttributeValue(Attributes.STEP_HEIGHT);
+
+        // Check parts for collision
+        for (PokemobPart part : useParts)
         {
             Vec3 before = part.position();
             part.setDeltaMovement(oldV);
+            y = part.getY();
+
+            // Construct a bounding box that goes down to the floor, but otherwise is
+            // the same as our cross-section.
+            // this allows walking properly
+            if (walking && (y - oldY) <= step)
+            {
+                AABB box = part.getBoundingBox();
+                box = box.setMinY(oldY);
+                part.setBoundingBox(box);
+                part.walkBox = box;
+                part.setPos(part.getX(), y, part.getZ());
+            }
             part.move(typeIn, velocity);
+            part.walkBox = null;
+            dy = part.getY()-y;
+            maxdY = Math.max(dy, maxdY);
             velocity = part.position().subtract(before);
             var _v = part.getDeltaMovement();
             subV.set(_v.x, _v.y, _v.z);
@@ -355,24 +375,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             if(Math.abs(_v.x)<Math.abs(newV.x)) newV.x = subV.x;
             if(Math.abs(_v.y)<Math.abs(newV.y)) newV.y = subV.y;
             if(Math.abs(_v.z)<Math.abs(newV.z)) newV.z = subV.z;
-            horizontalCollision |= part.horizontalCollision;
-            minorHorizontalCollision |= part.minorHorizontalCollision;
-            verticalCollision |= part.verticalCollision;
-            verticalCollisionBelow |= part.verticalCollisionBelow;
-        }
-        // Then check upper parts
-        for (PokemobPart part : upperList)
-        {
-            Vec3 before = part.position();
-            part.setDeltaMovement(oldV);
-            part.move(typeIn, velocity);
-            velocity = part.position().subtract(before);
-            var _v = part.getDeltaMovement();
-            subV.set(_v.x, _v.y, _v.z);
-            // Can't use "min" as we need a "minAbs"
-            if(Math.abs(_v.x)<Math.abs(newV.x)) newV.x = subV.x;
-            if(Math.abs(_v.y)<Math.abs(newV.y)) newV.y = subV.y;
-            if(Math.abs(_v.z)<Math.abs(newV.z)) newV.z = subV.z;
+//            if(this.tickCount%20==0 && part.horizontalCollision) System.out.println(part.id);
             horizontalCollision |= part.horizontalCollision;
             minorHorizontalCollision |= part.minorHorizontalCollision;
             verticalCollision |= part.verticalCollision;
@@ -382,10 +385,17 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         // Clip velocity to account for collisions
         velocity = new Vec3(newV.x == 0 ? 0 : velocity.x, newV.y == 0 ? 0 : velocity.y, newV.z == 0 ? 0 : velocity.z);
 
+        // Calculate step offset
+        if (oldvY <= 0) y = maxdY;
+        else y = 0;
+
+//        if(this.tickCount%20==0)
+//            System.out.println(this+" "+horizontalCollision+" "+verticalCollisionBelow);
+
         // Move each part to translated root coordinate, then add velocity
         for (var p : useParts)
         {
-            p.setPos(p.r1.x + velocity.x, p.r1.y + velocity.y, p.r1.z + velocity.z);
+            p.setPos(p.r1.x + velocity.x, p.r1.y + velocity.y + y, p.r1.z + velocity.z);
         }
 
         // Finally apply it to us to actually shift hitbox.
@@ -393,6 +403,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         super.move(typeIn, velocity);
         this.noPhysics = false;
 
+        // Then set the boolean flags calculated
         this.horizontalCollision = horizontalCollision;
         this.minorHorizontalCollision = minorHorizontalCollision;
         this.verticalCollision = verticalCollision;
@@ -407,28 +418,10 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         IBBPartMultipart.super.updatePartsPos();
         if (parts != getUseParts() || (!parts.isEmpty() && lowerList.isEmpty()))
         {
-            this.upperList.clear();
             this.lowerList.clear();
-
             if (this.getUseParts().size() < 25)
             {
                 this.lowerList.addAll(this.getUseParts());
-                return;
-            }
-
-            float minY = Float.MAX_VALUE;
-            float maxY = Float.MIN_VALUE;
-            for (PokemobPart part : getUseParts())
-            {
-                minY = (float) Math.min(minY, Math.abs(part.getY()-this.getY()));
-                maxY = (float) Math.max(maxY, Math.abs(part.getY()-this.getY()));
-            }
-            for (PokemobPart part : getUseParts())
-            {
-                if (Math.abs(Math.abs(part.getY()-this.getY()) - minY) < 0.5) this.lowerList.add(part);
-                    // Only allow it to be in one list, prioritsing lower, these are
-                    // just used for ordered collision checks anyway.
-                else if (Math.abs(Math.abs(part.getY()-this.getY()) - maxY) < 0.5) this.upperList.add(part);
             }
         }
     }

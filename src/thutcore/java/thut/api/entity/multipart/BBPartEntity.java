@@ -4,6 +4,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.phys.AABB;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -26,6 +27,8 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
     private float h1;
     private float w1;
     private boolean wasHidden = false;
+
+    public AABB walkBox = null;
 
     public BBPartEntity(E parent, Part part, BBModel model)
     {
@@ -59,6 +62,13 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         this.width *= s0;
         w1 = h1 = 1;
         this.dimensions = EntityDimensions.fixed(width, height);
+    }
+
+    @Override
+    public AABB makeBoundingBox()
+    {
+        if (walkBox != null) return walkBox;
+        else return super.makeBoundingBox();
     }
 
     @Override
