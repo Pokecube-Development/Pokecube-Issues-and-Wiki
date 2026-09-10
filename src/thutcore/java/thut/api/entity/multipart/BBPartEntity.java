@@ -4,7 +4,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -19,8 +18,8 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         T create(E parent, Part part, BBModel model);
     }
 
-    public final Vector4f r = new Vector4f(), r1 = new Vector4f();
-    public final Vector3f dr = new Vector3f(), min = new Vector3f(), max = new Vector3f(), mid = new Vector3f();
+    public final Vector4f r1 = new Vector4f();
+    public final Vector3f dr = new Vector3f(), min = new Vector3f(), max = new Vector3f(), mid = new Vector3f(), shift = new Vector3f();
     private final Matrix4f m, m0;
     public final Part part;
     public final BBModel model;
@@ -39,6 +38,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m0.identity();
 
         float s0 = ((Part) model.root_part).basePreScale.x;
+        shift.set(((Part) model.root_part).basePreTrans);
         min.set(part.meshMin);
         max.set(part.meshMax);
         mid.set(part.meshMid);
@@ -52,8 +52,6 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         {
             this.ride_point = new Vector3f();
         }
-
-        System.out.println("New Part: "+this.part.getName());
 
         this.height = max.z - min.z;
         this.width = Math.max(max.x - min.x, max.y - min.y);
@@ -70,7 +68,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
     }
 
     @Override
-    public void update(Matrix4f transform, Vec3 dr)
+    public void update(Matrix4f transform)
     {
         var poseInfo = part.getRenderPose();
         m.identity();
@@ -79,8 +77,9 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m.rotate(AxisAngles.XN.rotationDegrees(90));
 
         m.mul(m0);
+        m0.translate(shift);
 
-        Vector4f r2 = new Vector4f(mid.x, mid.y, max.z, 1);
+        Vector4f r2 = new Vector4f(mid.x, max.y, mid.z, 1);
 
         r.set(mid.x, mid.y, min.z, 1);
 
@@ -101,19 +100,12 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
             refreshDimensions();
             wasHidden = false;
         }
-
-        r.y = (float) Math.max(r.y, getParent().getY());
         this.r1.set(r);
-        this.setPos(r.x, r.y, r.z);
-
         if (this.ride_point != null)
         {
             r2.sub(r);
             this.ride_point.set(r2.x, r2.y, r2.z);
         }
-
-        this.xOld = this.getX() + dr.x;
-        this.yOld = this.getY() + dr.y;
-        this.zOld = this.getZ() + dr.z;
     }
+
 }

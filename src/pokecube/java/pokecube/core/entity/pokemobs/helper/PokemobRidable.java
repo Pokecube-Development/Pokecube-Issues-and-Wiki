@@ -187,9 +187,9 @@ public abstract class PokemobRidable extends PokemobHasParts
 
     }
 
-    protected Vec2 getRiddenRotation(LivingEntity p_275502_)
+    protected Vec2 getRiddenRotation(LivingEntity entity)
     {
-        return new Vec2(p_275502_.getXRot() * 0.5F, p_275502_.getYRot());
+        return new Vec2(entity.getXRot() * 0.5F, entity.getYRot());
     }
 
     @Override
@@ -324,7 +324,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     float last_size = -1;
 
     @Override
-    protected void initSizes(final float size)
+    protected void initSizes(final float size, boolean forceAdd)
     {
         float a, b, c;
         final PokedexEntry entry = getPokemob().getPokedexEntry();
@@ -336,11 +336,11 @@ public abstract class PokemobRidable extends PokemobHasParts
             c = entry.getLength() * size;
             h = Math.max(a, Math.max(b, c));
         }
-        if (h == last_size) return;
+        if (h == last_size && !forceAdd) return;
         last_size = h;
         this.init = false;
         this.initSeats();
-        super.initSizes(size);
+        super.initSizes(size, forceAdd);
     }
 
     @Override
@@ -429,7 +429,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick)
     {
         var v = this.getSeat(entity);
-        if (v != null) return new Vec3(v.x, v.y, v.z);//.yRot(-this.yBodyRot * (float) (Math.PI / 180.0));
+        if (v != null) return new Vec3(v.x, v.y, v.z).yRot(-this.yBodyRot * (float) (Math.PI / 180.0));
         return super.getPassengerAttachmentPoint(entity, dimensions, partialTick);
     }
 

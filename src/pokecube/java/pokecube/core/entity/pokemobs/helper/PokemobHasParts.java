@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -26,6 +27,7 @@ import pokecube.core.PokecubeCore;
 import thut.api.entity.multipart.BBPartEntity;
 import thut.api.entity.multipart.BBPartEntity.Factory;
 import thut.api.entity.multipart.IBBPartMultipart;
+import thut.api.world.WorldTickManager;
 import thut.core.client.render.bbmodel.BBModel;
 import thut.core.common.network.PartSync;
 
@@ -95,7 +97,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         return this.getPokemob().getPokedexEntry().bodyModel;
     }
 
-    protected void initSizes(final float size)
+    protected void initSizes(final float size, boolean forceAdd)
     {
         final PokedexEntry entry = this.getPokemob().getPokedexEntry();
 
@@ -120,10 +122,10 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         colWidth = width;
         colHeight = height;
 
-        boolean subDivide = height > maxH || width > maxW || length > maxW || getPokemob().isPlayerOwned();
+        boolean subDivide = height > maxH || width > maxW || length > maxW || getPokemob().isPlayerOwned() || forceAdd;
 
         // Special handling for client side gui only mobs:
-//        subDivide = subDivide && (!level.isClientSide() || this.isAddedToLevel());
+        subDivide = subDivide && (!level.isClientSide() || this.isAddedToLevel());
 
         if (entry.bodyModel != null && subDivide)
         {
@@ -165,7 +167,12 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         this.firstTick = true;
         this.refreshDimensions();
         this.firstTick = first;
-        if (this.isAddedToLevel()) PartSync.sendUpdate(weSelf());
+        if (this.level instanceof ServerLevel)
+        {
+            WorldTickManager.scheduleTask(this.level, () -> {
+                if (this.isAddedToLevel()) PartSync.sendUpdate(weSelf());
+            });
+        }
     }
 
     @Override
@@ -181,10 +188,10 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     }
 
     @Override
-    public void initParts()
+    public void initParts(boolean fromPacket)
     {
         float size = this.getScale();
-        this.initSizes(size);
+        this.initSizes(size, fromPacket);
     }
 
     @Override

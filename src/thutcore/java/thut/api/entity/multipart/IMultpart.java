@@ -69,7 +69,12 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
 
     PartHolder<T> getHolder();
 
-    void initParts();
+    default void initParts()
+    {
+        initParts(false);
+    }
+
+    void initParts(boolean fromPacket);
 
     /**
      * This is not "self" as forge used that for something in 1.19+
@@ -139,10 +144,19 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         Vector3f r = getHolder().holder().r;
         r.set((float) v.x(), (float) v.y(), (float) v.z());
         final Vec3 dr = new Vec3(r.x - self.xOld, r.y - self.yOld, r.z - self.zOld);
+        float requiredShift = 1e3f;
+        for (final T p : getUseParts())
+        {
+            p.update(transform);
+            float _y = (float) self.getY();
+            p.requiredShift = p.r.y - _y;
+            requiredShift = Math.min(requiredShift, p.requiredShift);
+        }
         AABB total = null;
         for (final T p : getUseParts())
         {
-            p.update(transform, dr);
+            p.requiredShift = requiredShift;
+            p.applyPos(dr);
             total = total == null ? p.getBoundingBox() : total.minmax(p.getBoundingBox());
         }
         float dw = (float) Math.max(total.getXsize(), total.getZsize());
@@ -155,12 +169,7 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
             var dims = EntityDimensions.fixed(dw, dh)
                     .withEyeHeight((float) (total.getYsize() * 0.75));//TODO pull from marker
             self.dimensions = dims;
-            if(self instanceof LivingEntity e)
-            {
-                System.out.println(e.getEyeHeight()+" before "+dims.eyeHeight() +" "+dims);
-                e.refreshDimensions();
-                System.out.println(e.getEyeHeight()+" after "+e.dimensions.eyeHeight()+" "+dims);
-            }
+            if (self instanceof LivingEntity e) e.refreshDimensions();
             self.setBoundingBox(total);
             self.dimensions = dims;
         }

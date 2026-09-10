@@ -19,15 +19,18 @@ import net.neoforged.neoforge.entity.PartEntity;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import thut.core.common.ThutCore;
 import thut.core.common.network.PartInteract;
 
 public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 {
+    public final Vector4f r = new Vector4f();
     public Vector3f ride_point = null;
 
     public float width;
     public float height;
+    public float requiredShift = 0;
 
     public final String id;
 
@@ -49,7 +52,15 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
         }
     }
 
-    public abstract void update(Matrix4f transform, Vec3 dr);
+    public abstract void update(Matrix4f transform);
+
+    public void applyPos(Vec3 dr)
+    {
+        this.setPos(r.x, r.y - requiredShift, r.z);
+        this.xOld = this.getX() + dr.x;
+        this.yOld = this.getY() + dr.y;
+        this.zOld = this.getZ() + dr.z;
+    }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder)
@@ -82,9 +93,11 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
      * Returns true if Entity argument is equal to this Entity
      */
     @Override
-    public boolean is(final Entity entityIn)
+    public boolean is(final Entity entity)
     {
-        return this == entityIn || this.getParent() == entityIn;
+        if (entity == this.getParent()) return true;
+        if (entity instanceof PartEntity<?> p && p.getParent() == this.getParent()) return true;
+        return this == entity;
     }
 
     @Override
@@ -130,14 +143,18 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     }
 
     @Override
-    public void push(final Entity entityIn)
+    public void push(final Entity entity)
     {
-        super.push(entityIn);
+        if (entity == this.getParent()) return;
+        if (entity instanceof PartEntity<?> p && p.getParent() == this.getParent()) return;
+        super.push(entity);
     }
 
     @Override
     public boolean canCollideWith(final Entity entity)
     {
+        if (entity == this.getParent()) return false;
+        if (entity instanceof PartEntity<?> p && p.getParent() == this.getParent()) return false;
         return super.canCollideWith(entity);
     }
 

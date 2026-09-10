@@ -1,7 +1,6 @@
 package thut.core.common.network;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -130,16 +129,11 @@ public class PartSync extends BigPacket
         int id = buffer.readInt();
         boolean remove = buffer.readBoolean();
         int[] arr = buffer.readVarIntArray();
-        Int2ObjectMap<PartEntity<?>> partMap = ObfuscationReflectionHelper
-                .getPrivateValue(net.minecraft.client.multiplayer.ClientLevel.class, world, "partEntities");
+        Int2ObjectMap<PartEntity<?>> partMap = ObfuscationReflectionHelper.getPrivateValue(
+                net.minecraft.client.multiplayer.ClientLevel.class, world, "partEntities");
         if (remove)
         {
-            List<PartEntity<?>> list = new ArrayList<>();
-            for (int i : arr)
-            {
-                list.add(partMap.remove(i));
-            }
-            // TODO Remove the parts?
+            for (int i : arr) partMap.remove(i);
             return;
         }
         Entity mob = EntityProvider.provider.getEntity(world, id);
@@ -154,6 +148,8 @@ public class PartSync extends BigPacket
             if (part.getParent() == mob || part.getParent().isRemoved())
                 partMap.remove(part.getId());
         }
+        // Re-call init to ensure we have new parts
+        if (arr.length != parts.getUseParts().size()) parts.initParts(true);
         for (int i = 0; i < Math.min(parts.getUseParts().size(), arr.length); i++)
         {
             PartEntity<?> part = parts.getUseParts().get(i);
