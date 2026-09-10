@@ -128,7 +128,6 @@ public abstract class PokemobRidable extends PokemobHasParts
     protected boolean isJumping;
     protected float playerJumpPendingScale;
     protected int gallopSoundCounter;
-    protected boolean canGallop = true;
 
     public boolean isJumping()
     {
@@ -265,8 +264,6 @@ public abstract class PokemobRidable extends PokemobHasParts
     // ========== IMultipassenger stuff below here ==============
     final Data_Seat[] SEAT = new Data_Seat[10];
 
-    private boolean init = false;
-    private String lastPose = "";
     protected int seatCount = 0;
 
     @Override
@@ -338,7 +335,6 @@ public abstract class PokemobRidable extends PokemobHasParts
         }
         if (h == last_size && !forceAdd) return;
         last_size = h;
-        this.init = false;
         this.initSeats();
         super.initSizes(size, forceAdd);
     }
@@ -353,21 +349,17 @@ public abstract class PokemobRidable extends PokemobHasParts
     protected void initSeats()
     {
         if (!(this.level instanceof ServerLevel)) return;
-        if (this.init && this.lastPose.equals(getHolder().holder().effective_pose)) return;
         final PokedexEntry entry = this.getPokemob().getPokedexEntry();
-        this.lastPose = getHolder().holder().effective_pose;
-        this.init = true;
         List<Vector3f> bodySeats = new ArrayList<>();
         var parts = this.getParts();
         if (parts != null) for (var part : parts) if (part.ride_point != null) bodySeats.add(part.ride_point);
-        final float size = this.getPokemob().getEntity().getScale();
+        // Body seat based ride points already have size considered.
         if (!bodySeats.isEmpty())
         {
             this.seatCount = bodySeats.size();
             for (int index = 0; index < this.seatCount; index++)
             {
                 final Vector3f seat = new Vector3f(bodySeats.get(index));
-                seat.mul(size);
                 final Seat newSeat = (Seat) this.getSeat(index).clone();
                 newSeat.seat = seat;
                 SEAT[index].set(newSeat);
@@ -375,6 +367,7 @@ public abstract class PokemobRidable extends PokemobHasParts
         }
         else
         {
+            final float size = this.getPokemob().getEntity().getScale();
             this.seatCount = entry.passengerOffsets.length;
             for (int index = 0; index < this.seatCount; index++)
             {
@@ -429,7 +422,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick)
     {
         var v = this.getSeat(entity);
-        if (v != null) return new Vec3(v.x, v.y, v.z).yRot(-this.yBodyRot * (float) (Math.PI / 180.0));
+        if (v != null) return new Vec3(v.x, v.y, v.z);//.yRot(-this.yBodyRot * (float) (Math.PI / 180.0));
         return super.getPassengerAttachmentPoint(entity, dimensions, partialTick);
     }
 

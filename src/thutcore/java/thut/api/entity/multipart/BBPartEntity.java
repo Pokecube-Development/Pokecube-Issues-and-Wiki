@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.floats.FloatArraySet;
 import it.unimi.dsi.fastutil.floats.FloatArrays;
 import it.unimi.dsi.fastutil.floats.FloatSet;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -62,7 +63,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
             s0 *= e.getScale();
         }
 
-        if (part.getName().equals("head"))
+        if (part.getName().equals("a4"))
         {
             this.ride_point = new Vector3f();
         }
@@ -86,7 +87,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m.mul(m0);
         m0.translate(shift);
 
-        Vector4f r2 = new Vector4f(mid.x, max.y, mid.z, 1);
+        Vector4f r2 = new Vector4f(mid.x, mid.y, mid.z, 1);
 
         r.set(mid.x, mid.y, min.z, 1);
 
@@ -111,10 +112,14 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
             refreshDimensions();
             wasHidden = needSizeCheck = false;
         }
-        this.r1.set(r);
+        this.r1.set((float) this.getParent().getX(), (float) this.getParent().getY(), (float) this.getParent().getZ());
+        if (this.level().isClientSide())
+        {
+            this.level().addParticle(ParticleTypes.COMPOSTER, r2.x, r2.y, r2.z, 0, 0, 0);
+        }
         if (this.ride_point != null)
         {
-            r2.sub(r);
+            r2.sub(r1);
             this.ride_point.set(r2.x, r2.y, r2.z);
         }
     }

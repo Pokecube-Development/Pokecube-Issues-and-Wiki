@@ -341,13 +341,11 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
 
         Vector3f subV = new Vector3f();
         double stepUpAmount = 0;
-        boolean doDebug = tickCount%100==0&&this.level().isClientSide();
         Vector3f allowed = null;
         // Check parts for collision
         for (PokemobPart part : useParts)
         {
             var dr = part.limitMove(typeIn, velocity);
-            if (doDebug) System.out.println("   " + part.id + " " + dr);
             if (allowed == null) allowed = dr;
             else
             {
