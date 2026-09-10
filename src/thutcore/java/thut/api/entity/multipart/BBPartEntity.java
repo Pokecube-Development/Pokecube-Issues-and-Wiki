@@ -34,7 +34,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         T create(E parent, Part part, BBModel model);
     }
 
-    public final Vector4f r1 = new Vector4f();
+    public final Vector4f r1 = new Vector4f(), r2 = new Vector4f();
     public final Vector3f dr = new Vector3f(), min = new Vector3f(), max = new Vector3f(), mid = new Vector3f(), shift = new Vector3f();
     private final Matrix4f m, m0;
     public final Part part;
@@ -63,6 +63,8 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
             s0 *= e.getScale();
         }
 
+        r2.set(mid, 1);
+
         if (part.getName().equals("a4"))
         {
             this.ride_point = new Vector3f();
@@ -87,11 +89,9 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m.mul(m0);
         m0.translate(shift);
 
-        Vector4f r2 = new Vector4f(mid.x, mid.y, mid.z, 1);
-
         r.set(mid.x, mid.y, min.z, 1);
 
-        r2.mul(m);
+        if (this.ride_point != null) r2.mul(m);
         r.mul(m);
 
         boolean isHidden = (part.isHidden()) && part.getParent() != null;
@@ -112,13 +112,10 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
             refreshDimensions();
             wasHidden = needSizeCheck = false;
         }
-        this.r1.set((float) this.getParent().getX(), (float) this.getParent().getY(), (float) this.getParent().getZ());
-        if (this.level().isClientSide())
-        {
-            this.level().addParticle(ParticleTypes.COMPOSTER, r2.x, r2.y, r2.z, 0, 0, 0);
-        }
         if (this.ride_point != null)
         {
+            this.r1.set((float) this.getParent().getX(), (float) this.getParent().getY(),
+                    (float) this.getParent().getZ());
             r2.sub(r1);
             this.ride_point.set(r2.x, r2.y, r2.z);
         }
