@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.parts.Material;

@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.floats.FloatArraySet;
 import it.unimi.dsi.fastutil.floats.FloatArrays;
 import it.unimi.dsi.fastutil.floats.FloatSet;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -35,7 +34,8 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
     }
 
     public final Vector4f r1 = new Vector4f(), r2 = new Vector4f();
-    public final Vector3f dr = new Vector3f(), min = new Vector3f(), max = new Vector3f(), mid = new Vector3f(), shift = new Vector3f();
+    public final Vector3f dr = new Vector3f(), seat = new Vector3f(),
+            min = new Vector3f(), max = new Vector3f(), mid = new Vector3f(), shift = new Vector3f();
     private final Matrix4f m, m0;
     public final Part part;
     public final BBModel model;
@@ -63,11 +63,11 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
             s0 *= e.getScale();
         }
 
-        r2.set(mid, 1);
-
-        if (part.getName().equals("a4"))
+        if (part.attachmentPoints.containsKey("seat"))
         {
-            this.ride_point = new Vector3f();
+            this.ride_point = new Vector3f(part.attachmentPoints.get("seat"));
+            this.seat.set(this.ride_point);
+            r2.set(ride_point, 1);
         }
 
         this.height = max.z - min.z;
@@ -91,7 +91,11 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
 
         r.set(mid.x, mid.y, min.z, 1);
 
-        if (this.ride_point != null) r2.mul(m);
+        if (this.ride_point != null)
+        {
+            r2.set(this.seat, 1);
+            r2.mul(m);
+        }
         r.mul(m);
 
         boolean isHidden = (part.isHidden()) && part.getParent() != null;

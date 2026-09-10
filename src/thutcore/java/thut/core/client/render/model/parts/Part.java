@@ -88,6 +88,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private boolean isHead = false;
     private boolean isAnimated = false;
     private boolean is2D = false;
+    private boolean computedMid = false;
 
     protected boolean requireMatsForMerge = true;
 
@@ -99,6 +100,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     private final Set<String> parentNames = Sets.newHashSet();
     private final Set<String> childNames = Sets.newHashSet();
+
+    public final Map<String, Vector3f> attachmentPoints = new HashMap<>();
 
     public Part(final String name)
     {
@@ -270,6 +273,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 meshMin.set(0);
                 meshMax.set(0);
             }
+            computedMid = true;
         }
     }
 
@@ -792,5 +796,22 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public boolean is2D()
     {
         return this.is2D;
+    }
+
+    public Vector3f getCentre()
+    {
+        if (computedMid) return this.meshMid;
+        this.meshMid.set(0);
+        int n = 0;
+        for (var m : this.shapes)
+        {
+            for (var v : m.vertices)
+            {
+                n++;
+                this.meshMid.add(v);
+            }
+        }
+        if (n > 0) this.meshMid.div(n);
+        return this.meshMid;
     }
 }

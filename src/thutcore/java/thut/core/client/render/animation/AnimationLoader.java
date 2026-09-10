@@ -157,7 +157,7 @@ public class AnimationLoader
                 AnimationLoader.setHeadCaps(meta.headCap1, headCaps1);
             }
             final List<Animation> xmlAnimations = new ArrayList<>();
-            for (final Phase phase : file.model.phases)
+            for (Phase phase : file.model.phases)
             {
                 // Handle global, merges and presets
                 if (phase.name != null)
@@ -204,7 +204,7 @@ public class AnimationLoader
             }
 
             // Handle merges
-            for (final Merge merge : file.model.merges)
+            for (Merge merge : file.model.merges)
             {
                 final String[] merges = merge.merge.split("->");
                 String key = ThutCore.trim(merges[0]);
@@ -217,6 +217,25 @@ public class AnimationLoader
                         var p = model.getParts().get(s);
                         if (p instanceof Part part) part.isOverridenLimb = true;
                     }
+                }
+            }
+
+            for (var attachment : file.model.attachments)
+            {
+                var partName = attachment.part;
+                var attachmentName = attachment.name;
+                var location = new Vector3f();
+                location = AnimationLoader.getVector3(attachment.location, location);
+                if (model.getParts().get(partName) instanceof Part part)
+                {
+                    var mid = part.getCentre();
+                    location.add(mid);
+                    part.attachmentPoints.put(attachmentName, location);
+                }
+                else
+                {
+                    ThutCore.LOGGER.warn("Warning, no part {} found in model {} for attachment {}", partName,
+                            holder.model, attachmentName);
                 }
             }
 

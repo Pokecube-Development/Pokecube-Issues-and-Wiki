@@ -229,13 +229,6 @@ public class AnimationXML
         public int weight = 1;
     }
 
-    @XmlRootElement(name = "customModel")
-    public static class CustomModel
-    {
-        @XmlAttribute(name = "model")
-        public String model;
-    }
-
     @XmlRootElement(name = "customTex")
     public static class CustomTex
     {
@@ -302,8 +295,6 @@ public class AnimationXML
     {
         @XmlElement(name = "customTex")
         public CustomTex customTex;
-        @XmlElement(name = "customModel")
-        public CustomModel customModel;
         @XmlElement(name = "metadata")
         public ModelMetadata metadata;
         @XmlElement(name = "phase")
@@ -318,6 +309,8 @@ public class AnimationXML
         public List<SubAnim> subanim = Lists.newArrayList();
         @XmlElement(name = "particle")
         public List<ParticleSource> particles = Lists.newArrayList();
+        @XmlElement(name = "attachment")
+        public List<AttachmentPoint> attachments = Lists.newArrayList();
     }
 
     @XmlRootElement(name = "phase")
@@ -331,13 +324,6 @@ public class AnimationXML
         public Map<QName, String> values = Maps.newHashMap();
         @XmlElement(name = "part")
         public List<Part> parts = Lists.newArrayList();
-    }
-
-    @XmlRootElement(name = "details")
-    public static class Details
-    {
-        @XmlAnyAttribute
-        public Map<QName, String> values = Maps.newHashMap();
     }
 
     @XmlRootElement(name = "animation")
@@ -408,6 +394,17 @@ public class AnimationXML
         public String material;
         @XmlAttribute(name = "seed")
         public int seed;
+    }
+
+    @XmlRootElement(name = "attachment")
+    public static class AttachmentPoint
+    {
+        @XmlAttribute(name = "name")
+        public String name = "";
+        @XmlAttribute(name = "part")
+        public String part = "";
+        @XmlAttribute(name = "location")
+        public String location = "";
     }
 
     @XmlRootElement(name = "ModelAnimator")
