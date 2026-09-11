@@ -10,8 +10,8 @@ import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 
-@AbilityProvider(name = "sand-veil")
-public class SandVeil extends Ability
+@AbilityProvider(name = "slush-rush")
+public class SlushRush extends Ability
 {
     @Override
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
@@ -20,9 +20,9 @@ public class SandVeil extends Ability
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
         if (!areWeUser(mob, move)) return;
 
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.EVASION);
+        var attr = mob.getEntity().getAttribute(PokecubeAttributes.VIT);
 
-        if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SAND) && !attr.hasModifier(PokecubeAttributes.ABILITY_STAT_MOD))
+        if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.HAIL) && !attr.hasModifier(PokecubeAttributes.ABILITY_STAT_MOD))
         {
             attr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         } else if (attr.hasModifier(PokecubeAttributes.ABILITY_STAT_MOD)) {
@@ -33,15 +33,14 @@ public class SandVeil extends Ability
     @Override
     public void endCombat(IPokemob mob)
     {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.EVASION);
+        var attr = mob.getEntity().getAttribute(PokecubeAttributes.VIT);
         attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
     }
 
     @Override
     public void onRecall(IPokemob mob)
     {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.EVASION);
+        var attr = mob.getEntity().getAttribute(PokecubeAttributes.VIT);
         attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
     }
 }
-

@@ -57,6 +57,7 @@ public class PokecubeAttributes
 
     public static final ResourceLocation NATURE = ResourceLocation.parse("pokecube:nature");
     public static final ResourceLocation STAT_MOD = ResourceLocation.parse("pokecube:stat_modifier");
+    public static final ResourceLocation ABILITY_STAT_MOD = ResourceLocation.parse("pokecube:ability_stat_modifier");
 
     public static void resetToEntry(IPokemob pokemob)
     {

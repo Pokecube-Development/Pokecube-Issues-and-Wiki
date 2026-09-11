@@ -2,6 +2,7 @@ package pokecube.mobs.abilities.simple;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.Level;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -37,6 +38,7 @@ public class DrySkin extends Ability
     @Override
     public void postMoveUse(final IPokemob mob, final MoveApplication move)
     {
+        final Level world = mob.getEntity().level();
         if (!areWeUser(mob, move)) return;
         // We can be target and user at the same time, if self move.
         if (areWeTarget(mob, move)) return;
@@ -48,7 +50,7 @@ public class DrySkin extends Ability
         if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN)) {
             user.hurt(user.damageSources().fall(), Math.min(user.getMaxHealth() / 8.0f, user.getHealth()));
         }
-        else if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN)) {
+        else if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN) || world.isRaining()) {
             user.heal(Math.min(user.getMaxHealth() / 8.0f, user.getMaxHealth() - user.getHealth()));
         }
 
