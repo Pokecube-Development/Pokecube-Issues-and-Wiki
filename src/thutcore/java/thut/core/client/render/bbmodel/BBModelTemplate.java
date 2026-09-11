@@ -41,14 +41,18 @@ public class BBModelTemplate
 
     public Map<String, Object> _by_uuid = new HashMap<>();
     Map<String, Material> _materials = Maps.newHashMap();
+    Map<String, Texture> _textures = Maps.newHashMap();
 
     public void init()
     {
         elements.forEach(e -> _by_uuid.put(e.uuid, e));
-        textures.forEach(e -> _by_uuid.put(e.uuid, e));
+        textures.forEach(e -> {
+            _by_uuid.put(e.uuid, e);
+            _textures.put(e.name, e);
+        });
         // Groups did not exist prior to 5.0
-        if(groups != null) groups.forEach(e -> _by_uuid.put(e.uuid, e));
-        if(meta.format_version.startsWith("4."))
+        if (groups != null) groups.forEach(e -> _by_uuid.put(e.uuid, e));
+        if (meta.format_version.startsWith("4."))
         {
             // Groups were in the outliner here
             outliner.forEach(e -> e.init(this));

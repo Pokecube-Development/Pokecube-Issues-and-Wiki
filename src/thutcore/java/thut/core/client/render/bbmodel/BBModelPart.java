@@ -185,6 +185,11 @@ public class BBModelPart extends Part
                     tex.toArray(new Vector2f[0]), Mesh.QUAD_FMT);
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, Material.create(m.name));
+            var bbTexture = t._textures.get(m.name);
+            if ("emissive".equals(bbTexture.render_mode))
+            {
+                mat.emissiveMagnitude = 1;
+            }
             mat.expectedTexH = t.resolution.height;
             mat.expectedTexW = t.resolution.width;
             mats.put(m.name, mat);
@@ -202,6 +207,11 @@ public class BBModelPart extends Part
                     tex.toArray(new Vector2f[0]), Mesh.TRIANGLE_FMT);
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, Material.create(m.name));
+            var bbTexture = t._textures.get(m.name);
+            if ("emissive".equals(bbTexture.render_mode))
+            {
+                mat.emissiveMagnitude = 1;
+            }
             mat.expectedTexH = t.resolution.height;
             mat.expectedTexW = t.resolution.width;
             mats.put(m.name, mat);
