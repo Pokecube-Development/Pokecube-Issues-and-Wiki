@@ -31,18 +31,4 @@ public class SnowCloak extends Ability
             attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
         }
     }
-
-    @Override
-    public void endCombat(IPokemob mob)
-    {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.EVASION);
-        attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
-
-    @Override
-    public void onRecall(IPokemob mob)
-    {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.EVASION);
-        attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
 }

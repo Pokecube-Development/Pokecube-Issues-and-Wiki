@@ -19,22 +19,4 @@ public class Hustle extends Ability
         attackAttr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         accuracyAttr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, -3277.0/4096.0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
     }
-
-    @Override
-    public void endCombat(IPokemob mob)
-    {
-        var attackAttr = mob.getEntity().getAttribute(PokecubeAttributes.ATTACK);
-        var accuracyAttr = mob.getEntity().getAttribute(PokecubeAttributes.ACCURACY);
-        attackAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-        accuracyAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
-
-    @Override
-    public void onRecall(IPokemob mob)
-    {
-        var attackAttr = mob.getEntity().getAttribute(PokecubeAttributes.ATTACK);
-        var accuracyAttr = mob.getEntity().getAttribute(PokecubeAttributes.ACCURACY);
-        attackAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-        accuracyAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
 }

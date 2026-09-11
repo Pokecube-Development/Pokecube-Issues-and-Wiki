@@ -16,22 +16,10 @@ public class Defeatist extends Ability
         if (!areWeUser(mob, move)) return;
         if (mob.getHealth() <= mob.getMaxHealth() / 2.0)
         {
-            var attr = mob.getEntity().getAttribute(PokecubeAttributes.VIT);
-            attr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, -0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            var attackAttr = mob.getEntity().getAttribute(PokecubeAttributes.ATTACK);
+            var spattackAttr = mob.getEntity().getAttribute(PokecubeAttributes.SPATTACK);
+            attackAttr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, -0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            spattackAttr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, -0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
-    }
-
-    @Override
-    public void endCombat(IPokemob mob)
-    {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.EVASION);
-        attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
-
-    @Override
-    public void onRecall(IPokemob mob)
-    {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.EVASION);
-        attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
     }
 }

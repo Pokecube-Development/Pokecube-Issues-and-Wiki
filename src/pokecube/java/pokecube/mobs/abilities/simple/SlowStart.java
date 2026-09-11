@@ -20,30 +20,30 @@ public class SlowStart extends Ability
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (!areWeUser(mob, move)) return;
-        if (mob.getEntity().getPersistentData().contains("pokecube:slowStartRemaining"))
+        var entity = mob.getEntity();
+        var attackAttr = mob.getEntity().getAttribute(PokecubeAttributes.ATTACK);
+        var vitAttr = mob.getEntity().getAttribute(PokecubeAttributes.VIT);
+        if (entity.getPersistentData().contains("pokecube:slowStartRemaining"))
         {
-            var attackAttr = mob.getEntity().getAttribute(PokecubeAttributes.ATTACK);
-            var vitAttr = mob.getEntity().getAttribute(PokecubeAttributes.VIT);
+            if (entity.getPersistentData().getInt("pokecube:slowStartRemaining") <= 0)
+            {
+                entity.getPersistentData().remove("pokecube:slowStartRemaining");
+                attackAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
+                vitAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
+            }
+
             attackAttr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, -0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
             vitAttr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, -0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
+
     }
 
     @Override
-    public void endCombat(IPokemob mob)
+    public void postMoveUse(IPokemob mob, MoveApplication move)
     {
-        var attackAttr = mob.getEntity().getAttribute(PokecubeAttributes.ATTACK);
-        var vitAttr = mob.getEntity().getAttribute(PokecubeAttributes.VIT);
-        attackAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-        vitAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
-
-    @Override
-    public void onRecall(IPokemob mob)
-    {
-        var attackAttr = mob.getEntity().getAttribute(PokecubeAttributes.ATTACK);
-        var vitAttr = mob.getEntity().getAttribute(PokecubeAttributes.VIT);
-        attackAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-        vitAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
+        if (!areWeUser(mob, move)) return;
+        var entity = mob.getEntity();
+        if (mob.getEntity().getPersistentData().contains("pokecube:slowStartRemaining"))
+            entity.getPersistentData().putInt("pokecube:slowStartRemaining", entity.getPersistentData().getInt("pokecube:slowStartRemaining") - 1);
     }
 }

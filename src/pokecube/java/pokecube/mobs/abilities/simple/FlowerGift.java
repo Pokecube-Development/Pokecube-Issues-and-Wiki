@@ -45,22 +45,4 @@ public class FlowerGift extends Ability
             spdefenseAttr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
     }
-
-    @Override
-    public void endCombat(IPokemob mob)
-    {
-        var attackAttr = mob.getEntity().getAttribute(PokecubeAttributes.ATTACK);
-        var spdefenseAttr = mob.getEntity().getAttribute(PokecubeAttributes.SPDEFENSE);
-        attackAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-        spdefenseAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
-
-    @Override
-    public void onRecall(IPokemob mob)
-    {
-        var attackAttr = mob.getEntity().getAttribute(PokecubeAttributes.ATTACK);
-        var spdefenseAttr = mob.getEntity().getAttribute(PokecubeAttributes.SPDEFENSE);
-        attackAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-        spdefenseAttr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
 }

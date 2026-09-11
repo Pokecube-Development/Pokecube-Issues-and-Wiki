@@ -20,18 +20,4 @@ public class FurCoat extends Ability
         var attr = mob.getEntity().getAttribute(PokecubeAttributes.DEFENSE);
         attr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
     }
-
-    @Override
-    public void endCombat(IPokemob mob)
-    {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.EVASION);
-        attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
-
-    @Override
-    public void onRecall(IPokemob mob)
-    {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.EVASION);
-        attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
 }

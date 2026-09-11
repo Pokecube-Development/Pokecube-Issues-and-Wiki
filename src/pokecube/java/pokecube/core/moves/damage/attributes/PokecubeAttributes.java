@@ -224,4 +224,14 @@ public class PokecubeAttributes
             PacketSyncModifier.sendUpdate(entity);
         }
     }
+
+    public static void cleanupAbilities(IPokemob pokemob)
+    {
+        for (Holder<Attribute> stat : PokecubeAttributes.ATTRIBUTES)
+        {
+            var attr = pokemob.getEntity().getAttribute(stat);
+            attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
+        }
+    }
+
 }

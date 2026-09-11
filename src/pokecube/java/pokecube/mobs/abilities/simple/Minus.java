@@ -34,18 +34,4 @@ public class Minus extends Ability
             attr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         }
     }
-
-    @Override
-    public void endCombat(IPokemob mob)
-    {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.SPATTACK);
-        attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
-
-    @Override
-    public void onRecall(IPokemob mob)
-    {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.SPATTACK);
-        attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
 }

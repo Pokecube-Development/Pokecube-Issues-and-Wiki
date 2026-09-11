@@ -29,18 +29,4 @@ public class MarvelScale extends Ability
         }
 
     }
-
-    @Override
-    public void endCombat(IPokemob mob)
-    {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.DEFENSE);
-        attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
-
-    @Override
-    public void onRecall(IPokemob mob)
-    {
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.DEFENSE);
-        attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-    }
 }
