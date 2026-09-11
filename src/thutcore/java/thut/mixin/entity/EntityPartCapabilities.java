@@ -18,7 +18,7 @@ public class EntityPartCapabilities
         Object us = (Object) this;
         if (us instanceof GenericPartEntity<?> parted)
         {
-            cbr.setReturnValue(parted.getCapability(capability, context));
+            cbr.setReturnValue(parted.getParent().getCapability(capability, context));
         }
     }
 
@@ -28,7 +28,7 @@ public class EntityPartCapabilities
         Object us = (Object) this;
         if (us instanceof GenericPartEntity<?> parted)
         {
-            cbr.setReturnValue(parted.getCapability(capability));
+            cbr.setReturnValue(parted.getParent().getCapability(capability));
         }
     }
 }
