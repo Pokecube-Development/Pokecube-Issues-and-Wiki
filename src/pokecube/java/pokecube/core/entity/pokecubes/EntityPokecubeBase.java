@@ -1,7 +1,6 @@
 package pokecube.core.entity.pokecubes;
 
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -26,7 +25,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -59,7 +57,6 @@ import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.RegHelper;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -118,7 +115,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     public ResourceLocation lootTable = null;
 
-    protected int inData;
     protected boolean inGround;
     public UUID shooter;
     public LivingEntity shootingEntity;
@@ -129,7 +125,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public Vector3 targetLocation = new Vector3();
 
     protected Block tile;
-    protected BlockPos tilePos;
     private int tilt = -1;
     public Vector3 v0 = new Vector3();
     protected Vector3 v1 = new Vector3();
@@ -215,7 +210,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
             if (PokecubeManager.isFilled(this.getItem()))
             {
                 final LivingEntity sent = SendOutManager.sendOut(this, true);
-                if (sent instanceof Mob mob && hit.getEntity() instanceof LivingEntity living)
+                if (sent instanceof Mob mob && hitEntity instanceof LivingEntity living)
                     Battle.createOrAddToBattle(mob, living);
             }
             else CaptureManager.captureAttempt(this, hitEntity);
@@ -224,20 +219,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
         default:
             break;
         }
-    }
-
-    @Override
-    public void onAddedToLevel()
-    {
-        PokemobTracker.addPokecube(this);
-        super.onAddedToLevel();
-    }
-
-    @Override
-    public void onRemovedFromLevel()
-    {
-        PokemobTracker.removePokecube(this);
-        super.onRemovedFromLevel();
     }
 
     @Override
@@ -317,8 +298,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
             if (hit.getType() == Type.ENTITY) this.onImpact(hit);
         }
 
-        final HitResult raytraceresult = EntityPokecubeBase.rayTrace(this, axisalignedbb, valid,
-                ClipContext.Block.COLLIDER, true);
+        final HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, valid);
         if (this.ignoreEntity != null && this.ignoreTime-- <= 0) this.ignoreEntity = null;
 
         trace:
@@ -560,12 +540,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public void setItemSlot(final EquipmentSlot slotIn, final ItemStack stack)
     {}
 
-    @Override
-    public void setDeltaMovement(final Vec3 velocity)
-    {
-        super.setDeltaMovement(velocity);
-    }
-
     public void setReleased(final Entity entity)
     {
         this.getEntityData().set(EntityPokecubeBase.ENTITYID, entity.getId());
@@ -703,61 +677,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
         if (target != null) this.getEntityData().set(EntityPokecubeBase.SEEKING, true);
         else this.getEntityData().set(EntityPokecubeBase.SEEKING, false);
         this.targetEntity = target;
-    }
-
-    public static HitResult rayTrace(final Entity projectile, final boolean checkEntityCollision,
-            final boolean includeShooter, @Nullable final Entity shooter, final ClipContext.Block blockModeIn)
-    {
-        final Predicate<Entity> valid = (target) -> {
-            return !target.isSpectator() && target.isPickable() && (includeShooter || !target.is(shooter))
-                    && !target.noPhysics;
-        };
-        return ProjectileUtil.getHitResultOnMoveVector(projectile, valid);
-    }
-
-    public static HitResult rayTrace(final Entity projectile, final AABB boundingBox, final Predicate<Entity> filter,
-            final ClipContext.Block blockModeIn, final boolean checkEntityCollision)
-    {
-        return ProjectileUtil.getHitResultOnMoveVector(projectile, filter);
-    }
-
-    /**
-     * Gets the EntityRayTraceResult representing the entity hit
-     */
-    @Nullable
-    public static EntityHitResult rayTraceEntities(final Level worldIn, final Entity projectile, final Vec3 startVec,
-            final Vec3 endVec, final AABB boundingBox, final Predicate<Entity> filter)
-    {
-        return EntityPokecubeBase.rayTraceEntities(worldIn, projectile, startVec, endVec, boundingBox, filter,
-                Double.MAX_VALUE);
-    }
-
-    /**
-     * Gets the EntityRayTraceResult representing the entity hit
-     */
-    @Nullable
-    public static EntityHitResult rayTraceEntities(final Level worldIn, final Entity projectile, final Vec3 startVec,
-            final Vec3 endVec, final AABB boundingBox, final Predicate<Entity> filter, final double distance)
-    {
-        double d0 = distance;
-        Entity entity = null;
-
-        for (final Entity entity1 : worldIn.getEntities(projectile, boundingBox, filter))
-        {
-            final AABB axisalignedbb = entity1.getBoundingBox().inflate(0.3F);
-            final Optional<Vec3> optional = axisalignedbb.clip(startVec, endVec);
-            if (optional.isPresent())
-            {
-                final double d1 = startVec.distanceToSqr(optional.get());
-                if (d1 < d0)
-                {
-                    entity = entity1;
-                    d0 = d1;
-                }
-            }
-        }
-
-        return entity == null ? null : new EntityHitResult(entity);
     }
 
     public abstract EntityPokecubeBase copy();

@@ -311,6 +311,10 @@ public class PokemobTracker
             PokemobTracker.addPokemob(pokemob);
             if (pokemob.isPlayerOwned() && pokemob.getOwnerId() != null) PlayerPokemobCache.UpdateCache(pokemob);
         }
+        if (event.getEntity() instanceof EntityPokecubeBase cube)
+        {
+            addPokecube(cube);
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -321,6 +325,10 @@ public class PokemobTracker
         {
             PokemobTracker.removePokemob(pokemob);
             if (pokemob.isPlayerOwned() && pokemob.getOwnerId() != null) PlayerPokemobCache.UpdateCache(pokemob);
+        }
+        if (event.getEntity() instanceof EntityPokecubeBase cube)
+        {
+            removePokecube(cube);
         }
     }
 
