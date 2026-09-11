@@ -26,6 +26,7 @@ import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
+import thut.api.entity.multipart.IMultpart;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 
@@ -39,7 +40,21 @@ public class SendOutManager
         AABB box = mob.getBoundingBox();
         if (mob.isMultipartEntity())
         {
-            final PartEntity<?>[] parts = mob.getParts();
+            var parts = mob.getParts();
+            box = null;
+            // If it has parts, use that for the bounds instead.
+            for (final PartEntity<?> part : parts)
+                if (box == null) box = part.getBoundingBox();
+                else box = box.minmax(part.getBoundingBox());
+            if (box == null) box = mob.getBoundingBox();
+            else
+            {
+                box = box.move(mob.position());
+            }
+        }
+        else if (mob instanceof IMultpart<?, ?> multi)
+        {
+            var parts = multi.getUseParts();
             box = null;
             // If it has parts, use that for the bounds instead.
             for (final PartEntity<?> part : parts)

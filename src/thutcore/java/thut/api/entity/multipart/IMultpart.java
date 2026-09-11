@@ -74,6 +74,11 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         initParts(false);
     }
 
+    default boolean shouldSyncParts()
+    {
+        return true;
+    }
+
     void initParts(boolean fromPacket);
 
     /**

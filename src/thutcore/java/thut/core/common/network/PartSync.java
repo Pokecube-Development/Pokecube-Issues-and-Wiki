@@ -37,7 +37,7 @@ public class PartSync extends BigPacket
     public static void sendUpdate(final Entity mob)
     {
         if (!(mob.level() instanceof ServerLevel)) return;
-        if (!(mob instanceof IMultpart<?, ?>)) return;
+        if (!(mob instanceof IMultpart<?, ?> parts) || !parts.shouldSyncParts()) return;
         sendUpdate(mob, !mob.isAddedToLevel());
     }
 
@@ -50,7 +50,7 @@ public class PartSync extends BigPacket
     private static byte[] makePacket(Entity mob, boolean remove)
     {
         if (!(mob.level() instanceof ServerLevel level)) return null;
-        if (!(mob instanceof IMultpart<?, ?> parts)) return null;
+        if (!(mob instanceof IMultpart<?, ?> parts) || !parts.shouldSyncParts()) return null;
         if (parts.getAllParts().isEmpty()) return null;
 
         FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());

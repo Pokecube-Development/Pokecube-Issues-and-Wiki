@@ -35,6 +35,7 @@ import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.EntityProvider;
+import thut.api.entity.multipart.IMultpart;
 import thut.api.maths.Vector3;
 
 import java.util.List;
@@ -545,7 +546,18 @@ public class EntityMoveUse extends ThrowableProjectile
             if (user.isMultipartEntity())
             {
                 testBox = null;
-                for (final PartEntity<?> part : user.getParts())
+                for (var part : user.getParts())
+                {
+                    final AABB box = part.getBoundingBox().inflate(sh, sv, sh);
+                    if (testBox == null) testBox = box;
+                    else testBox = box.minmax(testBox);
+                    hitboxes.add(box);
+                }
+            }
+            else if(user instanceof IMultpart<?,?> multi && !multi.getUseParts().isEmpty())
+            {
+                testBox = null;
+                for (var part : multi.getUseParts())
                 {
                     final AABB box = part.getBoundingBox().inflate(sh, sv, sh);
                     if (testBox == null) testBox = box;

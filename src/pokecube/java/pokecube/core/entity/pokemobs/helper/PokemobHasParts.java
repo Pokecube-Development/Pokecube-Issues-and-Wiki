@@ -42,6 +42,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         super(type, worldIn);
     }
 
+    protected boolean partsNeedSync = false;
     protected BBPartEntity.Factory<PokemobPart, PokemobHasParts> factory;
 
     @Override
@@ -67,7 +68,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     public boolean isMultipartEntity()
     {
         if (this.getUseParts() == null) this.initParts();
-        return !this.getUseParts().isEmpty();
+        return this.shouldSyncParts();
     }
 
     List<PokemobPart> _lastParts;
@@ -79,16 +80,20 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         // This only does something complex if the parts have changed, otherwise
         // it just ensures their locations are synced to us.
         this.checkUpdateParts();
-        List<PokemobPart> parts;
-        if (!this.isAddedToLevel())
-        {
-            parts = this.getAllParts();
-        }
-        else parts = this.getUseParts();
+        // Return null here if we shouldn't sync, this array is what neoforge uses
+        // when the mob is added to level to add the parts to the server list.
+        if (!shouldSyncParts()) return null;
+        List<PokemobPart> parts = this.getUseParts();
         if (parts == null || parts.isEmpty()) return null;
         cache = parts == _lastParts ? cache : parts.toArray(new PokemobPart[0]);
         _lastParts = parts;
         return cache;
+    }
+
+    @Override
+    public boolean shouldSyncParts()
+    {
+        return partsNeedSync;
     }
 
     @Override
@@ -121,17 +126,13 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         colWidth = width;
         colHeight = height;
 
-        boolean subDivide = height > maxH || width > maxW || length > maxW || getPokemob().isPlayerOwned() || forceAdd;
-
-        // Special handling for client side gui only mobs:
-        subDivide = subDivide && (!level.isClientSide() || this.isAddedToLevel());
-
-        if (entry.bodyModel != null && subDivide)
+        if (entry.bodyModel != null)
         {
             this.initFromBBModel();
         }
         else
         {
+            boolean subDivide = height > maxH || width > maxW || length > maxW;
             if (subDivide)
             {
                 this.trySubDivideParts(width, length, height);
@@ -156,6 +157,12 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             var dw2 = Math.max(containing.getXsize(), containing.getZsize());
             colWidth = (float) dw2;
             colHeight = (float) dh2;
+            if (colWidth * colHeight > 190)
+            {
+                colHeight = Math.min(9, colHeight);
+                colWidth = Math.min(21, colWidth);
+            }
+            partsNeedSync = colHeight * colWidth > 100;
         }
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
@@ -166,7 +173,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         this.firstTick = true;
         this.refreshDimensions();
         this.firstTick = first;
-        if (this.level instanceof ServerLevel)
+        if (this.level instanceof ServerLevel && shouldSyncParts())
         {
             WorldTickManager.scheduleTask(this.level, () -> {
                 if (this.isAddedToLevel()) PartSync.sendUpdate(weSelf());
@@ -210,13 +217,14 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     public void setPose(Pose pose)
     {
         // NO-OP, we handle pose differently
-        //        super.setPose(pose);
+        if (this.getUseParts().isEmpty()) super.setPose(pose);
     }
 
     @Override
     protected EntityDimensions getDefaultDimensions(Pose pose)
     {
-        if (!this.isMultipartEntity()) return super.getDefaultDimensions(pose);
+        if (this.getUseParts() == null) this.initParts();
+        if (this.getUseParts().isEmpty()) return super.getDefaultDimensions(pose);
         return this.dimensions.scale(1 / this.getScale());
     }
 
@@ -224,7 +232,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     @Override
     public void refreshDimensions()
     {
-        if (!this.isMultipartEntity())
+        if (this.getUseParts() == null) this.initParts();
+        if (this.getUseParts().isEmpty())
         {
             super.refreshDimensions();
             return;
@@ -275,29 +284,29 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     @Override
     public boolean isPickable()
     {
-        if (this.isMultipartEntity()) return false;
+//        if (!this.getUseParts().isEmpty()) return false;
         return super.isPickable();
     }
 
     @Override
     public boolean isPushable()
     {
-        return !this.isMultipartEntity() && super.isPushable();
+        return super.isPushable();//this.getUseParts().isEmpty() &&
     }
 
     @Override
     protected void pushEntities()
     {
-        if (!this.isMultipartEntity()) super.pushEntities();
+        if (this.getUseParts().isEmpty()) super.pushEntities();
     }
 
     @Override
     public void push(final Entity entityIn)
     {
         if (entityIn.is(this)) return;
-        if (this.isMultipartEntity())
+        if (!this.getUseParts().isEmpty())
         {
-            for (final PokemobPart part : this.getParts())
+            for (final PokemobPart part : this.getUseParts())
                 if (part.getBoundingBox().intersects(entityIn.getBoundingBox())) part.push(entityIn);
         }
         else super.push(entityIn);

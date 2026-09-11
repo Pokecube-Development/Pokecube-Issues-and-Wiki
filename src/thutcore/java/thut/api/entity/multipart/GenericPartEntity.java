@@ -34,10 +34,14 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 
     public final String id;
 
+    protected final IMultpart<?, E> parentMultipart;
+
+    @SuppressWarnings("unchecked")
     protected GenericPartEntity(E parent, final String id)
     {
         super(parent);
         this.id = id;
+        parentMultipart = (IMultpart<?, E>) parent;
 
         // Hackery to use identical attachment map
         try
@@ -60,6 +64,12 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
         this.xOld = this.getX() + dr.x;
         this.yOld = this.getY() + dr.y;
         this.zOld = this.getZ() + dr.z;
+    }
+
+    @Override
+    public int getId()
+    {
+        return parentMultipart.shouldSyncParts() ? super.getId() : getParent().getId();
     }
 
     @Override
