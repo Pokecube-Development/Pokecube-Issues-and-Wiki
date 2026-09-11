@@ -216,6 +216,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     @Override
     public void setPose(Pose pose)
     {
+        if (this.getUseParts() == null) this.initParts();
         // NO-OP, we handle pose differently
         if (this.getUseParts().isEmpty()) super.setPose(pose);
     }
@@ -297,6 +298,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     @Override
     protected void pushEntities()
     {
+        if (this.getUseParts() == null) this.initParts();
         if (this.getUseParts().isEmpty()) super.pushEntities();
     }
 
@@ -304,6 +306,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     public void push(final Entity entityIn)
     {
         if (entityIn.is(this)) return;
+        if (this.getUseParts() == null) this.initParts();
         if (!this.getUseParts().isEmpty())
         {
             for (final PokemobPart part : this.getUseParts())
