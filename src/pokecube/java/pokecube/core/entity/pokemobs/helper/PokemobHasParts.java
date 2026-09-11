@@ -262,6 +262,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
                 colHeight = Math.min(9, colHeight);
                 colWidth = Math.min(21, colWidth);
             }
+            var old = partsNeedSync;
+            partsNeedSync = colHeight * colWidth > 100;
+            if (partsNeedSync != old) if (this.isAddedToLevel()) PartSync.sendUpdate(weSelf());
         }
 
         final EntityEvent.Size sizeEvent = EventHooks.getEntitySizeForge(this, pose, this.getDimensions(pose));
