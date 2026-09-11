@@ -323,14 +323,24 @@ public class AnimationLoader
                     boolean custom = false;
                     if (p instanceof Part part)
                     {
+                        var partMid = new Matrix3f();
+                        partMid.setColumn(0, part.getCentre());
                         if (part.attachmentPoints.containsKey("dye"))
                         {
                             dye.add(part.getName());
                             custom = true;
                         }
+                        else if (dye.contains(part.getName()))
+                        {
+                            part.attachmentPoints.put("dye", partMid);
+                        }
                         if (part.attachmentPoints.containsKey("shear"))
                         {
                             shear.add(part.getName());
+                        }
+                        else if (shear.contains(part.getName()))
+                        {
+                            part.attachmentPoints.put("shear", partMid);
                         }
                     }
                     for (var m : p.getMaterials())
