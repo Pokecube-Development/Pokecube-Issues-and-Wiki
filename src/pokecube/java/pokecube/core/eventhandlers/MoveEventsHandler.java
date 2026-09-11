@@ -368,7 +368,7 @@ public class MoveEventsHandler
         final MoveApplication move = evt.getPacket();
         final MoveEntry attack = move.getMove();
         final IPokemob attacker = move.getUser();
-        final Entity attacked = move.getTarget();
+        final LivingEntity attacked = move.getTarget();
         final IPokemob target = PokemobCaps.getPokemobFor(attacked);
 
         final IPokemobUseable attackerheld = PokemobCaps.getPokemobUsable(attacker.getHeldItem());
@@ -377,6 +377,11 @@ public class MoveEventsHandler
             final InteractionResultHolder<ItemStack> result = attackerheld.onMoveTick(attacker, attacker.getHeldItem(),
                     move, true);
             if (result.getResult() == InteractionResult.SUCCESS) attacker.setHeldItem(result.getObject());
+        }
+        if (attacked != null)
+        {
+            ItemStack held = attacked.getMainHandItem();
+            if (held != ItemStack.EMPTY) attacked.getPersistentData().remove("pokecube:itemUsedOrLost");
         }
         if (target != null)
         {
