@@ -207,12 +207,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                         dp.mul(tranform);
                         loc.set(dp.x, dp.y, dp.z);
                         var locator = new Matrix3f(loc, rot, new Vector3f());
-                        System.out.println(locator);
-                        while (this.attachmentPoints.containsKey(s))
-                        {
-                            System.out.println("Trying to add duplicate for " + s);
-                            s += ":__"+p.name;
-                        }
+                        while (this.attachmentPoints.containsKey(s)) s += ":";
                         this.attachmentPoints.put(s, locator);
                     }
                 }

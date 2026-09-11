@@ -87,7 +87,15 @@ public class BBModelPart extends Part
     private static Matrix3f getOrigin(IBBPart b, float[] parentOffsets)
     {
         float[] offsets = b.getOrigin().clone();
+        for (int i = 0; i < 3; i++)
+        {
+            offsets[i] -= parentOffsets[i];
+        }
         var location = new Vector3f(offsets);
+        float x = location.x() / 16f;
+        float y = -location.z() / 16f;
+        float z = location.y() / 16f;
+        location.set(x, y, z);
         var rotation = b.getRotation() != null ? new Vector3f(b.getRotation()) : new Vector3f();
         return new Matrix3f(location, rotation, new Vector3f());
     }

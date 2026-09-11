@@ -572,7 +572,6 @@ public class BaseModelToBBModel
                     origin.set(v, 1);
                     Matrix4f mat = new Matrix4f(posMat);
                     origin.mul(mat);
-                    System.out.println("output: " + name + " " + origin);
                     element.position = new float[] { origin.x, origin.y, origin.z };
                     v = matrix.getColumn(1, new Vector3f());
                     element.rotation = new float[] { v.x, v.y, v.z };

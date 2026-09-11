@@ -123,7 +123,6 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
                     (float) this.getParent().getZ());
             r2.sub(r1);
             this.ride_point.set(r2.x, r2.y, r2.z);
-//            if(getParent().tickCount%100==0) System.out.println(id+" "+seat+" "+r2);
         }
     }
 

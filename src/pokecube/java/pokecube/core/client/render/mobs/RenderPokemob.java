@@ -509,6 +509,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 saveModelForServer(holder, entity);
                 BBModelPart.mergeMeshs = false;
                 Part.mergeMeshes = true; // then set this back as is
+                // Then reload mesh for the entry
+                entry.onResourcesReloaded();
                 ThutCore.conf.asyncModelLoads = old;
             }
             // Then re-do it the normal way

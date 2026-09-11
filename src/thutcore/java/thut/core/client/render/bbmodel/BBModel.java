@@ -134,18 +134,11 @@ public class BBModel extends BaseModel
             // Now process any locators as needed
             if(!p.attachmentPoints.isEmpty())
             {
-                var mid = p.getCentre();
                 for (var pair : p.attachmentPoints.entrySet())
                 {
                     var m = pair.getValue();
                     var v = m.getColumn(0, new Vector3f());
-                    v.sub(mid);
                     m.setColumn(0, v);
-                }
-                System.out.println("Attachments for "+p.getName()+":");
-                for (var pair : p.attachmentPoints.entrySet())
-                {
-                    System.out.println(pair.getKey() + " " + mid + "\n" + pair.getValue());
                 }
             }
         }
