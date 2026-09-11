@@ -246,8 +246,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         AABB containing = null;
         for (final PokemobPart part : getHolder().allParts())
         {
-            if (containing == null) containing = part.getBoundingBox();
-            else containing = containing.minmax(part.getBoundingBox());
+            var partBox = part.getBoundingBox();
+            if (containing == null) containing = partBox;
+            else containing = containing.minmax(partBox);
         }
         if (containing != null)
         {
@@ -283,19 +284,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         this.setBoundingBox(
                 new AABB(this.getX() - dx, this.getY(), this.getZ() - dz, this.getX() + dx, this.getY() + dh,
                         this.getZ() + dz));
-    }
-
-    @Override
-    public boolean isPickable()
-    {
-//        if (!this.getUseParts().isEmpty()) return false;
-        return super.isPickable();
-    }
-
-    @Override
-    public boolean isPushable()
-    {
-        return super.isPushable();//this.getUseParts().isEmpty() &&
     }
 
     @Override
