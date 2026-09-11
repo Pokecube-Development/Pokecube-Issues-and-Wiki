@@ -1,6 +1,7 @@
 package thut.api.entity.multipart;
 
 import java.lang.reflect.Field;
+import java.util.UUID;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -70,6 +71,12 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     public int getId()
     {
         return parentMultipart.shouldSyncParts() ? super.getId() : getParent().getId();
+    }
+
+    @Override
+    public UUID getUUID()
+    {
+        return parentMultipart.shouldSyncParts() ? super.getUUID() : getParent().getUUID();
     }
 
     @Override
