@@ -49,6 +49,7 @@ import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.inventory.pokemob.PokemobInventory;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
@@ -225,10 +226,11 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
         this.returning = true;
 
-        boolean reset = this.resetForm(true);
+        this.resetForm(true);
 
         final Ability ab = this.getAbility();
-        if (reset) ab.onRecall(this);
+        ab.onRecall(this);
+        PokecubeAttributes.cleanupAbilities(this);
 
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Recalling " + this.getEntity());
         // Clear the pokemob's motion on recall

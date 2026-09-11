@@ -34,6 +34,7 @@ import pokecube.api.events.combat.JoinBattleEvent;
 import pokecube.api.events.combat.JoinSideEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.network.packets.PacketSyncBattle;
 import pokecube.core.utils.AITools;
 import thut.api.ThutCaps;
@@ -672,7 +673,11 @@ public class Battle
             this.s2.remove(mob);
         }
         final IPokemob poke = PokemobCaps.getPokemobFor(mob);
-        if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
+        if (poke != null && poke.getAbility() != null)
+        {
+            poke.getAbility().endCombat(poke);
+            PokecubeAttributes.cleanupAbilities(poke);
+        }
 
         ThutCore.FORGE_BUS.post(new ExitBattleEvent(mob, this));
     }
@@ -809,13 +814,21 @@ public class Battle
         for (final LivingEntity mob1 : this.side1.values())
         {
             final IPokemob poke = PokemobCaps.getPokemobFor(mob1);
-            if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
+            if (poke != null && poke.getAbility() != null)
+            {
+                poke.getAbility().endCombat(poke);
+                PokecubeAttributes.cleanupAbilities(poke);
+            }
             BrainUtils.deagro(mob1);
         }
         for (final LivingEntity mob2 : this.side2.values())
         {
             final IPokemob poke = PokemobCaps.getPokemobFor(mob2);
-            if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
+            if (poke != null && poke.getAbility() != null)
+            {
+                poke.getAbility().endCombat(poke);
+                PokecubeAttributes.cleanupAbilities(poke);
+            }
             BrainUtils.deagro(mob2);
         }
         PacketSyncBattle.trySendBattle(this);

@@ -170,6 +170,12 @@ public class StatusEffects
         return !data.isEmpty();
     }
 
+    /// Returns if the status effect remains upon switch out.
+    public static boolean isNonVolatile(Holder<MobEffect> effect)
+    {
+        return effect != CURSE && effect != CONFUSE && effect != FLINCH;
+    }
+
     public static MobEffectInstance getStatusEffect(LivingEntity mob)
     {
         var status = EXCLUSIVE_EFFECTS.keySet().stream().filter(mob::hasEffect).findFirst();

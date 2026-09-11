@@ -11,17 +11,17 @@ import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 
-@AbilityProvider(name = "protosynthesis")
-public class Protosynthesis extends Ability 
+@AbilityProvider(name = "quark-drive")
+public class QuarkDrive extends Ability
 {
     @Override
     public void onAgress(IPokemob mob, LivingEntity target)
     {
         final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
-        final boolean sunny = teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.SUN);
-        
-        if (sunny) {
+        final boolean electricTerrain = teffect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.ELECTRIC);
+
+        if (electricTerrain) {
             var boost = PokecubeAttributes.ATTACK;
             int stat = mob.getStat(Stats.ATTACK, true);
             int tmp;

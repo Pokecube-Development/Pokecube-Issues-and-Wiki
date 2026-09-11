@@ -1,34 +1,26 @@
 package pokecube.mobs.abilities.simple;
 
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.level.Level;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.moves.PokemobTerrainEffects;
-import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 
-@AbilityProvider(name = "swift-swim")
-public class SwiftSwim extends Ability
+@AbilityProvider(name = "rain-dish")
+public class RainDish extends Ability 
 {
     @Override
-    public void preMoveUse(final IPokemob mob, final MoveApplication move)
+    public void postMoveUse(final IPokemob mob, final MoveApplication move)
     {
         final Level world = mob.getEntity().level();
         final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemob_effects");
-        if (!areWeUser(mob, move)) return;
-
-        var attr = mob.getEntity().getAttribute(PokecubeAttributes.VIT);
+        var entity = mob.getEntity();
 
         if (teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN) || world.isRaining())
-        {
-            attr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
-        } else if (attr.hasModifier(PokecubeAttributes.ABILITY_STAT_MOD)) {
-            attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
-        }
+            entity.heal(Math.min(entity.getMaxHealth() / 16.0f, entity.getMaxHealth() - entity.getHealth()));
     }
 }

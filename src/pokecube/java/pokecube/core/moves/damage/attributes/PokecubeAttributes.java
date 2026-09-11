@@ -57,6 +57,7 @@ public class PokecubeAttributes
 
     public static final ResourceLocation NATURE = ResourceLocation.parse("pokecube:nature");
     public static final ResourceLocation STAT_MOD = ResourceLocation.parse("pokecube:stat_modifier");
+    public static final ResourceLocation ABILITY_STAT_MOD = ResourceLocation.parse("pokecube:ability_stat_modifier");
 
     public static void resetToEntry(IPokemob pokemob)
     {
@@ -223,4 +224,14 @@ public class PokecubeAttributes
             PacketSyncModifier.sendUpdate(entity);
         }
     }
+
+    public static void cleanupAbilities(IPokemob pokemob)
+    {
+        for (Holder<Attribute> stat : PokecubeAttributes.ATTRIBUTES)
+        {
+            var attr = pokemob.getEntity().getAttribute(stat);
+            attr.removeModifier(PokecubeAttributes.ABILITY_STAT_MOD);
+        }
+    }
+
 }
