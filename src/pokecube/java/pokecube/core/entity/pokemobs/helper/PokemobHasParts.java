@@ -216,6 +216,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     @Override
     public void setPose(Pose pose)
     {
+        if (this.getUseParts() == null) this.initParts();
         // NO-OP, we handle pose differently
         if (this.getUseParts().isEmpty()) super.setPose(pose);
     }
@@ -261,6 +262,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
                 colHeight = Math.min(9, colHeight);
                 colWidth = Math.min(21, colWidth);
             }
+            var old = partsNeedSync;
+            partsNeedSync = colHeight * colWidth > 100;
+            if (partsNeedSync != old) if (this.isAddedToLevel()) PartSync.sendUpdate(weSelf());
         }
 
         final EntityEvent.Size sizeEvent = EventHooks.getEntitySizeForge(this, pose, this.getDimensions(pose));
@@ -297,6 +301,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     @Override
     protected void pushEntities()
     {
+        if (this.getUseParts() == null) this.initParts();
         if (this.getUseParts().isEmpty()) super.pushEntities();
     }
 
@@ -304,6 +309,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     public void push(final Entity entityIn)
     {
         if (entityIn.is(this)) return;
+        if (this.getUseParts() == null) this.initParts();
         if (!this.getUseParts().isEmpty())
         {
             for (final PokemobPart part : this.getUseParts())
