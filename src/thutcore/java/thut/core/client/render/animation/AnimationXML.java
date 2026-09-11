@@ -405,6 +405,8 @@ public class AnimationXML
         public String part = "";
         @XmlAttribute(name = "location")
         public String location = "";
+        @XmlAttribute(name = "rotation")
+        public String rotation = "";
     }
 
     @XmlRootElement(name = "ModelAnimator")

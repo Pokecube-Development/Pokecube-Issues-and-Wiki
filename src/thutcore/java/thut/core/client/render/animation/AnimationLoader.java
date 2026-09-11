@@ -3,6 +3,7 @@ package thut.core.client.render.animation;
 import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Matrix3f;
 import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import thut.api.ModelHolder;
@@ -222,20 +223,29 @@ public class AnimationLoader
 
             for (var attachment : file.model.attachments)
             {
-                var partName = attachment.part;
-                var attachmentName = attachment.name;
-                var location = new Vector3f();
-                location = AnimationLoader.getVector3(attachment.location, location);
-                if (model.getParts().get(partName) instanceof Part part)
+                var partNames = attachment.part.split(":");
+                var attachmentNames = attachment.name.split(":");
+                var _location = AnimationLoader.getVector3(attachment.location, new Vector3f());
+                var _rotation = AnimationLoader.getVector3(attachment.rotation, new Vector3f());
+                for (var partName : partNames)
                 {
-                    var mid = part.getCentre();
-                    location.add(mid);
-                    part.attachmentPoints.put(attachmentName, location);
-                }
-                else
-                {
-                    ThutCore.LOGGER.warn("Warning, no part {} found in model {} for attachment {}", partName,
-                            holder.model, attachmentName);
+                    if (model.getParts().get(partName) instanceof Part part)
+                    {
+                        var mid = part.getCentre();
+                        _location.add(mid);
+                        Matrix3f data = new Matrix3f(_location, _rotation, new Vector3f());
+                        for (var attachmentName : attachmentNames)
+                        {
+                            if (attachmentName.equals("dye")) dye.add(part.getName());
+                            else if (attachmentName.equals("shear")) shear.add(part.getName());
+                            else part.attachmentPoints.put(attachmentName, data);
+                        }
+                    }
+                    else
+                    {
+                        ThutCore.LOGGER.warn("Warning, no part {} found in model {} for attachment {}", partName,
+                                holder.model, attachment.name);
+                    }
                 }
             }
 
@@ -307,12 +317,26 @@ public class AnimationLoader
                 // Now, process materials appropriately
                 Set<Material> notCustom = new HashSet<>();
                 Material _default = null;
+                // Collect materials, also use this chance to update dye and shear from locators
                 for(var p: model.getParts().values())
                 {
-                    for(var m: p.getMaterials())
+                    boolean custom = false;
+                    if (p instanceof Part part)
+                    {
+                        if (part.attachmentPoints.containsKey("dye"))
+                        {
+                            dye.add(part.getName());
+                            custom = true;
+                        }
+                        if (part.attachmentPoints.containsKey("shear"))
+                        {
+                            shear.add(part.getName());
+                        }
+                    }
+                    for (var m : p.getMaterials())
                     {
                         // If the material is a registered custom, this is true
-                        boolean isCustom = texturer.hasMapping(m.name);
+                        boolean isCustom = custom||texturer.hasMapping(m.name);
                         if(!isCustom)
                         {
                             // Collect not-custom ones, and then set them all equal.
@@ -339,6 +363,7 @@ public class AnimationLoader
                 renderer.setRotationOffset(offset);
                 renderer.setScale(scale);
 
+                if (headNames.isEmpty() && model.getParts().containsKey("head")) headNames.add("head");
                 model.getHeadParts().addAll(headNames);
 
                 // Cleanup the animation stuff.
@@ -353,7 +378,7 @@ public class AnimationLoader
                     for (String to : mergedAnimations.get(from))
                     {
                         List<Animation> fromSet = new ArrayList<>();
-                        List<Animation> toSet = null;
+                        List<Animation> toSet;
                         // In this case, we make an empty animation
                         if (!renderer.getAnimations().containsKey(to))
                         {

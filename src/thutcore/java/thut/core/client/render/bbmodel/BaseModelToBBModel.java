@@ -48,6 +48,18 @@ public class BaseModelToBBModel
         return var;
     }
 
+    private static record BBConstructions(Map<String, BBModelTemplate.Element> elements_by_id,
+            Map<String, BBModelTemplate.JsonGroup> groups_by_id, Map<String, BBModelTemplate.JsonGroup> outliner_by_id,
+            Map<String, String> partsToGroup, Map<String, BBModelTemplate.JsonGroup> partNameToOutlinerGroup,
+            Map<IExtendedModelPart, String> partsToUUID, Map<String, String> partNameToUUID, Set<String> locator_names)
+    {
+        public BBConstructions()
+        {
+            this(new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                    new HashMap<>(), new HashSet<>());
+        }
+    }
+
     public static BBModelTemplate convert(BaseModel model, Map<String, List<Animation>> animations, boolean simplifiy)
     {
         BBModelTemplate result = new BBModelTemplate();
@@ -61,16 +73,17 @@ public class BaseModelToBBModel
         // Default settings on the metadata
         result.meta = new BBModelTemplate.Meta();
 
-        // One element per part.
-        Map<String, BBModelTemplate.Element> elements_by_id = new HashMap<>();
-        // One group per part with children
-        Map<String, BBModelTemplate.JsonGroup> groups_by_id = new HashMap<>();
-        Map<String, BBModelTemplate.JsonGroup> outliner_by_id = new HashMap<>();
+        BBConstructions construct = new BBConstructions();
 
-        Map<String, String> partsToGroup = new HashMap<>();
-        Map<String, BBModelTemplate.JsonGroup> partNameToOutlinerGroup = new HashMap<>();
-        Map<IExtendedModelPart, String> partsToUUID = new HashMap<>();
-        Map<String, String> partNameToUUID = new HashMap<>();
+        // One element per part.
+        var elements_by_id = construct.elements_by_id;
+        // One group per part with children
+        var groups_by_id = construct.groups_by_id;
+        var outliner_by_id = construct.outliner_by_id;
+
+        var partsToGroup = construct.partsToGroup;
+        var partsToUUID = construct.partsToUUID;
+        var partNameToUUID = construct.partNameToUUID;
 
         var holder = new CapabilityAnimation.DefaultImpl();
         holder.overridePlaying("");
@@ -82,7 +95,7 @@ public class BaseModelToBBModel
 
         PoseStack pose = new PoseStack();
         pose.mulPose(AxisAngles.XN.rotationDegrees(90));
-        pose.scale(16,16,16);
+        pose.scale(16, 16, 16);
         var last = pose.last();
 
         Matrix4f posMat = new Matrix4f();
@@ -100,12 +113,15 @@ public class BaseModelToBBModel
                 element.vertices = new HashMap<>();
                 element.faces = new HashMap<>();
 
-                if(!partsToUUID.containsKey(part))
+                if (!partsToUUID.containsKey(part))
                 {
                     element.uuid = UUID.randomUUID().toString();
                     partsToUUID.put(part, element.uuid);
                 }
-                else element.uuid = partsToUUID.get(part);
+                else
+                {
+                    element.uuid = partsToUUID.get(part);
+                }
 
                 // Handle adding the element
                 if (!part.getRenderMeshes().isEmpty())
@@ -237,7 +253,7 @@ public class BaseModelToBBModel
                         // Now check if any added cubes entirely fit inside ours
                         remove.clear();
                         Vector3f testA = new Vector3f(), testB = new Vector3f(), testC = new Vector3f();
-                        for (var meshKeyA: faces)
+                        for (var meshKeyA : faces)
                         {
                             var mA = boxes.get(meshKeyA);
                             mA.getColumn(0, testA);
@@ -318,62 +334,12 @@ public class BaseModelToBBModel
                 var partID = partsToUUID.get(part);
                 if (!partsToGroup.containsKey(partID))
                 {
-                    var id =  UUID.randomUUID().toString();
+                    var id = UUID.randomUUID().toString();
                     partsToGroup.put(partID, id);
                     partNameToUUID.put(part.getName(), id);
                 }
-                var groupID = partsToGroup.get(partID);
-                boolean isAnimated = part.isAnimated();
                 // Handle adding the group
-                if (!part.getSubParts().isEmpty() || isAnimated)
-                {
-                    BBModelTemplate.JsonGroup groupCoord = groups_by_id.computeIfAbsent(groupID,
-                            s -> new BBModelTemplate.JsonGroup());
-                    BBModelTemplate.JsonGroup groupOutliner = outliner_by_id.computeIfAbsent(groupID,
-                            s -> new BBModelTemplate.JsonGroup());
-                    groupCoord.uuid = groupID;
-                    groupCoord.name = part.name;
-
-                    last.pose().mul(part.getRenderPose().pose(), posMat);
-                    Vector4f origin = new Vector4f(0,0,0,1);
-                    origin.mul(posMat);
-                    groupCoord.origin = new float[] { origin.x, origin.y, origin.z };
-                    groupCoord.rotation = new float[] { 0, 0, 0 };
-
-                    groupOutliner.uuid = groupID;
-                    if (groupOutliner.children == null) groupOutliner.children = new ArrayList<>();
-                    if (!groupOutliner.children.contains(partID)) groupOutliner.children.add(partID);
-                    partNameToOutlinerGroup.put(part.name, groupOutliner);
-                }
-
-                // Handle adding to parent's group
-                if (part.getParent() != null)
-                {
-                    var parent = part.getParent();
-                    if (!partsToUUID.containsKey(parent)) partsToUUID.put(parent, UUID.randomUUID().toString());
-                    var parentID = partsToUUID.get(parent);
-                    if (!partsToGroup.containsKey(parentID))
-                    {
-                        var id =  UUID.randomUUID().toString();
-                        partsToGroup.put(parentID, id);
-                        partNameToUUID.put(parent.getName(), id);
-                    }
-                    var parentGroupID = partsToGroup.get(parentID);
-                    var parentGroup = outliner_by_id.computeIfAbsent(parentGroupID,
-                            s -> new BBModelTemplate.JsonGroup());
-                    var ourGroup = outliner_by_id.computeIfAbsent(groupID, s -> new BBModelTemplate.JsonGroup());
-                    if(!partNameToOutlinerGroup.containsKey(parent.getName()))
-                        partNameToOutlinerGroup.put(parent.getName(), parentGroup);
-                    if (parentGroup.children == null) parentGroup.children = new ArrayList<>();
-                    if (!parentGroup.children.contains(ourGroup)) parentGroup.children.add(ourGroup);
-
-                    // If we are animated, we make a new group for us, and add ourselves to it.
-                    // Otherwise we add ourself to our parent's group
-                    if(part.getSubParts().isEmpty() && !isAnimated && !parentGroup.children.contains(partID))
-                        parentGroup.children.add(partID);
-
-                    ourGroup._parent = parentGroup;
-                }
+                addElementToGroup(construct, part, partID, last, posMat);
             }
         });
 
@@ -436,7 +402,7 @@ public class BaseModelToBBModel
                 anim.uuid = UUID.randomUUID().toString();
                 anim.loop = "loop";
                 anim.animators = new HashMap<>();
-                anim.length = _anim.getLength()/20f;
+                anim.length = _anim.getLength() / 20f;
                 for (var pair : _anim.sets.entrySet())
                 {
                     if (!(pair.getValue() instanceof Animators.KeyframeAnimator frames)) continue;
@@ -454,11 +420,11 @@ public class BaseModelToBBModel
                         if (channel == null) continue;
                         var list = new ArrayList<>(channel.components());
                         boolean looped = _anim.loops && list.size() > 1;
-                        if(looped)
+                        if (looped)
                         {
                             list.add(channel.components().getFirst());
                         }
-                        for(int i = 0; i<list.size(); i++)
+                        for (int i = 0; i < list.size(); i++)
                         {
                             var component = list.get(i);
                             BBModelTemplate.BBAnimation.BBKeyFrame frame = new BBModelTemplate.BBAnimation.BBKeyFrame();
@@ -480,7 +446,7 @@ public class BaseModelToBBModel
                                 break;
                             case "rotation":
                                 var rotOffset = component.rotOffset;
-                                if(component._rotFunctions[0]!=null)
+                                if (component._rotFunctions[0] != null)
                                 {
                                     point.x = component._rotFunctions[0];
                                 }
@@ -488,7 +454,7 @@ public class BaseModelToBBModel
                                 {
                                     point.x = rotXScale * rotOffset[0];
                                 }
-                                if(component._rotFunctions[1]!=null)
+                                if (component._rotFunctions[1] != null)
                                 {
                                     point.y = component._rotFunctions[1];
                                 }
@@ -496,7 +462,7 @@ public class BaseModelToBBModel
                                 {
                                     point.y = rotOffset[1];
                                 }
-                                if(component._rotFunctions[2]!=null)
+                                if (component._rotFunctions[2] != null)
                                 {
                                     point.z = component._rotFunctions[2];
                                 }
@@ -514,21 +480,24 @@ public class BaseModelToBBModel
                                 point.z = 1;
                                 break;
                             }
-                            if(point.x instanceof String s){
+                            if (point.x instanceof String s)
+                            {
                                 s = s.replace("sin(", "math.sin(");
                                 s = s.replace("cos(", "math.cos(");
                                 s = s.replace("*l*", "*q.anim_time*20*");
                                 s = s.replace("(0.05*", "(");
                                 point.x = s;
                             }
-                            if(point.y instanceof String s){
+                            if (point.y instanceof String s)
+                            {
                                 s = s.replace("sin(", "math.sin(");
                                 s = s.replace("cos(", "math.cos(");
                                 s = s.replace("*l*", "*q.anim_time*20*");
                                 s = s.replace("(0.05*", "(");
                                 point.y = s;
                             }
-                            if(point.z instanceof String s){
+                            if (point.z instanceof String s)
+                            {
                                 s = s.replace("sin(", "math.sin(");
                                 s = s.replace("cos(", "math.cos(");
                                 s = s.replace("*l*", "*q.anim_time*20*");
@@ -544,12 +513,102 @@ public class BaseModelToBBModel
             }
         }
 
-        result.outliner.addAll(outliner_by_id.values().stream().filter(g->g._parent==null).toList());
+        result.outliner.addAll(outliner_by_id.values().stream().filter(g -> g._parent == null).toList());
         result.groups.addAll(groups_by_id.values());
         result.elements.addAll(elements_by_id.values());
 
         result.groups.sort(Comparator.comparing(a -> a.name));
         result.elements.sort(Comparator.comparing(a -> a.name));
         return result;
+    }
+
+    private static void addElementToGroup(BBConstructions construct, Part part, String partID, PoseStack.Pose last,
+            Matrix4f posMat)
+    {
+        var elements_by_id = construct.elements_by_id;
+        var groups_by_id = construct.groups_by_id;
+        var outliner_by_id = construct.outliner_by_id;
+
+        var partsToGroup = construct.partsToGroup;
+        var partsToUUID = construct.partsToUUID;
+        var partNameToUUID = construct.partNameToUUID;
+        var partNameToOutlinerGroup = construct.partNameToOutlinerGroup;
+        var locator_names = construct.locator_names;
+
+        var groupID = partsToGroup.get(partID);
+        boolean isAnimated = part.isAnimated();
+        if (!part.getSubParts().isEmpty() || isAnimated)
+        {
+            BBModelTemplate.JsonGroup groupCoord = groups_by_id.computeIfAbsent(groupID,
+                    s -> new BBModelTemplate.JsonGroup());
+            BBModelTemplate.JsonGroup groupOutliner = outliner_by_id.computeIfAbsent(groupID,
+                    s -> new BBModelTemplate.JsonGroup());
+            groupCoord.uuid = groupID;
+            groupCoord.name = part.name;
+
+            last.pose().mul(part.getRenderPose().pose(), posMat);
+            Vector4f origin = new Vector4f(0, 0, 0, 1);
+            origin.mul(posMat);
+            groupCoord.origin = new float[] { origin.x, origin.y, origin.z };
+            groupCoord.rotation = new float[] { 0, 0, 0 };
+
+            groupOutliner.uuid = groupID;
+            if (groupOutliner.children == null) groupOutliner.children = new ArrayList<>();
+            if (!groupOutliner.children.contains(partID)) groupOutliner.children.add(partID);
+
+            // Make a locator element for each one of these, and add it to the listings
+            if (!part.attachmentPoints.isEmpty())
+            {
+                var vMid = part.getCentre();
+                part.attachmentPoints.forEach((name, matrix) -> {
+                    BBModelTemplate.Element element = new BBModelTemplate.Element();
+                    while (!locator_names.add(name)) name = name + ":";
+                    element.uuid = UUID.randomUUID().toString();
+                    element.name = name;
+                    element.type = "locator";
+                    element.box_uv = null;
+                    vMid.length();
+                    var v = matrix.getColumn(0, new Vector3f());
+                    origin.set(v, 1);
+                    Matrix4f mat = new Matrix4f(posMat);
+                    origin.mul(mat);
+                    System.out.println("output: " + name + " " + origin);
+                    element.position = new float[] { origin.x, origin.y, origin.z };
+                    v = matrix.getColumn(1, new Vector3f());
+                    element.rotation = new float[] { v.x, v.y, v.z };
+                    elements_by_id.put(element.uuid, element);
+                    groupOutliner.children.add(element.uuid);
+                });
+            }
+            partNameToOutlinerGroup.put(part.name, groupOutliner);
+        }
+
+        // Handle adding to parent's group
+        if (part.getParent() != null)
+        {
+            var parent = part.getParent();
+            if (!partsToUUID.containsKey(parent)) partsToUUID.put(parent, UUID.randomUUID().toString());
+            var parentID = partsToUUID.get(parent);
+            if (!partsToGroup.containsKey(parentID))
+            {
+                var id = UUID.randomUUID().toString();
+                partsToGroup.put(parentID, id);
+                partNameToUUID.put(parent.getName(), id);
+            }
+            var parentGroupID = partsToGroup.get(parentID);
+            var parentGroup = outliner_by_id.computeIfAbsent(parentGroupID, s -> new BBModelTemplate.JsonGroup());
+            var ourGroup = outliner_by_id.computeIfAbsent(groupID, s -> new BBModelTemplate.JsonGroup());
+            if (!partNameToOutlinerGroup.containsKey(parent.getName()))
+                partNameToOutlinerGroup.put(parent.getName(), parentGroup);
+            if (parentGroup.children == null) parentGroup.children = new ArrayList<>();
+            if (!parentGroup.children.contains(ourGroup)) parentGroup.children.add(ourGroup);
+
+            // If we are animated, we make a new group for us, and add ourselves to it.
+            // Otherwise we add ourself to our parent's group
+            if (part.getSubParts().isEmpty() && !isAnimated && !parentGroup.children.contains(partID))
+                parentGroup.children.add(partID);
+
+            ourGroup._parent = parentGroup;
+        }
     }
 }

@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Matrix3f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -101,7 +102,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private final Set<String> parentNames = Sets.newHashSet();
     private final Set<String> childNames = Sets.newHashSet();
 
-    public final Map<String, Vector3f> attachmentPoints = new HashMap<>();
+    public final Map<String, Matrix3f> attachmentPoints = new HashMap<>();
 
     public Part(final String name)
     {
@@ -193,6 +194,27 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                         }
                     }
                     this.addShape(mesh);
+                }
+                // Now do the attachments
+                if (!p.attachmentPoints.isEmpty())
+                {
+                    for (String s : p.attachmentPoints.keySet())
+                    {
+                        var mat = p.attachmentPoints.get(s);
+                        var loc = mat.getColumn(0, new Vector3f());
+                        var rot = mat.getColumn(1, new Vector3f());
+                        dp.set(loc, 1);
+                        dp.mul(tranform);
+                        loc.set(dp.x, dp.y, dp.z);
+                        var locator = new Matrix3f(loc, rot, new Vector3f());
+                        System.out.println(locator);
+                        while (this.attachmentPoints.containsKey(s))
+                        {
+                            System.out.println("Trying to add duplicate for " + s);
+                            s += ":__"+p.name;
+                        }
+                        this.attachmentPoints.put(s, locator);
+                    }
                 }
                 this.order.remove(p);
                 this.parts.remove(p.name);

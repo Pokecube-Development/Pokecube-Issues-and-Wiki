@@ -599,7 +599,7 @@ public class BBModelTemplate
                     this.to[i] -= origin[i];
                 }
             }
-            else
+            else if(!this.type.equals("locator"))
             {
                 for (int i = 0; i < 3; i++) this.getOrigin()[i] -= origin[i];
             }

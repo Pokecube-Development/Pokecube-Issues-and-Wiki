@@ -65,7 +65,8 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
 
         if (part.attachmentPoints.containsKey("seat"))
         {
-            this.ride_point = new Vector3f(part.attachmentPoints.get("seat"));
+            this.ride_point = new Vector3f();
+            part.attachmentPoints.get("seat").getColumn(0, this.ride_point);
             this.seat.set(this.ride_point);
             r2.set(ride_point, 1);
         }
@@ -122,6 +123,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
                     (float) this.getParent().getZ());
             r2.sub(r1);
             this.ride_point.set(r2.x, r2.y, r2.z);
+//            if(getParent().tickCount%100==0) System.out.println(id+" "+seat+" "+r2);
         }
     }
 

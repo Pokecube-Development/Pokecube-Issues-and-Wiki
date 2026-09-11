@@ -1,6 +1,7 @@
 package thut.core.client.render.bbmodel;
 
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Matrix3f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
@@ -129,6 +130,24 @@ public class BBModel extends BaseModel
             this.parts.put(p.getName(), p);
             // Ensure the part is set to initial state
             p.resetToInit();
+
+            // Now process any locators as needed
+            if(!p.attachmentPoints.isEmpty())
+            {
+                var mid = p.getCentre();
+                for (var pair : p.attachmentPoints.entrySet())
+                {
+                    var m = pair.getValue();
+                    var v = m.getColumn(0, new Vector3f());
+                    v.sub(mid);
+                    m.setColumn(0, v);
+                }
+                System.out.println("Attachments for "+p.getName()+":");
+                for (var pair : p.attachmentPoints.entrySet())
+                {
+                    System.out.println(pair.getKey() + " " + mid + "\n" + pair.getValue());
+                }
+            }
         }
     }
 

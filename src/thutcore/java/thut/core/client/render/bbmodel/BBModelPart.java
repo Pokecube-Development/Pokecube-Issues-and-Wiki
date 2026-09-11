@@ -1,5 +1,6 @@
 package thut.core.client.render.bbmodel;
 
+import org.joml.Matrix3f;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -14,7 +15,6 @@ import thut.lib.AxisAngles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +41,7 @@ public class BBModelPart extends Part
     {
         List<BBModelPart> ours = new ArrayList<>();
         List<Mesh> allShapes = new ArrayList<>();
+        Map<String, Matrix3f> locators = new HashMap<>();
         // Handle parts first
         for (Object o : group.children)
         {
@@ -51,13 +52,18 @@ public class BBModelPart extends Part
                 else if (b.type.equals("locator"))
                 {
                     // Then also add the locators
-                    BBModelPart part = make(t, Collections.emptyList(), nextName(names, b), b, -1, parentOffsets);
-                    ours.add(part);
-                    parts.add(part);
+                    var args = b.name.split(":");
+                    var origin = getOrigin(b, group.origin);
+                    for (String s : args)
+                    {
+                        if (s.isBlank()) continue;
+                        locators.put(s, origin);
+                    }
                 }
             }
         }
-        BBModelPart root = make(t, allShapes, nextName(names, group), group, -1, parentOffsets);
+        BBModelPart root = make(allShapes, nextName(names, group), group, parentOffsets);
+        root.attachmentPoints.putAll(locators);
         ours.add(root);
         parts.add(root);
         // then handle groups
@@ -78,11 +84,18 @@ public class BBModelPart extends Part
         children.addAll(ours);
     }
 
-    private static BBModelPart make(BBModelTemplate template, List<Mesh> shapes, String name, IBBPart b, int index,
+    private static Matrix3f getOrigin(IBBPart b, float[] parentOffsets)
+    {
+        float[] offsets = b.getOrigin().clone();
+        var location = new Vector3f(offsets);
+        var rotation = b.getRotation() != null ? new Vector3f(b.getRotation()) : new Vector3f();
+        return new Matrix3f(location, rotation, new Vector3f());
+    }
+
+    private static BBModelPart make(List<Mesh> shapes, String name, IBBPart b,
             float[] parentOffsets)
     {
         BBModelPart part = new BBModelPart(name);
-        part.index = index;
         part.setShapes(shapes);
         float[] offsets = b.getOrigin().clone();
         for (int i = 0; i < 3; i++)
@@ -192,17 +205,9 @@ public class BBModelPart extends Part
         return shapes;
     }
 
-    public int index = 0;
-
     public BBModelPart(String name)
     {
         super(name);
-    }
-
-    @Override
-    public void resetToInit()
-    {
-        super.resetToInit();
     }
 
     @Override

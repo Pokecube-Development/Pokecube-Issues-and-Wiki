@@ -100,7 +100,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     protected void initSizes(final float size, boolean forceAdd)
     {
         final PokedexEntry entry = this.getPokemob().getPokedexEntry();
-        entry.onResourcesReloaded();
 
         // final List<PokemobPart> allParts = this.allParts;
         // We need to here send a packet to sync the IDs of the new parts vs the
