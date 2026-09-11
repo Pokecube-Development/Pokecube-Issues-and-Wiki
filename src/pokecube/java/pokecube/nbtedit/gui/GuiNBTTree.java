@@ -626,7 +626,7 @@ public class GuiNBTTree extends Screen
         {
             if (toFocus.hasChildren())
             {
-                int type = toFocus.getChildren().getFirst().getObject().getNBT().getId() + 1;
+                int type = toFocus.getChildren().getFirst().getObject().getNBT().getId();
                 for (final GuiNBTButton b : this.buttons.values()) b.active = false;
                 this.buttons.get(type).active = true;
                 this.buttons.get(NBTStringHelper.BUTTON_DEL).active = true;

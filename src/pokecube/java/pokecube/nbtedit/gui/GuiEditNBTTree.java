@@ -23,7 +23,7 @@ public class GuiEditNBTTree extends Screen
 
     private GuiEditNBTTree(CompoundTag tag)
     {
-        super(Component.translatable("nbtedit.tree"));
+        super(Component.literal(""));
         this.guiTree = new GuiNBTTree(new NBTTree(tag));
     }
 
