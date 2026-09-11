@@ -6,7 +6,7 @@
       "loot_table_id": "minecraft:chests/desert_pyramid"
     },
     {
-      "chance": 0.9,
+      "chance": 0.6,
       "condition": "minecraft:random_chance"
     }
   ],
