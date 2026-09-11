@@ -91,6 +91,7 @@ public class BaseModelToBBModel
         model.updateAnimation(List.of(), holder);
         List<ResourceLocation> textures = new ArrayList<>();
         Map<ResourceLocation, NativeImage> images = new HashMap<>();
+        Set<ResourceLocation> emissives = new HashSet<>();
         Set<String> keys = new HashSet<>();
 
         PoseStack pose = new PoseStack();
@@ -152,12 +153,19 @@ public class BaseModelToBBModel
                         {
                             img = null;
                         }
-                        if (!textures.contains(material.tex))
+                        var matTex = material.tex;
+                        // Make a "fake" texture that is emissive
+                        if(material.emissiveMagnitude!=0)
                         {
-                            textures.add(material.tex);
-                            images.put(material.tex, img);
+                            matTex = ResourceLocation.fromNamespaceAndPath(matTex.getNamespace(), matTex.getPath()+"_e");
+                            emissives.add(matTex);
                         }
-                        faceMats.put(mesh_key, material.tex);
+                        if (!textures.contains(matTex))
+                        {
+                            textures.add(matTex);
+                            images.put(matTex, img);
+                        }
+                        faceMats.put(mesh_key, matTex);
                         faceVerts.put(mesh_key, mesh.vertices);
                         faceTex.put(mesh_key, mesh.textureCoordinates);
                         faceModes.put(mesh_key, mesh.GL_FORMAT == Mesh.TRIANGLE_FMT ? 3 : 4);
@@ -343,10 +351,20 @@ public class BaseModelToBBModel
             }
         });
 
+        // Now make the textures
         for (int index = 0; index < textures.size(); index++)
         {
             var resource = textures.get(index);
+            var image = images.get(resource);
+
             var texture = new BBModelTemplate.Texture();
+            if (emissives.contains(resource))
+            {
+                texture.render_mode = "emissive";
+                int end = resource.getPath().length() - 2;
+                resource = ResourceLocation.fromNamespaceAndPath(resource.getNamespace(),
+                        resource.getPath().substring(0, end));
+            }
             texture.uuid = UUID.randomUUID().toString();
             if (resource == null)
             {
@@ -358,8 +376,6 @@ public class BaseModelToBBModel
             var location = path[path.length - 1];
             texture.name = location.replace(".png", "");
             result.textures.add(texture);
-
-            var image = images.get(resource);
 
             if (image == null) continue;
 

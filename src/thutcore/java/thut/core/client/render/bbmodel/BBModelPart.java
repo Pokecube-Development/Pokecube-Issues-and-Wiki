@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 public class BBModelPart extends Part
 {
@@ -175,7 +176,23 @@ public class BBModelPart extends Part
 
         if (quads_materials.isEmpty() && tris_materials.isEmpty() && !b.type.equals("locator"))
             ThutCore.logDebug("No parts for " + t.name + " " + b.name);
-        var mats = t._materials;
+
+        Function<String, Material> MAT_FACTORY = key -> {
+            String _key = key;
+            if (t._by_uuid.get(key) instanceof BBModelTemplate.Texture texture) _key = texture.name;
+            _key = ThutCore.trim(_key);
+            Material mat = t._materials.getOrDefault(key, Material.create(_key));
+            var bbTexture = t._textures.get(key);
+            if ("emissive".equals(bbTexture.render_mode))
+            {
+                mat.emissiveMagnitude = 1;
+            }
+            mat.expectedTexH = t.resolution.height;
+            mat.expectedTexW = t.resolution.width;
+            t._materials.put(key, mat);
+            if (b.box_uv || t.meta.box_uv) mat.cull = true;
+            return mat;
+        };
 
         quads_materials.forEach((key, lists) -> {
             List<Object> order = lists.get(0);
@@ -183,17 +200,8 @@ public class BBModelPart extends Part
             List<Object> tex = lists.get(2);
             Mesh m = Mesh.MESH_FACTORY.create(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]), null,
                     tex.toArray(new Vector2f[0]), Mesh.QUAD_FMT);
-            m.name = ThutCore.trim(key);
-            Material mat = mats.getOrDefault(m.name, Material.create(m.name));
-            var bbTexture = t._textures.get(m.name);
-            if ("emissive".equals(bbTexture.render_mode))
-            {
-                mat.emissiveMagnitude = 1;
-            }
-            mat.expectedTexH = t.resolution.height;
-            mat.expectedTexW = t.resolution.width;
-            mats.put(m.name, mat);
-            if (b.box_uv || t.meta.box_uv) mat.cull = true;
+            var mat = MAT_FACTORY.apply(key);
+            m.name = mat.name;
             m.setMaterial(mat);
             shapes.add(m);
         });
@@ -202,20 +210,10 @@ public class BBModelPart extends Part
             List<Object> order = lists.get(0);
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
-
             Mesh m = Mesh.MESH_FACTORY.create(order.toArray(new Integer[0]), verts.toArray(new Vector3f[0]), null,
                     tex.toArray(new Vector2f[0]), Mesh.TRIANGLE_FMT);
-            m.name = ThutCore.trim(key);
-            Material mat = mats.getOrDefault(m.name, Material.create(m.name));
-            var bbTexture = t._textures.get(m.name);
-            if ("emissive".equals(bbTexture.render_mode))
-            {
-                mat.emissiveMagnitude = 1;
-            }
-            mat.expectedTexH = t.resolution.height;
-            mat.expectedTexW = t.resolution.width;
-            mats.put(m.name, mat);
-            if (b.box_uv || t.meta.box_uv) mat.cull = true;
+            var mat = MAT_FACTORY.apply(key);
+            m.name = mat.name;
             m.setMaterial(mat);
             shapes.add(m);
         });

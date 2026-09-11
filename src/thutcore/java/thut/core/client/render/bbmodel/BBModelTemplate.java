@@ -48,7 +48,7 @@ public class BBModelTemplate
         elements.forEach(e -> _by_uuid.put(e.uuid, e));
         textures.forEach(e -> {
             _by_uuid.put(e.uuid, e);
-            _textures.put(e.name, e);
+            _textures.put(e.uuid, e);
         });
         // Groups did not exist prior to 5.0
         if (groups != null) groups.forEach(e -> _by_uuid.put(e.uuid, e));
@@ -491,7 +491,7 @@ public class BBModelTemplate
                     List<Object> order = Lists.newArrayList();
                     List<Object> verts = Lists.newArrayList();
                     List<Object> tex = Lists.newArrayList();
-                    String material = t.textures.get(face.texture).name;
+                    String material = t.textures.get(face.texture).uuid;
                     if (quads_materials.containsKey(material))
                     {
                         List<List<Object>> lists = quads_materials.get(material);
@@ -520,7 +520,7 @@ public class BBModelTemplate
                     List<Object> order = Lists.newArrayList();
                     List<Object> verts = Lists.newArrayList();
                     List<Object> tex = Lists.newArrayList();
-                    String material = t.textures.get(face.texture).name;
+                    String material = t.textures.get(face.texture).uuid;
                     if (quads_materials.containsKey(material))
                     {
                         List<List<Object>> lists = quads_materials.get(material);
@@ -545,7 +545,7 @@ public class BBModelTemplate
                     List<Object> order = Lists.newArrayList();
                     List<Object> verts = Lists.newArrayList();
                     List<Object> tex = Lists.newArrayList();
-                    String material = t.textures.get(face.texture).name;
+                    String material = t.textures.get(face.texture).uuid;
                     if (tris_materials.containsKey(material))
                     {
                         List<List<Object>> lists = tris_materials.get(material);
