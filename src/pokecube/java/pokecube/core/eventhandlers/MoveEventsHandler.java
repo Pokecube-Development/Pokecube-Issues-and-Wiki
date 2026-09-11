@@ -381,7 +381,7 @@ public class MoveEventsHandler
         if (attacked != null)
         {
             ItemStack held = attacked.getMainHandItem();
-            if (held != ItemStack.EMPTY) attacked.getPersistentData().remove("pokecube:itemUsedOrLost");
+            if (!held.isEmpty()) attacked.getPersistentData().remove("pokecube:itemUsedOrLost");
         }
         if (target != null)
         {

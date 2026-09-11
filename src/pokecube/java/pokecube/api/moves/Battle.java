@@ -17,14 +17,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
-import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.TeamManager;
