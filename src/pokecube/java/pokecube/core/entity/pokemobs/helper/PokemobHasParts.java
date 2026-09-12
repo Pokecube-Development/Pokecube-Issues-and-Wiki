@@ -221,8 +221,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     public void setPose(Pose pose)
     {
         if (this.getUseParts() == null) this.initParts();
-        // NO-OP, we handle pose differently
-        if (this.getUseParts().isEmpty()) super.setPose(pose);
+        // the final getBox code specially handles sleeping differently...
+        if (this.getUseParts().isEmpty() || pose != Pose.SLEEPING) super.setPose(pose);
     }
 
     @Override

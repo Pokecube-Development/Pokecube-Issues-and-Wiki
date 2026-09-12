@@ -38,6 +38,7 @@ public class ParticleFlow extends MoveAnimationBase
         dir.scalarMultBy(0.05);
         for (double i = 0; i < frac3; i += 0.1)
         {
+            if (values.density < 1 && Math.random() > values.density) continue;
             double factor = Math.min(i, 1);
             factor *= values.width * 2;
             for (int j = 0; j < values.density * 10; j++)
