@@ -39,9 +39,13 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.server.permission.PermissionAPI;
+import pokecube.adventures.entity.trainer.TrainerNpc;
+import pokecube.adventures.events.TrainerEventHandler;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.trainers.IHasPokemobs;
+import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.TMMachineEvent;
 import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.api.events.pokemobs.combat.StatusEvent;
@@ -303,6 +307,12 @@ public class Pokeplayer
         {
             if (npc.getNpcType().equals(NpcType.byType("healer")))
                 PokecubeManager.heal(mob);
+            else if (npc instanceof TrainerNpc trainer && player.isShiftKeyDown())
+            {
+                final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(trainer);
+                final IHasPokemobs.AllowedBattle test = pokemobs.canBattle(player, true);
+                if (test == IHasPokemobs.AllowedBattle.YES) trainer.getPokemobs().throwCubeAt(player);
+            }
         }
     }
 
