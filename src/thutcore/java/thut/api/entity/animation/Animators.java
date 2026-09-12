@@ -84,52 +84,24 @@ public class Animators
     public static void fillJEPs(String[] jeps, String _funcs)
     {
         String[] funcs = _funcs.split("::");
-        func:
         for (String s : funcs)
         {
             String[] args = s.split(":");
             int i;
             switch (args[0])
             {
-            case ("x"):
+            case ("x"), ("dx"), ("rx"), ("r"):
                 i = 0;
                 break;
-            case ("y"):
+            case ("y"), ("dy"), ("ry"), ("g"):
                 i = 1;
                 break;
-            case ("z"):
-                i = 2;
-                break;
-            case ("r"):
-                i = 0;
-                break;
-            case ("g"):
-                i = 1;
-                break;
-            case ("b"):
-                i = 2;
-                break;
-            case ("rx"):
-                i = 0;
-                break;
-            case ("ry"):
-                i = 1;
-                break;
-            case ("rz"):
-                i = 2;
-                break;
-            case ("dx"):
-                i = 0;
-                break;
-            case ("dy"):
-                i = 1;
-                break;
-            case ("dz"):
+            case ("z"), ("dz"), ("rz"), ("b"):
                 i = 2;
                 break;
             default:
                 ThutCore.LOGGER.error("Malformed function animation {}", s);
-                continue func;
+                continue;
             }
             var func = args[1];
             jeps[i] = func;
@@ -231,7 +203,7 @@ public class Animators
                 if (colour_channel) component._valid_channels.add("colour");
                 if (component.hidden) component._valid_channels.add("hidden");
 
-                component._needJEPInit = component._opacFunction != DEFAULTS._opacFunction;
+                component._needJEPInit = component._opacFunction != null;
                 component._needJEPInit |= !Arrays.equals(component._posFunctions, DEFAULTS._posFunctions);
                 component._needJEPInit |= !Arrays.equals(component._rotFunctions, DEFAULTS._rotFunctions);
                 component._needJEPInit |= !Arrays.equals(component._colFunctions, DEFAULTS._colFunctions);
@@ -294,7 +266,7 @@ public class Animators
 
         private String cleanFunc(String func)
         {
-            if (func == null) return func;
+            if (func == null) return null;
             var m = multiply_pattern.matcher(func);
             String new_func = func.replace(" ", "").replace("\n", "");
             // Multiplications first
@@ -494,7 +466,7 @@ public class Animators
             // Position set
             pos:
             {
-                var animChannel = channels.get(channel.ordinal());
+                var animChannel = channels.getFirst();
                 if (animChannel == null) break pos;
                 float t1 = time1, t2 = time2;
                 if (animation.loops)

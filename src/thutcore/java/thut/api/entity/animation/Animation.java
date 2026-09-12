@@ -86,7 +86,7 @@ public class Animation
     @Override
     public boolean equals(final Object obj)
     {
-        if (this.id == null) this.hashCode();
+        initID();
         if (obj instanceof Animation anim) return anim.id.equals(this.id);
         return super.equals(obj);
     }
@@ -94,12 +94,17 @@ public class Animation
     @Override
     public int hashCode()
     {
+        this.initID();
+        return this.id.hashCode();
+    }
+
+    private void initID()
+    {
         if (this.id == null)
         {
             if (this.identifier.isEmpty()) this.identifier = this.name;
             this.id = new UUID(this.identifier.hashCode(), (this.identifier.hashCode() << 16) + (int) this.getLength());
         }
-        return this.id.hashCode();
     }
 
     @Override
