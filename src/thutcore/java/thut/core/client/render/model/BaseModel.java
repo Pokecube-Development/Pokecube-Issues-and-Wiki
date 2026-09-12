@@ -107,9 +107,9 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     protected boolean valid;
     protected boolean loaded = false;
     protected boolean loading = false;
-    protected ResourceLocation last_loaded = null, pending_load = null;
+    protected ResourceLocation last_loaded = null, pending_load;
 
-    protected IModelCallback callback = null;
+    protected IModelCallback callback;
 
 
     public BaseModel(final ResourceLocation l, IModelCallback callback)

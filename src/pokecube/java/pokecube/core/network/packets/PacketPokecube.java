@@ -50,7 +50,7 @@ public class PacketPokecube extends Packet
         buf.writeInt(this.id);
     }
 
-    private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:sync_pokecube_time"));
+    private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:sync_pokecube_time"));
 
     @Override
     public Type<? extends CustomPacketPayload> type()

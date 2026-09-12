@@ -173,11 +173,11 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         if (!this.isLoaded() || renderModel == null) return;
 
         poseStack.pushPose();
-        this.transformGlobal(poseStack, buffer, this.renderer.getAnimation(this.entityIn, this), this.entityIn,
+        this.transformGlobal(poseStack, this.entityIn,
                 Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true));
         renderModel.render(poseStack, buffer);
         poseStack.popPose();
-	}
+    }
 
     public void setMob(final T entity, final MultiBufferSource bufferIn, ResourceLocation default_, int packedLight)
     {
@@ -240,8 +240,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.rotationPointZ = par3;
     }
 
-    protected void transformGlobal(final PoseStack mat, final VertexConsumer buffer, final String currentPhase,
-            final Entity entity, final float partialTick)
+    protected void transformGlobal(PoseStack mat,Entity entity, float partialTick)
     {
         this.setOffset(this.renderer.getRotationOffset());
         this.getModel().globalFix(mat, this.rotationPointX, this.rotationPointY, this.rotationPointZ);
@@ -284,14 +283,13 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         return imodel;
     }
 
-    public IModel setModel(IModel imodel)
+    public void setModel(IModel imodel)
     {
         this.imodel = imodel;
         if (imodel == null) {
             Thread.dumpStack();
         }
         if (imodel instanceof IModelCustom m) renderModel = m;
-        return imodel;
     }
 
     @Override
