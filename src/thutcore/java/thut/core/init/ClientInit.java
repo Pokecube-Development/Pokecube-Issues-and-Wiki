@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import net.neoforged.neoforge.client.event.*;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -41,13 +42,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import net.neoforged.neoforge.client.event.RenderHandEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
-import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent.ComputeCameraAngles;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.ThutCaps;
@@ -194,7 +189,7 @@ public class ClientInit
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void renderHand(final RenderHandEvent event)
+    public static void renderHand(final RenderArmEvent event)
     {
         final Player player = Minecraft.getInstance().player;
         final ICopyMob copied = ThutCaps.getCopyMob(player);
