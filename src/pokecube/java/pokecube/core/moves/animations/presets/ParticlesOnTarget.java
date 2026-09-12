@@ -20,11 +20,14 @@ public class ParticlesOnTarget extends MoveAnimationBase
     {
         if (Math.random() > values.density) return;
         this.initColour(info.currentTick, info.move);
-        final Vector3 temp = new Vector3(info.target);
+        final Vector3 temp = new Vector3();
         final Random rand = ThutCore.newRandom();
         float dw = info.attackedScale;
         final float width = values.width * dw;
-        temp.addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
-        PokecubeCore.spawnParticle(info.level, values.particle, temp, null, values.rgba);
+        for (int i = 0; i < 50 * values.density; i++)
+        {
+            temp.set(info.target).addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
+            PokecubeCore.spawnParticle(info.level, values.particle, temp, null, values.rgba);
+        }
     }
 }

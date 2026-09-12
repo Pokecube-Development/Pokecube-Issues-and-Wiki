@@ -20,11 +20,14 @@ public class ParticlesOnSource extends ParticlesOnTarget
     {
         if (Math.random() > this.values.density) return;
         this.initColour(info.currentTick, info.move);
-        final Vector3 temp = new Vector3().set(info.source);
+        final Vector3 temp = new Vector3();
         final Random rand = ThutCore.newRandom();
         float dw = info.attackerScale;
         final float width = this.values.width * dw;
-        temp.addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
-        PokecubeCore.spawnParticle(info.level, this.values.particle, temp, null, this.values.rgba);
+        for (int i = 0; i < 50 * values.density; i++)
+        {
+            temp.set(info.source).addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
+            PokecubeCore.spawnParticle(info.level, values.particle, temp, null, values.rgba);
+        }
     }
 }

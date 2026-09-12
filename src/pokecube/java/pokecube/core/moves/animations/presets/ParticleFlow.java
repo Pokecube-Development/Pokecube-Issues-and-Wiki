@@ -22,8 +22,8 @@ public class ParticleFlow extends MoveAnimationBase
         this.initColour(info.currentTick, info.move);
         final double dist = source.distanceTo(target);
         float time = info.currentTick;
-        final double frac2 = time / (float) this.getDuration();
-        final double frac = dist * frac2;
+        final double timeFractionNow = time / (float) this.getDuration();
+        final double distanceFractionNow = dist * timeFractionNow;
         final double frac3 = dist * time / this.getDuration();
         Vector3 dir = target.subtract(source);
         final Vector3 temp = dir.normalize();
@@ -36,15 +36,15 @@ public class ParticleFlow extends MoveAnimationBase
             angleF.set(temp1);
         }
         dir.scalarMultBy(0.05);
-        for (double i = frac; i < frac3; i += 0.1)
+        for (double i = 0; i < frac3; i += 0.1)
         {
-            if (values.density < 1 && Math.random() > values.density) continue;
-            double factor = Math.min(frac2, 1);
+            double factor = Math.min(i, 1);
             factor *= values.width * 2;
-            for (int j = 0; j < values.density; j++)
+            for (int j = 0; j < values.density * 10; j++)
             {
-                if (values.flat) temp1.set(angleF.scalarMult(factor * (0.5 - rand.nextDouble())));
-                else temp1.set(factor * (0.5 - rand.nextDouble()), factor * (0.5 - rand.nextDouble()),
+                temp1.set(temp).scalarMultBy(i);
+                if (values.flat) temp1.addTo(angleF.scalarMult(factor * (0.5 - rand.nextDouble())));
+                else temp1.addTo(factor * (0.5 - rand.nextDouble()), factor * (0.5 - rand.nextDouble()),
                         factor * (0.5 - rand.nextDouble()));
                 PokecubeCore.spawnParticle(info.level, values.particle, source.add(temp1), dir, values.rgba,
                         values.lifetime); // .scalarMult(i) was this
