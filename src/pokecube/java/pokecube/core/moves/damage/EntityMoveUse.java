@@ -252,9 +252,9 @@ public class EntityMoveUse extends ThrowableProjectile
 
         boolean selfMove = user == this.getTarget();
         // Self move should only hit user.
-        if (selfMove && this.target != user) return;
+        if (selfMove && target != user) return;
 
-        this.addIgnoredEntity(this.target);
+        this.addIgnoredEntity(target);
 
         // Only hit multipart entities once
         // Only can hit our valid target!
@@ -275,19 +275,19 @@ public class EntityMoveUse extends ThrowableProjectile
             // target.
             if (this.target != apply.getTarget())
             {
-                boolean newCombat = this.target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != user;
-                if (b != null && b.getEnemies(user).contains(this.target)) newCombat = false;
-                if (b == null && userMob.getMoveStats().getTargetAlly() == this.target) newCombat = false;
-                if (this.target instanceof Mob mob && newCombat) Battle.createOrAddToBattle(mob, user);
+                boolean newCombat = target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != user;
+                if (b != null && b.getEnemies(user).contains(target)) newCombat = false;
+                if (b == null && userMob.getMoveStats().getTargetAlly() == target) newCombat = false;
+                if (target instanceof Mob mob && newCombat) Battle.createOrAddToBattle(mob, user);
             }
 
-            if (this.target.getLastHurtByMob() != user)
+            if (target.getLastHurtByMob() != user)
             {
-                this.target.setLastHurtByMob(user);
-                user.setLastHurtByMob(this.target);
+                target.setLastHurtByMob(user);
+                user.setLastHurtByMob(target);
             }
 
-            MovesUtils.doAttack(attack.name, userMob, this.target);
+            MovesUtils.doAttack(attack.name, userMob, target);
             this.applied = true;
             // Don't penetrate through blocking mobs, so end the move here.
             if (selfMove || (target.isBlocking() && !this.getMove().isAoE()))
