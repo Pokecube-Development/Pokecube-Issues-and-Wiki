@@ -4,7 +4,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,9 +19,9 @@ import thut.api.maths.Vector3;
 import java.util.function.Supplier;
 
 @EventBusSubscriber
-public class PositionTracker
+public class LocationTracker
 {
-    public static interface ITrackedPosition extends INBTSerializable<CompoundTag>
+    public static interface ITrackedLocation extends INBTSerializable<CompoundTag>
     {
         /**
          * Units of m
@@ -44,7 +43,7 @@ public class PositionTracker
         void update(Vec3 position, long tick);
     }
 
-    private static class TrackedPosition implements ITrackedPosition
+    private static class TrackedLocation implements ITrackedLocation
     {
         Vec3 position, velocity, acceleration=Vec3.ZERO;
         long last_tick = -1;
@@ -121,8 +120,8 @@ public class PositionTracker
 
     public static final ResourceLocation ID = ResourceLocation.parse("thutcore:location_track");
 
-    public static final HolderProvider<ITrackedPosition> _REGISTRY = new HolderProvider<>(ID);
-    public static Supplier<AttachmentType<ITrackedPosition>> TYPE;
+    public static final HolderProvider<ITrackedLocation> _REGISTRY = new HolderProvider<>(ID);
+    public static Supplier<AttachmentType<ITrackedLocation>> TYPE;
 
     @SubscribeEvent
     public static void preTickMobs(LevelTickEvent.Pre event)
@@ -145,9 +144,9 @@ public class PositionTracker
         _REGISTRY.register(new HolderProvider.Provider<>()
         {
             @Override
-            public ITrackedPosition apply(IAttachmentHolder in)
+            public ITrackedLocation apply(IAttachmentHolder in)
             {
-                return new TrackedPosition();
+                return new TrackedLocation();
             }
 
             @Override

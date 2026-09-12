@@ -21,7 +21,8 @@ import thut.api.attachments.Linkable;
 import thut.api.attachments.Linkable.ILinkable;
 import thut.api.attachments.Linkable.LinkHolder;
 import thut.api.attachments.Ownable;
-import thut.api.attachments.PositionTracker;
+import thut.api.attachments.LocationTracker;
+import thut.api.attachments.LocationTracker.ITrackedLocation;
 import thut.api.attachments.Shearable;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -60,7 +61,7 @@ public class ThutCaps
         AnimatedCaps.registerAttachment(registry);
         DataSync_Impl.registerAttachment(registry);
         Energy.registerAttachment(registry);
-        PositionTracker.registerAttachment(registry);
+        LocationTracker.registerAttachment(registry);
 
         IMobTexturable.Defaults.registerAttachment(registry);
 
@@ -197,8 +198,8 @@ public class ThutCaps
         return getInventory(tile, null);
     }
 
-    public static PositionTracker.ITrackedPosition getPositionTracker(Entity entity)
+    public static ITrackedLocation getPositionTracker(Entity entity)
     {
-        return entity.getData(PositionTracker.TYPE);
+        return entity.getData(LocationTracker.TYPE);
     }
 }

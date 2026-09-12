@@ -180,7 +180,6 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         if (now < lastTp) return;
 
         final IWormholeWorld holes = WormholeSpawns.getWormholes(world);
-        if (holes == null) return;
 
         final double chance = ItemList.is(WormholeSpawns.SPACE_WORMS, entity) ? WormholeSpawns.teleWormholeChanceWorms
                 : WormholeSpawns.teleWormholeChanceNormal;
@@ -199,7 +198,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         if (pokemob != null)
         {
             ILinkStorage link = null;
-            for (int i = 0; i < pokemob.getInventory().getContainerSize() && link == null; i++)
+            for (int i = 0; i < pokemob.getInventory().getContainerSize(); i++)
             {
                 final ItemStack test = pokemob.getInventory().getItem(i);
                 var storage = ThutCaps.getLinkStorage(test);
@@ -331,7 +330,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
         if (this.dest == null) if (this.level instanceof ServerLevel)
         {
             if (this.makingDest) return new TeleDest().setPos(GlobalPos
-                    .of(this.level != null ? this.level.dimension() : Level.OVERWORLD, this.getOnPos().above(20)));
+                    .of(this.level.dimension(), this.getOnPos().above(20)));
             final RandomSource rng = this.getRandom();
             final ResourceKey<Level> key = WormholeEntity.getTargetWorld((ServerLevel) this.level, rng.nextFloat());
             ServerLevel dest = this.getServer().getLevel(key);
@@ -362,14 +361,14 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
             });
         }
         else this.dest = new TeleDest().setPos(
-                GlobalPos.of(this.level != null ? this.level.dimension() : Level.OVERWORLD, this.getOnPos().above(20)));
+                GlobalPos.of(this.level.dimension(), this.getOnPos().above(20)));
         return this.dest;
     }
 
     public TeleDest getAnchorPos()
     {
         if (this.anchorPos == null) this.anchorPos = new TeleDest()
-                .setPos(GlobalPos.of(this.level != null ? this.level.dimension() : Level.OVERWORLD, this.getOnPos()));
+                .setPos(GlobalPos.of(this.level.dimension(), this.getOnPos()));
         return this.anchorPos;
     }
 
