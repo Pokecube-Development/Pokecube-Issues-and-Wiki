@@ -344,7 +344,7 @@ public class MoveApplication implements Comparable<MoveApplication>
             // Now some custom vanilla-interacting effects
 
             // thunder moves apply lightning bolt effects.
-            if (AnimationMultiAnimations.isThunderAnimation(t.move.getAnimation(t.getUser())))
+            if (AnimationMultiAnimations.isThunderAnimation(t.move.getAnimation()))
             {
                 final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, t.getTarget().level());
                 t.getTarget().thunderHit((ServerLevel) t.getTarget().level(), lightning);

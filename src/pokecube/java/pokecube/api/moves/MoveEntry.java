@@ -215,15 +215,6 @@ public class MoveEntry implements IMoveConstants
     }
 
     /**
-     * User sensitive version of {@link Move_Base#getAnimation()}
-     *
-     */
-    public IMoveAnimation getAnimation(final IPokemob user)
-    {
-        return this.getAnimation();
-    }
-
-    /**
      * Applys world effects of the move
      *
      * @param attacker - mob using the move

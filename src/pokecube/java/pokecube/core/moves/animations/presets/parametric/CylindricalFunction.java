@@ -56,8 +56,8 @@ public class CylindricalFunction extends MoveAnimationBase
     @Override
     public void spawnClientEntities(MovePacketInfo info, float partialTicks)
     {
-        final Vector3 source = info.source;
-        final Vector3 target = info.target;
+        final Vector3 source = new Vector3(info.source);
+        final Vector3 target = new Vector3(info.target);
         this.initColour(info.currentTick, info.move);
         final double dist = source.distanceTo(target);
         final double frac2 = info.currentTick / (float) this.getDuration();

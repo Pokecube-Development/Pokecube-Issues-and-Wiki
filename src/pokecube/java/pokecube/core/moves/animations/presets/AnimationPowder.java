@@ -30,7 +30,7 @@ public class AnimationPowder extends MoveAnimationBase
     @Override
     public void spawnClientEntities(MovePacketInfo info, float partialTicks)
     {
-        final Vector3 target = info.target;
+        final Vector3 target = new Vector3(info.target);
         this.initColour(info.currentTick, info.move);
         final Vector3 temp = new Vector3();
         final Random rand = ThutCore.newRandom();
@@ -39,8 +39,7 @@ public class AnimationPowder extends MoveAnimationBase
             temp.set(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian());
             temp.scalarMult(0.010 * values.width);
             temp.addTo(target);
-            PokecubeCore.spawnParticle(info.attacker.level(), values.particle, temp.copy(), null, values.rgba,
-                    values.lifetime);
+            PokecubeCore.spawnParticle(info.level, values.particle, temp.copy(), null, values.rgba, values.lifetime);
         }
     }
 

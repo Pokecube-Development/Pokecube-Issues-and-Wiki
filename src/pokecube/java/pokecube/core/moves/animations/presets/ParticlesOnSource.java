@@ -26,6 +26,6 @@ public class ParticlesOnSource extends ParticlesOnTarget
         if (info.attacker != null) dw = info.attacker.getBbWidth();
         final float width = this.values.width * dw;
         temp.addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
-        PokecubeCore.spawnParticle(info.attacker.level(), this.values.particle, temp, null, this.values.rgba);
+        PokecubeCore.spawnParticle(info.level, this.values.particle, temp, null, this.values.rgba);
     }
 }

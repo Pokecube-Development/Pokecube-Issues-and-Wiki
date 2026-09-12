@@ -17,8 +17,8 @@ public class ParticleFlow extends MoveAnimationBase
     @Override
     public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
     {
-        final Vector3 source = values.reverse ? info.target : info.source;
-        final Vector3 target = values.reverse ? info.source : info.target;
+        final Vector3 source = values.reverse ? new Vector3(info.target) : new Vector3(info.source);
+        final Vector3 target = values.reverse ? new Vector3(info.source) : new Vector3(info.target);
         this.initColour(info.currentTick, info.move);
         final double dist = source.distanceTo(target);
         float time = info.currentTick;
@@ -46,8 +46,8 @@ public class ParticleFlow extends MoveAnimationBase
                 if (values.flat) temp1.set(angleF.scalarMult(factor * (0.5 - rand.nextDouble())));
                 else temp1.set(factor * (0.5 - rand.nextDouble()), factor * (0.5 - rand.nextDouble()),
                         factor * (0.5 - rand.nextDouble()));
-                PokecubeCore.spawnParticle(info.attacker.level(), values.particle,
-                        source.add(temp1), dir, values.rgba, values.lifetime); // .scalarMult(i) was this
+                PokecubeCore.spawnParticle(info.level, values.particle, source.add(temp1), dir, values.rgba,
+                        values.lifetime); // .scalarMult(i) was this
             }
         }
     }

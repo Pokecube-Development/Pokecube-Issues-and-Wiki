@@ -3,9 +3,12 @@ package pokecube.api.moves.utils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.behavior.PositionTracker;
+import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.api.moves.MoveEntry;
+import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
 
 public interface IMoveAnimation
@@ -13,10 +16,11 @@ public interface IMoveAnimation
     public static class MovePacketInfo
     {
         public final MoveEntry move;
+        public final Level level;
         public final Entity attacker;
         public final Entity attacked;
-        public final Vector3 source;
-        public final Vector3 target;
+        public final PositionTracker source;
+        public final PositionTracker target;
         public float currentTick;
 
         public float lastApplyTimer = -1;
@@ -25,10 +29,11 @@ public interface IMoveAnimation
                 final Vector3 target)
         {
             this.move = move;
+            this.level = attacker.level();
             this.attacked = attacked;
             this.attacker = attacker;
-            this.source = source;
-            this.target = target;
+            this.source = source == null ? null : new VectorPosWrapper(source);
+            this.target = target == null ? null : new VectorPosWrapper(target);
         }
     }
 

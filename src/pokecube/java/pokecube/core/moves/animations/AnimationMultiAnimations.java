@@ -135,15 +135,13 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                 }
                 boolean valid = component.soundSource;
                 // Check source sounds.
-                if (valid &= (info.source != null || info.attacker != null))
-                    pos.set(info.source != null ? info.source : info.attacker);
+                if (valid &= (info.source != null)) pos.set(info.source);
                 if (valid)
                     world.playLocalSound(pos.x, pos.y, pos.z, component.soundEvent, SoundSource.HOSTILE, volume, pitch,
                             true);
                 // Check target sounds.
                 valid = component.soundTarget;
-                if (valid &= (info.target != null || info.attacked != null))
-                    pos.set(info.target != null ? info.target : info.attacked);
+                if (valid &= (info.target != null)) pos.set(info.target);
                 if (valid)
                     world.playLocalSound(pos.x, pos.y, pos.z, component.soundEvent, SoundSource.HOSTILE, volume, pitch,
                             true);

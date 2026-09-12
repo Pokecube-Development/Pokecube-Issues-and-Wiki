@@ -26,15 +26,15 @@ public class ParticleBeam extends MoveAnimationBase
     @Override
     public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
     {
-        final Vector3 source = info.source;
-        final Vector3 target = info.target;
+        final Vector3 source = new Vector3(info.source);
+        final Vector3 target = new Vector3(info.target);
         this.initColour(info.currentTick, info.move);
         final double dist = source.distanceTo(target);
         final double frac = dist * info.currentTick / this.getDuration();
         final Vector3 temp = v.set(target).subtractFrom(source).norm();
         final Vector3 dir = target.subtract(source).norm().scalarMult(0.01);
         for (double i = frac; i < dist; i += 0.1)
-            PokecubeCore.spawnParticle(info.attacker.level(), values.particle, source.add(temp.scalarMult(i)), dir,
-                    values.rgba, values.lifetime);
+            PokecubeCore.spawnParticle(info.level, values.particle, source.add(temp.scalarMult(i)), dir, values.rgba,
+                    values.lifetime);
     }
 }

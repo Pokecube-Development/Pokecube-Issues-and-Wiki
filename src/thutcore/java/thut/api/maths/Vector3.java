@@ -18,6 +18,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ClipContext.Fluid;
@@ -878,6 +879,10 @@ public class Vector3
         else if (o instanceof double[] d)
         {
             this.set(d[0], d[1], d[2]);
+        }
+        else if (o instanceof PositionTracker pos)
+        {
+            this.set(pos.currentPosition().x, pos.currentPosition().y, pos.currentPosition().z);
         }
         else if (o instanceof Direction side)
         {

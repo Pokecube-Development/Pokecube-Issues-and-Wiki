@@ -64,7 +64,7 @@ public class SphericalFunction extends MoveAnimationBase
     @Override
     public void spawnClientEntities(MovePacketInfo info, float partialTicks)
     {
-        final Vector3 source = values.reverse ? info.source : info.target;
+        final Vector3 source = values.reverse ? new Vector3(info.source) : new Vector3(info.target);
         this.initColour(info.currentTick, info.move);
         final Vector3 temp = new Vector3();
         double scale = values.width;
@@ -74,8 +74,7 @@ public class SphericalFunction extends MoveAnimationBase
         {
             this.setVector(i, temp);
             temp.scalarMultBy(scale).addTo(source);
-            PokecubeCore.spawnParticle(info.attacker.level(), values.particle, temp, null, values.rgba,
-                    values.lifetime);
+            PokecubeCore.spawnParticle(info.level, values.particle, temp, null, values.rgba, values.lifetime);
         }
     }
 }

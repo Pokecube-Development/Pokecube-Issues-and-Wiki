@@ -27,8 +27,7 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
         if (entity.getStartTick() > 0) return;
         final MoveEntry move = entity.getMove();
         IMoveAnimation animation;
-        if (move != null && (animation = move.getAnimation(PokemobCaps.getPokemobFor(entity.getUser()))) != null
-                && entity.getUser() != null)
+        if (move != null && (animation = move.getAnimation()) != null && entity.getUser() != null)
         {
             mat.pushPose();
             final MovePacketInfo info = entity.getMoveInfo();

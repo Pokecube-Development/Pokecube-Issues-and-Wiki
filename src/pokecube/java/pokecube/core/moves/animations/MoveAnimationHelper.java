@@ -15,6 +15,7 @@ import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.objectweb.asm.Type;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.level.terrain.CapabilityTerrain;
@@ -132,7 +133,7 @@ public class MoveAnimationHelper
     {
         if (!evt.getLevel().isClientSide()) return;
         var provider = evt.getChunk().getData(CapabilityTerrain.TYPE_SAVE);
-        if (provider != null) provider.apply(segment -> {
+        provider.apply(segment -> {
             var eff = segment.geTerrainEffect("pokemob_effects");
             mutex.lock();
             if (eff instanceof PokemobTerrainEffects effect) effects.remove(effect);
@@ -171,7 +172,7 @@ public class MoveAnimationHelper
             }
             catch (final Throwable e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
             return true;
         });

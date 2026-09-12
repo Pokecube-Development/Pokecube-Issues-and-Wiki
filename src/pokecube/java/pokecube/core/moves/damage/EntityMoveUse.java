@@ -334,8 +334,7 @@ public class EntityMoveUse extends ThrowableProjectile
         {
             info = new MovePacketInfo(this.getMove(), this.getUser(), this.getTarget(), this.getStart(), this.getEnd());
         }
-        final IPokemob userMob = PokemobCaps.getPokemobFor(info.attacker);
-        info.currentTick = info.move.getAnimation(userMob).getDuration() - this.getDuration();
+        info.currentTick = info.move.getAnimation().getDuration() - this.getDuration();
         return info;
     }
 
@@ -432,11 +431,10 @@ public class EntityMoveUse extends ThrowableProjectile
         String name = "";
         if (move != null) name = move.name;
         this.getEntityData().set(EntityMoveUse.MOVENAME, name);
-        final IPokemob user = PokemobCaps.getPokemobFor(this.getUser());
-        if (move.getAnimation(user) != null)
+        if (move.getAnimation() != null)
         {
-            this.setDuration(move.getAnimation(user).getDuration() + 1);
-            this.setApplicationTick(move.getAnimation(user).getApplicationTick());
+            this.setDuration(move.getAnimation().getDuration() + 1);
+            this.setApplicationTick(move.getAnimation().getApplicationTick());
         }
         else this.setDuration(1);
         return this;
