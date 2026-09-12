@@ -176,17 +176,9 @@ public abstract class PokemobMoves extends PokemobStats
         return this.getEntity().onGround();
     }
 
-    @Override
-    public void setTargetID(final int id) {this.params.ATTACKTARGETIDDW.set(id);}
-
-    @Override
-    public void setAllyID(final int id) {this.params.ALLYTARGETIDDW.set(id);}
-
-    private void setNoBattle(int ownerOffset)
+    private void setNoBattle()
     {
         // Enemy always empty when not in battle
-        this.setTargetID(-1);
-        this.setAllyID(-1);
         this.setBattle(null);
 
         this.getMoveStats().setTargetEnemy(null);
@@ -197,8 +189,9 @@ public abstract class PokemobMoves extends PokemobStats
     public void updateBattleInfo()
     {
         LivingEntity owner = this.getOwner();
-        LivingEntity target = null;
+        LivingEntity target = this.getMoveStats().getTargetEnemy();
         LivingEntity trackedEntity = this.getTrackedEntity();
+        LivingEntity oldTarget = target;
         // Only process battle stuff server side.
         battle_check:
         if (!trackedEntity.level().isClientSide())
@@ -240,12 +233,11 @@ public abstract class PokemobMoves extends PokemobStats
             }
             this.setBattle(b);
             this.setCombatState(CombatStates.BATTLING, b != null);
-            int ownerOffset = owner != null ? 1 : 0;
 
             // No battle case
             if (b == null)
             {
-                setNoBattle(ownerOffset);
+                setNoBattle();
                 break battle_check;
             }
 
@@ -262,7 +254,7 @@ public abstract class PokemobMoves extends PokemobStats
             // If no enemies, lets just end the battle.
             if (mobs.isEmpty())
             {
-                setNoBattle(ownerOffset);
+                setNoBattle();
                 this.setCombatState(CombatStates.BATTLING, false);
                 break battle_check;
             }
@@ -270,19 +262,24 @@ public abstract class PokemobMoves extends PokemobStats
             // Now, check if any of the enemies are attacking our owner, if so, divert
             if (owner != null && owner != trackedEntity) for (var mob : mobs)
             {
+                IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
                 var mobTarget = BrainUtils.getAttackTarget(mob);
-                if (mobTarget == owner) BrainUtils.setAttackTarget(mob, trackedEntity);
+                if (mobTarget == owner || pokemob != null && pokemob.getMoveStats().getTargetEnemy() == owner)
+                {
+                    BrainUtils.setAttackTarget(mob, trackedEntity);
+                    if (pokemob != null) pokemob.onSetTarget(trackedEntity, true);
+                }
             }
 
+            var brainTarget = BrainUtils.getAttackTarget(this.getEntity());
+            if (brainTarget == oldTarget) break battle_check;
             // Set to owner designated target if possible
-            if (this.getMoveStats().getTargetEnemy() instanceof LivingEntity oldTarget)
+            if (owner != null)
             {
-                target = oldTarget;
                 if (mobs.contains(target))
                 {
-                    var brainTarget = BrainUtils.getAttackTarget(this.getEntity());
                     SwitchTargetEvent event;
-                    if (brainTarget != null) event = new SwitchTargetEvent(this, target, brainTarget);
+                    if (brainTarget != null) event = new SwitchTargetEvent(this, brainTarget, target);
                     else event = new SwitchTargetEvent(this, null, target);
                     ThutCore.FORGE_BUS.post(event);
                     if (!event.isCanceled())
@@ -296,22 +293,16 @@ public abstract class PokemobMoves extends PokemobStats
                     break battle_check;
                 }
             }
-            // Then also sync attack target in brain.
-            var brainTarget = BrainUtils.getAttackTarget(this.getEntity());
+
             brains:
             if (target != brainTarget)
             {
                 // Check if the new target is still a combat member, if so, swap
                 // over to it
-                int i = mobs.indexOf(brainTarget);
-                if (i != -1 && target == null)
-                {
-                    target = brainTarget;
-                    break brains;
-                }
+                if(mobs.contains(brainTarget)) break brains;
                 // Fire an event to check if we should switch back
                 SwitchTargetEvent event;
-                if (brainTarget != null) event = new SwitchTargetEvent(this, target, brainTarget);
+                if (brainTarget != null) event = new SwitchTargetEvent(this, brainTarget, target);
                 else event = new SwitchTargetEvent(this, null, target);
                 ThutCore.FORGE_BUS.post(event);
                 if (!event.isCanceled())
@@ -323,17 +314,12 @@ public abstract class PokemobMoves extends PokemobStats
                     target = brainTarget;
                 }
             }
-            this.setTargetID(target == null ? -1 : target.getId());
         }
 
         // Then update enemy server side, and sent appropriate packets, ally is updated when client sends packet back
-        if (!trackedEntity.level().isClientSide())
+        if (!trackedEntity.level().isClientSide() && oldTarget != target)
         {
-            var oldTarget = this.getMoveStats().getTargetEnemy();
-            if (oldTarget != target)
-            {
-                this.getMoveStats().setTargetEnemy(target);
-            }
+            this.getMoveStats().setTargetEnemy(target);
         }
     }
 
@@ -382,11 +368,7 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public void setMoveIndex(final int moveIndex)
     {
-        if (!this.getEntity().isEffectiveAi())
-        {
-            // Do nothing, packet should be handled by gui handler, not us.
-        }
-        else
+        if (this.getEntity().isEffectiveAi())
         {
             if (moveIndex == this.getMoveIndex() || this.getCombatState(CombatStates.NOMOVESWAP)) return;
             if (this.getMove(moveIndex) == null) this.setMoveIndex(5);

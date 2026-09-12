@@ -14,6 +14,7 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.network.pokemobs.PacketBattleTargets;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
+import thut.api.Tracker;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -216,11 +217,19 @@ public class PokemobMoveStats
         return targetEnemy;
     }
 
+    long targetSwapTime=0, allySwapTime=0;
+
     public void setTargetEnemy(LivingEntity targetEnemy)
     {
-        this.targetEnemy = targetEnemy;
-        if (this.pokemob.getOwner() instanceof ServerPlayer player)
+        long time = Tracker.instance().getTick();
+        boolean newEnemy = targetEnemy != this.targetEnemy || time > targetSwapTime;
+        if (this.pokemob.getOwner() instanceof ServerPlayer player && newEnemy)
+        {
+            this.targetEnemy = targetEnemy;
+            targetSwapTime = time + 30;
             PacketBattleTargets.sentToClient(player, this.pokemob, true);
+        }
+        else this.targetEnemy = targetEnemy;
     }
 
     public LivingEntity getTargetAlly()
@@ -230,8 +239,14 @@ public class PokemobMoveStats
 
     public void setTargetAlly(LivingEntity targetAlly)
     {
-        this.targetAlly = targetAlly;
-        if (this.pokemob.getOwner() instanceof ServerPlayer player)
+        long time = Tracker.instance().getTick();
+        boolean newAlly = targetAlly != this.targetAlly || time > allySwapTime;
+        if (this.pokemob.getOwner() instanceof ServerPlayer player && newAlly)
+        {
+            this.targetAlly = targetAlly;
             PacketBattleTargets.sentToClient(player, this.pokemob, false);
+            allySwapTime = time + 30;
+        }
+        else this.targetAlly = targetAlly;
     }
 }

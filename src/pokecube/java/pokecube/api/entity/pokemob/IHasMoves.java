@@ -212,16 +212,6 @@ public interface IHasMoves extends IHasStats
      */
     void updateBattleInfo();
 
-    /**
-     * @param id - new entityId of target, -1 for no target.
-     */
-    void setTargetID(int id);
-
-    /**
-     * @param id - new entityId of target, -1 for no target.
-     */
-    void setAllyID(int id);
-
     /** @return Mob we are transformed into, null for no mob. */
     LivingEntity getTransformedTo();
 

@@ -28,6 +28,9 @@ public class BrainUtils extends BrainUtil
 {
     public static LivingEntity getAttackTarget(final LivingEntity mobIn)
     {
+        IPokemob pokemob = PokemobCaps.getPokemobFor(mobIn);
+        if (pokemob != null && pokemob.getMoveStats().getTargetEnemy() != null)
+            return pokemob.getMoveStats().getTargetEnemy();
         final Brain<?> brain = mobIn.getBrain();
         if (brain.hasMemoryValue(MemoryModules.ATTACKTARGET.get()))
             return brain.getMemory(MemoryModules.ATTACKTARGET.get()).get();
@@ -55,6 +58,8 @@ public class BrainUtils extends BrainUtil
         {
             mob.setTarget(target);
         }
+        IPokemob pokemob = PokemobCaps.getPokemobFor(mobIn);
+        if (pokemob != null) pokemob.getMoveStats().setTargetEnemy(target);
     }
 
     public static void setHuntTarget(final LivingEntity mobIn, final LivingEntity target)
