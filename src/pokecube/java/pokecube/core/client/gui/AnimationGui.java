@@ -384,7 +384,7 @@ public class AnimationGui extends Screen
                     if (ren instanceof RenderPokemob renderer)
                     {
                         renderer.getModel().processAnimations(Lists.newArrayList(anim));
-                        renderer.getModel().renderer.getAnimations().put("test_anim", Lists.newArrayList(anim));
+                        renderer.getModel().getAnimationChanger().getAnimations().put("test_anim", Lists.newArrayList(anim));
                     }
                 }
                 catch (Exception e)

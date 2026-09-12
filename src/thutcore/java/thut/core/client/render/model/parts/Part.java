@@ -780,7 +780,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public Holder<IAnimationChanger> getAnimationChanger()
+    public Holder<IAnimationChanger> getAnimationChangeHolder()
     {
         return this.animChangeHolder;
     }

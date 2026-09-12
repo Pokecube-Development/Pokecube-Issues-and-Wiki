@@ -34,12 +34,14 @@ public interface IAnimationChanger
 
     default boolean hasAnimation(final String phase)
     {
-        return false;
+        return this.getAnimations().containsKey(phase);
     }
 
     default void reset()
     {
     }
+
+    Map<String, List<Animation>> getAnimations();
 
     @Nullable
     default WornOffsets getOffsets(String part){return null;}
@@ -51,11 +53,15 @@ public interface IAnimationChanger
         return default_;
     }
 
-    default boolean getAlternates(final List<String> toFill, final Set<String> options, final Entity mob,
+    default boolean getAlternates(final List<String> toFill, final Entity mob,
             final String phase)
     {
-        if (options.contains(phase)) toFill.add(phase);
-        return true;
+        if (getAnimations().containsKey(phase))
+        {
+            toFill.add(phase);
+            return true;
+        }
+        return false;
     }
 
     void setAnimationHolder(IAnimationHolder holder);

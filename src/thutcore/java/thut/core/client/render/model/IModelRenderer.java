@@ -1,7 +1,6 @@
 package thut.core.client.render.model;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -22,14 +21,12 @@ public interface IModelRenderer<T extends Entity>
 
     static final Vector3f DEFAULTSCALE = new Vector3f(1), ORIGIN = new Vector3f();
 
-    default String getAnimation(final Entity entityIn)
+    default String getAnimation(Entity entityIn, IModel model)
     {
         final IAnimationHolder holder = this.getAnimationHolder();
         if (holder != null) return holder.getAnimation(entityIn);
         return IModelRenderer.DEFAULTPHASE;
     }
-
-    Map<String, List<Animation>> getAnimations();
 
     default Vector3f getRotationOffset()
     {
@@ -41,31 +38,32 @@ public interface IModelRenderer<T extends Entity>
         return IModelRenderer.DEFAULTSCALE;
     }
 
-    boolean hasAnimation(String phase, Entity entity);
+    boolean hasAnimation(String phase, Entity entity, IModel model);
 
     void scaleEntity(PoseStack mat, Entity entity, IModel model, float partialTick);
 
-    default void setAnimation(final Entity entity, final float partialTick)
+    default void setAnimation(final Entity entity, final IModel model)
     {
         final IAnimationHolder holder = this.getAnimationHolder();
-        final String phase = this.getAnimation(entity);
+        final String phase = this.getAnimation(entity, model);
         if (holder != null)
         {
-            final List<Animation> anim = this.getAnimations(entity, phase);
-            holder.setAnimationChanger(getAnimationChanger());
-            if (getAnimations() != null) holder.initAnimations(getAnimations(), IModelRenderer.DEFAULTPHASE);
+            var changer = model.getAnimationChanger();
+            final List<Animation> anim = this.getAnimations(entity, model, phase);
+            holder.setAnimationChanger(changer);
+            if (changer.getAnimations() != null)
+                holder.initAnimations(changer.getAnimations(), IModelRenderer.DEFAULTPHASE);
             if (anim != null && !anim.isEmpty() || (anim != null && phase.equals("none")))
                 holder.setPendingAnimations(anim, phase);
         }
     }
 
-    default List<Animation> getAnimations(final Entity entity, final String phase)
+    default List<Animation> getAnimations(Entity entity, IModel model, String phase)
     {
-        if (this.getAnimations() != null) return this.getAnimations().get(phase);
+        var changer = model.getAnimationChanger();
+        if (changer.getAnimations() != null) return changer.getAnimations().get(phase);
         return null;
     }
-
-    IAnimationChanger getAnimationChanger();
 
     IAnimationHolder getAnimationHolder();
 
@@ -80,8 +78,6 @@ public interface IModelRenderer<T extends Entity>
     @Nonnull
     HeadInfo getHeadInfo();
 
-    void setAnimationChanger(IAnimationChanger changer);
-
     void setAnimationHolder(IAnimationHolder holder);
 
     void setTexturer(IPartTexturer texturer);
@@ -91,4 +87,6 @@ public interface IModelRenderer<T extends Entity>
     void setScale(Vector3f scale);
 
     default void updateModel(ModelHolder model){}
+
+    IAnimationChanger getAnimationChanger();
 }

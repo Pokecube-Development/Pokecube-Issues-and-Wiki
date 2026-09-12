@@ -1,6 +1,7 @@
 package thut.core.client.render.animation;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +22,7 @@ import thut.api.entity.animation.IAnimationChanger;
 
 public class AnimationChanger implements IAnimationChanger
 {
+    private final HashMap<String, List<Animation>> anims = new HashMap<>();
 
     List<IAnimationChanger> children = Lists.newArrayList();
     /** These parts can be sheared off. */
@@ -55,6 +57,12 @@ public class AnimationChanger implements IAnimationChanger
         this.colourOffsets.clear();
         this.wornOffsets.clear();
         this.checkWildCard.clear();
+    }
+
+    @Override
+    public Map<String, List<Animation>> getAnimations()
+    {
+        return anims;
     }
 
     @Override
@@ -154,14 +162,13 @@ public class AnimationChanger implements IAnimationChanger
     }
 
     @Override
-    public boolean getAlternates(final List<String> toFill, final Set<String> options, final Entity mob,
-            final String phase)
+    public boolean getAlternates(final List<String> toFill, final Entity mob, final String phase)
     {
         boolean ret = false;
         for (final IAnimationChanger child : this.children)
-            ret = child.getAlternates(toFill, options, mob, phase) || ret;
+            ret = child.getAlternates(toFill, mob, phase) || ret;
         if (ret) return true;
-        return IAnimationChanger.super.getAlternates(toFill, options, mob, phase);
+        return IAnimationChanger.super.getAlternates(toFill, mob, phase);
     }
 
     @Override

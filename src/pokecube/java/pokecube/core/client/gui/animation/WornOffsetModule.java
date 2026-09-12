@@ -69,7 +69,7 @@ public class WornOffsetModule extends AnimModule
         Object ren = manager.getRenderer(parent.toRender.getEntity());
 
         if (ren instanceof RenderPokemob renderer
-                && renderer.getModel().renderer.getAnimationChanger() instanceof AnimationChanger changer)
+                && renderer.getModel().getAnimationChanger() instanceof AnimationChanger changer)
         {
             WornOffsets old = changer.wornOffsets.get(key);
             if (old != null)
@@ -159,7 +159,7 @@ public class WornOffsetModule extends AnimModule
         EntityRenderDispatcher manager = Minecraft.getInstance().getEntityRenderDispatcher();
         Object ren = manager.getRenderer(parent.toRender.getEntity());
         if (ren instanceof RenderPokemob renderer
-                && renderer.getModel().renderer.getAnimationChanger() instanceof AnimationChanger changer)
+                && renderer.getModel().getAnimationChanger() instanceof AnimationChanger changer)
         {
             var w_offset = new Vector3f(Float.parseFloat(dX.getValue()), Float.parseFloat(dY.getValue()),
                     Float.parseFloat(dZ.getValue()));

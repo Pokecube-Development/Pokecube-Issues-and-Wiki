@@ -157,6 +157,8 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
             p.requiredShift = p.r.y - _y;
             requiredShift = Math.min(requiredShift, p.requiredShift);
         }
+        // TODO check if this causes any problems
+        if(!weSelf().onGround()) requiredShift = 0;
         AABB total = null;
         for (final T p : getUseParts())
         {

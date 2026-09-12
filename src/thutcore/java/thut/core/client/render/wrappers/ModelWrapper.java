@@ -76,6 +76,18 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     }
 
     @Override
+    public void setAnimationChanger(IAnimationChanger changer)
+    {
+        this.getModel().setAnimationChanger(changer);
+    }
+
+    @Override
+    public IAnimationChanger getAnimationChanger()
+    {
+        return this.getModel().getAnimationChanger();
+    }
+
+    @Override
     public Set<String> getHeadParts()
     {
         if (this.getModel() == null) return Collections.emptySet();
@@ -127,7 +139,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             blue = poke.getRGBA()[2];
             alpha = poke.getRGBA()[3];
         }
-        final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
+        final IAnimationChanger animChanger = this.getModel().getAnimationChanger();
         if (animChanger != null && animChanger.modifyColourForPart(part.getName(), entity, this.tmp))
         {
             red = this.tmp[0];
@@ -161,7 +173,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         if (!this.isLoaded() || renderModel == null) return;
 
         poseStack.pushPose();
-        this.transformGlobal(poseStack, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn,
+        this.transformGlobal(poseStack, buffer, this.renderer.getAnimation(this.entityIn, this), this.entityIn,
                 Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true));
         renderModel.render(poseStack, buffer);
         poseStack.popPose();
@@ -204,15 +216,15 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         if (!this.isLoaded()) return;
         this.setEntity(entityIn);
         var texer = this.renderer.getTexturer();
-        var animChanger = this.renderer.getAnimationChanger();
+        var animChanger = this.getModel().getAnimationChanger();
         this.animChangeHolder.set(animChanger);
         this.texChangeHolder.set(texer);
         if (texer != null) texer.bindObject(this.entityIn);
-        if (imodel instanceof IRetexturableModel _model && _model.getAnimationChanger() != this.animChangeHolder)
+        if (imodel instanceof IRetexturableModel _model && _model.getAnimationChangeHolder() != this.animChangeHolder)
         {
             _model.setChangers(animChangeHolder, texChangeHolder);
         }
-        this.renderer.setAnimation(entityIn, partialTickTime);
+        this.renderer.setAnimation(entityIn, this.getModel());
     }
 
     @Override

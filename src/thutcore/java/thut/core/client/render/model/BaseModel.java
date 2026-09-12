@@ -100,6 +100,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     IRetexturableModel.Holder<IAnimationChanger> animChangeHolder = new IRetexturableModel.Holder<>();
     IRetexturableModel.Holder<IAnimationHolder> animHolderHolder = new IRetexturableModel.Holder<>();
     IRetexturableModel.Holder<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
+    IAnimationChanger animationChanger = null;
 
     Set<String> heads = new HashSet<>();
     public String name;
@@ -138,7 +139,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         {
             // Otherwise mark as invalid and exit
             this.valid = false;
-            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading {}", pending_load, e);
+            ThutCore.LOGGER.error("error loading {}", pending_load, e);
         }
     }
 
@@ -352,16 +353,17 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer)
     {
         if (this.getPartsList().isEmpty()) return;
-        String currentPhase = renderer.getAnimation(entity);
+        var changer = this.getAnimationChanger();
+        String currentPhase = renderer.getAnimation(entity, this);
         final IAnimationHolder holder = renderer.getAnimationHolder();
-        boolean anim = renderer.getAnimations().containsKey(currentPhase);
+        boolean anim = changer.getAnimations().containsKey(currentPhase);
         final List<Animation> anims = Lists.newArrayList();
         if (holder != null)
         {
             anims.addAll(holder.getTransientPlaying());
             anims.addAll(holder.getPlaying());
         }
-        else if (anim) anims.addAll(renderer.getAnimations().get(currentPhase));
+        else if (anim) anims.addAll(changer.getAnimations().get(currentPhase));
         this.updateAnimation(anims, holder);
     }
 
@@ -369,7 +371,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     public void updateAnimation(List<Animation> playingAnims, IAnimationHolder holder)
     {
         if (this.getPartsList().isEmpty()) return;
-        var animChanger = this.getAnimationChanger().get();
+        var animChanger = this.getAnimationChangeHolder().get();
         // Then apply animations
         for (var part : partsList)
             this.updatePart(playingAnims, part, holder, animChanger);
@@ -432,9 +434,21 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     }
 
     @Override
-    public Holder<IAnimationChanger> getAnimationChanger()
+    public Holder<IAnimationChanger> getAnimationChangeHolder()
     {
         return this.animChangeHolder;
+    }
+
+    @Override
+    public void setAnimationChanger(IAnimationChanger changer)
+    {
+        this.animationChanger = changer;
+    }
+
+    @Override
+    public IAnimationChanger getAnimationChanger()
+    {
+        return animationChanger;
     }
 
     @Override

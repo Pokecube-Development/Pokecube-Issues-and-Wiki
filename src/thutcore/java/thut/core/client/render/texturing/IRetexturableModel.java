@@ -22,7 +22,7 @@ public interface IRetexturableModel
         }
     }
 
-    Holder<IAnimationChanger> getAnimationChanger();
+    Holder<IAnimationChanger> getAnimationChangeHolder();
 
     void setChangers(Holder<IAnimationChanger> animations, Holder<IPartTexturer> textures);
 

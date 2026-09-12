@@ -2,12 +2,10 @@ package pokecube.core.client.render.mobs;
 
 import java.awt.Color;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
@@ -69,6 +67,12 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
         }
 
         @Override
+        public Map<String, List<Animation>> getAnimations()
+        {
+            return Map.of();
+        }
+
+        @Override
         public void init(final Collection<Animation> anims)
         {}
 
@@ -98,8 +102,6 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
 
     }
 
-    private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
-
     private final Vector3f scale = new Vector3f(1);
 
     public RenderEgg(final EntityRendererProvider.Context manager)
@@ -115,6 +117,12 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
         this.model = model;
         model.setModel(ModelFactory.create(holder, m -> {
             model.setModel(m);
+            var changer = model.animChangeHolder.get();
+            if (changer == null)
+            {
+                changer = new EggColourer();
+                model.setAnimationChanger(changer);
+            }
             AnimationLoader.parse(model.model, model, this);
         }));
         return model;
@@ -159,13 +167,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     @Override
-    public Map<String, List<Animation>> getAnimations()
-    {
-        return this.anims;
-    }
-
-    @Override
-    public boolean hasAnimation(final String phase, final Entity entity)
+    public boolean hasAnimation(final String phase, final Entity entity, IModel model)
     {
         return false;
     }
@@ -190,27 +192,15 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     @Override
+    public IAnimationChanger getAnimationChanger()
+    {
+        return this.model.getAnimationChanger();
+    }
+
+    @Override
     public HeadInfo getHeadInfo()
     {
         return HeadInfo.DUMMY;
-    }
-
-    @Override
-    public void setAnimationChanger(final IAnimationChanger changer)
-    {
-        this.getModel().animChangeHolder.set(changer);
-    }
-
-    @Override
-    public IAnimationChanger getAnimationChanger()
-    {
-        var changer = this.getModel().animChangeHolder.get();
-        if (changer == null)
-        {
-            changer = new EggColourer();
-            this.setAnimationChanger(changer);
-        }
-        return changer;
     }
 
     @Override

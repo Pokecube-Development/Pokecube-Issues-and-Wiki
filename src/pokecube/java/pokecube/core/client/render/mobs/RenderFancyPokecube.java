@@ -36,6 +36,7 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.bling.client.render.Util;
+import thut.core.client.render.animation.AnimationChanger;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
@@ -78,7 +79,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     // These below need to be from the model set, as depend on the model itself
     private HashMap<String, List<Animation>> anims = Maps.newHashMap();
 
-    private IAnimationChanger changer = null;
     private IPartTexturer texer = null;
 
     private Vector3f offset = new Vector3f();
@@ -95,7 +95,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     public ModelWrapper<EntityPokecube> makeModel(ResourceLocation cube)
     {
         // First try to find a unique model for the name
-        ModelWrapper<EntityPokecube> ret = null;
         {
             var modelKey = ResourceLocation.fromNamespaceAndPath(cube.getNamespace(), MODEL.getPath() + cube.getPath());
             var holder = new ModelHolder(modelKey);
@@ -104,7 +103,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                 synchronized (models)
                 {
                     model.setModel(m);
-                    this.changer = null;
                     this.texer = null;
                     this.anims = Maps.newHashMap();
                     var old = this.model;
@@ -112,7 +110,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                     AnimationLoader.parse(holder, model, this);
                     this.model = old;
                     this.models.put(cube,
-                            new ModelSet(getAnimationChanger(), getTexturer(), model, offset, scale, anims));
+                            new ModelSet(new AnimationChanger(), getTexturer(), model, offset, scale, anims));
                     RenderPokecube.pokecubeRenderers.putIfAbsent(cube, this);
                 }
             });
@@ -137,14 +135,13 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                 synchronized (models)
                 {
                     _model.setModel(m);
-                    this.changer = null;
                     this.texer = null;
                     this.anims = Maps.newHashMap();
                     var old = this.model;
                     this.model = _model; // copy this over for the animation parser to handle properly
                     AnimationLoader.parse(holder, _model, this);
                     this.model = old;
-                    this.models.put(cube,new ModelSet(getAnimationChanger(), getTexturer(), _model, offset, scale, anims));
+                    this.models.put(cube,new ModelSet(new AnimationChanger(), getTexturer(), _model, offset, scale, anims));
                     RenderPokecube.pokecubeRenderers.putIfAbsent(cube, this);
                 }
             });
@@ -153,7 +150,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                 return _model;
             }
         }
-        return ret;
+        return null;
     }
 
     @Override
@@ -175,7 +172,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                 var m = models.get(cubeId);
                 this.model = m.model();
                 this.setTexturer(m.texer());
-                this.setAnimationChanger(m.changer());
                 this.offset = m.offset();
                 this.scale = m.scale();
                 this.anims = m.anims();
@@ -190,7 +186,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                     if (m == null) return;
                     this.model = m.model();
                     this.setTexturer(m.texer());
-                    this.setAnimationChanger(m.changer());
                     this.offset = m.offset();
                     this.scale = m.scale();
                     this.anims = m.anims();
@@ -259,46 +254,34 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     }
 
     @Override
-    public IAnimationChanger getAnimationChanger()
-    {
-        return this.changer;
-    }
-
-    @Override
-    public Map<String, List<Animation>> getAnimations()
-    {
-        return this.anims;
-    }
-
-    @Override
     public IPartTexturer getTexturer()
     {
         return this.texer;
     }
 
     @Override
-    public boolean hasAnimation(final String phase, final Entity entity)
+    public boolean hasAnimation(String phase, Entity entity, IModel model)
     {
-        return this.getAnimations().containsKey(phase);
+        return model.getAnimationChanger().getAnimations().containsKey(phase);
     }
 
     @Override
-    public List<Animation> getAnimations(Entity entity, String phase)
+    public List<Animation> getAnimations(Entity entity, IModel model, String phase)
     {
         this.toRun.clear();
         this.toRunNames.clear();
-        if (this.getAnimationChanger() != null)
-            this.getAnimationChanger().getAlternates(this.toRunNames, this.getAnimations().keySet(), entity, phase);
+        var changer = model.getAnimationChanger();
+        if (changer != null) changer.getAlternates(this.toRunNames, entity, phase);
         for (final String name : this.toRunNames)
         {
-            final List<Animation> anims = this.getAnimations().get(name);
+            final List<Animation> anims = changer.getAnimations().get(name);
             if (anims != null) this.toRun.addAll(anims);
         }
         return this.toRun;
     }
 
     @Override
-    public String getAnimation(final Entity entityIn)
+    public String getAnimation(final Entity entityIn, IModel model)
     {
         if (entityIn instanceof EntityPokecube cube)
         {
@@ -372,8 +355,12 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     public void setAnimationHolder(final IAnimationHolder holder)
     {
         this.holder = holder;
-        if (this.changer != null) this.changer.setAnimationHolder(holder);
-        if (this.model instanceof ModelWrapper<?> wrap) wrap.setAnimationHolder(holder);
+        if (this.model instanceof ModelWrapper<?> wrap)
+        {
+            var changer = wrap.getAnimationChanger();
+            if (changer != null) changer.setAnimationHolder(holder);
+            wrap.setAnimationHolder(holder);
+        }
     }
 
     @Override
@@ -381,12 +368,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     {
         if (this.model instanceof ModelWrapper<?> wrap) return wrap.animHolderHolder.get();
         return this.holder;
-    }
-
-    @Override
-    public void setAnimationChanger(final IAnimationChanger changer)
-    {
-        this.changer = changer;
     }
 
     @Override
@@ -399,6 +380,13 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     public void setScale(final Vector3f scale)
     {
         this.scale = scale;
+    }
+
+    @Override
+    public IAnimationChanger getAnimationChanger()
+    {
+        if (this.model instanceof ModelWrapper<?> wrap) return wrap.getAnimationChanger();
+        return null;
     }
 
     @Override

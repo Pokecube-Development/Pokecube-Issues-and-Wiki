@@ -3,6 +3,7 @@ package pokecube.api.moves.utils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.behavior.EntityTracker;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
@@ -13,6 +14,16 @@ import thut.api.maths.Vector3;
 
 public interface IMoveAnimation
 {
+    public static class TaggedEntityTracker extends EntityTracker
+    {
+
+        public TaggedEntityTracker(Entity entity, boolean trackEyeHeight)
+        {
+            super(entity, trackEyeHeight);
+        }
+    }
+
+
     public static class MovePacketInfo
     {
         public final MoveEntry move;
@@ -32,8 +43,10 @@ public interface IMoveAnimation
             this.level = attacker.level();
             this.attacked = attacked;
             this.attacker = attacker;
-            this.source = source == null ? null : new VectorPosWrapper(source);
-            this.target = target == null ? null : new VectorPosWrapper(target);
+            this.source = source == null ? new EntityTracker(attacker, true) : new VectorPosWrapper(source);
+            this.target = target == null
+                    ? attacked != null ? new EntityTracker(attacker, true) : null
+                    : new VectorPosWrapper(target);
         }
     }
 

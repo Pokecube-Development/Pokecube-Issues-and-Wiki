@@ -180,7 +180,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         public String name;
         public Map<String, PartInfo> parts = new Object2ObjectOpenHashMap<>();
-        public Map<String, List<Animation>> animations = new Object2ObjectOpenHashMap<>();
         private final List<String> toRunNames = new ArrayList<>();
         private final List<Animation> toRun = new ArrayList<>();
         private Vector3f offset = new Vector3f();
@@ -228,27 +227,21 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public String getAnimation(final Entity entityIn)
+        public String getAnimation(final Entity entityIn, IModel model)
         {
             final IAnimationHolder holder = this.getAnimationHolder();
             if (holder != null && holder.isFixed()) return holder.getAnimation(entityIn);
             if (this.overrideAnim) return this.anim;
-            return this.getPhase((Mob) entityIn, PokemobCaps.getPokemobFor(entityIn));
+            return this.getPhase(entityIn);
         }
 
-        @Override
-        public Map<String, List<Animation>> getAnimations()
-        {
-            return this.animations;
-        }
-
-        private String getPhase(final Mob entity, final IPokemob pokemob)
+        private String getPhase(final Entity entity)
         {
             if (!this.wrapper.isLoaded()) return "not_loaded_yet!";
             final String phase = "idle";
-            if (this.model == null || pokemob == null) return phase;
+            if (this.model == null) return phase;
             final IAnimated anims = ThutCaps.getAnimated(entity);
-            for (final String s : anims.getChoices()) if (this.hasAnimation(s, entity)) return s;
+            for (final String s : anims.getChoices()) if (this.hasAnimation(s, entity, this.wrapper)) return s;
             return phase;
         }
 
@@ -265,24 +258,23 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public boolean hasAnimation(final String phase, final Entity entity)
+        public boolean hasAnimation(String phase, Entity entity, IModel model)
         {
-            var animator = this.getAnimationChanger();
+            var animator = model.getAnimationChanger();
             if (animator != null && animator.hasAnimation(phase)) return true;
-            return IModelRenderer.DEFAULTPHASE.equals(phase) || this.animations.containsKey(phase)
-                    || this.wrapper.getModel().getBuiltInAnimations().containsKey(phase);
+            return IModelRenderer.DEFAULTPHASE.equals(phase) || model.getBuiltInAnimations().containsKey(phase);
         }
 
         @Override
-        public List<Animation> getAnimations(final Entity entity, final String phase)
+        public List<Animation> getAnimations(Entity entity, IModel model, String phase)
         {
             this.toRun.clear();
             this.toRunNames.clear();
-            var animator = this.getAnimationChanger();
-            if (animator != null) animator.getAlternates(this.toRunNames, this.animations.keySet(), entity, phase);
+            var animator = model.getAnimationChanger();
+            if (animator != null) animator.getAlternates(this.toRunNames, entity, phase);
             for (final String name : this.toRunNames)
             {
-                final List<Animation> anims = this.animations.get(name);
+                final List<Animation> anims = animator.getAnimations().get(name);
                 if (anims != null) this.toRun.addAll(anims);
             }
             return this.toRun;
@@ -352,21 +344,15 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
+        public IAnimationChanger getAnimationChanger()
+        {
+            return this.wrapper.getAnimationChanger();
+        }
+
+        @Override
         public HeadInfo getHeadInfo()
         {
             return this.headInfo;
-        }
-
-        @Override
-        public void setAnimationChanger(final IAnimationChanger changer)
-        {
-            this.wrapper.animChangeHolder.set(changer);
-        }
-
-        @Override
-        public IAnimationChanger getAnimationChanger()
-        {
-            return this.wrapper.animChangeHolder.get();
         }
 
         @Override
@@ -406,7 +392,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 renderHolder.wrapper.setMob(entity, Minecraft.getInstance().renderBuffers().bufferSource(),
                         ResourceLocation.parse("minecraft:stone"), LightTexture.FULL_BLOCK);
                 renderHolder.wrapper.prepareMobModel(entity, 0, 0, 0);
-                var bb = BaseModelToBBModel.convert(_model, renderHolder.animations, Part.mergeMeshes);
+                var bb = BaseModelToBBModel.convert(_model, Part.mergeMeshes);
 
                 String json = JsonUtil.smol_gson.toJson(bb);
                 var rootDir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("bbmodels");
@@ -429,7 +415,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         {
             try
             {
-                var bb = BaseModelToBBModel.convert(_model, renderHolder.animations, Part.mergeMeshes);
+                var bb = BaseModelToBBModel.convert(_model, Part.mergeMeshes);
                 var json = JsonUtil.smol_gson.toJson(bb);
 
                 File root = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
@@ -751,8 +737,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (!activeHolder.checkedAnims && this.activeHolder.wrapper.isLoaded())
         {
             activeHolder.checkedAnims = true;
-            activeHolder.hasSleepAnim = this.activeHolder.hasAnimation("sleeping", entity);
-            activeHolder.hasDeathAnim = this.activeHolder.hasAnimation("dead", entity);
+            var model = this.activeHolder.wrapper;
+            activeHolder.hasSleepAnim = this.activeHolder.hasAnimation("sleeping", entity, model);
+            activeHolder.hasDeathAnim = this.activeHolder.hasAnimation("dead", entity, model);
         }
 
         if (!sleeping)

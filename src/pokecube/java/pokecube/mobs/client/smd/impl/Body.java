@@ -343,7 +343,7 @@ public class Body implements IRetexturableModel
     }
 
     @Override
-    public Holder<IAnimationChanger> getAnimationChanger()
+    public Holder<IAnimationChanger> getAnimationChangeHolder()
     {
         return this.animChangeHolder;
     }

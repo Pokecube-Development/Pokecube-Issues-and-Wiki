@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.Set;
 
 import net.minecraft.world.entity.Entity;
+import thut.api.Tracker;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
@@ -24,7 +25,7 @@ public class AnimationRandomizer implements IAnimationChanger
     private static class LoadedAnimSet
     {
         String name;
-        int    weight;
+        int weight;
     }
 
     private static class RandomAnimation
@@ -36,14 +37,17 @@ public class AnimationRandomizer implements IAnimationChanger
             this.name = animation.name;
         }
     }
+    private final HashMap<String, List<Animation>> anims = new HashMap<>();
 
-    Map<String, List<RandomAnimation>> sets       = new HashMap<>();
-    Map<String, Set<LoadedAnimSet>>    loadedSets = new HashMap<>();
+    Map<String, List<RandomAnimation>> sets = new HashMap<>();
+    Map<String, Set<LoadedAnimSet>> loadedSets = new HashMap<>();
 
-    Set<String>              allAnims = new HashSet<>();
+    Set<String> allAnims = new HashSet<>();
     Map<String, Set<String>> reversed = new HashMap<>();
 
     IAnimationHolder currentHolder = null;
+
+    Random RNG = new Random();
 
     public AnimationRandomizer(final List<SubAnim> anims)
     {
@@ -69,6 +73,12 @@ public class AnimationRandomizer implements IAnimationChanger
         this.allAnims.clear();
         this.loadedSets.clear();
         this.reversed.clear();
+    }
+
+    @Override
+    public Map<String, List<Animation>> getAnimations()
+    {
+        return anims;
     }
 
     private void addAnimationSet(final Animation animation, final String parent)
@@ -110,16 +120,20 @@ public class AnimationRandomizer implements IAnimationChanger
     }
 
     @Override
-    public boolean getAlternates(final List<String> toFill, final Set<String> options, final Entity mob,
-            final String phase)
+    public boolean getAlternates(final List<String> toFill, final Entity mob, final String phase)
     {
+        if (mob != null)
+        {
+            long seed = mob.getId() ^ (Tracker.instance().getTick() / 100);
+            RNG.setSeed(seed);
+        }
         if (this.sets.containsKey(phase))
         {
             final IAnimationHolder holder = this.getAnimationHolder();
             if (holder != null && !holder.getPlaying().isEmpty() && holder.getPendingAnimations().equals(phase))
                 return true;
             final List<RandomAnimation> set = this.sets.get(phase);
-            final int rand = new Random(System.nanoTime()).nextInt(set.size());
+            final int rand = RNG.nextInt(set.size());
             final RandomAnimation anim = set.get(rand);
             final AnimationSet aSet = new AnimationSet(anim);
             toFill.add(aSet.anim.name);

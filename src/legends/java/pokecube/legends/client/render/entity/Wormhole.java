@@ -1,6 +1,5 @@
 package pokecube.legends.client.render.entity;
 
-import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
@@ -16,7 +15,6 @@ import pokecube.legends.entity.WormholeEntity;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.model.IModel;
@@ -25,17 +23,11 @@ import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<WormholeEntity>>
         implements IModelRenderer<WormholeEntity>
 {
     static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reference.ID, "entity/textures/wormhole.png");
     static final ResourceLocation MODEL = ResourceLocation.fromNamespaceAndPath(Reference.ID, "entity/models/wormhole");
-
-    private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
 
     final Vector3f rotPoint = new Vector3f();
     private Vector3f offset = new Vector3f();
@@ -92,19 +84,13 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     }
 
     @Override
-    public Map<String, List<Animation>> getAnimations()
+    public boolean hasAnimation(final String phase, final Entity entity, IModel model)
     {
-        return this.anims;
+        return model.getAnimationChanger().getAnimations().containsKey(phase);
     }
 
     @Override
-    public boolean hasAnimation(final String phase, final Entity entity)
-    {
-        return this.getAnimations().containsKey(phase);
-    }
-
-    @Override
-    public String getAnimation(final Entity entityIn)
+    public String getAnimation(final Entity entityIn, IModel model)
     {
         if (entityIn instanceof WormholeEntity wormhole)
         {
@@ -158,21 +144,15 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     }
 
     @Override
+    public IAnimationChanger getAnimationChanger()
+    {
+        return this.getModel().getAnimationChanger();
+    }
+
+    @Override
     public HeadInfo getHeadInfo()
     {
         return HeadInfo.DUMMY;
-    }
-
-    @Override
-    public void setAnimationChanger(final IAnimationChanger changer)
-    {
-        this.getModel().animChangeHolder.set(changer);
-    }
-
-    @Override
-    public IAnimationChanger getAnimationChanger()
-    {
-        return this.getModel().animChangeHolder.get();
     }
 
     @Override

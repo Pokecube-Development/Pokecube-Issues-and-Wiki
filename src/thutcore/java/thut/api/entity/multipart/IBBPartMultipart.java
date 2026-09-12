@@ -1,5 +1,6 @@
 package thut.api.entity.multipart;
 
+import com.google.common.collect.Lists;
 import net.minecraft.world.entity.Entity;
 import org.joml.Vector3f;
 import thut.api.ThutCaps;
@@ -7,8 +8,11 @@ import thut.api.entity.IAnimated;
 import thut.api.entity.animation.Animation;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.bbmodel.BBModel;
+import thut.core.client.render.model.IModel;
+import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.parts.Part;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> extends IMultpart<T, E>
@@ -33,8 +37,8 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
     default void applyAnimations(IAnimated animHolder)
     {
         var model = getBBModel();
-        if (model == null) return;
         var us = weSelf();
+        if (model == null || weSelf().level().isClientSide()) return;
         var partHolder = this.getHolder();
         // Test with once per tick for now, might be
         // able to make it slower for not ridden cases?
@@ -43,15 +47,49 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
         synchronized (model)
         {
             var holder = AnimationHelper.getHolder(us);
-            final List<String> anims = animHolder.getChoices();
-            var pose = anims.stream().filter(s -> model.getBuiltInAnimations().containsKey(s)).findFirst()
-                    .orElse("idle");
-            partHolder.holder().effective_pose = pose;
-            for (var p : model.getPartsList()) p.resetToInit();
             holder.setContext(ThutCaps.getAnimated(us));
-            List<Animation> runAnims = model.getBuiltInAnimations().getOrDefault(pose, List.of());
-            model.updateAnimation(runAnims, holder);
+            this.setAnimation(us, model, holder);
+            partHolder.holder().effective_pose = holder.getAnimation(us);
+            for (var p : model.getPartsList()) p.resetToInit();
+            final List<Animation> anims = Lists.newArrayList();
+            anims.addAll(holder.getTransientPlaying());
+            anims.addAll(holder.getPlaying());
+            model.updateAnimation(anims, holder);
         }
+    }
+
+    default void setAnimation(E entity, IModel model, IAnimated.IAnimationHolder holder)
+    {
+        var phase = this.getPhase(entity, model);
+        var changer = model.getAnimationChanger();
+
+        final List<String> anims = new ArrayList<>();
+        changer.getAlternates(anims, entity, phase);
+        List<Animation> anim = new ArrayList<>();
+        for (final String name : anims)
+        {
+            var tmp = changer.getAnimations().get(name);
+            if (tmp != null) anim.addAll(tmp);
+        }
+        holder.setAnimationChanger(changer);
+        if (changer.getAnimations() != null)
+            holder.initAnimations(changer.getAnimations(), IModelRenderer.DEFAULTPHASE);
+        if (!anim.isEmpty()) holder.setPendingAnimations(anim, phase);
+    }
+
+    default String getPhase(E entity, IModel model)
+    {
+        final String phase = "idle";
+        final IAnimated anims = ThutCaps.getAnimated(entity);
+        for (final String s : anims.getChoices()) if (this.hasAnimation(s, model)) return s;
+        return phase;
+    }
+
+    default boolean hasAnimation(String phase, IModel model)
+    {
+        var animator = model.getAnimationChanger();
+        if (animator != null && animator.hasAnimation(phase)) return true;
+        return IModelRenderer.DEFAULTPHASE.equals(phase) || model.getBuiltInAnimations().containsKey(phase);
     }
 
     default void initFromBBModel()

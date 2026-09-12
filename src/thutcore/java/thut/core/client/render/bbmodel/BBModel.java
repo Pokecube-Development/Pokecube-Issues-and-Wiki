@@ -1,13 +1,13 @@
 package thut.core.client.render.bbmodel;
 
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix3f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
+import thut.api.entity.animation.IAnimationChanger;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationXML;
 import thut.core.client.render.animation.AnimationXML.Mat;
@@ -86,7 +86,6 @@ public class BBModel extends BaseModel
         catch (Throwable e)
         {
             PokecubeAPI.LOGGER.error("Error loading animations for {}", this.template, e);
-            return;
         }
     }
 

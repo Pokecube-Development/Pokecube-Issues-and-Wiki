@@ -16,6 +16,7 @@ import net.minecraft.world.entity.Entity;
 import org.joml.Vector3f;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.IAnimationChanger;
 import thut.core.client.render.animation.AnimationXML;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.parts.Material;
@@ -37,6 +38,10 @@ public interface IModel
     {
         return IModel.emptyAnims;
     }
+
+    void setAnimationChanger(IAnimationChanger changer);
+
+    IAnimationChanger getAnimationChanger();
 
     default void initBuiltInAnimations(@Nullable IModelRenderer<?> renderer, List<Animation> tblAnims)
     {}

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
+import thut.api.Tracker;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -54,6 +56,7 @@ public class CapabilityAnimation
 
         IAnimated context;
         IAnimationChanger changer;
+        Random RNG;
 
         @Override
         public void clean()
@@ -162,12 +165,12 @@ public class CapabilityAnimation
                             this.tmpTransients.clear();
                             if (this.changer != null)
                             {
-                                this.changer.getAlternates(tmpTransients, anims.keySet(), e, anim);
+                                this.changer.getAlternates(tmpTransients, e, anim);
                                 for (String s : tmpTransients)
                                 {
                                     var animList = anims.get(s);
                                     if (animList == null || animList.isEmpty()) continue;
-                                    int index = animList.size() > 1 ? e.getRandom().nextInt(animList.size()) : 0;
+                                    int index = animList.size() > 1 ? RNG.nextInt(animList.size()) : 0;
                                     synchronized (this.transients)
                                     {
                                         var selected = animList.get(index);
@@ -315,6 +318,11 @@ public class CapabilityAnimation
         public void setContext(IAnimated context)
         {
             this.context = context;
+            this.RNG = new Random();
+            if (context.getContext() instanceof Entity e)
+            {
+                this.RNG = new Random(e.getId() ^ Tracker.instance().getTick() / 100);
+            }
         }
 
         @Override

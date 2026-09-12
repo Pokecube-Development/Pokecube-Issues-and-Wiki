@@ -249,10 +249,13 @@ public class AnimationLoader
                 }
             }
 
-            if (renderer != null)
-            {
-                renderer.getAnimations().clear();
-            }
+            IAnimationChanger animator = model.getAnimationChanger();
+            if (animator == null) model.setAnimationChanger(animator = new AnimationChanger());
+            else animator.reset();
+            animator.getAnimations().clear();
+            // Add the animation randomiser for the sub animations
+            if (!file.model.subanim.isEmpty()) animator.addChild(new AnimationRandomizer(file.model.subanim));
+
             model.initBuiltInAnimations(renderer, animations);
             animations.addAll(xmlAnimations);
 
@@ -292,21 +295,108 @@ public class AnimationLoader
             if (file.model.particles != null)
             {
                 for (var m : file.model.particles)
-                    model.getParts().values().forEach(part -> {
-                        part.addPartRenderAdder(m);
-                    });
+                    model.getParts().values().forEach(part -> part.addPartRenderAdder(m));
             }
 
-            if (renderer != null) synchronized (renderer)
+            if (headNames.isEmpty() && model.getParts().containsKey("head")) headNames.add("head");
+            model.getHeadParts().addAll(headNames);
+
+            // Cleanup the animation stuff.
+            for (final Animation anim : animations)
+            {
+                List<Animation> anims = animator.getAnimations().computeIfAbsent(anim.name, k -> new ArrayList<>());
+                anims.add(anim);
+            }
+            for (final String from : mergedAnimations.keySet())
+            {
+                if (!animator.getAnimations().containsKey(from)) continue;
+                for (String to : mergedAnimations.get(from))
+                {
+                    List<Animation> fromSet = new ArrayList<>();
+                    List<Animation> toSet;
+                    // In this case, we make an empty animation
+                    if (!animator.getAnimations().containsKey(to))
+                    {
+                        toSet = new ArrayList<>();
+                        animator.getAnimations().put(to, toSet);
+                    }
+                    else toSet = animator.getAnimations().get(to);
+                    for (final Animation anim : animator.getAnimations().get(from))
+                    {
+                        final Animation newAnim = new Animation();
+                        newAnim.identifier = anim.identifier;
+                        newAnim.name = to;
+                        newAnim.loops = anim.loops;
+                        newAnim.priority = 20;
+                        newAnim.length = -1;
+                        for (final String s : anim.sets.keySet()) newAnim.sets.put(s, anim.sets.get(s));
+                        fromSet.add(newAnim);
+                    }
+                    toSet.addAll(fromSet);
+                }
+            }
+
+            // Finalize animation initialization
+            final List<Animation> allAnims = new ArrayList<>();
+            Map<String, List<Animation>> newAnims = new HashMap<>(animator.getAnimations());
+            // Process the animations
+            for (var entry : newAnims.entrySet())
+            {
+                List<Animation> copy = entry.getValue();
+                AnimationBuilder.processAnimations(copy);
+                // Processing edits the list, so we need to re-add them
+                // here.
+                allAnims.addAll(copy);
+            }
+            animator.getAnimations().putAll(newAnims);
+
+            // Process Dyeable parts.
+            animator.parseDyeables(dye);
+
+            // Deal with shearable parts.
+            animator.parseShearables(shear);
+
+            // Initialize based on existing anims
+            animator.init(allAnims);
+            for (final Animation anim : allAnims)
+            {
+                if (anim.name.contains("faint") || anim.name.contains("dead"))
+                {
+                    anim.loops = false;
+                    anim.holdWhenDone = true;
+                }
+                if (!animator.getAnimations().containsKey(anim.name))
+                {
+                    List<Animation> anims = new ArrayList<>();
+                    animator.getAnimations().put(anim.name, anims);
+                    anims.add(anim);
+                }
+            }
+            // And if this added any new animations, update animation changer
+
+            // Add the worn offsets
+            animator.parseWornOffsets(wornOffsets);
+            model.setAnimationChanger(animator);
+
+            // Find custom parts to mark as animated
+            Set<String> animatedSet = new HashSet<>(model.getHeadParts());
+            animatedSet.addAll(shear);
+            animatedSet.addAll(dye);
+            animatedSet.forEach(key -> model.getParts().computeIfPresent(key, (s, part) -> {
+                part.markAsAnimated();
+                return part;
+            }));
+
+            // Pre-process the animations via the model
+            model.processAnimations(allAnims);
+
+            if (renderer != null) synchronized (renderer.getHeadInfo())
             {
                 // Objects for modifying textures/animations
                 IPartTexturer texturer = renderer.getTexturer();
-                IAnimationChanger animator = renderer.getAnimationChanger();
 
                 if (texturer == null) renderer.setTexturer(texturer = new TextureHelper());
                 else texturer.reset();
-                if (animator == null) renderer.setAnimationChanger(animator = new AnimationChanger());
-                else animator.reset();
 
                 final IAnimationHolder animHolder = renderer.getAnimationHolder();
                 if (animHolder != null) animHolder.clean();
@@ -318,7 +408,7 @@ public class AnimationLoader
                 Set<Material> notCustom = new HashSet<>();
                 Material _default = null;
                 // Collect materials, also use this chance to update dye and shear from locators
-                for(var p: model.getParts().values())
+                for (var p : model.getParts().values())
                 {
                     boolean custom = false;
                     if (p instanceof Part part)
@@ -346,17 +436,17 @@ public class AnimationLoader
                     for (var m : p.getMaterials())
                     {
                         // If the material is a registered custom, this is true
-                        boolean isCustom = custom||texturer.hasMapping(m.name);
-                        if(!isCustom)
+                        boolean isCustom = custom || texturer.hasMapping(m.name);
+                        if (!isCustom)
                         {
                             // Collect not-custom ones, and then set them all equal.
                             notCustom.add(m);
-                            if(_default==null && !"auto:null".equals(m.name)) _default = m;
+                            if (_default == null && !"auto:null".equals(m.name)) _default = m;
                         }
                     }
                 }
                 // Copy from default
-                if(_default!=null) for(var m: notCustom)
+                if (_default != null) for (var m : notCustom)
                 {
                     m.name = _default.name;
                     m.render_name = _default.render_name;
@@ -364,99 +454,14 @@ public class AnimationLoader
                 // Apply texture phases (ie texture animations)
                 for (Phase p : texPhases) texturer.applyTexturePhase(p);
 
-                // Add the animation randomiser for the sub animations
-                if (!file.model.subanim.isEmpty()) animator.addChild(new AnimationRandomizer(file.model.subanim));
-
                 renderer.updateModel(holder);
 
                 // Set the global transforms
                 renderer.setRotationOffset(offset);
                 renderer.setScale(scale);
 
-                if (headNames.isEmpty() && model.getParts().containsKey("head")) headNames.add("head");
-                model.getHeadParts().addAll(headNames);
-
-                // Cleanup the animation stuff.
-                for (final Animation anim : animations)
-                {
-                    List<Animation> anims = renderer.getAnimations().computeIfAbsent(anim.name, k -> new ArrayList<>());
-                    anims.add(anim);
-                }
-                for (final String from : mergedAnimations.keySet())
-                {
-                    if (!renderer.getAnimations().containsKey(from)) continue;
-                    for (String to : mergedAnimations.get(from))
-                    {
-                        List<Animation> fromSet = new ArrayList<>();
-                        List<Animation> toSet;
-                        // In this case, we make an empty animation
-                        if (!renderer.getAnimations().containsKey(to))
-                        {
-                            toSet = new ArrayList<>();
-                            renderer.getAnimations().put(to, toSet);
-                        }
-                        else toSet = renderer.getAnimations().get(to);
-                        for (final Animation anim : renderer.getAnimations().get(from))
-                        {
-                            final Animation newAnim = new Animation();
-                            newAnim.identifier = anim.identifier;
-                            newAnim.name = to;
-                            newAnim.loops = anim.loops;
-                            newAnim.priority = 20;
-                            newAnim.length = -1;
-                            for (final String s : anim.sets.keySet()) newAnim.sets.put(s, anim.sets.get(s));
-                            fromSet.add(newAnim);
-                        }
-                        toSet.addAll(fromSet);
-                    }
-                }
-
-                // Finalize animation initialization
-                final List<Animation> allAnims = new ArrayList<>();
-                Map<String, List<Animation>> newAnims = new HashMap<>(renderer.getAnimations());
-                // Process the animations
-                for (var entry : newAnims.entrySet())
-                {
-                    List<Animation> copy = entry.getValue();
-                    AnimationBuilder.processAnimations(copy);
-                    // Processing edits the list, so we need to re-add them
-                    // here.
-                    allAnims.addAll(copy);
-                }
-                renderer.getAnimations().putAll(newAnims);
-
-                // Process Dyeable parts.
-                animator.parseDyeables(dye);
-
-                // Deal with shearable parts.
-                animator.parseShearables(shear);
-
-                // Initialize based on existing anims
-                animator.init(allAnims);
-                for (final Animation anim : allAnims)
-                {
-                    if (anim.name.contains("faint") || anim.name.contains("dead"))
-                    {
-                        anim.loops = false;
-                        anim.holdWhenDone = true;
-                    }
-
-                    if (!renderer.getAnimations().containsKey(anim.name))
-                    {
-                        List<Animation> anims = new ArrayList<>();
-                        renderer.getAnimations().put(anim.name, anims);
-                        anims.add(anim);
-                    }
-                }
-
-                // And if this added any new animations, update renderer
-
-                // Add the worn offsets
-                animator.parseWornOffsets(wornOffsets);
-
                 // Update these incase they were replaced.
                 renderer.setTexturer(texturer);
-                renderer.setAnimationChanger(animator);
 
                 // Process the head rotation information.
                 renderer.getHeadInfo().yawDirection = headDir;
@@ -467,18 +472,6 @@ public class AnimationLoader
                 renderer.getHeadInfo().yawCapMax = headCaps[1];
                 renderer.getHeadInfo().pitchCapMin = headCaps1[0];
                 renderer.getHeadInfo().pitchCapMax = headCaps1[1];
-
-                // Find custom parts to mark as animated
-                Set<String> animatedSet = new HashSet<>(model.getHeadParts());
-                animatedSet.addAll(shear);
-                animatedSet.addAll(dye);
-                animatedSet.forEach(key->model.getParts().computeIfPresent(key, (s, part)->{
-                    part.markAsAnimated();
-                    return part;
-                }));
-
-                // Pre-process the animations via the model
-                model.processAnimations(allAnims);
             }
             else
             {
@@ -525,11 +518,10 @@ public class AnimationLoader
                         m.tex = holder.texture;
                     }
 
-                    boolean isRoot = p.getParent()!=null&&p.getParent().getType().equals("__root__");
+                    boolean isRoot = p.getParent() != null && p.getParent().getType().equals("__root__");
                     // Apply one level down, the __root__ part doesn't actually do anything
                     if (isRoot && noRotation != rotation) p.setDefaultAngles(rotation.x(), rotation.y(), rotation.z());
                 }
-
             }
         }
         catch (final Exception e)
@@ -545,7 +537,7 @@ public class AnimationLoader
         {
             InputStream stream = ResourceHelper.getStream(animations);
             if (stream == null) throw new FileNotFoundException(animations.toString());
-            if (ThutCore.conf.debug_models) ThutCore.LOGGER.debug("Loading " + animations + " for " + holder.name);
+            if (ThutCore.conf.debug_models) ThutCore.LOGGER.debug("Loading {} for {}", animations, holder.name);
             AnimationLoader.parse(stream, holder, model, renderer);
             stream.close();
             return true;

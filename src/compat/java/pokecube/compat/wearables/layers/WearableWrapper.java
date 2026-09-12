@@ -26,7 +26,6 @@ import pokecube.core.client.render.mobs.overlays.Status;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.entity.animation.IAnimationChanger.WornOffsets;
-import thut.core.client.render.animation.AnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.parts.Part;
@@ -120,13 +119,13 @@ public class WearableWrapper
             mat.scale(1, -1, -1);
             mat.mulPose(Axis.YP.rotationDegrees(180));
 
-            mat.mulPose(Axis.ZP.rotationDegrees((float) offsets.angles().z));
-            mat.mulPose(Axis.YP.rotationDegrees((float) offsets.angles().y));
-            mat.mulPose(Axis.XP.rotationDegrees((float) offsets.angles().x));
+            mat.mulPose(Axis.ZP.rotationDegrees(offsets.angles().z));
+            mat.mulPose(Axis.YP.rotationDegrees(offsets.angles().y));
+            mat.mulPose(Axis.XP.rotationDegrees(offsets.angles().x));
 
-            float sx = (float) this.offsets.scale().x;
-            float sy = (float) this.offsets.scale().y;
-            float sz = (float) this.offsets.scale().z;
+            float sx = this.offsets.scale().x;
+            float sy = this.offsets.scale().y;
+            float sz = this.offsets.scale().z;
             mat.scale(sx, -sy, -sz);
 
             final MultiBufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
@@ -177,13 +176,13 @@ public class WearableWrapper
             mat.scale(1, -1, -1);
             mat.mulPose(Axis.YP.rotationDegrees(180));
 
-            mat.mulPose(Axis.ZP.rotationDegrees((float) offsets.angles().z));
-            mat.mulPose(Axis.YP.rotationDegrees((float) offsets.angles().y));
-            mat.mulPose(Axis.XP.rotationDegrees((float) offsets.angles().x));
+            mat.mulPose(Axis.ZP.rotationDegrees(offsets.angles().z));
+            mat.mulPose(Axis.YP.rotationDegrees(offsets.angles().y));
+            mat.mulPose(Axis.XP.rotationDegrees(offsets.angles().x));
 
-            float sx = (float) this.offsets.scale().x;
-            float sy = (float) this.offsets.scale().y;
-            float sz = (float) this.offsets.scale().z;
+            float sx = this.offsets.scale().x;
+            float sy = this.offsets.scale().y;
+            float sz = this.offsets.scale().z;
             mat.scale(sx, -sy, -sz);
 
             this.wrapped.renderWearable(mat, buff, this.slot, this.subIndex, this.wearer, this.stack, pt, br, ol);
@@ -200,8 +199,8 @@ public class WearableWrapper
 
     public static WornOffsets getPartParent(final IModelRenderer<?> renderer, final String identifier)
     {
-        final IAnimationChanger temp = renderer.getAnimationChanger();
-        if (temp instanceof AnimationChanger changer) return changer.wornOffsets.get(identifier);
+        final IAnimationChanger changer = renderer.getAnimationChanger();
+        if (changer != null) return changer.getOffsets(identifier);
         return null;
     }
 
@@ -307,7 +306,7 @@ public class WearableWrapper
                     wrapper = new HeldItemWrapper(ident);
                     wrapper.setAnimationHolder(part.getAnimationHolder());
                     if (part instanceof IRetexturableModel p)
-                        wrapper.setChangers(p.getAnimationChanger(), p.getTexturerChanger());
+                        wrapper.setChangers(p.getAnimationChangeHolder(), p.getTexturerChanger());
                     wrapper.setOffsets(offsets);
                     wrapper.setParent(part);
                     part.addChild(wrapper);

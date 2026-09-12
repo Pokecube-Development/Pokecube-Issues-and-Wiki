@@ -60,7 +60,7 @@ public class BaseModelToBBModel
         }
     }
 
-    public static BBModelTemplate convert(BaseModel model, Map<String, List<Animation>> animations, boolean simplifiy)
+    public static BBModelTemplate convert(BaseModel model, boolean simplifiy)
     {
         BBModelTemplate result = new BBModelTemplate();
         result.name = model.name;
@@ -407,6 +407,7 @@ public class BaseModelToBBModel
             }
         }
 
+        var animations = model.getAnimationChanger().getAnimations();
         // Now for animations
         for (String animName : animations.keySet())
         {

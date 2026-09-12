@@ -106,6 +106,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     IRetexturableModel.Holder<IAnimationChanger> animChangeHolder = new IRetexturableModel.Holder<>();
     IRetexturableModel.Holder<IAnimationHolder> animHolderHolder = new IRetexturableModel.Holder<>();
     IRetexturableModel.Holder<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
+    IAnimationChanger animationChanger = null;
 
     private final int[] rgbabro = new int[6];
 
@@ -181,7 +182,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     @Override
     public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer)
     {
-        this.wrapped.setAnimation(renderer.getAnimation(entity));
+        this.wrapped.setAnimation(renderer.getAnimation(entity, this));
     }
 
     @Override
@@ -465,7 +466,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public Holder<IAnimationChanger> getAnimationChanger()
+    public Holder<IAnimationChanger> getAnimationChangeHolder()
     {
         return this.animChangeHolder;
     }
@@ -496,5 +497,17 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void setAnimationHolder(IAnimationHolder holder)
     {
         this.animHolderHolder.set(holder);
+    }
+
+    @Override
+    public void setAnimationChanger(IAnimationChanger changer)
+    {
+        this.animationChanger = changer;
+    }
+
+    @Override
+    public IAnimationChanger getAnimationChanger()
+    {
+        return animationChanger;
     }
 }
