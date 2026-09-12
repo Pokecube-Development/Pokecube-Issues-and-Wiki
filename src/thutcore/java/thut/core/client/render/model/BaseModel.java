@@ -1,6 +1,5 @@
 package thut.core.client.render.model;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,6 +22,7 @@ import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector4;
+import thut.core.client.render.animation.AnimationChanger;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.model.parts.MaterialRenderable;
@@ -100,7 +100,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     IRetexturableModel.Holder<IAnimationChanger> animChangeHolder = new IRetexturableModel.Holder<>();
     IRetexturableModel.Holder<IAnimationHolder> animHolderHolder = new IRetexturableModel.Holder<>();
     IRetexturableModel.Holder<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
-    IAnimationChanger animationChanger = null;
+    IAnimationChanger animationChanger = new AnimationChanger();
 
     Set<String> heads = new HashSet<>();
     public String name;
