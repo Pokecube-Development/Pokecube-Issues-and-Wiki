@@ -84,6 +84,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     @Override
     public IAnimationChanger getAnimationChanger()
     {
+        if (this.getModel() == null) return null;
         return this.getModel().getAnimationChanger();
     }
 

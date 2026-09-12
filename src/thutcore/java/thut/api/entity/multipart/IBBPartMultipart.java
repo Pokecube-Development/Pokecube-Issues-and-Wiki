@@ -99,18 +99,21 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
         holder.setParts(holder.allParts());
         var model = getBBModel();
         var parts = model.getPartsList();
-        for (var part : parts)
+        synchronized (model)
         {
-            part.resetToInit();
-            if (part instanceof Part p)
+            for (var part : parts)
             {
-                T partEntity = getFactory().create(weSelf(), p, model);
-                if (partEntity.height != 0 && partEntity.width != 0)
+                part.resetToInit();
+                if (part instanceof Part p)
                 {
-                    holder.allParts().add(partEntity);
-                    partEntity.mod_points.forEach((key, vec) -> {
-                        this.getAttachmentPoints().computeIfAbsent(key, k -> new ArrayList<>()).add(vec);
-                    });
+                    T partEntity = getFactory().create(weSelf(), p, model);
+                    if (partEntity.height != 0 && partEntity.width != 0)
+                    {
+                        holder.allParts().add(partEntity);
+                        partEntity.mod_points.forEach((key, vec) -> {
+                            this.getAttachmentPoints().computeIfAbsent(key, k -> new ArrayList<>()).add(vec);
+                        });
+                    }
                 }
             }
         }
