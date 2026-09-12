@@ -122,7 +122,7 @@ public class DodgeTask extends CombatTask
         if (!TaskBase.canMove(pokemob)) return false;
 
         var brain = entity.getBrain();
-        int dodgeCooldown = brain.getMemory(MemoryModules.TIMER_DODGE.get()).orElse(10);
+        int dodgeCooldown = brain.getMemory(MemoryModules.TIMER_DODGE.get()).orElse(-1);
         // We are still preparing to dodge
         if (dodgeCooldown-- >= 0)
         {
@@ -152,9 +152,8 @@ public class DodgeTask extends CombatTask
          */
         final double evasionMod = pokemob.getFloatStat(Stats.EVASION) / 30d;
         final boolean dodge = Math.random() > 1 - evasionMod;
-        if (dodge) dodgeCooldown = 10;
+        if (dodge) dodgeCooldown = PokecubeCore.getConfig().attackCooldown;
         brain.setMemory(MemoryModules.TIMER_DODGE.get(), dodgeCooldown);
-
         return dodge;
     }
 }

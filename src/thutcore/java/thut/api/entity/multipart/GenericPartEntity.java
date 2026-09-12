@@ -70,6 +70,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     @Override
     public int getId()
     {
+        if (!parentMultipart.shouldSyncParts()) this.setId(this.getParent().getId());
         return parentMultipart.shouldSyncParts() ? super.getId() : getParent().getId();
     }
 

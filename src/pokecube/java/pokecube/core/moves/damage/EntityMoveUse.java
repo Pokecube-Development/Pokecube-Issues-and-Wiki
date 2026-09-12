@@ -35,7 +35,6 @@ import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.EntityProvider;
-import thut.api.entity.multipart.IMultpart;
 import thut.api.maths.Vector3;
 
 import java.util.List;
@@ -248,19 +247,18 @@ public class EntityMoveUse extends ThrowableProjectile
         final LivingEntity user = this.getUser();
         if (user == null || !this.isAlive() || !user.isAlive()) return;
 
-        final LivingEntity living = EntityTools.getCoreLiving(target);
         // If the core living is not valid, we just quit there.
-        if (!this.valid.test(living)) return;
+        if (!this.valid.test(target)) return;
 
         boolean selfMove = user == this.getTarget();
         // Self move should only hit user.
-        if (selfMove && target != user) return;
+        if (selfMove && this.target != user) return;
 
-        this.addIgnoredEntity(target);
+        this.addIgnoredEntity(this.target);
 
         // Only hit multipart entities once
         // Only can hit our valid target!
-        final UUID targetID = living.getUUID();
+        final UUID targetID = target.getUUID();
         final Entity targ = this.getTarget();
         final UUID targId = targ == null ? null : targ.getUUID();
 
@@ -275,24 +273,24 @@ public class EntityMoveUse extends ThrowableProjectile
             Battle b = Battle.getBattle(user);
             // Initiate battle in here if the target was not the intended
             // target.
-            if (target != apply.getTarget())
+            if (this.target != apply.getTarget())
             {
-                boolean newCombat = target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != user;
-                if (b != null && b.getEnemies(user).contains(target)) newCombat = false;
-                if (b == null && userMob.getMoveStats().getTargetAlly() == target) newCombat = false;
-                if (target instanceof Mob mob && newCombat) Battle.createOrAddToBattle(mob, user);
+                boolean newCombat = this.target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != user;
+                if (b != null && b.getEnemies(user).contains(this.target)) newCombat = false;
+                if (b == null && userMob.getMoveStats().getTargetAlly() == this.target) newCombat = false;
+                if (this.target instanceof Mob mob && newCombat) Battle.createOrAddToBattle(mob, user);
             }
 
-            if (target.getLastHurtByMob() != user)
+            if (this.target.getLastHurtByMob() != user)
             {
-                target.setLastHurtByMob(user);
-                user.setLastHurtByMob(target);
+                this.target.setLastHurtByMob(user);
+                user.setLastHurtByMob(this.target);
             }
 
-            MovesUtils.doAttack(attack.name, userMob, target);
+            MovesUtils.doAttack(attack.name, userMob, this.target);
             this.applied = true;
             // Don't penetrate through blocking mobs, so end the move here.
-            if (selfMove || (living.isBlocking() && !this.getMove().isAoE()))
+            if (selfMove || (target.isBlocking() && !this.getMove().isAoE()))
             {
                 this.finished = true;
                 // We only apply this to do block effects, not for damage. For
@@ -554,17 +552,6 @@ public class EntityMoveUse extends ThrowableProjectile
                     hitboxes.add(box);
                 }
             }
-            else if(user instanceof IMultpart<?,?> multi && !multi.getUseParts().isEmpty())
-            {
-                testBox = null;
-                for (var part : multi.getUseParts())
-                {
-                    final AABB box = part.getBoundingBox().inflate(sh, sv, sh);
-                    if (testBox == null) testBox = box;
-                    else testBox = box.minmax(testBox);
-                    hitboxes.add(box);
-                }
-            }
             else hitboxes.add(testBox);
         }
         else
@@ -611,7 +598,8 @@ public class EntityMoveUse extends ThrowableProjectile
                 for (final PartEntity<?> part : parts) if (part.getBoundingBox().intersects(hitBox)) return false;
                 return true;
             });
-            for (final Entity e : hits) if (e instanceof LivingEntity living) this.doMoveUse(living);
+            for (final Entity e : hits)
+                if (EntityTools.getCoreLiving(e) instanceof LivingEntity living) this.doMoveUse(living);
         }
 
         if (this.getMove() != null && userMob != null && !this.finished && !this.level.isClientSide)

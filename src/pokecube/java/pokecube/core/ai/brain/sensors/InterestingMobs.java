@@ -24,6 +24,7 @@ import pokecube.api.events.combat.ValidBattleTarget;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import pokecube.core.utils.EntityTools;
 import thut.api.ThutCaps;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.RootTask;
@@ -32,6 +33,7 @@ import thut.core.common.ThutCore;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -96,6 +98,10 @@ public class InterestingMobs extends Sensor<LivingEntity>
         final AABB mateBox = user.getBoundingBox().inflate(dh, dv, dh);
         final AABB checkBox = user.getBoundingBox().inflate(s, s, s);
         final List<Entity> list = worldIn.getEntitiesOfClass(Entity.class, checkBox, (hit) -> hit != user);
+        Set<Entity> _listCopy = new HashSet<>();
+        for (var e : list) _listCopy.add(EntityTools.getCoreEntity(e));
+        list.clear();
+        list.addAll(_listCopy);
         list.sort(Comparator.comparingDouble(user::distanceToSqr));
         final Brain<?> brain = user.getBrain();
         final IPokemob us = PokemobCaps.getPokemobFor(user);

@@ -119,6 +119,8 @@ public class LeapTask extends PokemobBehaviour implements IAICombat
         }
         if (dist < 9) leapSpeed *= dist/9;
 
+        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Leap: " + entity+" "+leapSpeed);
+
         // Compute differences in velocities, and then account for that during
         // the leap.
         Vector3 v_a = new Vector3().setToVelocity(entity);
