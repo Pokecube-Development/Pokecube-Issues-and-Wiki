@@ -123,11 +123,11 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
     default void updatePartsPos()
     {
         this.initParts();
+        if (this.getUseParts() == null || this.getUseParts().isEmpty()) return;
         var self = weSelf();
         // check if effective_pose needs updating
         final IAnimated animHolder = ThutCaps.getAnimated(self);
         if (animHolder != null) applyAnimations(animHolder);
-        if (getHolder().holder().parts.isEmpty() && getHolder().allParts().isEmpty()) return;
 
         final Vec3 v = self.position();
         float rotY = self instanceof LivingEntity e ? e.yBodyRot : self.getYRot();

@@ -9,7 +9,10 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.JsonPokedexEntry;
 import thut.api.util.JsonUtil;
 import thut.core.common.network.Packet;
@@ -59,6 +62,8 @@ public class PacketSyncPokedex extends JsonPacket
             JsonPokedexEntry.populateFromArray(array, list, ResourceLocation.parse("pokecube:loaded_from_server"));
         }
         list.forEach(JsonPokedexEntry::loadFromJson);
+        if (ServerLifecycleHooks.getCurrentServer() == null)
+            Database.getSortedFormes().forEach(PokedexEntry::onResourcesReloaded);
     }
 
     private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:sync_pokedex"));

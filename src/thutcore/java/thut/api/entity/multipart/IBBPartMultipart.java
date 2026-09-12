@@ -38,7 +38,6 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
     {
         var model = getBBModel();
         var us = weSelf();
-        if (model == null || weSelf().level().isClientSide()) return;
         var partHolder = this.getHolder();
         // Test with once per tick for now, might be
         // able to make it slower for not ridden cases?
