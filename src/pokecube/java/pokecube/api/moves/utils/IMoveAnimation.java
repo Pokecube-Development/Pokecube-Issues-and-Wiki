@@ -2,36 +2,76 @@ package pokecube.api.moves.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.EntityTracker;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.joml.Vector3f;
 import pokecube.api.moves.MoveEntry;
 import thut.api.entity.ai.VectorPosWrapper;
+import thut.api.entity.multipart.IMultpart;
 import thut.api.maths.Vector3;
 
 public interface IMoveAnimation
 {
-    public static class TaggedEntityTracker extends EntityTracker
+    public static class TaggedEntityTracker implements PositionTracker
     {
-
-        public TaggedEntityTracker(Entity entity, boolean trackEyeHeight)
+        public static PositionTracker create(MoveEntry move, Entity attacker)
         {
-            super(entity, trackEyeHeight);
+            if (attacker instanceof IMultpart<?, ?> multi) for (var key : MoveEntry.DEFAULT_MOVE_SOURCES)
+            {
+                var tracker = new TaggedEntityTracker(multi, key);
+                if (tracker.location != null) return tracker;
+            }
+            return new EntityTracker(attacker, true);
+        }
+
+        IMultpart<?,?> entity;
+        Vector3f location;
+
+        public TaggedEntityTracker(IMultpart<?, ?> entity, String key)
+        {
+            this.entity = entity;
+            if (entity.getAttachmentPoints().containsKey(key))
+            {
+                // TODO decide if to randomise this?
+                location = entity.getAttachmentPoints().get(key).getFirst();
+            }
+            else location = null;
+        }
+
+        @Override
+        public Vec3 currentPosition()
+        {
+            return new Vec3(location.x, location.y, location.z);
+        }
+
+        @Override
+        public BlockPos currentBlockPosition()
+        {
+            return null;
+        }
+
+        @Override
+        public boolean isVisibleBy(LivingEntity entity)
+        {
+            return false;
         }
     }
-
 
     public static class MovePacketInfo
     {
         public final MoveEntry move;
         public final Level level;
-        public final Entity attacker;
-        public final Entity attacked;
         public final PositionTracker source;
         public final PositionTracker target;
+        public final float attackerScale;
+        public final float attackedScale;
         public float currentTick;
 
         public float lastApplyTimer = -1;
@@ -41,11 +81,11 @@ public interface IMoveAnimation
         {
             this.move = move;
             this.level = attacker.level();
-            this.attacked = attacked;
-            this.attacker = attacker;
-            this.source = source == null ? new EntityTracker(attacker, true) : new VectorPosWrapper(source);
+            this.attackerScale = attacker.getBbWidth();
+            this.attackedScale = attacked != null ? attacked.getBbWidth() : 0.25f;
+            this.source = TaggedEntityTracker.create(move, attacker);
             this.target = target == null
-                    ? attacked != null ? new EntityTracker(attacker, true) : null
+                    ? attacked != null ? new EntityTracker(attacked, true) : null
                     : new VectorPosWrapper(target);
         }
     }

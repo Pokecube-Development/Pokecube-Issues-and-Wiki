@@ -16,6 +16,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -24,7 +25,10 @@ import thut.core.client.render.model.parts.Part;
 import thut.lib.AxisAngles;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
 {
@@ -33,14 +37,17 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         T create(E parent, Part part, BBModel model);
     }
 
-    public final Vector4f r1 = new Vector4f(), r2 = new Vector4f();
-    public final Vector3f dr = new Vector3f(), seat = new Vector3f(),
-            min = new Vector3f(), max = new Vector3f(), mid = new Vector3f(), shift = new Vector3f();
+    public final Vector4f r1 = new Vector4f();
+    public final Vector3f dr = new Vector3f(), min = new Vector3f(), max = new Vector3f(), mid = new Vector3f(), shift = new Vector3f();
     private final Matrix4f m, m0;
     public final Part part;
     public final BBModel model;
     public boolean needSizeCheck = false;
     private boolean wasHidden = false;
+
+    private final Vector4f[] _points;
+    private final Vector3f[] _raws;
+    private final Vector3f[] _modded;
 
     public BBPartEntity(E parent, Part part, BBModel model)
     {
@@ -63,13 +70,37 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
             s0 *= e.getScale();
         }
 
-        if (part.attachmentPoints.containsKey("seat"))
+        Map<String, Matrix3f> attachments = new HashMap<>(part.attachmentPoints);
+        // Add a default attachment label for the mesh's name, if not already present
+        if (!attachments.containsKey(part.getName()))
         {
-            this.ride_point = new Vector3f();
-            part.attachmentPoints.get("seat").getColumn(0, this.ride_point);
-            this.seat.set(this.ride_point);
-            r2.set(ride_point, 1);
+            attachments.put(part.getName(), new Matrix3f().setColumn(0, new Vector3f(mid)));
         }
+
+        List<Vector3f> __raws = new ArrayList<>();
+        List<Vector3f> __mod = new ArrayList<>();
+        List<Vector4f> __points = new ArrayList<>();
+
+        for (var entry : part.attachmentPoints.entrySet())
+        {
+            var key = entry.getKey();
+            var raw = entry.getValue().getColumn(0, new Vector3f());
+            var point = new Vector4f(raw, 1);
+            var mod = new Vector3f(raw);
+            if (key.startsWith("seat"))
+            {
+                this.ride_point = mod;
+            }
+            this.raw_points.put(key, raw);
+            points.put(key, point);
+            mod_points.put(key, mod);
+            __raws.add(raw);
+            __points.add(point);
+            __mod.add(mod);
+        }
+        _raws = __raws.toArray(new Vector3f[0]);
+        _points = __points.toArray(new Vector4f[0]);
+        _modded = __mod.toArray(new Vector3f[0]);
 
         this.height = max.z - min.z;
         this.width = Math.max(max.x - min.x, max.y - min.y);
@@ -92,10 +123,9 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
 
         r.set(mid.x, mid.y, min.z, 1);
 
-        if (this.ride_point != null)
+        for (int i = 0; i < _raws.length; i++)
         {
-            r2.set(this.seat, 1);
-            r2.mul(m);
+            _points[i].set(_raws[i], 1).mul(m);
         }
         r.mul(m);
 
@@ -117,12 +147,12 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
             refreshDimensions();
             wasHidden = needSizeCheck = false;
         }
-        if (this.ride_point != null)
+
+        this.r1.set((float) this.getParent().getX(), (float) this.getParent().getY(), (float) this.getParent().getZ());
+        for (int i = 0; i < _raws.length; i++)
         {
-            this.r1.set((float) this.getParent().getX(), (float) this.getParent().getY(),
-                    (float) this.getParent().getZ());
-            r2.sub(r1);
-            this.ride_point.set(r2.x, r2.y, r2.z);
+            _points[i].sub(r1);
+            _modded[i].set(_points[i].x, _points[i].y, _points[i].z);
         }
     }
 

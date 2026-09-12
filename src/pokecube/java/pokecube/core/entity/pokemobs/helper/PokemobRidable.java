@@ -284,13 +284,12 @@ public abstract class PokemobRidable extends PokemobHasParts
     public Vector3f getSeat(final Entity passenger)
     {
         this.initSeats();
-        final Vector3f ret = null;
         for (int i = 0; i < this.seatCount; i++)
         {
             Seat seat;
             if ((seat = this.getSeat(i)).getEntityId().equals(passenger.getUUID())) return seat.seat;
         }
-        return ret;
+        return null;
     }
 
     @Override
@@ -351,7 +350,7 @@ public abstract class PokemobRidable extends PokemobHasParts
         if (!(this.level instanceof ServerLevel)) return;
         final PokedexEntry entry = this.getPokemob().getPokedexEntry();
         List<Vector3f> bodySeats = new ArrayList<>();
-        var parts = this.getParts();
+        List<PokemobPart> parts = this.getUseParts();
         if (parts != null) for (var part : parts) if (part.ride_point != null) bodySeats.add(part.ride_point);
         // Body seat based ride points already have size considered.
         if (!bodySeats.isEmpty())
@@ -455,9 +454,8 @@ public abstract class PokemobRidable extends PokemobHasParts
             }
         if (passenger instanceof ServerPlayer player)
         {
-            player.getServer().tell(new TickTask(player.getServer().getTickCount() + 1, () -> {
-                passenger.moveTo(x, y, z);
-            }));
+            player.getServer()
+                    .tell(new TickTask(player.getServer().getTickCount() + 1, () -> passenger.moveTo(x, y, z)));
         }
         else passenger.moveTo(x, y, z);
     }

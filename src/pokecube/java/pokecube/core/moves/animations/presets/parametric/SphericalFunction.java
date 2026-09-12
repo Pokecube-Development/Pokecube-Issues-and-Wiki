@@ -68,8 +68,8 @@ public class SphericalFunction extends MoveAnimationBase
         this.initColour(info.currentTick, info.move);
         final Vector3 temp = new Vector3();
         double scale = values.width;
-        if (!values.absolute) if (values.reverse && info.attacker != null) scale *= info.attacker.getBbWidth();
-        else if (!values.reverse && info.attacked != null) scale *= info.attacked.getBbWidth();
+        if (!values.absolute) if (values.reverse) scale *= info.attackerScale;
+        else scale *= info.attackedScale;
         for (double i = info.currentTick; i < info.currentTick + 1; i += values.density)
         {
             this.setVector(i, temp);

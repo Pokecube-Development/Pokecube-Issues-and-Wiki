@@ -71,8 +71,8 @@ public class CylindricalFunction extends MoveAnimationBase
             if (values.density < 1 && Math.random() > values.density) continue;
             if (i / dist > 1) return;
             this.setVector(angleF, temp, i / dist, temp1);
-            PokecubeCore.spawnParticle(info.attacker.level(), values.particle,
-                    source.add(temp.scalarMult(i).addTo(temp1)), null, values.rgba, values.lifetime);
+            PokecubeCore.spawnParticle(info.level, values.particle, source.add(temp.scalarMult(i).addTo(temp1)), null,
+                    values.rgba, values.lifetime);
         }
     }
 }

@@ -23,6 +23,7 @@ import pokecube.core.database.tags.Tags;
 import thut.api.maths.Vector3;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,6 +47,13 @@ public class MoveEntry implements IMoveConstants
 
     public static record MoveSounds(SoundEvent onSource, SoundEvent onTarget)
     {}
+
+    public static List<String> DEFAULT_MOVE_SOURCES = new ArrayList<>();
+    static
+    {
+        DEFAULT_MOVE_SOURCES.add("head");
+        DEFAULT_MOVE_SOURCES.add("body");
+    }
 
     private static final HashMap<String, MoveEntry> movesNames = new HashMap<>();
     private static final HashMap<String, MoveEntry> legacyMoveNames = new HashMap<>();

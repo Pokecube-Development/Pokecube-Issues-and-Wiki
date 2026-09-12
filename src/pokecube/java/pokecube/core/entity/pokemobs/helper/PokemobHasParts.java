@@ -1,12 +1,11 @@
 package pokecube.core.entity.pokemobs.helper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -35,7 +34,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
 {
     private PartHolder<PokemobPart> parts;
 
-    private final List<PokemobPart> lowerList = Lists.newArrayList();
+    private final Map<String, List<Vector3f>> attachmentPoints = new HashMap<>();
 
     public PokemobHasParts(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
@@ -56,8 +55,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     {
         if (parts == null)
         {
-            List<PokemobPart> allParts = Lists.newArrayList();
-            Map<String, List<PokemobPart>> partMap = Maps.newHashMap();
+            List<PokemobPart> allParts = new ArrayList<>();
+            Map<String, List<PokemobPart>> partMap = new HashMap<>();
             this.parts = new PartHolder<>(allParts, partMap, new Holder<>());
             this.factory = PokemobPart::new;
         }
@@ -91,6 +90,12 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     }
 
     @Override
+    public Map<String, List<Vector3f>> getAttachmentPoints()
+    {
+        return attachmentPoints;
+    }
+
+    @Override
     public boolean shouldSyncParts()
     {
         return partsNeedSync;
@@ -115,7 +120,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         }
 
         getHolder().clear();
-        lowerList.clear();
 
         final float maxH = this.maxH();
         final float maxW = this.maxW();
@@ -388,16 +392,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     @Override
     public void updatePartsPos()
     {
-        var parts = getUseParts();
+        getUseParts();
         IBBPartMultipart.super.updatePartsPos();
-        if (parts != getUseParts() || (!parts.isEmpty() && lowerList.isEmpty()))
-        {
-            this.lowerList.clear();
-            if (this.getUseParts().size() < 25)
-            {
-                this.lowerList.addAll(this.getUseParts());
-            }
-        }
     }
     // ================= Pose Related =====================
 

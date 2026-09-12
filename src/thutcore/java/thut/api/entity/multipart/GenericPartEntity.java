@@ -1,6 +1,8 @@
 package thut.api.entity.multipart;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.nbt.CompoundTag;
@@ -28,6 +30,9 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 {
     public final Vector4f r = new Vector4f();
     public Vector3f ride_point = null;
+    public final Map<String, Vector4f> points = new HashMap<>();
+    public final Map<String, Vector3f> raw_points = new HashMap<>();
+    public final Map<String, Vector3f> mod_points = new HashMap<>();
 
     public float width;
     public float height;

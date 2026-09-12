@@ -20,8 +20,6 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
 {
     public static class Holder<T extends GenericPartEntity<?>>
     {
-
-        public List<T> allParts;
         public List<T> parts;
 
         public Vector3f r = new Vector3f();
@@ -73,6 +71,8 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
     {
         initParts(false);
     }
+
+    Map<String, List<Vector3f>> getAttachmentPoints();
 
     default boolean shouldSyncParts()
     {

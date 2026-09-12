@@ -22,8 +22,7 @@ public class ParticlesOnTarget extends MoveAnimationBase
         this.initColour(info.currentTick, info.move);
         final Vector3 temp = new Vector3(info.target);
         final Random rand = ThutCore.newRandom();
-        float dw = 0.25f;
-        if (info.attacked != null) dw = info.attacked.getBbWidth();
+        float dw = info.attackedScale;
         final float width = values.width * dw;
         temp.addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
         PokecubeCore.spawnParticle(info.level, values.particle, temp, null, values.rgba);

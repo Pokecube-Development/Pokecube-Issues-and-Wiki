@@ -106,7 +106,13 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
             if (part instanceof Part p)
             {
                 T partEntity = getFactory().create(weSelf(), p, model);
-                if (partEntity.height != 0 && partEntity.width != 0) holder.allParts().add(partEntity);
+                if (partEntity.height != 0 && partEntity.width != 0)
+                {
+                    holder.allParts().add(partEntity);
+                    partEntity.mod_points.forEach((key, vec) -> {
+                        this.getAttachmentPoints().computeIfAbsent(key, k -> new ArrayList<>()).add(vec);
+                    });
+                }
             }
         }
         holder.holder().animTick = -1;

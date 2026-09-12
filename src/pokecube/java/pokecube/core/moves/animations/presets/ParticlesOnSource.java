@@ -22,8 +22,7 @@ public class ParticlesOnSource extends ParticlesOnTarget
         this.initColour(info.currentTick, info.move);
         final Vector3 temp = new Vector3().set(info.source);
         final Random rand = ThutCore.newRandom();
-        float dw = 0.25f;
-        if (info.attacker != null) dw = info.attacker.getBbWidth();
+        float dw = info.attackerScale;
         final float width = this.values.width * dw;
         temp.addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
         PokecubeCore.spawnParticle(info.level, this.values.particle, temp, null, this.values.rgba);
