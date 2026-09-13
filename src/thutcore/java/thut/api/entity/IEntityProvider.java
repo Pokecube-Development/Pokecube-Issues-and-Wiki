@@ -18,8 +18,8 @@ public interface IEntityProvider
         var entity = getEntity(input.level(), input.getId(), false);
         if (entity == null && input != null && !input.isRemoved() && PokecubeCore.getConfig().debug_misc)
         {
-            System.err.println("Trying to send a packet when something isn't tracked? "+input);
-            Thread.dumpStack();
+            //System.err.println("Trying to send a packet when something isn't tracked? "+input);
+            //Thread.dumpStack();
         }
         return entity != null ? entity : input;
     }

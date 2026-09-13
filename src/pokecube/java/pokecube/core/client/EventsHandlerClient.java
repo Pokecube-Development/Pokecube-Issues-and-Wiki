@@ -217,17 +217,7 @@ public class EventsHandlerClient
         final Player player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
-        //
-        if (evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT && (
-                Minecraft.getInstance().hitResult == null || Minecraft.getInstance().hitResult.getType() == Type.MISS))
-        {
-            final Entity entity = Tools.getPointedEntity(player, 6);
-            if (entity != null) for (final InteractionHand hand : InteractionHand.values())
-                if (Minecraft.getInstance().gameMode.interact(player, entity, hand) == InteractionResult.SUCCESS)
-                {
-                    evt.setCanceled(true);
-                }
-        }
+
         boolean alt = Screen.hasAltDown();
         if (alt) for (var comp : GuiDisplayPokecubeInfo.COMPONENTS)
             if (comp.handleClick(evt.getAction(), evt.getButton(), evt.getModifiers())) break;
