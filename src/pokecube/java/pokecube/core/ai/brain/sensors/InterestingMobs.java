@@ -49,7 +49,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
         if (pokemob.getPokedexEntry().isMega()) return false;
         if (!pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
         if (pokemob.getCombatState(CombatStates.MATEFIGHT)) return true;
-        return !pokemob.getCombatState(CombatStates.BATTLING) && !BrainUtils.hasAttackTarget(pokemob.getEntity());
+        return !(pokemob.getCombatState(CombatStates.BATTLING) || BrainUtils.hasAttackTarget(pokemob.getEntity()));
     }
 
     public static boolean validCombatTarget(LivingEntity user, LivingEntity target)
@@ -106,38 +106,42 @@ public class InterestingMobs extends Sensor<LivingEntity>
         final Brain<?> brain = user.getBrain();
         final IPokemob us = PokemobCaps.getPokemobFor(user);
         final boolean canMate = user instanceof AgeableMob && (us == null || InterestingMobs.canPokemobMate(us));
-        for (final Entity e : list) if (e instanceof LivingEntity living)
+        for (Entity e : list)
         {
-            mobs.add(living);
-            IPokemob pokemob = PokemobCaps.getPokemobFor(e);
-            if (pokemob != null && us != null)
+            if (e instanceof LivingEntity living)
             {
-                boolean bothWild = pokemob.getOwnerId() == null && us.getOwnerId() == null;
-                if (us.getPokedexEntry().areRelated(pokemob.getPokedexEntry())
-                        && (bothWild || TeamManager.sameTeam(user, e)))
+                mobs.add(living);
+                LivingEntity pokemobBase = living;
+                IPokemob pokemob = PokemobCaps.getPokemobFor(e);
+                if (pokemob != null) pokemobBase = pokemob.getEntity();
+                if (pokemob != null && us != null)
                 {
-                    herd.add(living);
+                    boolean bothWild = pokemob.getOwnerId() == null && us.getOwnerId() == null;
+                    if (us.getPokedexEntry().areRelated(pokemob.getPokedexEntry()) && (bothWild || TeamManager.sameTeam(
+                            user, e)))
+                    {
+                        herd.add(living);
+                    }
+                }
+                if (living instanceof EntityPokemobEgg newEgg && user.getUUID().equals(newEgg.getMotherId()))
+                {
+                    if (egg == null) egg = newEgg;
+                    else if (egg.distanceToSqr(user) > newEgg.distanceToSqr(user)) egg = newEgg;
+                }
+                else if (InterestingMobs.VISIBLE.test(user, living))
+                {
+                    visible.add(living);
+                    if (living instanceof Player player && isEntityTargetable(user, living))
+                        survivalPlayers.add(player);
+                    final boolean validMate = canMate && pokemobBase instanceof AgeableMob mob && mateBox.intersects(
+                            living.getBoundingBox()) && this.isValid((AgeableMob) user, mob, pokemob);
+                    if (validMate) mates.add((AgeableMob) pokemobBase);
+                    if (validCombatTarget(user, living)) combatOptions.add(living);
                 }
             }
-            if (living instanceof EntityPokemobEgg newEgg && user.getUUID().equals(newEgg.getMotherId()))
-            {
-                if (egg == null) egg = newEgg;
-                else if (egg.distanceToSqr(user) > newEgg.distanceToSqr(user)) egg = newEgg;
-            }
-            else if (InterestingMobs.VISIBLE.test(user, living))
-            {
-                visible.add(living);
-                if (living instanceof Player player && isEntityTargetable(user, living))
-                    survivalPlayers.add(player);
-                final boolean validMate = canMate && e instanceof AgeableMob mob
-                        && mateBox.intersects(living.getBoundingBox())
-                        && this.isValid((AgeableMob) user, mob, pokemob);
-                if (validMate) mates.add((AgeableMob) living);
-                if (validCombatTarget(user, living)) combatOptions.add(living);
-            }
+            else if (e instanceof ItemEntity item) items.add(item);
+            else if (e instanceof Projectile item) projectiles.add(item);
         }
-        else if (e instanceof ItemEntity item) items.add(item);
-        else if (e instanceof Projectile item) projectiles.add(item);
         if (!mates.isEmpty()) brain.setMemory(MemoryModules.POSSIBLE_MATES.get(), mates);
         else brain.eraseMemory(MemoryModules.POSSIBLE_MATES.get());
         if (!visible.isEmpty()) brain.setMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
