@@ -34,7 +34,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
 {
     private PartHolder<PokemobPart> parts;
 
-    private final Map<String, List<Vector3f>> attachmentPoints = new HashMap<>();
+    private final Map<String, List<AttachmentPoint>> attachmentPointMap = new HashMap<>();
+    private final List<AttachmentPoint> attachmentPoints = new ArrayList<>();
 
     public PokemobHasParts(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
@@ -90,7 +91,13 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     }
 
     @Override
-    public Map<String, List<Vector3f>> getAttachmentPoints()
+    public Map<String, List<AttachmentPoint>> getAttachmentPointMap()
+    {
+        return attachmentPointMap;
+    }
+
+    @Override
+    public List<AttachmentPoint> getAttachmentPoints()
     {
         return attachmentPoints;
     }
@@ -111,7 +118,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     {
         final PokedexEntry entry = this.getPokemob().getPokedexEntry();
 
-        // final List<PokemobPart> allParts = this.allParts;
         // We need to here send a packet to sync the IDs of the new parts vs the
         // old parts.
         for (var part : getAllParts())

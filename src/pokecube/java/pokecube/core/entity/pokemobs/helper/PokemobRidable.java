@@ -345,20 +345,33 @@ public abstract class PokemobRidable extends PokemobHasParts
         this.initSeats();
     }
 
+    List<AttachmentPoint> options;
+
     protected void initSeats()
     {
         if (!(this.level instanceof ServerLevel)) return;
         final PokedexEntry entry = this.getPokemob().getPokedexEntry();
-        List<Vector3f> bodySeats = new ArrayList<>();
-        List<PokemobPart> parts = this.getUseParts();
-        if (parts != null) for (var part : parts) if (part.ride_point != null) bodySeats.add(part.ride_point);
-        // Body seat based ride points already have size considered.
-        if (!bodySeats.isEmpty())
+        if (options == null)
         {
-            this.seatCount = bodySeats.size();
+            options = new ArrayList<>();
+            for (var point : this.getAttachmentPoints())
+            {
+                if (point.key().startsWith("seat"))
+                {
+                    options.add(point);
+                }
+            }
+            // For when this is called before loading the model
+            if (this.getAttachmentPoints().isEmpty()) options = null;
+            else options.sort(null);
+        }
+        // Body seat based ride points already have size considered.
+        if (options != null && !options.isEmpty())
+        {
+            this.seatCount = options.size();
             for (int index = 0; index < this.seatCount; index++)
             {
-                final Vector3f seat = new Vector3f(bodySeats.get(index));
+                final Vector3f seat = new Vector3f(options.get(index).mod());
                 final Seat newSeat = (Seat) this.getSeat(index).clone();
                 newSeat.seat = seat;
                 SEAT[index].set(newSeat);

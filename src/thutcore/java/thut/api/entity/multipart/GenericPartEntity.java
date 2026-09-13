@@ -1,8 +1,8 @@
 package thut.api.entity.multipart;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import net.minecraft.nbt.CompoundTag;
@@ -21,7 +21,6 @@ import net.neoforged.neoforge.attachment.AttachmentHolder;
 import net.neoforged.neoforge.entity.PartEntity;
 
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 import thut.core.common.ThutCore;
 import thut.core.common.network.PartInteract;
@@ -29,10 +28,7 @@ import thut.core.common.network.PartInteract;
 public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 {
     public final Vector4f r = new Vector4f();
-    public Vector3f ride_point = null;
-    public final Map<String, Vector4f> points = new HashMap<>();
-    public final Map<String, Vector3f> raw_points = new HashMap<>();
-    public final Map<String, Vector3f> mod_points = new HashMap<>();
+    public final List<IMultpart.AttachmentPoint> points = new ArrayList<>();
 
     public float width;
     public float height;

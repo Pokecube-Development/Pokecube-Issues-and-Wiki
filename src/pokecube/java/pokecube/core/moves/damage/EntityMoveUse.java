@@ -332,7 +332,7 @@ public class EntityMoveUse extends ThrowableProjectile
     {
         if (this.info == null)
         {
-            info = new MovePacketInfo(this.getMove(), this.getUser(), this.getTarget(), this.getStart(), this.getEnd());
+            info = new MovePacketInfo(this.getMove(), this.level(), this.getUser(), this.getTarget(), this.getEnd());
         }
         info.currentTick = info.move.getAnimation().getDuration() - this.getDuration();
         return info;

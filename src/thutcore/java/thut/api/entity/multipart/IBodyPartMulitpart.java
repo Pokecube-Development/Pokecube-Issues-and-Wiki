@@ -5,6 +5,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector4f;
 import thut.api.entity.IAnimated;
 import thut.core.common.ThutCore;
 import thut.core.common.network.PartSync;
@@ -38,16 +39,15 @@ public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entit
         final float sz = (float) (part.__size__.z * size);
 
         final float dw = Math.max(sx, sz);
-        final float dh = sy;
         String name = part.name;
         int n = 0;
         while (names.contains(name)) name = part.name + n++;
-        return getFactory().create(weSelf(), dw, dh, dx, dy, dz, name);
+        return getFactory().create(weSelf(), dw, sy, dx, dy, dz, name);
     }
 
     default List<T> splitToParts(float width, float height, float length, float x0, float y0, float z0)
     {
-        List<T> ret = new ArrayList<T>();
+        List<T> ret = new ArrayList<>();
         final int nx = Mth.ceil(width / this.maxW());
         final int nz = Mth.ceil(length / this.maxH());
         final int ny = Mth.ceil(height / this.maxW());
@@ -57,7 +57,6 @@ public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entit
         final float dz = length / nz;
 
         final float dw = Math.max(width / nx, length / nz);
-        final float dh = dy;
         int i = 0;
 
         Set<String> names = new HashSet<>();
@@ -67,7 +66,7 @@ public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entit
                 {
                     BodyPartEntity.BodyPart _part = new BodyPartEntity.BodyPart();
                     _part.name = "part_" + i;
-                    _part.__size__ = new Vec3(dw, dh, dw);
+                    _part.__size__ = new Vec3(dw, dy, dw);
                     _part.__pos__ = new Vec3(x * dx - nx * dx / 2f + x0, y * dy + y0, z * dz - nz * dz / 2f + z0);
                     var part = makePart(_part, 1, names);
                     ret.add(part);
@@ -116,7 +115,7 @@ public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entit
     {
         try
         {
-            List<T> list = new ArrayList<T>();
+            List<T> list = new ArrayList<>();
             final Set<String> names = Sets.newHashSet();
             for (int i = 0; i < node.parts.size(); i++)
             {
@@ -143,7 +142,9 @@ public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entit
                 {
                     var nodePart = node.parts.get(i);
                     var part = this.makePart(nodePart, size, names);
-                    if (nodePart.__ride__ != null) part.ride_point = nodePart.__ride__.toVector3f();
+                    if (nodePart.__ride__ != null) part.points.add(
+                            new AttachmentPoint("seat", nodePart.__ride__.toVector3f(), nodePart.__ride__.toVector3f(),
+                                    new Vector4f()));
                     list.add(part);
                     getHolder().allParts().add(part);
                 }

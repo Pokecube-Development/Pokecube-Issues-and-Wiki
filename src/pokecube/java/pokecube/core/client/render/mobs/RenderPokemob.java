@@ -476,8 +476,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             var holder = RenderPokemob.holders.get(entry);
             if (PokecubeCore.getConfig().outputBBModels && PokecubeCore.proxy.getWorld() != null)
             {
-                var pokemob = AnimationGui.getRenderMob(entry);
-                var entity = pokemob.getEntity();
+                var entity = PokecubeCore.createPokemob(entry, PokecubeCore.proxy.getWorld());
                 var old = ThutCore.conf.asyncModelLoads;
                 ThutCore.conf.asyncModelLoads = false;
                 // Step 1, save as a bbmodel for client side use
@@ -509,21 +508,26 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             {
                 if (PokecubeCore.getConfig().outputBBModels && PokecubeCore.proxy.getWorld() != null)
                 {
-                    var pokemob = AnimationGui.getRenderMob(entry);
-                    var entity = pokemob.getEntity();
+                    var entity = PokecubeCore.createPokemob(entry, PokecubeCore.proxy.getWorld());
                     var old = ThutCore.conf.asyncModelLoads;
                     ThutCore.conf.asyncModelLoads = false;
                     // Step 1, save as a bbmodel for client side use
-                    Part.mergeMeshes = true; // Mesh merging for this conversion
-                    // Then re-do it the normal way
+                    BBModelPart.mergeMeshs = false;
+                    Part.mergeMeshes = false;
                     if (holder.wrapper != null) holder.wrapper.lastInit = -1;
                     holder.init(time);
                     convertModeltoBBModel(holder, entity);
-                    Part.mergeMeshes = false; // No Mesh merging for this conversion
+                    // Now re-do with merging enabled for server side
+                    BBModelPart.mergeMeshs = true;
+                    Part.mergeMeshes = true;
                     if (holder.wrapper != null) holder.wrapper.lastInit = -1;
                     holder.init(time);
+                    // Then save as a bbmodel for server
                     saveModelForServer(holder, entity);
-                    Part.mergeMeshes = true; // Re-enable it
+                    BBModelPart.mergeMeshs = false;
+                    Part.mergeMeshes = true; // then set this back as is
+                    // Then reload mesh for the entry
+                    entry.onResourcesReloaded();
                     ThutCore.conf.asyncModelLoads = old;
                 }
                 // Then re-do it the normal way

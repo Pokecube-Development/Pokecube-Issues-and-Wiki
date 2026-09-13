@@ -155,9 +155,10 @@ public class BaseModelToBBModel
                         }
                         var matTex = material.tex;
                         // Make a "fake" texture that is emissive
-                        if(material.emissiveMagnitude!=0)
+                        if (material.emissiveMagnitude != 0 && matTex != null)
                         {
-                            matTex = ResourceLocation.fromNamespaceAndPath(matTex.getNamespace(), matTex.getPath()+"_e");
+                            matTex = ResourceLocation.fromNamespaceAndPath(matTex.getNamespace(),
+                                    matTex.getPath() + "_e");
                             emissives.add(matTex);
                         }
                         if (!textures.contains(matTex))

@@ -10,14 +10,25 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.core.common.network.PartSync;
 
 public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
 {
+    public static record AttachmentPoint(String key, Vector3f raw, Vector3f mod, Vector4f mut) implements Comparable<AttachmentPoint>
+    {
+        @Override
+        public int compareTo(@NotNull IMultpart.AttachmentPoint o)
+        {
+            return key.compareTo(o.key);
+        }
+    }
+
     public static class Holder<T extends GenericPartEntity<?>>
     {
         public List<T> parts;
@@ -72,7 +83,9 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         initParts(false);
     }
 
-    Map<String, List<Vector3f>> getAttachmentPoints();
+    Map<String, List<AttachmentPoint>> getAttachmentPointMap();
+
+    List<AttachmentPoint> getAttachmentPoints();
 
     default boolean shouldSyncParts()
     {

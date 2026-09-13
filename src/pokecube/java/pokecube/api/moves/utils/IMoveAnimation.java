@@ -37,10 +37,11 @@ public interface IMoveAnimation
         public TaggedEntityTracker(IMultpart<?, ?> entity, String key)
         {
             this.entity = entity;
-            if (entity.getAttachmentPoints().containsKey(key))
+            if (entity.getAttachmentPointMap().containsKey(key))
             {
-                // TODO decide if to randomise this?
-                location = entity.getAttachmentPoints().get(key).getFirst();
+                var points = entity.getAttachmentPointMap().get(key);
+                var index = entity.weSelf().getRandom().nextInt(points.size());
+                location = points.get(index).mod();
             }
             else location = null;
         }
@@ -76,17 +77,23 @@ public interface IMoveAnimation
 
         public float lastApplyTimer = -1;
 
-        public MovePacketInfo(final MoveEntry move, final Entity attacker, final Entity attacked, final Vector3 source,
-                final Vector3 target)
+        public MovePacketInfo(final MoveEntry move, Level level, PositionTracker source, PositionTracker target,
+                float sourceScale, float targetScale)
         {
             this.move = move;
-            this.level = attacker.level();
-            this.attackerScale = attacker.getBbWidth();
-            this.attackedScale = attacked != null ? attacked.getBbWidth() : 0.25f;
-            this.source = TaggedEntityTracker.create(move, attacker);
-            this.target = target == null
-                    ? attacked != null ? new EntityTracker(attacked, true) : null
-                    : new VectorPosWrapper(target);
+            this.level = level;
+            this.attackerScale = sourceScale;
+            this.attackedScale = targetScale;
+            this.source = source;
+            this.target = target != null ? target : source;
+        }
+
+        public MovePacketInfo(final MoveEntry move, Level level, Entity source, Entity target, Vector3 targetPos)
+        {
+            this(move, level, TaggedEntityTracker.create(move, source), target != null
+                            ? new EntityTracker(target, true)
+                            : targetPos != null ? new VectorPosWrapper(targetPos) : null, source.getBbWidth(),
+                    target != null ? target.getBbWidth() : 0.25f);
         }
     }
 

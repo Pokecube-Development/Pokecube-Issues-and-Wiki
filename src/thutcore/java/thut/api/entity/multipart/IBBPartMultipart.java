@@ -110,8 +110,10 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
                     if (partEntity.height != 0 && partEntity.width != 0)
                     {
                         holder.allParts().add(partEntity);
-                        partEntity.mod_points.forEach((key, vec) -> {
-                            this.getAttachmentPoints().computeIfAbsent(key, k -> new ArrayList<>()).add(vec);
+                        partEntity.points.forEach((point) -> {
+                            this.getAttachmentPointMap().computeIfAbsent(point.key(), k -> new ArrayList<>())
+                                    .add(point);
+                            this.getAttachmentPoints().add(point);
                         });
                     }
                 }
