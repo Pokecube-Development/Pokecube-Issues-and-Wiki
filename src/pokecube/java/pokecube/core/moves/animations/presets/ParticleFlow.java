@@ -16,20 +16,16 @@ public class ParticleFlow extends CartesianFunction
     {
         // Load in initial values
         this.loadValues(preset);
-        // Now we override the ones to make our beam-shaped cartesian function
-
+        // Now we override the ones to make our spread flow cartesian function
         values.absolute = true;
         values.horizontal = false;
         values.reverse = !values.reverse;
-        values.density /= 10;
+        values.density = 0.075f / values.density;
         values.f_x = "rand()*t*" + values.width;
         values.f_y = values.flat ? "0" : "rand()*t*" + values.width;
+        // d is distance to target, m is maximum time, t is current time
         values.f_z = "t*d/m"; // Forwards direction is z
-
-        values.v_x = "0";
-        values.v_y = "0";
-        values.v_z = "0.05";
-
+        if (values.v_z == null) values.v_z = "0.05";
         super.init(preset);
         return this;
     }
