@@ -199,17 +199,33 @@ public class BaseModelToBBModel
                                 maxU = maxU.max(t);
                             }
 
-                            float volume = IBBPartMultipart.computeSimpleVolume(meshVerts);
+                            float volume;
                             float newVolume = (max.x - min.x) * (max.y - min.y) * (max.z - min.z);
-                            if (Math.abs(volume) < 1e-4 || newVolume < 1e-4)
+                            if (newVolume < 1e-4)
                             {
                                 remove.add(meshKey);
                                 continue;
                             }
-                            boxes.put(meshKey, new Matrix3f(min, max, new Vector3f()));
-                            if (newVolume / volume > 5)
+                            try
                             {
-                                PokecubeAPI.LOGGER.warn("Warning, volume expanded greatly for part {} in {}",
+                                volume = IBBPartMultipart.computeSimpleVolume(meshVerts, 3);
+                                if (Math.abs(volume) < 1e-4)
+                                {
+                                    remove.add(meshKey);
+                                    continue;
+                                }
+                                boxes.put(meshKey, new Matrix3f(min, max, new Vector3f()));
+                                if (newVolume / volume > 5)
+                                {
+                                    PokecubeAPI.LOGGER.warn("Warning, volume expanded greatly for part {} in {}",
+                                            part.getName(), model.name);
+                                }
+                            }
+                            catch (Exception ignored)
+                            {
+                                // Was probably quads, let's ignore it?
+                                PokecubeAPI.LOGGER.warn("Warning part {} in {} was not made of triangles, "
+                                                + "may need to check the model manually",
                                         part.getName(), model.name);
                             }
 
@@ -265,6 +281,13 @@ public class BaseModelToBBModel
                         for (var meshKeyA : faces)
                         {
                             var mA = boxes.get(meshKeyA);
+                            if (mA == null)
+                            {
+                                // Was probably quads, let's ignore it?
+                                PokecubeAPI.LOGGER.warn("Warning part {} in {} had a broken mA key {}", part.getName(),
+                                        model.name, meshKeyA);
+                                continue;
+                            }
                             mA.getColumn(0, testA);
                             mA.getColumn(1, testB);
                             // Loop over others, see if
@@ -273,6 +296,13 @@ public class BaseModelToBBModel
                                 if (meshKeyA == meshKeyB || remove.contains(meshKeyB)) continue;
                                 // If b is inside A, quit
                                 var mB = boxes.get(meshKeyB);
+                                if (mB == null)
+                                {
+                                    // Was probably quads, let's ignore it?
+                                    PokecubeAPI.LOGGER.warn("Warning part {} in {} had a broken mB key {}", part.getName(),
+                                            model.name, meshKeyA);
+                                    continue;
+                                }
                                 mB.getColumn(0, testC);
                                 boolean inside = testC.max(testB).equals(testB);
                                 inside &= testC.max(testA).equals(testA);

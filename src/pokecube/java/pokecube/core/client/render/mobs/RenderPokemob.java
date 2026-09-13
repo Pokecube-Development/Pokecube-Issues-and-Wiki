@@ -31,7 +31,6 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
-import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.impl.capabilities.TextureableCaps.PokemobCap;
@@ -504,32 +503,32 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
         for (final Holder holder : RenderPokemob.customs.values())
         {
+            if (PokecubeCore.getConfig().outputBBModels && PokecubeCore.proxy.getWorld() != null)
+            {
+                var entity = PokecubeCore.createPokemob(holder.entry, PokecubeCore.proxy.getWorld());
+                var old = ThutCore.conf.asyncModelLoads;
+                ThutCore.conf.asyncModelLoads = false;
+                // Step 1, save as a bbmodel for client side use
+                BBModelPart.mergeMeshs = false;
+                Part.mergeMeshes = false;
+                if (holder.wrapper != null) holder.wrapper.lastInit = -1;
+                holder.init(time);
+                convertModeltoBBModel(holder, entity);
+                // Now re-do with merging enabled for server side
+                BBModelPart.mergeMeshs = true;
+                Part.mergeMeshes = true;
+                if (holder.wrapper != null) holder.wrapper.lastInit = -1;
+                holder.init(time);
+                // Then save as a bbmodel for server
+                saveModelForServer(holder, entity);
+                BBModelPart.mergeMeshs = false;
+                Part.mergeMeshes = true; // then set this back as is
+                // Then reload mesh for the entry
+                entry.onResourcesReloaded();
+                ThutCore.conf.asyncModelLoads = old;
+            }
             if (holder.entry == entry)
             {
-                if (PokecubeCore.getConfig().outputBBModels && PokecubeCore.proxy.getWorld() != null)
-                {
-                    var entity = PokecubeCore.createPokemob(entry, PokecubeCore.proxy.getWorld());
-                    var old = ThutCore.conf.asyncModelLoads;
-                    ThutCore.conf.asyncModelLoads = false;
-                    // Step 1, save as a bbmodel for client side use
-                    BBModelPart.mergeMeshs = false;
-                    Part.mergeMeshes = false;
-                    if (holder.wrapper != null) holder.wrapper.lastInit = -1;
-                    holder.init(time);
-                    convertModeltoBBModel(holder, entity);
-                    // Now re-do with merging enabled for server side
-                    BBModelPart.mergeMeshs = true;
-                    Part.mergeMeshes = true;
-                    if (holder.wrapper != null) holder.wrapper.lastInit = -1;
-                    holder.init(time);
-                    // Then save as a bbmodel for server
-                    saveModelForServer(holder, entity);
-                    BBModelPart.mergeMeshs = false;
-                    Part.mergeMeshes = true; // then set this back as is
-                    // Then reload mesh for the entry
-                    entry.onResourcesReloaded();
-                    ThutCore.conf.asyncModelLoads = old;
-                }
                 // Then re-do it the normal way
                 if (holder.wrapper != null) holder.wrapper.lastInit = -1;
                 holder.init(time);

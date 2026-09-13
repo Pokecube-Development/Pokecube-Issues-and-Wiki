@@ -17,11 +17,11 @@ import java.util.List;
 
 public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> extends IMultpart<T, E>
 {
-    public static float computeSimpleVolume(Vector3f[] verts)
+    public static float computeSimpleVolume(Vector3f[] verts, int iter)
     {
         var v0 = new Vector3f();
         float v = 0;
-        for (int i = 0; i < verts.length; i += 3)
+        for (int i = 0; i < verts.length; i += iter)
         {
             var v1 = verts[i];
             var v2 = verts[i + 1];

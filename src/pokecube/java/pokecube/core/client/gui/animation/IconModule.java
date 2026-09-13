@@ -172,8 +172,7 @@ public class IconModule extends AnimModule
                         dims.z = dims.y;
                         dims.x = dims.y;
                     }
-                    PokecubeAPI.LOGGER.error("borked: {}", AnimationGui.entry);
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.error("borked: {}", AnimationGui.entry, e);
                     IconModule.tries++;
                     if (IconModule.tries > 20)
                     {

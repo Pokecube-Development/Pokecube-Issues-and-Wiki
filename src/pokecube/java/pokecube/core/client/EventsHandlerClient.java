@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -66,6 +67,7 @@ import pokecube.core.client.gui.GuiTeleport;
 import pokecube.core.client.gui.components.TargetInfo;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.client.render.mobs.RenderPokemob;
+import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.init.ClientSetupHandler;
@@ -78,11 +80,13 @@ import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Resources;
+import thut.api.world.mobs.data.Data;
 import thut.core.common.ThutCore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 @EventBusSubscriber(modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class EventsHandlerClient
@@ -227,6 +231,24 @@ public class EventsHandlerClient
         boolean alt = Screen.hasAltDown();
         if (alt) for (var comp : GuiDisplayPokecubeInfo.COMPONENTS)
             if (comp.handleClick(evt.getAction(), evt.getButton(), evt.getModifiers())) break;
+        // Debug output of all models when right clicked holding a debug stick
+        if(PokecubeCore.getConfig().outputBBModels && evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT){
+            var name = player.getMainHandItem().getDisplayName().getString();
+            System.out.println(name);
+            if (name.contains("_output_models_"))
+            {
+                player.sendSystemMessage(Component.literal("Starting Model Conversion"));
+                var executor = Executors.newVirtualThreadPerTaskExecutor();
+                executor.submit(() -> {
+                    for (var e : Database.getSortedFormes())
+                    {
+                        player.sendSystemMessage(Component.literal(e.getTrimmedName()));
+                        RenderPokemob.reloadModel(e);
+                    }
+                    player.sendSystemMessage(Component.literal("Done"));
+                });
+            }
+        }
     }
 
     // This one handles scrolling the message display while in chat.
