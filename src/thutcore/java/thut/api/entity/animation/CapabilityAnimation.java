@@ -3,6 +3,7 @@ package thut.api.entity.animation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.HolderLookup;
@@ -29,7 +29,8 @@ public class CapabilityAnimation
     {
         private static final List<Animation> EMPTY = Collections.emptyList();
 
-        Map<String, List<Animation>> anims = Maps.newHashMap();
+        Map<String, List<Animation>> anims = new HashMap<>();
+        Map<UUID, Animation> byUUID = new HashMap<>();
 
         List<Animation> playingList = DefaultImpl.EMPTY;
         List<String> tmpTransients = new ArrayList<>();
@@ -61,23 +62,6 @@ public class CapabilityAnimation
         @Override
         public void updateFrom(IAnimationHolder other)
         {
-            if (other instanceof DefaultImpl impl)
-            {
-                this.pending = impl.pending;
-                this.playing = impl.playing;
-                this._ageInTicks = impl._ageInTicks;
-                this.anims = impl.anims;
-                this.init = true;
-                this.head = impl.head;
-                this.molangs = impl.molangs;
-                this.transients.clear();
-                this.tmpTransients.clear();
-
-                this.start_times.clear();
-                this.start_times.putAll(impl.start_times);
-                this.transients.addAll(impl.transients);
-                this.tmpTransients.addAll(impl.tmpTransients);
-            }
         }
 
         @Override
@@ -100,7 +84,11 @@ public class CapabilityAnimation
         public void initAnimations(Map<String, List<Animation>> map, String _default)
         {
             if (map.size() == this.anims.size()) return;
-            map.forEach((s, l) -> anims.computeIfAbsent(s, s2 -> Lists.newArrayList(l)));
+            map.forEach((s, l) -> anims.computeIfAbsent(s, s2 -> {
+                var l2 = new ArrayList<>(l);
+                l2.forEach(a -> this.byUUID.put(a._uuid, a));
+                return l2;
+            }));
             this._default = _default;
             init = true;
         }
@@ -108,10 +96,12 @@ public class CapabilityAnimation
         private void initPlayingList()
         {
             this.start_times.clear();
-            for (final Animation a : this.playingList) if (a.getLength() > 0)
-            {
-                this.start_times.put(a._uuid, this._ageInTicks);
-            }
+            for (final Animation a : this.playingList)
+                if (a.getLength() > 0)
+                {
+                    this.start_times.put(a._uuid, this._ageInTicks);
+                    this.byUUID.put(a._uuid, a);
+                }
         }
 
         @Override

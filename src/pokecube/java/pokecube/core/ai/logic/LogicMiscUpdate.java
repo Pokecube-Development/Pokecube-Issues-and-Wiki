@@ -41,9 +41,9 @@ import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IAnimated.MolangVars;
+import thut.api.entity.multipart.IBBPartMultipart;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.core.client.render.animation.AnimationHelper;
 import thut.core.common.ThutCore;
 
 import java.util.ArrayList;
@@ -540,9 +540,9 @@ public class LogicMiscUpdate extends LogicBase
         boolean onGround = entity.onGround();
 
         // Server side less often computation of molangs for body animation and positioning
-        if (this.pokemob.getPokedexEntry().bodyModel != null && !entity.level().isClientSide())
+        if (this.pokemob.getPokedexEntry().bodyModel != null && entity instanceof IBBPartMultipart<?,?> poke)
         {
-            var holder = AnimationHelper.getHolder(entity);
+            var holder = poke.getAnimationHolder();
             var limbSwing = entity.walkAnimation.position();
             var limbSwingAmount = entity.walkAnimation.speed();
 
