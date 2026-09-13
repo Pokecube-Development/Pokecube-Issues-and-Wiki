@@ -106,7 +106,7 @@ public class Config extends ConfigData
     @Configure(category = Config.TRAINER, comment = "This determines how sparsely trainers spawn.\n"
             + "there will only be trainerDensity trainers spawn every this far\n"
             + "excluding special spawns like villages. [Default: 96]")
-    public int trainerBox = 96;
+    public int trainerBox = 128;
     @Configure(category = Config.TRAINER, comment = "How many trainers spawn in trainerBox. [Default: 2]")
     public double trainerDensity = 2;
     @Configure(category = Config.TRAINER, comment = "Pokemobs can hurt NPCs. [Default: false]")
