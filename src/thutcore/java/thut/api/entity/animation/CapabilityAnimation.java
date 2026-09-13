@@ -59,6 +59,28 @@ public class CapabilityAnimation
         Random RNG;
 
         @Override
+        public void updateFrom(IAnimationHolder other)
+        {
+            if (other instanceof DefaultImpl impl)
+            {
+                this.pending = impl.pending;
+                this.playing = impl.playing;
+                this._ageInTicks = impl._ageInTicks;
+                this.anims = impl.anims;
+                this.init = true;
+                this.head = impl.head;
+                this.molangs = impl.molangs;
+                this.transients.clear();
+                this.tmpTransients.clear();
+
+                this.start_times.clear();
+                this.start_times.putAll(impl.start_times);
+                this.transients.addAll(impl.transients);
+                this.tmpTransients.addAll(impl.tmpTransients);
+            }
+        }
+
+        @Override
         public void clean()
         {
             this.pending = _default;

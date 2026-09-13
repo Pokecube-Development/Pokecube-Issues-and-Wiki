@@ -234,7 +234,6 @@ public class EventsHandlerClient
         // Debug output of all models when right clicked holding a debug stick
         if(PokecubeCore.getConfig().outputBBModels && evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT){
             var name = player.getMainHandItem().getDisplayName().getString();
-            System.out.println(name);
             if (name.contains("_output_models_"))
             {
                 player.sendSystemMessage(Component.literal("Starting Model Conversion"));

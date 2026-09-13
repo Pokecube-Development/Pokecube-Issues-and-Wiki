@@ -33,6 +33,7 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
 
     BBPartEntity.Factory<T, E> getFactory();
     BBModel getBBModel();
+    IAnimated.IAnimationHolder getAnimationHolder();
 
     default void applyAnimations(IAnimated animHolder)
     {
@@ -45,7 +46,7 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
 
         synchronized (model)
         {
-            var holder = AnimationHelper.getHolder(us);
+            var holder = getAnimationHolder();
             holder.setContext(ThutCaps.getAnimated(us));
             this.setAnimation(us, model, holder);
             partHolder.holder().effective_pose = holder.getAnimation(us);

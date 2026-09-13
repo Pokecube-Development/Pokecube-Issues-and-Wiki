@@ -23,6 +23,9 @@ import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.PokecubeCore;
+import thut.api.ThutCaps;
+import thut.api.entity.IAnimated;
+import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.entity.multipart.BBPartEntity;
 import thut.api.entity.multipart.BBPartEntity.Factory;
 import thut.api.entity.multipart.IBBPartMultipart;
@@ -100,6 +103,17 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     public List<AttachmentPoint> getAttachmentPoints()
     {
         return attachmentPoints;
+    }
+
+    IAnimated.IAnimationHolder hitboxHolder = new CapabilityAnimation.DefaultImpl();
+
+    @Override
+    public IAnimated.IAnimationHolder getAnimationHolder()
+    {
+        var holder = ThutCaps.getAnimationHolder(this);
+        if(!this.level().isClientSide()) return holder;
+        this.hitboxHolder.updateFrom(holder);
+        return this.hitboxHolder;
     }
 
     @Override

@@ -170,6 +170,8 @@ public interface IAnimated
 
     public static interface IAnimationHolder extends INBTSerializable<CompoundTag>
     {
+        void updateFrom(IAnimationHolder other);
+
         /** should clear the ticks animations were run on */
         void clean();
 
