@@ -28,6 +28,7 @@ import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.inventory.pokemob.PokemobInventory;
+import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.network.pokemobs.PacketPingBoss;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.Tracker;
@@ -266,6 +267,11 @@ public abstract class PokemobBase implements IPokemob
     public void setTrackableEntity(LivingEntity entityIn)
     {
         this.trackedEntity = entityIn;
+        if (this.trackedEntity != this.entity)
+        {
+            // Re-init attributes, as we might not have had an added to level event called
+            PokecubeAttributes.resetToEntry(this);
+        }
     }
 
     @Override
