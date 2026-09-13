@@ -21,7 +21,7 @@ public interface IMoveAnimation
 {
     public static class TaggedEntityTracker implements PositionTracker
     {
-        public static PositionTracker create(MoveEntry move, Entity attacker)
+        public static PositionTracker create(Entity attacker)
         {
             if (attacker instanceof IMultpart<?, ?> multi) for (var key : MoveEntry.DEFAULT_MOVE_SOURCES)
             {
@@ -67,20 +67,19 @@ public interface IMoveAnimation
 
     public static class MovePacketInfo
     {
-        public final MoveEntry move;
         public final Level level;
         public final PositionTracker source;
         public final PositionTracker target;
         public final float attackerScale;
         public final float attackedScale;
-        public float currentTick;
 
+        public float currentTick;
+        public float endTick;
         public float lastApplyTimer = -1;
 
-        public MovePacketInfo(final MoveEntry move, Level level, PositionTracker source, PositionTracker target,
-                float sourceScale, float targetScale)
+        public MovePacketInfo(Level level, PositionTracker source, PositionTracker target, float sourceScale,
+                float targetScale)
         {
-            this.move = move;
             this.level = level;
             this.attackerScale = sourceScale;
             this.attackedScale = targetScale;
@@ -88,9 +87,9 @@ public interface IMoveAnimation
             this.target = target != null ? target : source;
         }
 
-        public MovePacketInfo(final MoveEntry move, Level level, Entity source, Entity target, Vector3 targetPos)
+        public MovePacketInfo(Level level, Entity source, Entity target, Vector3 targetPos)
         {
-            this(move, level, TaggedEntityTracker.create(move, source), target != null
+            this(level, TaggedEntityTracker.create(source), target != null
                             ? new EntityTracker(target, true)
                             : targetPos != null ? new VectorPosWrapper(targetPos) : null, source.getBbWidth(),
                     target != null ? target.getBbWidth() : 0.25f);

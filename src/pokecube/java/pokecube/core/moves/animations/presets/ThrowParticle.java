@@ -82,7 +82,6 @@ public class ThrowParticle extends MoveAnimationBase
         mat.pushPose();
         GlStateManager._enableDepthTest();
 
-        this.initColour(info.currentTick, info.move);
         final float alpha = (this.values.rgba >> 24 & 255) / 255f;
         final float red = (this.values.rgba >> 16 & 255) / 255f;
         final float green = (this.values.rgba >> 8 & 255) / 255f;

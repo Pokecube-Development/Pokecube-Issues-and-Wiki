@@ -19,7 +19,6 @@ public class ParticlesOnSource extends ParticlesOnTarget
     public void spawnClientEntities(MovePacketInfo info, float partialTicks)
     {
         if (Math.random() > this.values.density) return;
-        this.initColour(info.currentTick, info.move);
         final Vector3 temp = new Vector3();
         final Random rand = ThutCore.newRandom();
         float dw = info.attackerScale;

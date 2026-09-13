@@ -65,7 +65,6 @@ public class SphericalFunction extends MoveAnimationBase
     public void spawnClientEntities(MovePacketInfo info, float partialTicks)
     {
         final Vector3 source = values.reverse ? new Vector3(info.source) : new Vector3(info.target);
-        this.initColour(info.currentTick, info.move);
         final Vector3 temp = new Vector3();
         double scale = values.width;
         if (!values.absolute) if (values.reverse) scale *= info.attackerScale;

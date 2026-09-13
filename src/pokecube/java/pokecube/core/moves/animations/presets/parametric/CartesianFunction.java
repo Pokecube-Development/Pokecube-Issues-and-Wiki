@@ -2,7 +2,6 @@ package pokecube.core.moves.animations.presets.parametric;
 
 import com.google.gson.JsonObject;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 import org.nfunk.jep.JEP;
 import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.PokecubeCore;
@@ -53,32 +52,38 @@ public class CartesianFunction extends MoveAnimationBase
         jep.addComplex();
         // table
         jep.addVariable("t", 0);
+        jep.addVariable("m", 0);
         jep.addVariable("d", 0);
         jep.parseExpression(func);
     }
 
-    private void setVector(double t, double d, Vector3f vec_r, Vector3f vec_v)
+    private void setVector(double t_0, double t_m, double d, Vector3f vec_r, Vector3f vec_v)
     {
-        this.rx.setVarValue("t", t);
+        this.rx.setVarValue("t", t_0);
         this.rx.setVarValue("d", d);
-        double dx = this.rx.getValue();
-        this.ry.setVarValue("t", t);
+        this.rx.setVarValue("m", t_m);
+
+        this.ry.setVarValue("t", t_0);
         this.ry.setVarValue("d", d);
-        double dy = this.ry.getValue();
-        this.rz.setVarValue("t", t);
+        this.ry.setVarValue("m", t_m);
+
+        this.rz.setVarValue("t", t_0);
         this.rz.setVarValue("d", d);
-        double dz = this.rz.getValue();
-        vec_r.set(dx, dy, dz);
-        this.vx.setVarValue("t", t);
+        this.rz.setVarValue("m", t_m);
+        vec_r.set(this.rx.getValue(), this.ry.getValue(), this.rz.getValue());
+
+        this.vx.setVarValue("t", t_0);
         this.vx.setVarValue("d", d);
-        dx = this.vx.getValue();
-        this.vy.setVarValue("t", t);
+        this.vx.setVarValue("m", t_m);
+
+        this.vy.setVarValue("t", t_0);
         this.vy.setVarValue("d", d);
-        dy = this.vy.getValue();
-        this.vz.setVarValue("t", t);
+        this.vy.setVarValue("m", t_m);
+
+        this.vz.setVarValue("t", t_0);
         this.vz.setVarValue("d", d);
-        dz = this.vz.getValue();
-        vec_v.set(dx, dy, dz);
+        this.vz.setVarValue("m", t_m);
+        vec_v.set(this.vx.getValue(), this.vy.getValue(), this.vz.getValue());
     }
 
     @Override
@@ -95,21 +100,15 @@ public class CartesianFunction extends MoveAnimationBase
         double d = dir.length();
         Vector3f lft = new Vector3f(1, 0, 0);
         Vector3f up = new Vector3f(0, 1, 0);
-        if (dir.lengthSquared() > 0)
+        if (dir.lengthSquared() > 0 && !values.horizontal)
         {
-            // Only want to rotate x and z coords to match
-            if (values.horizontal) dir.y = 0;
-            dir.cross(up,lft);
+            dir.cross(up, lft);
             lft.normalize();
             dir.cross(lft, up);
             up.normalize();
             dir.normalize();
         }
         else dir.set(0,0,1);
-
-        Vector4f dp = new Vector4f();
-
-        this.initColour(info.currentTick, info.move);
         final Vector3f vec_r = new Vector3f(), vec_v = new Vector3f();
         float scale = 1;
         if (!values.absolute)
@@ -118,26 +117,20 @@ public class CartesianFunction extends MoveAnimationBase
             if (values.reverse) scale *= info.attackerScale;
             else scale *= info.attackedScale;
         }
-        if(!values.horizontal)
+        int t_0 = (int) info.currentTick;
+        double t_1 = (int) Math.min(t_0 + 2, info.endTick) + values.density*0.1;
+        for (double i = t_0; i <= t_1; i += values.density)
         {
-            dp.set(0,0,1,1);
-            System.out.println(dir+" "+lft+" "+up);
-        }
-        for (double i = info.currentTick; i < info.currentTick + 1; i += values.density)
-        {
-            this.setVector(i, d, vec_r, vec_v);
-            vec_r.set(
-                    lft.x * vec_r.x + up.x * vec_r.y + dir.x * vec_r.z,
+            this.setVector(i, info.endTick, d, vec_r, vec_v);
+            vec_r.set(lft.x * vec_r.x + up.x * vec_r.y + dir.x * vec_r.z,
                     lft.y * vec_r.x + up.y * vec_r.y + dir.y * vec_r.z,
-                    lft.z * vec_r.x + up.z * vec_r.y + dir.z * vec_r.z
-                    );
+                    lft.z * vec_r.x + up.z * vec_r.y + dir.z * vec_r.z);
             vec_r.mul(scale);
-            vec_v.set(
-                    lft.x * vec_v.x + up.x * vec_v.y + dir.x * vec_v.z,
+            vec_v.set(lft.x * vec_v.x + up.x * vec_v.y + dir.x * vec_v.z,
                     lft.y * vec_v.x + up.y * vec_v.y + dir.y * vec_v.z,
-                    lft.z * vec_v.x + up.z * vec_v.y + dir.z * vec_v.z
-            );
-            PokecubeCore.spawnParticle(info.level, values.particle, vec_r.add(source), vec_v, values.rgba, values.lifetime);
+                    lft.z * vec_v.x + up.z * vec_v.y + dir.z * vec_v.z);
+            PokecubeCore.spawnParticle(info.level, values.particle, vec_r.add(source), vec_v, values.rgba,
+                    values.lifetime);
         }
     }
 }

@@ -88,6 +88,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             if (tick > toRun.start + toRun.wrapped.getDuration()) continue;
             if (toRun.start > tick) continue;
             info.currentTick = tick - toRun.start;
+            info.endTick = toRun.wrapped.getDuration();
             toRun.wrapped.clientAnimation(mat, buffer, info, partialTick, packedLightIn);
         }
         info.currentTick = tick;
@@ -102,7 +103,10 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     @Override
     public void initColour(float time, final MoveEntry move)
     {
-        // We don't do this.
+        for (WrappedAnimation component : this.components)
+        {
+            if (component.wrapped instanceof MoveAnimationBase anim) anim.initColour(time, move);
+        }
     }
 
     @Override
@@ -117,6 +121,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             if (component.start > tick) continue;
             if (tick > component.start + component.wrapped.getDuration()) continue;
             info.currentTick = tick - component.start;
+            info.endTick = component.wrapped.getDuration();
             component.wrapped.spawnClientEntities(info, partialTicks);
             final float volume = component.volume * scale;
             final float pitch = component.pitch;

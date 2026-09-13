@@ -58,7 +58,6 @@ public class CylindricalFunction extends MoveAnimationBase
     {
         final Vector3 source = new Vector3(info.source);
         final Vector3 target = new Vector3(info.target);
-        this.initColour(info.currentTick, info.move);
         final double dist = source.distanceTo(target);
         final double frac2 = info.currentTick / (float) this.getDuration();
         final double frac = dist * frac2;
