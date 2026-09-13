@@ -7,8 +7,8 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import thut.api.maths.Vector3;
-import thut.api.maths.Vector4;
 import thut.core.common.ThutCore;
 
 public class ThutParticles
@@ -33,7 +33,7 @@ public class ThutParticles
         }
         if (ret != null)
         {
-            ret.setVelocity(type.velocity.copy());
+            ret.setVelocity(new Vector3f(type.velocity));
             ret.setTex(type.tex.clone());
             ret.setLastTick(type.lastTick());
             ret.setAnimSpeed(type.animSpeed);
@@ -46,9 +46,9 @@ public class ThutParticles
         return ret;
     }
 
-    public static ParticleOptions makeParticle(String name, final Vector3 pos, final Vector3 vel, final int... args)
+    public static ParticleOptions makeParticle(String name, final Vector3f vel, final int... args)
     {
-        if (!name.toLowerCase().equals(name)) ThutCore.LOGGER.error("Error with particle name of: " + name);
+        if (!name.toLowerCase().equals(name)) ThutCore.LOGGER.error("Error with particle name of: {}", name);
 
         name = name.toLowerCase();
         ParticleBase ret = null;
@@ -129,7 +129,8 @@ public class ThutParticles
             particle.size = 0.25f;
             if (vel != null)
             {
-                final Vector3 normal = vel.normalize();
+                final Vector3 normal = new Vector3(vel);
+                normal.norm();
                 Quaternionf orientation = new Quaternionf().fromAxisAngleDeg(normal.toJOML(), 0);
                 particle.setOrientation(orientation);
             }

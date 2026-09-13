@@ -38,6 +38,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
+import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.conditions.PokemobConditionLoader;
@@ -244,10 +245,19 @@ public class PokecubeCore
     public static void spawnParticle(final Level entityWorld, final String name, final Vector3 position,
             Vector3 velocity, final int... args)
     {
-        final ParticleOptions particle = ThutParticles.makeParticle(name, position, velocity, args);
+        final ParticleOptions particle = ThutParticles.makeParticle(name, velocity.toJOML(), args);
         if (velocity == null) velocity = Vector3.empty;
         entityWorld.addParticle(particle, position.x, position.y, position.z, velocity.x, velocity.y, velocity.z);
     }
+
+    public static void spawnParticle(final Level entityWorld, final String name, final Vector3f position,
+            Vector3f velocity, final int... args)
+    {
+        final ParticleOptions particle = ThutParticles.makeParticle(name, velocity, args);
+        if (velocity == null) velocity = new Vector3f();
+        entityWorld.addParticle(particle, position.x, position.y, position.z, velocity.x, velocity.y, velocity.z);
+    }
+
 
     public PokecubeCore(IEventBus bus, ModContainer modContainer)
     {

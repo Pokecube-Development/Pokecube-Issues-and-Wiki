@@ -75,13 +75,13 @@ public class MoveAnimationHelper
 
     public static IMoveAnimation getAnimationPreset(final String preset, JsonObject values)
     {
-        IMoveAnimation animation = null;
+        MoveAnimationBase animation = null;
         if (preset == null || preset.isEmpty()) return animation;
         final Class<? extends MoveAnimationBase> presetClass = MoveAnimationHelper.presets.get(preset);
         if (presetClass != null) try
         {
             animation = presetClass.getConstructor().newInstance();
-            ((MoveAnimationBase) animation).init(values);
+            animation.init(values);
         }
         catch (final Exception e)
         {

@@ -2,13 +2,12 @@ package pokecube.core.moves.animations.presets;
 
 import com.google.gson.JsonObject;
 import pokecube.api.moves.utils.IMoveAnimation;
-import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.AnimPreset;
-import pokecube.core.moves.animations.MoveAnimationBase;
+import pokecube.core.moves.animations.presets.parametric.CartesianFunction;
 import thut.api.maths.Vector3;
 
 @AnimPreset(getPreset = "beam")
-public class ParticleBeam extends MoveAnimationBase
+public class ParticleBeam extends CartesianFunction
 {
     Vector3 v = new Vector3();
 
@@ -18,25 +17,24 @@ public class ParticleBeam extends MoveAnimationBase
     @Override
     public IMoveAnimation init(JsonObject preset)
     {
-        super.init(preset);
-        if (!preset.has("density")) values.density = 0.5f;
-        return this;
-    }
+        // Load in initial values
+        this.loadValues(preset);
+        // Now we override the ones to make our beam-shaped cartesian function
 
-    @Override
-    public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
-    {
-        final Vector3 source = new Vector3(info.source);
-        final Vector3 target = new Vector3(info.target);
-        this.initColour(info.currentTick, info.move);
-        final double dist = source.distanceTo(target);
-        final double frac = dist * info.currentTick / this.getDuration();
-        final Vector3 temp = v.set(target).subtractFrom(source).norm();
-        final Vector3 dir = target.subtract(source).norm().scalarMult(0.05);
-        for (double i = frac; i < dist; i += 0.1)
-        {
-            PokecubeCore.spawnParticle(info.level, values.particle, source.add(temp.scalarMult(i)), dir, values.rgba,
-                    values.lifetime);
-        }
+        values.absolute = true;
+        values.horizontal = false;
+        values.reverse = !values.reverse;
+        values.width = 1;
+        values.density /= 10;
+        values.f_x = "rand()*0.001";
+        values.f_y = "rand()*0.001";
+        values.f_z = "t"; // Forwards direction is z
+
+        values.v_x = "0";
+        values.v_y = "0";
+        values.v_z = "0.02";
+
+        super.init(preset);
+        return this;
     }
 }

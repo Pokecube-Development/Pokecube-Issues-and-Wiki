@@ -50,8 +50,8 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     public int rgba = 0xFFFFFFFF;
     public boolean billboard = true;
     public String name = "";
-    public Vector3 velocity = Vector3.empty;
-    public Vector3 position = Vector3.empty;
+    public Vector3f velocity = new Vector3f();
+    public Vector3f position = new Vector3f();
     public int[][] tex = new int[1][2];
 
     public ParticleBase(final int x, final int y)
@@ -95,8 +95,8 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         this.size = buffer.readFloat();
         this.rgba = buffer.readInt();
         this.billboard = buffer.readBoolean();
-        this.velocity = Vector3.readFromBuff(buffer);
-        this.position = Vector3.readFromBuff(buffer);
+        this.velocity = Vector3.readFromBuff(buffer).toJOML();
+        this.position = Vector3.readFromBuff(buffer).toJOML();
         this.tex = new int[buffer.readInt()][];
         for (int i = 0; i < this.tex.length; i++)
             this.tex[i] = buffer.readVarIntArray();
@@ -226,7 +226,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         this.duration = this.lifetime = ticks;
     }
 
-    public void setPosition(final Vector3 v)
+    public void setPosition(final Vector3f v)
     {
         this.position = v;
     }
@@ -249,9 +249,9 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         this.tex = textures;
     }
 
-    public void setVelocity(Vector3 v)
+    public void setVelocity(Vector3f v)
     {
-        if (v == null) v = Vector3.empty;
+        if (v == null) v = new Vector3f();
         this.velocity = v;
     }
 
@@ -265,8 +265,8 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         buffer.writeFloat(this.size);
         buffer.writeInt(this.rgba);
         buffer.writeBoolean(this.billboard);
-        this.velocity.writeToBuff(buffer);
-        this.position.writeToBuff(buffer);
+        new Vector3(this.velocity).writeToBuff(buffer);
+        new Vector3(this.position).writeToBuff(buffer);
         buffer.writeInt(this.tex.length);
         for (final int[] element : this.tex)
             buffer.writeVarIntArray(element);

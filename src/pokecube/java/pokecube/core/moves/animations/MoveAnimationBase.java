@@ -38,12 +38,19 @@ public abstract class MoveAnimationBase implements IMoveAnimation
         public String f_phi;
         public String f_theta;
 
+        public boolean horizontal = true;
+
         public String f_x;
         public String f_y;
         public String f_z;
+
+        public String v_x;
+        public String v_y;
+        public String v_z;
     }
 
     protected Values values = new Values();
+    protected boolean loaded = false;
 
     @Override
     public int getApplicationTick()
@@ -63,7 +70,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
         return this.values.duration;
     }
 
-    public IMoveAnimation init(JsonObject preset)
+    protected void loadValues(JsonObject preset)
     {
         if (preset != null)
         {
@@ -78,6 +85,12 @@ public abstract class MoveAnimationBase implements IMoveAnimation
             }
         }
         else values = new Values();
+        loaded = true;
+    }
+
+    public IMoveAnimation init(JsonObject preset)
+    {
+        if(!loaded) loadValues(preset);
         return this;
     }
 
