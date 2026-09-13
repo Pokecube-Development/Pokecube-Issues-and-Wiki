@@ -166,8 +166,9 @@ public class TargetInfo extends GuiEventComponent
 
         // Render HP
         graphics.blitSprite(ICON_HEALTH_EXP[0], hpOffsetX, hpOffsetY, 89, 7);
-        final float total = target.getMaxHealth();
-        final float ratio = target.getHealth() / total;
+        float total = target.getMaxHealth();
+        // Clamp ratio to from 0 and 1, mobs may report whatever they want for health and max health
+        float ratio = Math.max(0, Math.min(target.getHealth() / total, 1));
         final int width = (int) (89 * ratio);
         graphics.blitSprite(ICON_HEALTH_EXP[1], hpOffsetX, hpOffsetY, width, 7);
 
