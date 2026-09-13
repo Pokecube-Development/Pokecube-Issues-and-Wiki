@@ -85,7 +85,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
             {
                 final String box = this.renamePageBox.getValue();
-                if (!box.equals(this.boxName) && this.renamePageBox.isVisible() && !this.renamePageBox.getValue().equals(""))
+                if (!box.equals(this.boxName) && this.renamePageBox.isVisible() && !this.renamePageBox.getValue()
+                        .isEmpty())
                 {
                     this.menu.changeName(box);
                     this.boxName = box;
@@ -285,7 +286,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             final Component rename = Component.translatable("block.pc.rename");
             this.renameButton = this.addRenderableWidget(new Button.Builder(rename, (b) -> {
                 final String box = this.renamePageBox.getValue();
-                if (!box.equals(this.boxName) && this.renamePageBox.isVisible() && !this.renamePageBox.getValue().equals(""))
+                if (!box.equals(this.boxName) && this.renamePageBox.isVisible() && !this.renamePageBox.getValue()
+                        .isEmpty())
                 {
                     this.menu.changeName(box);
                     this.boxName = box;
@@ -365,8 +367,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 this.menu.toRelease = new boolean[54];
                 for (int i = 0; i < 54; i++)
                 {
-                    final int index = i;
-                    final PCSlot slot = (PCSlot) this.menu.slots.get(index);
+                    final PCSlot slot = (PCSlot) this.menu.slots.get(i);
                     slot.release = this.release;
                 }
             }).bounds(x + 135, y + 127, 10, 10)
@@ -383,15 +384,13 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                     this.menu.toRelease = new boolean[54];
                     for (int i = 0; i < 54; i++)
                     {
-                        final int index = i;
-                        final PCSlot slot = (PCSlot) this.menu.slots.get(index);
+                        final PCSlot slot = (PCSlot) this.menu.slots.get(i);
                         slot.release = this.release;
                     }
                 }
                 else for (int i = 0; i < 54; i++)
                 {
-                    final int index = i;
-                    final PCSlot slot = (PCSlot) this.menu.slots.get(index);
+                    final PCSlot slot = (PCSlot) this.menu.slots.get(i);
                     slot.release = this.release;
                 }
                 this.menu.release = this.release;
@@ -476,7 +475,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             {
                 final ItemStack stack = this.menu.inv.getItem(i + 54 * this.menu.inv.getPage());
                 if (stack.isEmpty()) continue;
-                final String name = stack == null ? "" : stack.getHoverName().getString();
+                final String name = stack.getHoverName().getString();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.searchBar.getValue())))
                 {
                     final int slotColor = PokecubeCore.getConfig().fancyGUI ? 0x75FF0000 : 0x55FF0000;

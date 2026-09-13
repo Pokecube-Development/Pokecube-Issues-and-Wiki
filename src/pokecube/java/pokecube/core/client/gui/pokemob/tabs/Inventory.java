@@ -35,8 +35,10 @@ import thut.api.entity.IHungrymob;
 
 public class Inventory extends Tab
 {
-    public static ResourceLocation POKEMOB_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "textures/gui/pokemob.png");
-    protected static final ResourceLocation GUI_ICONS_LOCATION = ResourceLocation.parse("textures/gui/icons.png");
+    public static ResourceLocation POKEMOB_GUI = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
+            "textures/gui/pokemob.png");
+    protected static final ResourceLocation GUI_ICONS_LOCATION = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
+            "textures/gui/widgets/pc_widgets.png");
 
     public static class HungerBar extends AbstractWidget
     {
@@ -174,7 +176,7 @@ public class Inventory extends Tab
         final int l = (this.height - this.imageHeight) / 2;
 
         this.addRenderableWidget(new TooltipArea.Builder(Component.translatable("pokemob.gui.slot.saddle"), (x, y) -> {
-            Slot slot = menu.slots.get(0);
+            Slot slot = menu.slots.getFirst();
             if (slot.hasItem()) return false;
             return PokecubeCore.getConfig().pokemobGuiTooltips;
         }, (b, graphics, x, y) -> {
@@ -207,8 +209,8 @@ public class Inventory extends Tab
             // This is done inside here as when the tabs change, it can
             // re-set the slots lists, thereby invalidating the previous
             // check!
-            List<Slot> items = Lists.newArrayList();
-            Supplier<Boolean> hasAnyItem = () -> items.stream().allMatch(s -> !s.hasItem());
+            List<Slot> items = menu.slots;
+            Supplier<Boolean> hasAnyItem = () -> items.stream().noneMatch(Slot::hasItem);
             if (items.isEmpty()) for (int m = 3; m < 8; m++) items.add(menu.slots.get(m));
             if (!hasAnyItem.get()) return false;
             return PokecubeCore.getConfig().pokemobGuiTooltips;
@@ -221,8 +223,10 @@ public class Inventory extends Tab
         yOffset = 77;
         final Component comp = Component.literal("");
         this.name = new EditBox(parent.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, comp);
-        this.name.setTextColor(0xFFFFFFFF);
+        this.name.setTextColor(4210752);
         this.name.setTextColorUneditable(4210752);
+        this.name.setBordered(false);
+        this.name.setTextShadow(false);
         if (this.menu.pokemob != null) this.name.setValue(this.menu.pokemob.getDisplayName().getString());
         this.addRenderableWidget(this.name);
 
@@ -249,6 +253,9 @@ public class Inventory extends Tab
         graphics.blit(POKEMOB_GUI, k + 62, l + 35, 0, this.imageHeight + 72, 18, 18);
         // The off-hand slot
         graphics.blit(POKEMOB_GUI, k + 62, l + 53, 0, this.imageHeight + 72, 18, 18);
+
+        // The 5 inventory slots
+        graphics.blit(GUI_ICONS_LOCATION, k + 64, l + 6, 56, 0, 16, 16);
     }
 
     @Override
@@ -292,7 +299,7 @@ public class Inventory extends Tab
                 this.menu.pokemob.setPokemonNickname(var);
                 return true;
             }
-            else if (code != GLFW.GLFW_KEY_BACKSPACE) return true;
+            else return code != GLFW.GLFW_KEY_BACKSPACE;
         }
         return false;
     }
