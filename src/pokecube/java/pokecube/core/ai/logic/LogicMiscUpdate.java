@@ -533,7 +533,7 @@ public class LogicMiscUpdate extends LogicBase
         List<String> anims = animated.getChoices();
         List<String> transients = animated.transientAnimations();
         anims.clear();
-        var tracker = ThutCaps.getPositionTracker(entity);
+        var tracker = ThutCaps.getPositionTracker(pokemob.getTrackedEntity());
         boolean isRidden = !entity.getPassengers().isEmpty();
         var velocity = tracker.getVelocity();
         float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z);
