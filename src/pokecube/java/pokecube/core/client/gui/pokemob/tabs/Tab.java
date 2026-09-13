@@ -113,23 +113,25 @@ public abstract class Tab
 
         if (this.menu.pokemob != null)
         {
-            Mob mob = this.menu.pokemob.getEntity();
+            var target = this.menu.pokemob.getEntity();
+            RenderSystem.enableBlend();
+            // Render Mob
 
             float f = 30;
-            float yBodyRot = mob.yBodyRot;
-            float yBodyRotO = mob.yBodyRotO;
-            float yHeadRot = mob.yHeadRot;
-            float yHeadRotO = mob.yHeadRotO;
+            float yBodyRot = target.yBodyRot;
+            float yBodyRotO = target.yBodyRotO;
+            float yHeadRot = target.yHeadRot;
+            float yHeadRotO = target.yHeadRotO;
 
-            mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
-            mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
+            target.yBodyRot = target.yBodyRotO = 180.0F + f * 20.0F;
+            target.yHeadRot = target.yHeadRotO = target.yBodyRot;
 
-            GuiPokemobHelper.renderMob(mob, k, l, 0, 0, 0, 0, 1, partialTicks);
-            mob.yBodyRot = yBodyRot;
-            mob.yBodyRotO = yBodyRotO;
-            mob.yHeadRot = yHeadRot;
-            mob.yHeadRotO = yHeadRotO;
-            RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
+            GuiPokemobHelper.renderMob(graphics.pose(), target, k, l, 0, 0, 1, partialTicks, true);
+
+            target.yBodyRot = yBodyRot;
+            target.yBodyRotO = yBodyRotO;
+            target.yHeadRot = yHeadRot;
+            target.yHeadRotO = yHeadRotO;
         }
     }
 
