@@ -165,11 +165,13 @@ public class TargetInfo extends GuiEventComponent
         if (combatTarget || fullDetails) graphics.blitSprite(ICON_MOB_FRAME, 1, 0, -2, 42, 42);
 
         // Render HP
-        graphics.blitSprite(ICON_HEALTH_EXP[0], hpOffsetX, hpOffsetY, 89, 7);
         float total = target.getMaxHealth();
         // Clamp ratio to from 0 and 1, mobs may report whatever they want for health and max health
         float ratio = Math.max(0, Math.min(target.getHealth() / total, 1));
         final int width = (int) (89 * ratio);
+        // Background first
+        graphics.blitSprite(ICON_HEALTH_EXP[0], hpOffsetX, hpOffsetY, 89, 7);
+        // Then filled bar
         graphics.blitSprite(ICON_HEALTH_EXP[1], hpOffsetX, hpOffsetY, width, 7);
 
         // Render number of enemies

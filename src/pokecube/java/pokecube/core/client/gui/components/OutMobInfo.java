@@ -91,8 +91,12 @@ public class OutMobInfo extends GuiEventComponent
             // Render HP
             total = pokemob.getMaxHealth();
             ratio = pokemob.getHealth() / total;
+            // Clamp ratio to from 0 and 1, mobs may report whatever they want for health and max health
+            ratio = Math.max(0, Math.min(1, ratio));
             width = (int) (89 * ratio);
+            // Background first
             graphics.blitSprite(ICON_HEALTH_EXP[0], hpOffsetX, hpOffsetY, 89, 7);
+            // Then filled bar
             graphics.blitSprite(ICON_HEALTH_EXP[1], hpOffsetX, hpOffsetY, width, 7);
 
             // Render XP
