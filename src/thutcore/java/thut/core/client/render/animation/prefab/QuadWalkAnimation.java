@@ -48,7 +48,7 @@ public class QuadWalkAnimation extends Animation
         if (!this.get(map, "angle").isEmpty()) walkAngle1 = Float.parseFloat(this.get(map, "angle"));
         if (!this.get(map, "frontAngle").isEmpty()) walkAngle2 = Float.parseFloat(this.get(map, "frontAngle"));
         else walkAngle2 = walkAngle1;
-        quadwalkdur = Integer.parseInt(this.get(map, "duration"));
+        quadwalkdur = Integer.parseInt(this.get(map, "duration", "20"));
 
         this.init(hl, hr, fl, fr, quadwalkdur, walkAngle1, walkAngle2);
         return this;

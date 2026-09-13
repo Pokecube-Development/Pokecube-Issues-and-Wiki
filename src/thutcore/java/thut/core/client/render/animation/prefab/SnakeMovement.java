@@ -62,7 +62,7 @@ public class SnakeMovement extends Animation
         if (!this.get(map, "angle").isEmpty()) maxAngle = Float.parseFloat(this.get(map, "angle"));
         if (!this.get(map, "axis").isEmpty()) axis = Integer.parseInt(this.get(map, "axis"));
         if (!this.get(map, "length").isEmpty()) duration = Integer.parseInt(this.get(map, "length"));
-        if (!this.get(map, "duration").isEmpty()) duration = Integer.parseInt(this.get(map, "duration"));
+        if (!this.get(map, "duration").isEmpty()) duration = Integer.parseInt(this.get(map, "duration", "20"));
         this.init(parts, duration, maxAngle, axis);
         return this;
     }

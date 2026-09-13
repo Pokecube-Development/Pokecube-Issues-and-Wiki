@@ -47,7 +47,7 @@ public class BiWalkAnimation extends Animation
         for (final String s : rh) if (s != null) hr.add(ThutCore.trim(s));
         for (final String s : rf) if (s != null) fr.add(ThutCore.trim(s));
         for (final String s : lf) if (s != null) fl.add(ThutCore.trim(s));
-        biwalkdur = Integer.parseInt(this.get(map, "duration"));
+        biwalkdur = Integer.parseInt(this.get(map, "duration", "20"));
         int armAxis = 0;
         int legAxis = 0;
         if (!this.get(map, "legAngle").isEmpty()) walkAngle1 = Float.parseFloat(this.get(map, "legAngle"));

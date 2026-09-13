@@ -67,9 +67,13 @@ public class Animation
         return phase.values.getOrDefault(value, "");
     }
 
+    protected String get(final Phase phase, final String value, String _default)
+    {
+        return phase.values.getOrDefault(new QName(value), _default);
+    }
     protected String get(final Phase phase, final String value)
     {
-        return phase.values.getOrDefault(new QName(value), "");
+        return get(phase, value, "");
     }
 
     public void initLength()
