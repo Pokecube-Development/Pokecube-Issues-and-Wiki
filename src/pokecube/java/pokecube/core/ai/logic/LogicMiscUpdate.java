@@ -533,7 +533,8 @@ public class LogicMiscUpdate extends LogicBase
         List<String> anims = animated.getChoices();
         List<String> transients = animated.transientAnimations();
         anims.clear();
-        var tracker = ThutCaps.getPositionTracker(pokemob.getTrackedEntity());
+        var trackedEntity = pokemob.getTrackedEntity();
+        var tracker = ThutCaps.getPositionTracker(trackedEntity);
         boolean isRidden = !entity.getPassengers().isEmpty();
         var velocity = tracker.getVelocity();
         float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z);
@@ -574,7 +575,7 @@ public class LogicMiscUpdate extends LogicBase
             addAnimation(anims, "dead", isRidden);
             noBlink = true;
         }
-        if (entity.getVehicle() != null) addAnimation(anims, "sitting", isRidden);
+        if (trackedEntity.getVehicle() != null) addAnimation(anims, "sitting", isRidden);
         for (final LogicStates state : LogicStates.values())
         {
             final String anim = ThutCore.trim(state.toString());
