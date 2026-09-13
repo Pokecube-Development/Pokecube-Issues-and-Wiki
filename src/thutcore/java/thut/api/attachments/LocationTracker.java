@@ -3,7 +3,6 @@ package thut.api.attachments;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -14,6 +13,7 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.Tracker;
 import thut.api.data.HolderProvider;
+import thut.api.level.ILevelEntityGetter;
 import thut.api.maths.Vector3;
 
 import java.util.function.Supplier;
@@ -126,9 +126,9 @@ public class LocationTracker
     @SubscribeEvent
     public static void preTickMobs(LevelTickEvent.Pre event)
     {
-        if(event.getLevel() instanceof ServerLevel level)
+        if(event.getLevel() instanceof ILevelEntityGetter level)
         {
-            for(var e: level.getEntities().getAll())
+            for(var e: level.thutcore$getEntityGetter().getAll())
             {
                 var track = e.getData(TYPE);
                 long tick = Tracker.instance().getTick();

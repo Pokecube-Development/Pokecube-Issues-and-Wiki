@@ -512,7 +512,7 @@ public class LogicMiscUpdate extends LogicBase
         if (this.entity.deathTime > 0 || this.entity.isDeadOrDying()) next = Pose.DYING;
         else if (sleeping) next = Pose.SLEEPING;
         else if (this.entity.isInWater() || this.entity.isInLava()) next = Pose.SWIMMING;
-        else if (this.floatTimer < 10) next = Pose.STANDING;
+        else if (this.floatTimer < 20) next = Pose.STANDING;
         else next = Pose.FALL_FLYING;
         if (next != old) entity.setPose(next);
     }
@@ -533,8 +533,9 @@ public class LogicMiscUpdate extends LogicBase
         List<String> anims = animated.getChoices();
         List<String> transients = animated.transientAnimations();
         anims.clear();
+        var tracker = ThutCaps.getPositionTracker(entity);
         boolean isRidden = !entity.getPassengers().isEmpty();
-        Vec3 velocity = entity.getDeltaMovement();
+        var velocity = tracker.getVelocity();
         float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z);
         boolean onGround = entity.onGround();
 
@@ -565,7 +566,7 @@ public class LogicMiscUpdate extends LogicBase
         {
             pose = Pose.FALL_FLYING;
         }
-        boolean walking = this.floatTimer < 10 && moving;
+        boolean walking = this.floatTimer < 20 && moving;
         boolean noBlink = false;
         boolean guarding = pokemob.getCombatState(CombatStates.GUARDING);
         if (pose == Pose.DYING || entity.deathTime > 0)
@@ -646,6 +647,7 @@ public class LogicMiscUpdate extends LogicBase
             addAnimation(anims, "battling", isRidden);
         }
         if (isRidden) addAnimation(anims, "idle", isRidden);
+//        anims.addFirst("flying"); // Debug comment out to test specific animations server/client side
 
         PokecubeAPI.POKEMOB_BUS.post(new AnimationSelectionEvent(pokemob, animated));
     }
