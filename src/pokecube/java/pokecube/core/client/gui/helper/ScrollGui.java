@@ -159,6 +159,18 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     @Override
     protected void renderListItems(final GuiGraphics graphics, final int x, final int y, final float tick)
     {
+        int i = this.getRowLeft();
+        int j = this.getRowWidth();
+        int k = this.itemHeight - 4;
+        int l = this.getItemCount();
+        for (int i1 = 0; i1 < l; i1++)
+        {
+            int j1 = this.getRowTop(i1);
+            int k1 = this.getRowBottom(i1);
+            var item = this.getEntry(i1);
+            boolean vis = k1 >= this.getY() && j1 <= this.getBottom();
+            if (item instanceof INotifiedEntry e) e.preRender(i1, i, j1, j, k, x, y, vis, tick);
+        }
         super.renderListItems(graphics, x, y, tick);
     }
 
