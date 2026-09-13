@@ -10,6 +10,7 @@
     "entity.EntityPartCapabilities",
     "entity.LevelEntityEventClient",
     "entity.LevelEntityEventServer",
+    "entity.WalkNodeEvaluatorMultiPartMobs",
     "terrain.ChunkAccessTerrain"
   ],
   "client": [
