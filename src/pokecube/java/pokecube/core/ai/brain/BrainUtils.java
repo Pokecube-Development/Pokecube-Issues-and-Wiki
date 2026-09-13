@@ -29,13 +29,24 @@ public class BrainUtils extends BrainUtil
     public static LivingEntity getAttackTarget(final LivingEntity mobIn)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(mobIn);
-        if (pokemob != null && pokemob.getMoveStats().getTargetEnemy() != null)
-            return pokemob.getMoveStats().getTargetEnemy();
         final Brain<?> brain = mobIn.getBrain();
+        LivingEntity oldTarget = null;
         if (brain.hasMemoryValue(MemoryModules.ATTACKTARGET.get()))
-            return brain.getMemory(MemoryModules.ATTACKTARGET.get()).get();
-        else if (mobIn instanceof Mob mob) return mob.getTarget();
-        else return null;
+            oldTarget = brain.getMemory(MemoryModules.ATTACKTARGET.get()).get();
+        else if (mobIn instanceof Mob mob) oldTarget = mob.getTarget();
+
+        if (pokemob != null && pokemob.getMoveStats().getTargetEnemy() != null)
+        {
+            var target = pokemob.getMoveStats().getTargetEnemy();
+            // Ensure brain is synced
+            if(target!=oldTarget)
+            {
+                if (target != null) brain.setMemory(MemoryModules.ATTACKTARGET.get(), target);
+                else brain.eraseMemory(MemoryModules.ATTACKTARGET.get());
+            }
+            return pokemob.getMoveStats().getTargetEnemy();
+        }
+        return oldTarget;
     }
 
     public static boolean hasAttackTarget(final LivingEntity mobIn)
