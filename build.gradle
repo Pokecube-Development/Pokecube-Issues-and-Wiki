@@ -1,3 +1,10 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+import javax.imageio.ImageIO
+import java.awt.Graphics2D
+import java.awt.image.BufferedImage
+
 plugins {
     id 'java-library'
     id 'eclipse'
@@ -186,7 +193,7 @@ def generateXaeroPokemobIconResources = tasks.register('generateXaeroPokemobIcon
         definitionRoot.mkdirs()
         spriteRoot.mkdirs()
 
-        final def json = new groovy.json.JsonSlurper()
+        final def json = new JsonSlurper()
         final List<Map<String, Object>> entries = fileTree(xaeroPokedexEntrySource) {
             include '*.json'
         }.files.collect { File entryFile ->
@@ -227,12 +234,12 @@ def generateXaeroPokemobIconResources = tasks.register('generateXaeroPokemobIcon
         fileTree(xaeroPokemobIconSource) {
             include '*.png'
         }.files.each { File iconFile ->
-            final java.awt.image.BufferedImage source = javax.imageio.ImageIO.read(iconFile)
+            final BufferedImage source = ImageIO.read(iconFile)
             if (source == null) throw new GradleException("Could not read Pokecube icon ${iconFile}")
 
-            final java.awt.image.BufferedImage padded = new java.awt.image.BufferedImage(source.width * 2,
-                    source.height * 2, java.awt.image.BufferedImage.TYPE_INT_ARGB)
-            final java.awt.Graphics2D graphics = padded.createGraphics()
+            final BufferedImage padded = new BufferedImage(source.width * 2,
+                    source.height * 2, BufferedImage.TYPE_INT_ARGB)
+            final Graphics2D graphics = padded.createGraphics()
             try {
                 graphics.drawImage(source, source.width.intdiv(2), source.height.intdiv(2), null)
             }
@@ -240,7 +247,7 @@ def generateXaeroPokemobIconResources = tasks.register('generateXaeroPokemobIcon
                 graphics.dispose()
             }
 
-            if (!javax.imageio.ImageIO.write(padded, 'png', new File(spriteRoot, iconFile.name))) {
+            if (!ImageIO.write(padded, 'png', new File(spriteRoot, iconFile.name))) {
                 throw new GradleException("Could not write Xaero sprite for Pokecube icon ${iconFile}")
             }
         }
@@ -302,12 +309,12 @@ def generateXaeroPokemobIconResources = tasks.register('generateXaeroPokemobIcon
                     variantMethod: 'pokecube.compat.xaero.XaeroIconHandler.getVariant'
             ]
             final File outputFile = new File(definitionRoot, "${entry.name}.json")
-            outputFile.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(definition)) + System.lineSeparator()
+            outputFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(definition)) + System.lineSeparator()
         }
 
         final Map<String, Object> eggDefinition = [variants: [default: 'item:pokecube:pokemobegg']]
         final File eggOutputFile = new File(definitionRoot, 'egg.json')
-        eggOutputFile.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(eggDefinition)) + System.lineSeparator()
+        eggOutputFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(eggDefinition)) + System.lineSeparator()
     }
 }
 
@@ -422,10 +429,14 @@ def gitVersion() {
         else return mod_version
         def desc = (raw == null ? 'unknown-offset-hash' : raw.split('-')) as List
         def vars = desc.get(0)
-        def splis = vars.split(/[.]/)
+        def oldVerSplit = mod_version.split(/[.]/)
+        def oldMajor = oldVerSplit[0].toInteger()
+        def oldSub = oldVerSplit[1].toInteger()
+        def splis = vars.toString().split(/[.]/)
         def majver = splis[0].toInteger()
         def subver = splis[1].toInteger()
         def offset = splis[2].toInteger()
+        if(oldMajor!=majver || oldSub!=subver) return mod_version
         def ver = offset + 1
         return "${majver}.${subver}.${ver}"
     }
