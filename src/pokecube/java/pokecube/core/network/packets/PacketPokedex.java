@@ -356,7 +356,8 @@ public class PacketPokedex extends NBTPacket
         for (var name : entry.getRelated())
         {
             var e = Database.getEntry(name);
-            if (!e.breeds) continue;
+            // Skip ones that can't breed, or ourself, as we were manually added earlier
+            if (!e.breeds || e == entry) continue;
             breedable.putString("" + n, name);
             n++;
         }
