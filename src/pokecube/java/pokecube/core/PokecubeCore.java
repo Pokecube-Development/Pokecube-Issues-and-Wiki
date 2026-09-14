@@ -118,9 +118,8 @@ public class PokecubeCore
             pre.modIDs.add(PokecubeCore.MODID);
             MatcherLoaders.init();
             PokemobConditionLoader.init();
-            Database.preInit();
-            Sounds.initMoveSounds();
             Sounds.initConfigSounds();
+            Database.preInit();
             EntityTypes.registerPokemobs();
 
             // Now we can initialise some of the custom items.
@@ -253,7 +252,6 @@ public class PokecubeCore
         if (velocity == null) velocity = new Vector3f();
         entityWorld.addParticle(particle, position.x, position.y, position.z, velocity.x, velocity.y, velocity.z);
     }
-
 
     public PokecubeCore(IEventBus bus, ModContainer modContainer)
     {

@@ -1,9 +1,11 @@
 package pokecube.core.init;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.Animations.AnimationJson;
 import pokecube.api.data.moves.Moves;
 import pokecube.core.PokecubeCore;
@@ -30,15 +32,30 @@ public class Sounds
     public static void init()
     {}
 
-    private static void registerIfNotPresent(ResourceLocation sound, SoundEvent event)
+    private static Object registerIfNotPresent(ResourceLocation sound, SoundEvent event)
     {
         try
         {
             PokecubeCore.SOUNDS.register(sound.getPath(), () -> event);
+            return null;
         }
-        catch (IllegalArgumentException e)
+        catch (Exception e)
         {
             // pass here, it means it was already present!
+            return e;
+        }
+    }
+
+    private static void checkIfRegistered(ResourceLocation sound, SoundEvent event)
+    {
+        var except = registerIfNotPresent(sound, event);
+        if (except instanceof IllegalStateException)
+        {
+            boolean exists = PokecubeCore.SOUNDS.getRegistry().get().containsKey(sound);
+            if (!exists)
+            {
+                PokecubeAPI.LOGGER.error("No Sound: {}", sound);
+            }
         }
     }
 
@@ -52,36 +69,34 @@ public class Sounds
         }
     }
 
-    public static void initMoveSounds()
+    public static void initMoveSounds(List<Moves.MoveHolder> moves)
     {
         // null as it should have been populated already
-        for (final var entry : Moves.ALL_MOVES)
+        for (final var entry : moves)
         {
-            // Register sound on source
+            // Check sound on source
             if (entry._sound_effect_source != null)
             {
                 final ResourceLocation sound = ResourceLocation.parse(entry.getMove().sound_effect_source);
-                // TODO: Check if correct
                 final SoundEvent event = SoundEvent.createVariableRangeEvent(sound);
-                if (!sound.getNamespace().equals("minecraft")) registerIfNotPresent(sound, event);
+                if (!sound.getNamespace().equals("minecraft")) checkIfRegistered(sound, event);
             }
-            // Register sound on target
+            // Check sound on target
             if (entry._sound_effect_target != null)
             {
                 final ResourceLocation sound = ResourceLocation.parse(entry.getMove().sound_effect_target);
-                // TODO: Check if correct
                 final SoundEvent event = SoundEvent.createVariableRangeEvent(sound);
-                if (!sound.getNamespace().equals("minecraft")) registerIfNotPresent(sound, event);
+                if (!sound.getNamespace().equals("minecraft")) checkIfRegistered(sound, event);
             }
-            // Register sounds for the animations
-            if (entry.animation.animations != null)
-                for (final AnimationJson anim : entry.animation.animations) if (anim.sound != null)
-            {
-                final ResourceLocation sound = ResourceLocation.parse(anim.sound);
-                // TODO: Check if correct
-                final SoundEvent event = SoundEvent.createVariableRangeEvent(sound);
-                if (!sound.getNamespace().equals("minecraft")) registerIfNotPresent(sound, event);
-            }
+            // Check sounds for the animations if present
+            if (entry.animation != null && entry.animation.animations != null)
+                for (final AnimationJson anim : entry.animation.animations)
+                    if (anim.sound != null)
+                    {
+                        final ResourceLocation sound = ResourceLocation.parse(anim.sound);
+                        final SoundEvent event = SoundEvent.createVariableRangeEvent(sound);
+                        if (!sound.getNamespace().equals("minecraft")) checkIfRegistered(sound, event);
+                    }
         }
     }
 }

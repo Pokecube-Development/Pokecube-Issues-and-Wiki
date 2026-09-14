@@ -92,8 +92,6 @@ public class Moves
         }
     }
 
-    public static List<MoveHolder> ALL_MOVES = Lists.newArrayList();
-
     public static class MoveHolder
     {
         private Move move;

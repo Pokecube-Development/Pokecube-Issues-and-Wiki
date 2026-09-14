@@ -21,6 +21,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.tags.Tags;
+import pokecube.core.init.Sounds;
 import pokecube.core.moves.implementations.MovesAdder;
 import thut.api.util.JsonUtil;
 import thut.lib.ResourceHelper;
@@ -65,13 +66,13 @@ public class MovesDatabases
             try
             {
                 final InputStreamReader reader = new InputStreamReader(ResourceHelper.getStream(r));
-                Animation database = JsonUtil.gson.fromJson(reader, Animation.class);
+                Animation animationFile = JsonUtil.gson.fromJson(reader, Animation.class);
                 reader.close();
 
-                animsToLoad.compute(database.name, (key, list) -> {
+                animsToLoad.compute(animationFile.name, (key, list) -> {
                     var ret = list;
                     if (ret == null) ret = Lists.newArrayList();
-                    ret.add(database);
+                    ret.add(animationFile);
                     return ret;
                 });
             }
@@ -118,7 +119,7 @@ public class MovesDatabases
         });
 
         // Now we process the loaded moves.
-
+        List<MoveHolder> moves = new ArrayList<>();
         for (Move json : loadedMoves)
         {
             // If flagged as to remove, skip it.
@@ -144,6 +145,7 @@ public class MovesDatabases
 
             // Create and assign a root entry.
             entry.root_entry = holder;
+            moves.add(holder);
 
             // Annoying gen 9 move thing - no move_category stated
             if (json.move_category == null)
@@ -163,6 +165,7 @@ public class MovesDatabases
             // Register the move entry.
             MoveEntry.addMove(entry);
         }
+        Sounds.initMoveSounds(moves);
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Registered {} moves", loadedMoves.size());
     }
 
