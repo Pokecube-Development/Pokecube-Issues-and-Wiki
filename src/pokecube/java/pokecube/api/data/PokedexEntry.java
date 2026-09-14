@@ -1065,6 +1065,14 @@ public class PokedexEntry
         });
     }
 
+    private static void addFormFallbacks(PokedexEntry form, ModelHolder holder)
+    {
+        holder.backupModels.add(ResourceLocation.fromNamespaceAndPath(form.model().getNamespace(),
+                "database/pokemobs/pokemob_hitboxes/" + form.getTrimmedName() + ".bbmodel"));
+        holder.backupAnimations.add(ResourceLocation.fromNamespaceAndPath(form.model().getNamespace(),
+                "database/pokemobs/pokemob_hitboxes/" + form.getTrimmedName() + ".xml"));
+    }
+
     /**
      * Applies various things which needed server to be initialized, such as interactions for tag lists, etc
      */
@@ -1074,6 +1082,17 @@ public class PokedexEntry
         // Load in the model
         var _model = new ModelHolder(ResourceLocation.fromNamespaceAndPath(this.model().getNamespace(),
                 "database/pokemobs/pokemob_hitboxes/" + this.getTrimmedName() + ".bbmodel"));
+        if (this.getBaseForme() != null)
+        {
+            addFormFallbacks(this.getBaseForme(), _model);
+            if (this.getBaseForme().female != null) addFormFallbacks(this.getBaseForme().female, _model);
+            if (this.getBaseForme().male != null) addFormFallbacks(this.getBaseForme().male, _model);
+        }
+        else
+        {
+            if (this.female != null) addFormFallbacks(this.female, _model);
+            if (this.male != null) addFormFallbacks(this.male, _model);
+        }
         _model.onComplete = model -> {
             var executor = Executors.newVirtualThreadPerTaskExecutor();
             executor.submit(() -> {
@@ -1081,7 +1100,7 @@ public class PokedexEntry
                 {
                     try
                     {
-                        Thread.currentThread().wait(0, 100);
+                        Thread.sleep(0, 100);
                     }
                     catch (Exception e)
                     {
