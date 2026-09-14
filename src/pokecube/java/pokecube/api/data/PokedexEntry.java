@@ -1737,7 +1737,7 @@ public class PokedexEntry
                 }
         }
         // The new arrayList wrapper is for the empty case.
-        List<PokedexEntry> toEntries = new ArrayList<>(this.related.stream().map(Database::getEntry).toList());
+        Set<PokedexEntry> toEntries = new HashSet<>(this.related.stream().map(Database::getEntry).toList());
         int n = 0;
         while (n != toEntries.size())
         {
@@ -1748,9 +1748,10 @@ public class PokedexEntry
             v_evos.removeIf(toEntries::contains);
             toEntries.addAll(v_evos);
         }
-        toEntries.sort(Database.COMPARATOR);
+        List<PokedexEntry> toSort = new ArrayList<>(toEntries);
+        toSort.sort(Database.COMPARATOR);
         this.related.clear();
-        this.related.addAll(toEntries.stream().map(PokedexEntry::getTrimmedName).toList());
+        this.related.addAll(toSort.stream().map(PokedexEntry::getTrimmedName).toList());
     }
 
     private void addRelationsAndEvos(Set<PokedexEntry> set)
