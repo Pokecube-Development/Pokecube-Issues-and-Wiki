@@ -1,5 +1,7 @@
 package pokecube.api.entity.pokemob.ai;
 
+import java.util.Locale;
+
 public enum LogicStates
 {
     /** Is the pokemob currently sitting */
@@ -23,17 +25,23 @@ public enum LogicStates
 
     final int mask;
     final boolean persist;
+    final String name;
 
     private LogicStates(final int mask)
     {
-        this.mask = mask;
-        this.persist = true;
+        this(mask, true);
     }
 
     private LogicStates(final int mask, final boolean persist)
     {
         this.mask = mask;
         this.persist = persist;
+        this.name = this.name().toLowerCase(Locale.ROOT);
+    }
+
+    public String getName()
+    {
+        return this.name;
     }
 
     public int getMask()

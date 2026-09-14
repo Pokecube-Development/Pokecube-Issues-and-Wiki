@@ -1,5 +1,7 @@
 package pokecube.api.entity.pokemob.ai;
 
+import java.util.Locale;
+
 public enum GeneralStates
 {
     /** A Staying pokemon will act like a wild pokemon. */
@@ -27,17 +29,23 @@ public enum GeneralStates
 
     final int     mask;
     final boolean persist;
+    final String name;
 
     private GeneralStates(final int mask)
     {
-        this.mask = mask;
-        this.persist = true;
+        this(mask, true);
     }
 
     private GeneralStates(final int mask, final boolean persist)
     {
         this.mask = mask;
         this.persist = persist;
+        this.name = this.toString().toLowerCase(Locale.ROOT);
+    }
+
+    public String getName()
+    {
+        return this.name;
     }
 
     public int getMask()

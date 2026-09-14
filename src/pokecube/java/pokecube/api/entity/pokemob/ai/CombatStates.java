@@ -1,5 +1,7 @@
 package pokecube.api.entity.pokemob.ai;
 
+import java.util.Locale;
+
 public enum CombatStates
 {
     /** Is the pokemob angry at something */
@@ -44,17 +46,23 @@ public enum CombatStates
 
     final int mask;
     final boolean persist;
+    final String name;
 
     private CombatStates(final int mask)
     {
-        this.mask = mask;
-        this.persist = true;
+        this(mask, true);
     }
 
     private CombatStates(final int mask, final boolean persist)
     {
         this.mask = mask;
         this.persist = persist;
+        this.name = this.name().toLowerCase(Locale.ROOT);
+    }
+
+    public String getName()
+    {
+        return this.name;
     }
 
     public int getMask()

@@ -578,8 +578,7 @@ public class LogicMiscUpdate extends LogicBase
         if (trackedEntity.getVehicle() != null) addAnimation(anims, "sitting", isRidden);
         for (final LogicStates state : LogicStates.values())
         {
-            final String anim = ThutCore.trim(state.toString());
-            if (this.pokemob.getLogicState(state)) addAnimation(anims, anim, isRidden);
+            if (this.pokemob.getLogicState(state)) addAnimation(anims, state.getName(), isRidden);
         }
         switch (pose)
         {
@@ -612,13 +611,11 @@ public class LogicMiscUpdate extends LogicBase
         }
         for (final CombatStates state : CombatStates.values())
         {
-            final String anim = ThutCore.trim(state.toString());
-            if (this.pokemob.getCombatState(state)) addAnimation(anims, anim, isRidden);
+            if (this.pokemob.getCombatState(state)) addAnimation(anims, state.getName(), isRidden);
         }
         for (final GeneralStates state : GeneralStates.values())
         {
-            final String anim = ThutCore.trim(state.toString());
-            if (this.pokemob.getGeneralState(state)) addAnimation(anims, anim, isRidden);
+            if (this.pokemob.getGeneralState(state)) addAnimation(anims, state.getName(), isRidden);
         }
 
         // Add in some transients which might occur
