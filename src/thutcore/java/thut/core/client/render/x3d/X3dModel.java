@@ -33,10 +33,10 @@ public class X3dModel extends BaseModel
 {
     protected Map<String, Material> mats;
 
-    public X3dModel(final ResourceLocation l, IModelCallback callback)
+    public X3dModel(final ResourceLocation l, boolean willTryOthers, IModelCallback callback)
     {
         super(l, callback);
-        this.doLoad();
+        this.doLoad(willTryOthers);
     }
 
     private void addChildren(final Set<Transform> allTransforms, final Transform transform)

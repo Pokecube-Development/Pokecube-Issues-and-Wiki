@@ -118,14 +118,14 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         this.callback = callback;
     }
 
-    protected void doLoad()
+    protected void doLoad(boolean willTryOthers)
     {
         this.valid = true;
         try
         {
             // Check if the model even exists
             this.last_loaded = pending_load;
-            if (!ResourceHelper.exists(pending_load))
+            if (willTryOthers && !ResourceHelper.exists(pending_load))
             {
                 this.valid = false;
                 return;

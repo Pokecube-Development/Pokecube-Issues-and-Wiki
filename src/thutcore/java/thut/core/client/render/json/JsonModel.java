@@ -18,10 +18,10 @@ import thut.lib.ResourceHelper;
 public class JsonModel extends BaseModel
 {
 
-    public JsonModel(final ResourceLocation l, IModelCallback callback)
+    public JsonModel(final ResourceLocation l, boolean willTryOthers, IModelCallback callback)
     {
         super(l, callback);
-        this.doLoad();
+        this.doLoad(willTryOthers);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class JsonModel extends BaseModel
         catch (Exception e)
         {
             this.valid = false;
-            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading " + model, e);
+            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading {}", model, e);
         }
     }
 

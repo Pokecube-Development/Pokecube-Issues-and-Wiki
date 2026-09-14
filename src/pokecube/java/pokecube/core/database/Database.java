@@ -650,16 +650,6 @@ public class Database
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Resource Stage 4: {}s", dt / 1e9d);
         time = System.nanoTime();
 
-        /* Initialize relations, prey, children. */
-        for (final PokedexEntry p : Database.getSortedFormes())
-            p.initRelations(PokecubeCore.proxy.getRegistries());
-        // Finally prey and children, as they depend on relations
-        for (final PokedexEntry p : Database.getSortedFormes())
-        {
-            p.getChild();
-            p.initPrey();
-        }
-
         // Final setup of things
         // Enable async models for this step
         var old = ThutCore.conf.asyncModelLoads;

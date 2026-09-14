@@ -18,7 +18,7 @@ public class ModelFactory
 {
     public static interface IFactory<T extends IModel>
     {
-        T create(ResourceLocation model, IModelCallback callback);
+        T create(ResourceLocation model, boolean willTryOthers, IModelCallback callback);
     }
 
     private static final Map<String, IFactory<?>> modelFactories = Maps.newHashMap();
@@ -44,11 +44,11 @@ public class ModelFactory
                 final ResourceLocation model1 = ResourceLocation.fromNamespaceAndPath(location.getNamespace(),
                         path + "." + ext1);
                 if (ThutCore.conf.debug_models) ThutCore.LOGGER.debug("Checking {}", model1);
-                ret = factory.create(model1, callback);
+                ret = factory.create(model1, true, callback);
                 ext = ext1;
                 if (ret != null && ret.isValid()) break;
             }
-            if (ret == null) ret = new X3dModel(location, callback).init(callback);
+            if (ret == null) ret = new X3dModel(location, false, callback).init(callback);
             if (!ret.isValid())
             {
                 if (ThutCore.conf.debug_models) ThutCore.LOGGER.error("No Model found for {}", location);
@@ -69,8 +69,14 @@ public class ModelFactory
                 ThutCore.LOGGER.error("No Model factory for {}, {}", ext, location);
                 return null;
             }
+            // animations are defaulted to model name + ".xml", if it already had an extension, we strip it here.
+            if (model.animation.getPath().endsWith("." + ext + ".xml"))
+            {
+                model.animation = ResourceLocation.fromNamespaceAndPath(model.animation.getNamespace(),
+                        model.animation.getPath().replace("." + ext + ".xml", ".xml"));
+            }
             model.extension = ext;
-            return factory.create(location, callback);
+            return factory.create(location, false, callback);
         }
     }
 

@@ -92,6 +92,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -716,18 +717,6 @@ public class PokedexEntry
     public static final ResourceLocation ANIMNO = ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID,
             MODELPATH + "missingno.xml");
 
-    private static void addFromEvolution(final PokedexEntry a, final PokedexEntry b, HolderLookup.Provider registries)
-    {
-        for (final EvolutionData d : a.evolutions)
-        {
-            d.postInit(registries);
-            final PokedexEntry c = d.evolution;
-            if (c == null) continue;
-            b.addRelation(c);
-            c.addRelation(b);
-        }
-    }
-
     // Core Values
     @CopyToGender
     @Required
@@ -901,13 +890,13 @@ public class PokedexEntry
     public double preferedHeight = 1.25;
     /** Pokemobs with these entries will be hunted. */
     @CopyToGender
-    private final List<PokedexEntry> prey = new ArrayList<>();
+    private final List<String> prey = new ArrayList<>();
 
     /**
      * This list will contain all pokemon that are somehow related to this one via evolution chains
      */
     @CopyToGender
-    public final List<PokedexEntry> related = new ArrayList<>();
+    public final List<String> related = new ArrayList<>();
 
     @CopyToGender
     public boolean shouldDive = false;
@@ -1084,10 +1073,10 @@ public class PokedexEntry
         AtomicBoolean modelLoaded = new AtomicBoolean(false);
         // Load in the model
         var _model = new ModelHolder(ResourceLocation.fromNamespaceAndPath(this.model().getNamespace(),
-                "database/pokemobs/pokemob_hitboxes/" + this.getTrimmedName()));
+                "database/pokemobs/pokemob_hitboxes/" + this.getTrimmedName() + ".bbmodel"));
         _model.onComplete = model -> {
             var executor = Executors.newVirtualThreadPerTaskExecutor();
-            executor.submit(()->{
+            executor.submit(() -> {
                 while (!model.isLoaded())
                 {
                     try
@@ -1188,8 +1177,29 @@ public class PokedexEntry
         if (Tags.MOVEMENT.isIn("swims", this.getTrimmedName())) this.mobType |= MovementType.WATER.mask;
         if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
 
+        // Now process evolutions
+        this.evolutions.clear();
+        var baseEntry = this;
+        if (this.isGenderForme) baseEntry = this.getBaseForme();
+        var evos = EvolutionDataLoader.RULES.getOrDefault(baseEntry, Collections.emptyList());
+        evos.sort(null);
+        for (final Evolution evol : evos)
+        {
+            String name = evol.name;
+            var evolEntry = Database.getEntry(name);
+            if (evolEntry == null || evolEntry == Database.missingno)
+            {
+                PokecubeAPI.LOGGER.error("Entry {} not found for evolution of {}, skipping", name, this.name);
+                continue;
+            }
+            EvolutionData d = new EvolutionData(evolEntry, evol);
+            this.evolutions.add(d);
+            evolEntry = d.evolution;
+            if (evolEntry == null) continue;
+            evolEntry._evolvesFrom = this;
+            evolEntry._evolvesBy = d;
+        }
         this.copyToGenderFormes();
-
         return modelLoaded;
     }
 
@@ -1208,19 +1218,9 @@ public class PokedexEntry
         this.forms.put(key, form);
     }
 
-    private void addRelation(final PokedexEntry toAdd)
-    {
-        if (!this.getRelated().contains(toAdd) && toAdd != null && toAdd != this) this.getRelated().add(toAdd);
-    }
-
     public ResourceLocation animation()
     {
         return this.animation;
-    }
-
-    public boolean areRelated(final PokedexEntry toTest)
-    {
-        return toTest == this || this.getRelated().contains(toTest);
     }
 
     public boolean canEvolve()
@@ -1341,23 +1341,6 @@ public class PokedexEntry
             if (this.getBaseForme() == this) PokecubeAPI.LOGGER.error("Error with {}", this);
         }
         return this.baseName;
-    }
-
-    public PokedexEntry getChild()
-    {
-        if (this._childNb == null)
-        {
-            for (final PokedexEntry e : this.getRelated())
-                for (final EvolutionData d : e.evolutions) if (d.evolution == this) this._childNb = e.getChild();
-            if (this._childNb == null) this._childNb = this;
-        }
-
-        return this._childNb;
-    }
-
-    public PokedexEntry getChild(final PokedexEntry ignored)
-    {
-        return this.getChild();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -1515,11 +1498,6 @@ public class PokedexEntry
                 }
         }
         return ItemStack.EMPTY;
-    }
-
-    public List<PokedexEntry> getRelated()
-    {
-        return this.related;
     }
 
     public String getName()
@@ -1690,7 +1668,26 @@ public class PokedexEntry
 
     public boolean hasPrey()
     {
+        validatePrey();
         return !this.prey.isEmpty();
+    }
+
+    public boolean isFood(final PokedexEntry toTest)
+    {
+        validatePrey();
+        return this.prey.contains(toTest.getTrimmedName());
+    }
+
+    private void validatePrey()
+    {
+        if (this.food != null && this.prey.isEmpty())
+        {
+            this.initPrey();
+            if (this.prey.isEmpty())
+            {
+                this.food = null;
+            }
+        }
     }
 
     public void initPrey()
@@ -1702,57 +1699,21 @@ public class PokedexEntry
         poke:
         for (final PokedexEntry e : Database.data.values())
         {
-            final Set<String> tags = Tags.CREATURES.lookupTags(e.getTrimmedName());
+            var name = e.getTrimmedName();
+            final Set<String> tags = Tags.CREATURES.lookupTags(name);
             for (final String s : tags)
                 if (foodList.contains(s))
                 {
-                    this.prey.add(e);
+                    this.prey.add(name);
                     continue poke;
                 }
         }
     }
 
-    public void initRelations(HolderLookup.Provider registries)
+    public void initRelations()
     {
         this.addRelation(this);
-
-        this.evolutions.clear();
-
-        PokedexEntry breedEntry = this;
-        if (this.isGenderForme) breedEntry = this.getBaseForme();
-        List<Evolution> evos = EvolutionDataLoader.RULES.getOrDefault(breedEntry, Collections.emptyList());
-        // Sort the list, this uses the priority, so some can be set to match
-        // first.
-        evos.sort(null);
-
-        for (final Evolution evol : evos)
-        {
-            String name = evol.name;
-            final PokedexEntry evolEntry = Database.getEntry(name);
-            if (evolEntry == null)
-            {
-                PokecubeAPI.LOGGER.error("Entry {} not found for evolution of {}, skipping", name, this.name);
-                continue;
-            }
-            EvolutionData d = new EvolutionData(evolEntry, evol);
-            this.evolutions.add(d);
-            d.postInit(registries);
-            final PokedexEntry temp = d.evolution;
-            if (temp == null) continue;
-            temp._evolvesFrom = this;
-            temp._evolvesBy = d;
-            temp.addRelation(this);
-            this.addRelation(temp);
-            for (final PokedexEntry d1 : temp.getRelated())
-            {
-                d1.addRelation(this);
-                this.addRelation(d1);
-            }
-            PokedexEntry.addFromEvolution(this, temp, registries);
-            PokedexEntry.addFromEvolution(temp, this, registries);
-        }
         final Set<String> ourTags = Tags.BREEDING.lookupTags(this.getTrimmedName());
-
         List<PokedexEntry> sorted = Database.getSortedFormes();
         entries:
         for (int i = sorted.indexOf(this) + 1; i < sorted.size(); i++)
@@ -1773,10 +1734,81 @@ public class PokedexEntry
                     e.addRelation(this);
                     continue entries;
                 }
-
         }
-        this.getRelated().sort(Database.COMPARATOR);
+        List<PokedexEntry> toEntries = this.related.stream().map(Database::getEntry).toList();
+        int n = 0;
+        while (n != toEntries.size())
+        {
+            n = toEntries.size();
+            // Now recursively process relations from evolutions
+            Set<PokedexEntry> v_evos = new HashSet<>();
+            this.addRelationsAndEvos(v_evos);
+            v_evos.removeIf(toEntries::contains);
+            toEntries.addAll(v_evos);
+        }
+        toEntries.sort(Database.COMPARATOR);
+        this.related.clear();
+        this.related.addAll(toEntries.stream().map(PokedexEntry::getTrimmedName).toList());
     }
+
+    private void addRelationsAndEvos(Set<PokedexEntry> set)
+    {
+        set.addAll(getRelated().stream().map(Database::getEntry).toList());
+        for (var v : this.evolutions)
+        {
+            v.evolution.addRelationsAndEvos(set);
+        }
+    }
+
+    private void validateRelations()
+    {
+        // We should always contain at least ourself.
+        if (this.related.isEmpty())
+        {
+            this.initRelations();
+        }
+    }
+
+    public List<String> getRelated()
+    {
+        validateRelations();
+        return this.related;
+    }
+
+    private void addRelation(final PokedexEntry toAdd)
+    {
+        if (toAdd == null || toAdd == this || toAdd == Database.missingno) return;
+        var name = toAdd.getTrimmedName();
+        if (!this.related.contains(name)) this.related.add(name);
+    }
+
+    public boolean areRelated(final PokedexEntry toTest)
+    {
+        return toTest == this || this.getRelated().contains(toTest.getTrimmedName());
+    }
+
+    public PokedexEntry getChild()
+    {
+        if (this._childNb == null)
+        {
+            for (var name : this.getRelated())
+            {
+                var e = Database.getEntry(name);
+                for (final EvolutionData d : e.evolutions)
+                {
+                    if (d.evolution == this) this._childNb = e.getChild();
+                }
+            }
+            if (this._childNb == null) this._childNb = this;
+        }
+        return this._childNb;
+    }
+
+    public PokedexEntry getChild(final PokedexEntry ignored)
+    {
+        return this.getChild();
+    }
+
 
     /**
      * returns whether the interaction logic has a response listed for the given key.
@@ -1796,11 +1828,6 @@ public class PokedexEntry
     public boolean interact(final Player player, InteractionHand hand, final IPokemob pokemob, final boolean doInteract)
     {
         return this.interactionLogic.interact(player, hand, pokemob, doInteract);
-    }
-
-    public boolean isFood(final PokedexEntry toTest)
-    {
-        return this.prey.contains(toTest);
     }
 
     private boolean isSame(final Field field, final Object one) throws Exception

@@ -117,13 +117,13 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         this.nullPartsMap.put(this.getName(), this);
     }
 
-    public SMDModel(final ResourceLocation model, IModelCallback callback)
+    public SMDModel(final ResourceLocation model, boolean willTryOthers, IModelCallback callback)
     {
         this();
         try
         {
             // Check if the model even exists
-            if (!ResourceHelper.exists(model))
+            if (willTryOthers && !ResourceHelper.exists(model))
             {
                 this.valid = false;
                 return;

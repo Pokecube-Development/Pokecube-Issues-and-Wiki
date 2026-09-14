@@ -353,10 +353,11 @@ public class PacketPokedex extends NBTPacket
         packet.getTag().putString("e", entry.getTrimmedName());
         breedable.putString("0", entry.getTrimmedName());
         n = 1;
-        for (final PokedexEntry e : entry.getRelated())
+        for (var name : entry.getRelated())
         {
+            var e = Database.getEntry(name);
             if (!e.breeds) continue;
-            breedable.putString("" + n, e.getTrimmedName());
+            breedable.putString("" + n, name);
             n++;
         }
         breedable.putInt("n", n);

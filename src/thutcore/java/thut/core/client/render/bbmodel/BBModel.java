@@ -7,7 +7,6 @@ import pokecube.api.PokecubeAPI;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
-import thut.api.entity.animation.IAnimationChanger;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationXML;
 import thut.core.client.render.animation.AnimationXML.Mat;
@@ -30,10 +29,10 @@ public class BBModel extends BaseModel
     private BBModelTemplate template;
     private final Map<String, List<Animation>> builtin_anims_map = new HashMap<>();
 
-    public BBModel(final ResourceLocation l, IModelCallback callback)
+    public BBModel(final ResourceLocation l, boolean willTryOthers, IModelCallback callback)
     {
         super(l, callback);
-        this.doLoad();
+        this.doLoad(willTryOthers);
     }
 
     @Override
