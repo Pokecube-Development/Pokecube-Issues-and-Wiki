@@ -16,7 +16,8 @@ public class Guts extends Ability
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (!areWeUser(mob, move)) return;
-        if (StatusEffects.getStatusEffect(mob.getEntity()).getEffect() == StatusEffects.BURN)
+        var effect = StatusEffects.getStatusEffect(mob.getEntity());
+        if (effect != null && effect.getEffect() == StatusEffects.BURN)
         {
             var attr = mob.getEntity().getAttribute(PokecubeAttributes.ATTACK);
             attr.addOrReplacePermanentModifier(new AttributeModifier(PokecubeAttributes.ABILITY_STAT_MOD, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
