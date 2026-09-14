@@ -54,7 +54,6 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m = new Matrix4f();
         m0 = new Matrix4f();
         m0.identity();
-        ((Part) model.root_part).basePreScale.set(1);
 
         lastS0 = ((Part) model.root_part).basePreScale.x;
         shift.set(((Part) model.root_part).basePreTrans);
