@@ -52,6 +52,12 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         {
             // Load the model possibly async, this should be most of the time.
             this.toLoad.loadModel(this.res);
+            if (!this.toLoad.isValid())
+            {
+                this.toLoad.loading = false;
+                this.toLoad.loaded = true;
+                return;
+            }
             synchronized (this.toLoad)
             {
                 // if we have a callback, run that
@@ -116,11 +122,11 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     {
         this.pending_load = l;
         this.callback = callback;
+        this.valid = true;
     }
 
     protected void doLoad(boolean willTryOthers)
     {
-        this.valid = true;
         try
         {
             // Check if the model even exists
