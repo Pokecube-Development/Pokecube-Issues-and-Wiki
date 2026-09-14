@@ -243,7 +243,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
 
     protected void transformGlobal(PoseStack mat,Entity entity, float partialTick)
     {
-        this.setOffset(this.renderer.getRotationOffset());
+        this.setOffset(new Vector3f());
         this.getModel().globalFix(mat, this.rotationPointX, this.rotationPointY, this.rotationPointZ);
         this.translate(mat);
         this.renderer.scaleEntity(mat, entity, this, partialTick);

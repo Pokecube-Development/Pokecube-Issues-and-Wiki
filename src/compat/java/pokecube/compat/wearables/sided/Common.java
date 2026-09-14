@@ -89,7 +89,7 @@ public class Common
             boolean reload = Util.shouldReloadModel();
             if ((this.model == null || reload) && this._model != null)
             {
-                this.model = ModelFactory.createScaled(new ModelHolder(this._model));
+                this.model = ModelFactory.create(new ModelHolder(this._model));
                 if (this.model != null) this.model.getPartsList().forEach(IExtendedModelPart::markAsAnimated);
             }
             if(model!=null)

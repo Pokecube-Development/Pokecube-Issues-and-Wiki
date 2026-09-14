@@ -102,8 +102,6 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
 
     }
 
-    private final Vector3f scale = new Vector3f(1);
-
     public RenderEgg(final EntityRendererProvider.Context manager)
     {
         super(manager, null, 0.1f);
@@ -149,12 +147,6 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     @Override
-    public Vector3f getScale()
-    {
-        return this.scale;
-    }
-
-    @Override
     protected boolean shouldShowName(final EntityPokemobEgg entity)
     {
         return false;
@@ -175,20 +167,6 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     @Override
     public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
     {
-        float sx = this.getScale().x;
-        float sy = this.getScale().y;
-        float sz = this.getScale().z;
-        mat.scale(sx, sy, sz);
-    }
-
-    @Override
-    public void setRotationOffset(final Vector3f offset)
-    {}
-
-    @Override
-    public void setScale(final Vector3f scale)
-    {
-        this.scale.set(scale);
     }
 
     @Override

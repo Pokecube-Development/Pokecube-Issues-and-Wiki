@@ -181,8 +181,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public Map<String, PartInfo> parts = new Object2ObjectOpenHashMap<>();
         private final List<String> toRunNames = new ArrayList<>();
         private final List<Animation> toRun = new ArrayList<>();
-        private Vector3f offset = new Vector3f();
-        private Vector3f scale = new Vector3f(1);
         PokedexEntry entry;
 
         boolean checkedAnims = false;
@@ -245,18 +243,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public Vector3f getRotationOffset()
-        {
-            return this.offset;
-        }
-
-        @Override
-        public Vector3f getScale()
-        {
-            return this.scale;
-        }
-
-        @Override
         public boolean hasAnimation(String phase, Entity entity, IModel model)
         {
             var animator = model.getAnimationChanger();
@@ -315,24 +301,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 float scale = Math.min(1, (entity.tickCount + 1 + partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
                 s = Math.max(0.01f, s * scale);
             }
-            float sx = this.getScale().x * s;
-            float sy = this.getScale().y * s;
-            float sz = this.getScale().z * s;
-            this.rotPoint.set(this.getRotationOffset()).mul(s);
+            this.rotPoint.set(0);
             model.setOffset(this.rotPoint);
-            mat.scale(sx, sy, sz);
-        }
-
-        @Override
-        public void setRotationOffset(final Vector3f offset)
-        {
-            this.offset = offset;
-        }
-
-        @Override
-        public void setScale(final Vector3f scale)
-        {
-            this.scale = scale;
+            mat.scale(s, s, s);
         }
 
         @Override

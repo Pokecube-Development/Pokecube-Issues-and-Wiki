@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.world.entity.Entity;
-import org.joml.Vector3f;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
@@ -19,23 +18,11 @@ public interface IModelRenderer<T extends Entity>
 {
     public static final String DEFAULTPHASE = "idle";
 
-    static final Vector3f DEFAULTSCALE = new Vector3f(1), ORIGIN = new Vector3f();
-
     default String getAnimation(Entity entityIn, IModel model)
     {
         final IAnimationHolder holder = this.getAnimationHolder();
         if (holder != null) return holder.getAnimation(entityIn);
         return IModelRenderer.DEFAULTPHASE;
-    }
-
-    default Vector3f getRotationOffset()
-    {
-        return IModelRenderer.ORIGIN;
-    }
-
-    default Vector3f getScale()
-    {
-        return IModelRenderer.DEFAULTSCALE;
     }
 
     boolean hasAnimation(String phase, Entity entity, IModel model);
@@ -81,10 +68,6 @@ public interface IModelRenderer<T extends Entity>
     void setAnimationHolder(IAnimationHolder holder);
 
     void setTexturer(IPartTexturer texturer);
-
-    void setRotationOffset(Vector3f offset);
-
-    void setScale(Vector3f scale);
 
     default void updateModel(ModelHolder model){}
 

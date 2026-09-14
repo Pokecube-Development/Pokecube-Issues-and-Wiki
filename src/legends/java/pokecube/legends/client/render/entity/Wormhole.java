@@ -30,8 +30,6 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     static final ResourceLocation MODEL = ResourceLocation.fromNamespaceAndPath(Reference.ID, "entity/models/wormhole");
 
     final Vector3f rotPoint = new Vector3f();
-    private Vector3f offset = new Vector3f();
-    private Vector3f scale = new Vector3f(1);
 
     public Wormhole(final EntityRendererProvider.Context renderManager)
     {
@@ -109,38 +107,10 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     }
 
     @Override
-    public Vector3f getRotationOffset()
-    {
-        return this.offset;
-    }
-
-    @Override
-    public Vector3f getScale()
-    {
-        return this.scale;
-    }
-
-    @Override
     public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
     {
-        float sx = this.getScale().x;
-        float sy = this.getScale().y;
-        float sz = this.getScale().z;
-        this.rotPoint.set(this.getRotationOffset());
+        this.rotPoint.set(0);
         model.setOffset(this.rotPoint);
-        mat.scale(sx, sy, sz);
-    }
-
-    @Override
-    public void setRotationOffset(final Vector3f offset)
-    {
-        this.offset = offset;
-    }
-
-    @Override
-    public void setScale(final Vector3f scale)
-    {
-        this.scale = scale;
     }
 
     @Override

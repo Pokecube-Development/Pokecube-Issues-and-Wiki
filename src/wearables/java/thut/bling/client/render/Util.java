@@ -24,10 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.entity.animation.json.AnimationHolder;
 import thut.api.ModelHolder;
-import thut.api.entity.IAnimated;
-import thut.api.entity.animation.CapabilityAnimation;
 import thut.bling.ThutBling;
 import thut.bling.data.GemData;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -83,7 +80,7 @@ public class Util
             if (imodel == null)
             {
                 final ResourceLocation loc = ResourceLocation.parse(model);
-                imodel = ModelFactory.createScaled(new ModelHolder(loc));
+                imodel = ModelFactory.create(new ModelHolder(loc));
                 if (model != null)
                 {
                     Util.customModels.put(model, imodel);

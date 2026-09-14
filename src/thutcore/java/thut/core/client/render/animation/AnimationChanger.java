@@ -57,6 +57,7 @@ public class AnimationChanger implements IAnimationChanger
         this.colourOffsets.clear();
         this.wornOffsets.clear();
         this.checkWildCard.clear();
+        this.anims.clear();
     }
 
     @Override

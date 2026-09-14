@@ -221,6 +221,7 @@ public class AnimationLoader
                 }
             }
 
+            // Handle locator/attachments from xml
             for (var attachment : file.model.attachments)
             {
                 var partNames = attachment.part.split(":");
@@ -252,7 +253,6 @@ public class AnimationLoader
             IAnimationChanger animator = model.getAnimationChanger();
             if (animator == null) model.setAnimationChanger(animator = new AnimationChanger());
             else animator.reset();
-            animator.getAnimations().clear();
             // Add the animation randomiser for the sub animations
             if (!file.model.subanim.isEmpty()) animator.addChild(new AnimationRandomizer(file.model.subanim));
 
@@ -289,13 +289,17 @@ public class AnimationLoader
                 part.tex = mat.tex;
                 texs.parts.add(part);
             }
-            holder.setLoadedOffset(offset);
-            holder.setLoadedScale(scale);
+
+            List<IExtendedModelPart> parts = new ArrayList<>(model.getParts().values());
+            for (IExtendedModelPart p : parts)
+            {
+                if (p.getParent() == null) p.setBaseTranslationsAndScale(offset, scale);
+            }
 
             if (file.model.particles != null)
             {
                 for (var m : file.model.particles)
-                    model.getParts().values().forEach(part -> part.addPartRenderAdder(m));
+                    parts.forEach(part -> part.addPartRenderAdder(m));
             }
 
             if (headNames.isEmpty() && model.getParts().containsKey("head")) headNames.add("head");
@@ -408,7 +412,7 @@ public class AnimationLoader
                 Set<Material> notCustom = new HashSet<>();
                 Material _default = null;
                 // Collect materials, also use this chance to update dye and shear from locators
-                for (var p : model.getParts().values())
+                for (var p : parts)
                 {
                     boolean custom = false;
                     if (p instanceof Part part)
@@ -456,10 +460,6 @@ public class AnimationLoader
 
                 renderer.updateModel(holder);
 
-                // Set the global transforms
-                renderer.setRotationOffset(offset);
-                renderer.setScale(scale);
-
                 // Update these incase they were replaced.
                 renderer.setTexturer(texturer);
 
@@ -480,7 +480,7 @@ public class AnimationLoader
                         ? ResourceLocation.parse(holder.texture.toString().replace(holder.name, texs.defaults))
                         : ResourceLocation.fromNamespaceAndPath(holder.model.getNamespace(), texs.defaults);
 
-                for (IExtendedModelPart p : model.getParts().values())
+                for (IExtendedModelPart p : parts)
                 {
                     // Handle customTextures
                     if (texs.defaults != null) holder.texture = holder.texture != null

@@ -61,7 +61,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             "textures/item/pokecubefront.png");
 
     public static record ModelSet(IAnimationChanger changer, IPartTexturer texer, ModelWrapper<EntityPokecube> model,
-            Vector3f offset, Vector3f scale, HashMap<String, List<Animation>> anims)
+            HashMap<String, List<Animation>> anims)
     {}
 
     private final Set<ResourceLocation> noModel = new HashSet<>();
@@ -80,9 +80,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     private HashMap<String, List<Animation>> anims = Maps.newHashMap();
 
     private IPartTexturer texer = null;
-
-    private Vector3f offset = new Vector3f();
-    private Vector3f scale = new Vector3f(1);
 
     EntityModel<EntityPokecube> baseModel;
 
@@ -110,7 +107,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                     AnimationLoader.parse(holder, model, this);
                     this.model = old;
                     this.models.put(cube,
-                            new ModelSet(new AnimationChanger(), getTexturer(), model, offset, scale, anims));
+                            new ModelSet(new AnimationChanger(), getTexturer(), model, anims));
                     RenderPokecube.pokecubeRenderers.putIfAbsent(cube, this);
                 }
             });
@@ -141,7 +138,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                     this.model = _model; // copy this over for the animation parser to handle properly
                     AnimationLoader.parse(holder, _model, this);
                     this.model = old;
-                    this.models.put(cube,new ModelSet(new AnimationChanger(), getTexturer(), _model, offset, scale, anims));
+                    this.models.put(cube,new ModelSet(new AnimationChanger(), getTexturer(), _model, anims));
                     RenderPokecube.pokecubeRenderers.putIfAbsent(cube, this);
                 }
             });
@@ -172,8 +169,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                 var m = models.get(cubeId);
                 this.model = m.model();
                 this.setTexturer(m.texer());
-                this.offset = m.offset();
-                this.scale = m.scale();
                 this.anims = m.anims();
             }
             else if (!noModel.contains(cubeId))
@@ -186,8 +181,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
                     if (m == null) return;
                     this.model = m.model();
                     this.setTexturer(m.texer());
-                    this.offset = m.offset();
-                    this.scale = m.scale();
                     this.anims = m.anims();
                 }
             }
@@ -327,28 +320,11 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     }
 
     @Override
-    public Vector3f getRotationOffset()
-    {
-        return this.offset;
-    }
-
-    @Override
-    public Vector3f getScale()
-    {
-        return this.scale;
-    }
-
-    @Override
     public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
     {
         final float s = 16;
-        float sx = this.getScale().x * s;
-        float sy = this.getScale().y * s;
-        float sz = this.getScale().z * s;
-        this.rotPoint.set(this.getRotationOffset()).mul(s);
-        model.setOffset(this.rotPoint);
         mat.mulPose(AxisAngles.ZP.rotationDegrees(90));
-        mat.scale(sx, sy, sz);
+        mat.scale(s, s, s);
     }
 
     @Override
@@ -368,18 +344,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     {
         if (this.model instanceof ModelWrapper<?> wrap) return wrap.animHolderHolder.get();
         return this.holder;
-    }
-
-    @Override
-    public void setRotationOffset(final Vector3f offset)
-    {
-        this.offset = offset;
-    }
-
-    @Override
-    public void setScale(final Vector3f scale)
-    {
-        this.scale = scale;
     }
 
     @Override

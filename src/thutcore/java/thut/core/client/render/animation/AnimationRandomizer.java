@@ -73,6 +73,7 @@ public class AnimationRandomizer implements IAnimationChanger
         this.allAnims.clear();
         this.loadedSets.clear();
         this.reversed.clear();
+        this.anims.clear();
     }
 
     @Override

@@ -99,13 +99,6 @@ public class ModelFactory
     {
         return ModelFactory.create(model, m -> {
             AnimationLoader.parse(model, m, null);
-            for (IExtendedModelPart p : m.getParts().values())
-            {
-                if (p.getParent() == null)
-                {
-                    p.setBaseTranslationsAndScale(model.getLoadedOffset(), model.getLoadedScale());
-                }
-            }
         });
     }
 

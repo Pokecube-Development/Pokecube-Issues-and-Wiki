@@ -19,12 +19,6 @@ public class ModelHolder
     // This is set by the model factory.
     public String extension = "";
 
-    // These are set by the AnimationLoader for if the model is loaded without a
-    // renderer
-    private Vector3f loadedOffset = new Vector3f(0);
-
-    private Vector3f loadedScale = new Vector3f(1);
-
     public ModelHolder(final ResourceLocation model, final ResourceLocation texture, final ResourceLocation animation,
             final String name)
     {
@@ -37,25 +31,5 @@ public class ModelHolder
     public ModelHolder(ResourceLocation model)
     {
         this(model, null, ResourceLocation.fromNamespaceAndPath(model.getNamespace(), model.getPath() + ".xml"), model.getPath());
-    }
-
-    public Vector3f getLoadedOffset()
-    {
-        return loadedOffset;
-    }
-
-    public void setLoadedOffset(Vector3f loadedOffset)
-    {
-        this.loadedOffset = new Vector3f(loadedOffset);
-    }
-
-    public Vector3f getLoadedScale()
-    {
-        return loadedScale;
-    }
-
-    public void setLoadedScale(Vector3f loadedScale)
-    {
-        this.loadedScale = new Vector3f(loadedScale);
     }
 }
