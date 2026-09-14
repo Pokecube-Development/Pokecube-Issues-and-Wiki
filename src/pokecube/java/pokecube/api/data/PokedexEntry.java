@@ -1193,6 +1193,7 @@ public class PokedexEntry
                 continue;
             }
             EvolutionData d = new EvolutionData(evolEntry, evol);
+            d.postInit(PokecubeCore.proxy.getRegistries());
             this.evolutions.add(d);
             evolEntry = d.evolution;
             if (evolEntry == null) continue;
@@ -1735,7 +1736,8 @@ public class PokedexEntry
                     continue entries;
                 }
         }
-        List<PokedexEntry> toEntries = this.related.stream().map(Database::getEntry).toList();
+        // The new arrayList wrapper is for the empty case.
+        List<PokedexEntry> toEntries = new ArrayList<>(this.related.stream().map(Database::getEntry).toList());
         int n = 0;
         while (n != toEntries.size())
         {
