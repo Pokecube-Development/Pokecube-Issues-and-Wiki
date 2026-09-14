@@ -41,6 +41,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
     private final Matrix4f m, m0;
     public final Part part;
     public final BBModel model;
+    private float lastS0;
     public boolean needSizeCheck = false;
     private boolean wasHidden = false;
 
@@ -53,8 +54,9 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m = new Matrix4f();
         m0 = new Matrix4f();
         m0.identity();
+        ((Part) model.root_part).basePreScale.set(1);
 
-        float s0 = ((Part) model.root_part).basePreScale.x;
+        lastS0 = ((Part) model.root_part).basePreScale.x;
         shift.set(((Part) model.root_part).basePreTrans);
         min.set(part.meshMin);
         max.set(part.meshMax);
@@ -62,7 +64,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
 
         if (parent instanceof LivingEntity e)
         {
-            s0 *= e.getScale();
+            lastS0 *= e.getScale();
         }
 
         Map<String, Matrix3f> attachments = new HashMap<>(part.attachmentPoints);
@@ -82,8 +84,8 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
 
         this.height = max.z - min.z;
         this.width = Math.max(max.x - min.x, max.y - min.y);
-        this.height *= s0;
-        this.width *= s0;
+        this.height *= lastS0;
+        this.width *= lastS0;
         this.dimensions = EntityDimensions.fixed(width, height);
     }
 
@@ -108,6 +110,9 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         r.mul(m);
 
         boolean isHidden = (part.isHidden()) && part.getParent() != null;
+        float s0 = ((Part) model.root_part).basePreScale.x;
+        if (getParent() instanceof LivingEntity e) s0 *= e.getScale();
+        needSizeCheck = s0 != lastS0;
         if (isHidden)
         {
             height = 0.0f;
@@ -117,7 +122,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         }
         else if (wasHidden || needSizeCheck)
         {
-            float s0 = ((Part) model.root_part).basePreScale.x;
+            lastS0 = s0;
             this.height = max.z - min.z;
             this.width = Math.max(max.x - min.x, max.y - min.y);
             this.height *= s0;
