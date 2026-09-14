@@ -105,7 +105,7 @@ public class Breeding extends ListPage<LineEntry>
             {
                 final PokedexEntry entry = Database.getEntry(name);
                 if (entry == null) continue;
-                main = Component.translatable(entry.getUnlocalizedName());
+                main = Component.literal(PokemobInfoPage.getEntryDisplayName(entry));
                 main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_GRAY))
                         .withClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
                 this.list.addEntry(

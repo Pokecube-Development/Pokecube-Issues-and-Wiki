@@ -119,7 +119,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         this.pokemob = watch.pokemob;
     }
 
-    private static String getEntryDisplayName(final PokedexEntry entry)
+    public static String getEntryDisplayName(final PokedexEntry entry)
     {
         final String name = I18n.get(entry.getUnlocalizedName());
         final String baseName = entry.getBaseName();
