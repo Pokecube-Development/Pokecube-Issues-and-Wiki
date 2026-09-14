@@ -1725,7 +1725,7 @@ public class PokedexEntry
 
             PokedexEntry e = sorted.get(i);
             // Already related, skip
-            if (this.areRelated(e)) continue;
+            if (this.checkRelated(e)) continue;
             final Set<String> theirTags = Tags.BREEDING.lookupTags(e.getTrimmedName());
             for (final String s : theirTags)
                 if (ourTags.contains(s))
@@ -1780,6 +1780,11 @@ public class PokedexEntry
         if (toAdd == null || toAdd == this || toAdd == Database.missingno) return;
         var name = toAdd.getTrimmedName();
         if (!this.related.contains(name)) this.related.add(name);
+    }
+
+    private boolean checkRelated(final PokedexEntry toTest)
+    {
+        return toTest == this || this.related.contains(toTest.getTrimmedName());
     }
 
     public boolean areRelated(final PokedexEntry toTest)
