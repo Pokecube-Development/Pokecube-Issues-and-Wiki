@@ -95,6 +95,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 /** @author Manchou */
@@ -1077,21 +1079,36 @@ public class PokedexEntry
     /**
      * Applies various things which needed server to be initialized, such as interactions for tag lists, etc
      */
-    public void onResourcesReloaded()
+    public AtomicBoolean onResourcesReloaded()
     {
-        // Disable async models for this step
-        var old = ThutCore.conf.asyncModelLoads;
-        ThutCore.conf.asyncModelLoads = false;
+        AtomicBoolean modelLoaded = new AtomicBoolean(false);
         // Load in the model
         var _model = new ModelHolder(ResourceLocation.fromNamespaceAndPath(this.model().getNamespace(),
                 "database/pokemobs/pokemob_hitboxes/" + this.getTrimmedName()));
-        if (ModelFactory.create(_model) instanceof BBModel bbModel && bbModel.isValid() && bbModel.isLoaded())
-        {
-            for (var p : bbModel.getParts().values()) p.markAsAnimated();
-            this.bodyModel = bbModel;
-        }
-        // Re-enable the async models
-        ThutCore.conf.asyncModelLoads = old;
+        _model.onComplete = model -> {
+            var executor = Executors.newVirtualThreadPerTaskExecutor();
+            executor.submit(()->{
+                while (!model.isLoaded())
+                {
+                    try
+                    {
+                        Thread.currentThread().wait(0, 100);
+                    }
+                    catch (Exception e)
+                    {
+                        break;
+                    }
+                }
+                if (model instanceof BBModel bbModel && model.isValid() && model.isLoaded())
+                {
+                    for (var p : model.getParts().values()) p.markAsAnimated();
+                    this.bodyModel = bbModel;
+                }
+                modelLoaded.set(true);
+            });
+        };
+        ModelFactory.create(_model);
+
         this.formeItems.clear();
         this.interactionLogic.stackActions.clear();
         // Apply loaded interactions
@@ -1172,6 +1189,8 @@ public class PokedexEntry
         if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
 
         this.copyToGenderFormes();
+
+        return modelLoaded;
     }
 
     public List<TimePeriod> activeTimes()

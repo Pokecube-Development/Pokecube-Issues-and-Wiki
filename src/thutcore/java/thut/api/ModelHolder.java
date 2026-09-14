@@ -1,11 +1,13 @@
 package thut.api;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
+import thut.core.client.render.model.IModel;
 
 public class ModelHolder
 {
@@ -18,6 +20,8 @@ public class ModelHolder
     public List<ResourceLocation> backupModels = Lists.newArrayList();
     // This is set by the model factory.
     public String extension = "";
+
+    public Consumer<IModel> onComplete = model->{};
 
     public ModelHolder(final ResourceLocation model, final ResourceLocation texture, final ResourceLocation animation,
             final String name)

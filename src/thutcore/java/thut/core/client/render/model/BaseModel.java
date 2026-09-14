@@ -105,7 +105,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     Set<String> heads = new HashSet<>();
     public String name;
     protected boolean valid;
-    protected boolean loaded = false;
+    protected volatile boolean loaded = false;
     protected boolean loading = false;
     protected ResourceLocation last_loaded = null, pending_load;
 

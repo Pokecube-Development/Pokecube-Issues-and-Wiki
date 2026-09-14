@@ -31,7 +31,7 @@ public class ModelFactory
         ModelFactory.registerIModel("x3d", X3dModel::new, false);
     }
 
-    public static IModel create(final ResourceLocation location, final ModelHolder model, final IModelCallback callback)
+    private static IModel create(final ResourceLocation location, final ModelHolder model, final IModelCallback callback)
     {
         final String path = location.getPath();
         String ext = path.contains(".") ? path.substring(path.lastIndexOf(".") + 1) : "";
@@ -77,11 +77,13 @@ public class ModelFactory
     public static IModel create(final ModelHolder model, final IModelCallback callback)
     {
         IModel made = ModelFactory.create(model.model, model, callback);
+        make_check:
         if (!made.isValid()) for (final ResourceLocation loc : model.backupModels)
         {
             made = ModelFactory.create(loc, model, callback);
-            if (made.isValid()) return made;
+            if (made.isValid()) break make_check;
         }
+        model.onComplete.accept(made);
         return made;
     }
 
@@ -93,13 +95,6 @@ public class ModelFactory
     public static IModel createWithRenderer(final ModelHolder model, IModelRenderer<?> renderer)
     {
         return ModelFactory.create(model, m -> AnimationLoader.parse(model, m, renderer));
-    }
-
-    public static IModel createScaled(final ModelHolder model)
-    {
-        return ModelFactory.create(model, m -> {
-            AnimationLoader.parse(model, m, null);
-        });
     }
 
     public static void registerIModel(final String extension, final IFactory<?> clazz)

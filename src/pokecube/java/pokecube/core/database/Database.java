@@ -42,10 +42,8 @@ import pokecube.core.database.types.CombatTypeLoader;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.moves.implementations.MovesAdder;
-import thut.api.ModelHolder;
 import thut.api.data.DataHelpers;
 import thut.api.util.JsonUtil;
-import thut.core.client.render.model.ModelFactory;
 import thut.core.common.ThutCore;
 import thut.core.xml.bind.annotation.XmlElement;
 import thut.core.xml.bind.annotation.XmlRootElement;
@@ -663,7 +661,14 @@ public class Database
         }
 
         // Final setup of things
-        for (final PokedexEntry entry : Database.getSortedFormes()) entry.onResourcesReloaded();
+        // Enable async models for this step
+        var old = ThutCore.conf.asyncModelLoads;
+        ThutCore.conf.asyncModelLoads = true;
+        List<AtomicBoolean> completed = new ArrayList<>();
+        for (final PokedexEntry entry : Database.getSortedFormes()) completed.add(entry.onResourcesReloaded());
+        // Re-enable the async models
+        ThutCore.conf.asyncModelLoads = old;
+        while(!completed.isEmpty()) completed.removeIf(AtomicBoolean::get);
 
         // Regenerate the starter array
         Database.checkedStarts = false;

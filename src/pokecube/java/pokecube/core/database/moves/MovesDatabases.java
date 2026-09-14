@@ -27,8 +27,6 @@ import thut.lib.ResourceHelper;
 
 public class MovesDatabases
 {
-    public static final String DATABASES = "database/moves/";
-
     public static void preInitLoad()
     {
         // We need at least the moves tag for processing some things.
