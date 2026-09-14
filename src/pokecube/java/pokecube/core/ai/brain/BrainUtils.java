@@ -70,7 +70,7 @@ public class BrainUtils extends BrainUtil
             mob.setTarget(target);
         }
         IPokemob pokemob = PokemobCaps.getPokemobFor(mobIn);
-        if (pokemob != null) pokemob.getMoveStats().setTargetEnemy(target);
+        if (pokemob != null) pokemob.onSetTarget(target, true);
     }
 
     public static void setHuntTarget(final LivingEntity mobIn, final LivingEntity target)

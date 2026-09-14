@@ -181,7 +181,7 @@ public abstract class PokemobMoves extends PokemobStats
         // Enemy always empty when not in battle
         this.setBattle(null);
 
-        this.getMoveStats().setTargetEnemy(null);
+        this.onSetTarget(null, true);
         this.getMoveStats().setTargetAlly(null);
     }
 
@@ -319,7 +319,7 @@ public abstract class PokemobMoves extends PokemobStats
         // Then update enemy server side, and sent appropriate packets, ally is updated when client sends packet back
         if (!trackedEntity.level().isClientSide() && oldTarget != target)
         {
-            this.getMoveStats().setTargetEnemy(target);
+            this.onSetTarget(target, true);
         }
     }
 

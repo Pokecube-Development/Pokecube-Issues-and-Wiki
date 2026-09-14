@@ -78,7 +78,7 @@ public class UseAttacksTask extends CombatTask implements IMoveUseAI
 
         var target = this.getAttackTarget(entity);
         var pokemobTarget = PokemobCaps.getPokemobFor(target);
-        target = pokemobTarget != null ? pokemob.getTrackedEntity() : EntityProvider.getTracked(target);
+        target = pokemobTarget != null ? pokemobTarget.getTrackedEntity() : EntityProvider.getTracked(target);
 
         var onDelay = brain.getMemory(MemoryModules.ATTACKDELAY.get());
         var moveTarget = brain.getMemory(MemoryModules.MOVE_TARGET.get());
