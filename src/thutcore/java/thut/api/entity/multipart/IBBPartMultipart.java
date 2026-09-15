@@ -6,7 +6,6 @@ import org.joml.Vector3f;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.animation.Animation;
-import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.bbmodel.BBModel;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
@@ -43,6 +42,13 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
         // Test with once per tick for now, might be
         // able to make it slower for not ridden cases?
         if (partHolder.holder().animTick == us.tickCount) return;
+
+        if (!us.isVehicle())
+        {
+            int rate = 10;
+            int animTick = us.getId() % rate;
+            if (us.tickCount % rate != animTick) return;
+        }
 
         synchronized (model)
         {

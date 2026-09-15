@@ -18,6 +18,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import thut.core.client.render.bbmodel.BBModel;
@@ -25,6 +26,7 @@ import thut.core.client.render.model.parts.Part;
 import thut.lib.AxisAngles;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +37,11 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
     {
         T create(E parent, Part part, BBModel model);
     }
+    private static final Quaternionf TRANSFORM = AxisAngles.XN.rotationDegrees(90);
 
     public final Vector4f r1 = new Vector4f();
     public final Vector3f dr = new Vector3f(), min = new Vector3f(), max = new Vector3f(), mid = new Vector3f(), shift = new Vector3f();
-    private final Matrix4f m, m0;
+    private final Matrix4f m0;
     public final Part part;
     public final BBModel model;
     private float lastS0;
@@ -51,20 +54,13 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         this.part = part;
         this.model = model;
 
-        m = new Matrix4f();
         m0 = new Matrix4f();
-        m0.identity();
 
-        lastS0 = ((Part) model.root_part).basePreScale.x;
+        lastS0 = ((Part) model.root_part).basePreScale.x * this.parentMultipart.getScaleFast();
         shift.set(((Part) model.root_part).basePreTrans);
         min.set(part.meshMin);
         max.set(part.meshMax);
         mid.set(part.meshMid);
-
-        if (parent instanceof LivingEntity e)
-        {
-            lastS0 *= e.getScale();
-        }
 
         Map<String, Matrix3f> attachments = new HashMap<>(part.attachmentPoints);
         // Add a default attachment label for the mesh's name, if not already present
@@ -92,10 +88,10 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
     public void update(Matrix4f transform)
     {
         var poseInfo = part.getRenderPose();
-        m.identity();
+        var m = new Matrix4f();
         m.mul(transform);
         m0.set(poseInfo.pose());
-        m.rotate(AxisAngles.XN.rotationDegrees(90));
+        m.rotateAffine(TRANSFORM, m);
 
         m.mul(m0);
         m0.translate(shift);
@@ -109,8 +105,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         r.mul(m);
 
         boolean isHidden = (part.isHidden()) && part.getParent() != null;
-        float s0 = ((Part) model.root_part).basePreScale.x;
-        if (getParent() instanceof LivingEntity e) s0 *= e.getScale();
+        float s0 = ((Part) model.root_part).basePreScale.x * this.parentMultipart.getScaleFast();
         needSizeCheck = s0 != lastS0;
         if (isHidden)
         {
@@ -253,21 +248,12 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
     private static List<VoxelShape> collectColliders(@Nullable Entity entity, Level level, List<VoxelShape> collisions,
             AABB boundingBox)
     {
-        ImmutableList.Builder<VoxelShape> builder = ImmutableList.builderWithExpectedSize(collisions.size() + 1);
-        if (!collisions.isEmpty())
-        {
-            builder.addAll(collisions);
-        }
-
+        List<VoxelShape> toCollide = new ArrayList<>(collisions);
         WorldBorder worldborder = level.getWorldBorder();
         boolean flag = entity != null && worldborder.isInsideCloseToBorder(entity, boundingBox);
-        if (flag)
-        {
-            builder.add(worldborder.getCollisionShape());
-        }
-
-        builder.addAll(level.getBlockCollisions(entity, boundingBox));
-        return builder.build();
+        if (flag) toCollide.add(worldborder.getCollisionShape());
+        level.getBlockCollisions(entity, boundingBox).forEach(toCollide::add);
+        return toCollide;
     }
 
     // Copied from Entity.class

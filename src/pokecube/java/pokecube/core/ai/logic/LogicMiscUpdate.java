@@ -72,6 +72,7 @@ public class LogicMiscUpdate extends LogicBase
     private boolean checkedEvol = false;
     private boolean usedMoveSinceResetAttr = false;
     private boolean usingMoveThisTick = false;
+    private boolean complexTick = false;
 
     private int floatTimer = 0;
 
@@ -89,6 +90,7 @@ public class LogicMiscUpdate extends LogicBase
 
     final IAnimated animated;
     final IAnimationHolder holder;
+    IAnimationHolder liveHolder;
 
     public LogicMiscUpdate(final IPokemob pokemob)
     {
@@ -117,7 +119,7 @@ public class LogicMiscUpdate extends LogicBase
             this.pokemob.setGeneralState(GeneralStates.MATING, false);
 
         // Check if we are sheared every second or so
-        if (this.entity.tickCount % 20 == 0) this.pokemob.isSheared();
+        if (complexTick) this.pokemob.isSheared();
 
         // If angry and has no target, make it not angry.
 
@@ -208,8 +210,8 @@ public class LogicMiscUpdate extends LogicBase
             if (tameSitting != sitting) this.pokemob.setLogicState(LogicStates.SITTING, tameSitting);
         }
 
-        // Check egg guarding
-        if (entity.getBrain().hasMemoryValue(MemoryModules.EGG.get()))
+        // Check egg guarding only once per second
+        if (complexTick && entity.getBrain().hasMemoryValue(MemoryModules.EGG.get()))
         {
             boolean guardingEgg = pokemob.getGeneralState(GeneralStates.GUARDEGG);
             Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG.get());
@@ -312,6 +314,8 @@ public class LogicMiscUpdate extends LogicBase
         // Now some server only processing
         if (!world.isClientSide)
         {
+            complexTick = entity.tickCount % 20 == Math.abs(entity.getId()) / 20;
+
             // Check that AI states are correct
             this.checkAIStates(ownerID);
             // Check evolution
@@ -367,7 +371,7 @@ public class LogicMiscUpdate extends LogicBase
         // Ensure our pose matches what we are doing
         this.checkPose();
         // This is used server side as well, for hitbox positions.
-        this.checkAnimationStates();
+        this.checkAnimationStates(entry);
 
         // end of server side logic here.
         if (this.entity.level() instanceof ServerLevel)
@@ -527,7 +531,7 @@ public class LogicMiscUpdate extends LogicBase
         if (!anims.contains(key)) anims.add(key);
     }
 
-    private void checkAnimationStates()
+    private void checkAnimationStates(PokedexEntry entry)
     {
         if (animated == null) return;
         List<String> anims = animated.getChoices();
@@ -541,16 +545,17 @@ public class LogicMiscUpdate extends LogicBase
         boolean onGround = entity.onGround();
 
         // Server side less often computation of molangs for body animation and positioning
-        if (this.pokemob.getPokedexEntry().bodyModel != null && entity instanceof IBBPartMultipart<?,?> poke)
+        if (entry.bodyModel != null)
         {
-            var holder = poke.getAnimationHolder();
+            if (liveHolder == null)
+                liveHolder = this.entity instanceof IBBPartMultipart<?, ?> poke ? poke.getAnimationHolder() : holder;
             var limbSwing = entity.walkAnimation.position();
             var limbSwingAmount = entity.walkAnimation.speed();
 
             float f = entity.yBodyRotO;
             float f1 = entity.yHeadRotO;
             float netHeadYaw = f1 - f;
-            holder.initHeadInfoAndMolangs(entity, limbSwing, limbSwingAmount, entity.tickCount-1, netHeadYaw,
+            liveHolder.initHeadInfoAndMolangs(entity, limbSwing, limbSwingAmount, entity.tickCount-1, netHeadYaw,
                     entity.getXRot());
         }
 

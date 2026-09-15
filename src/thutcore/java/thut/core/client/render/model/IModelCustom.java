@@ -17,6 +17,9 @@ public interface IModelCustom
     // Copied from PoseStack.Pose
     public static final class PoseInfo
     {
+        public static final Matrix4f IM4 = new Matrix4f();
+        public static final Matrix3f IM3 = new Matrix3f();
+
         final Matrix4f pose;
         final Matrix3f normal;
         boolean trustedNormals = true;
@@ -44,6 +47,12 @@ public interface IModelCustom
         {
             pose.set(other.pose());
             normal.set(other.normal());
+        }
+
+        public void identity()
+        {
+            pose.set(IM4);
+            normal.set(IM3);
         }
 
         public Matrix4f pose()

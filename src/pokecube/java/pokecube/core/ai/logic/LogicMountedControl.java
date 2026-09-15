@@ -159,8 +159,6 @@ public class LogicMountedControl extends LogicBase
         moveUp = moveSide = moveFwd = 0;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
         boolean noGrav = entity.isNoGravity();
-        AttributeInstance stepHeightAttribute = this.entity.getAttribute(Attributes.STEP_HEIGHT);
-        if (!stepHeightAttribute.hasModifier(UID)) stepHeightAttribute.addTransientModifier(riddenStep);
 
         if (rider == null)
         {
@@ -171,6 +169,9 @@ public class LogicMountedControl extends LogicBase
             }
             return;
         }
+
+        AttributeInstance stepHeightAttribute = this.entity.getAttribute(Attributes.STEP_HEIGHT);
+        if (!stepHeightAttribute.hasModifier(UID)) stepHeightAttribute.addTransientModifier(riddenStep);
 
         this.wasRiding = true;
         this.entity.setYRot(this.pokemob.getHeading());

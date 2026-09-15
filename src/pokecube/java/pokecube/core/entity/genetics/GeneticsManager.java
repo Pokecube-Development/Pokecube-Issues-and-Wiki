@@ -143,7 +143,11 @@ public class GeneticsManager
     {
         final Entity mob = pokemob.getEntity();
         final IMobGenetics mobs = ThutCaps.getGenetics(mob);
-        if (genes != mobs) mobs.getAlleles().putAll(genes.getAlleles());
+        if (genes != mobs)
+        {
+            mobs.getAlleles().putAll(genes.getAlleles());
+            mobs.markDirty();
+        }
     }
 
     public static void initJEP(JEP jep, String func)

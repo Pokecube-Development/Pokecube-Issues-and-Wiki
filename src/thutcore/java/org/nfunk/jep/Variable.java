@@ -103,8 +103,7 @@ public class Variable// extends Observable
      */
     public boolean setValue(final Object object)
     {
-        if (!this.setValueRaw(object)) return false;
-        return true;
+        return this.setValueRaw(object);
     }
 
     /**
@@ -112,7 +111,6 @@ public class Variable// extends Observable
      * setValue. This is because setValue notifies any observers
      * and then calls this method.
      *
-     * @param object
      * @return false if tried to change a constant value.
      * @since 2.3.0 beta 2
      */
@@ -141,7 +139,7 @@ public class Variable// extends Observable
     public String toString()
     {
         if (!this.validValue || this.value == null) return this.name + ": null";
-        else if (this.isConstant) return this.name + ": " + this.value.toString() + " (Constant)";
-        else return this.name + ": " + this.value.toString();
+        else if (this.isConstant) return this.name + ": " + this.value + " (Constant)";
+        else return this.name + ": " + this.value;
     }
 }

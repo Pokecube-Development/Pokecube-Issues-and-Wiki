@@ -40,7 +40,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 public class SymbolTable
 {
     protected VariableFactory vf;
-    private Map<String, Variable> varMap = new Object2ObjectOpenHashMap<>();
+    private final Map<String, Variable> varMap = new Object2ObjectOpenHashMap<>();
 
     /**
      * SymbolTable should always be constructed an associated variable factory.
@@ -172,7 +172,7 @@ public class SymbolTable
     @Override
     public String toString()
     {
-        final StringBuffer sb = new StringBuffer();
+        final StringBuilder sb = new StringBuilder();
         for (var var : varMap.values())
         {
             sb.append(var.toString());

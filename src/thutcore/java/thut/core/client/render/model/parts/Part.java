@@ -111,8 +111,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     protected void prepareForCombine()
     {
-        this.renderPose.pose().identity();
-        this.renderPose.normal().identity();
+        renderPose.identity();
         // Now apply the transforms from preRender
         // Translate of offset for rotation.
         this.renderPose.translate(this.preTrans);
@@ -464,8 +463,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.isCustomColour = false;
         ds = ds2 = 1;
 
-        renderPose.pose().identity();
-        renderPose.normal().identity();
+        renderPose.identity();
     }
 
     @Override

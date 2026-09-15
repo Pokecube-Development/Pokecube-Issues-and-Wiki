@@ -8,7 +8,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import thut.api.Tracker;
 import thut.api.entity.EntityProvider;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
@@ -29,19 +28,9 @@ public class SyncData extends Packet
         // Nothing to sync.
         if (list == null || list.isEmpty()) return;
         SyncData packet = new SyncData();
-        // Mark entire list as not dirty
-        list.forEach(d -> {
-            d.setDirty(false);
-            if (ThutCore.conf.debug)
-            {
-                Tracker.SERVER_COUNTERS.computeIfAbsent("sync_data:" + d.getTag() + ":" + d.getName(),
-                        _key -> new Tracker.Counter(_key, 200)).increment();
-            }
-        });
         packet.data = list;
         packet.id = entity_id;
         packet.type = (byte) (all || init ? 1 : 0);
-
         ThutCore.packets.sendToTrackingAndSelf(packet, tracked);
     }
 
@@ -72,9 +61,8 @@ public class SyncData extends Packet
     {
         this.id = buf.readInt();
         this.type = buf.readByte();
-        short num = buf.readShort();
         this.data = new ArrayList<>();
-        if (num > 0) for (int i = 0; i < num; i++)
+        while (buf.readableBytes() > 0)
         {
             int uid = buf.readInt();
             String tag = "", name = "";
@@ -102,11 +90,8 @@ public class SyncData extends Packet
     {
         buf.writeInt(this.id);
         buf.writeByte(this.type);
-        final short num = (short) this.data.size();
-        buf.writeShort(num);
-        for (int i = 0; i < num; i++)
+        for (final Data<?> val : data)
         {
-            final Data<?> val = this.data.get(i);
             buf.writeInt(val.getUID());
             if (this.type == 1)
             {

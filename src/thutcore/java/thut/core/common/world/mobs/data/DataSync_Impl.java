@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import thut.api.Tracker;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
@@ -109,8 +110,14 @@ public class DataSync_Impl implements DataSync
         for (final Data<?> value : this.data)
             if (value.dirty())
             {
+                value.setDirty(false);
                 if (list == null) list = Lists.newArrayList();
                 list.add(value);
+                if (ThutCore.conf.debug)
+                {
+                    Tracker.SERVER_COUNTERS.computeIfAbsent("sync_data:" + value.getTag() + ":" + value.getName(),
+                            _key -> new Tracker.Counter(_key, 200)).increment();
+                }
             }
         syncNow = false;
         return list;

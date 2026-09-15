@@ -475,13 +475,8 @@ public class HungerTask extends BaseIdleTask
         }
 
         final List<NearBlock> blocks = BrainUtils.getNearBlocks(entity);
-
-        if (blocks != null) if (this.blocks == null) this.blocks = Lists.newArrayList(blocks);
-        else
-        {
-            this.blocks.clear();
-            this.blocks.addAll(blocks);
-        }
+        // Java 21+ GC is good enough for this to not be a problem?
+        this.blocks = blocks == null ? new ArrayList<>() : new ArrayList<>(blocks);
 
         // We are hunting for food, so can run.
         return true;

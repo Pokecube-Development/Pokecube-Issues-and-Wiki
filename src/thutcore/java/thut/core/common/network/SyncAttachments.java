@@ -40,6 +40,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -178,40 +179,43 @@ public class SyncAttachments extends Packet
         var data = mob.getData(type);
         if (!(data instanceof INBTSerializable)) return;
         var tag = ((INBTSerializable) data).serializeNBT(mob.registryAccess());
-
-        default_check:
-        {
-            if (markDirty) break default_check;
-            if (data instanceof TrackedAttachment tracked && tracked.isDirty()) break default_check;
-            if (UNCHECKED_SYNC.contains(key)) break default_check;
-            @SuppressWarnings("unchecked")
-            var test = DEFAULTS.computeIfAbsent(key, a -> {
-                Function<IAttachmentHolder, ?> _defact;
-                try
-                {
-                    _defact = (Function<IAttachmentHolder, ?>) GETDEF.get(type);
-                    var def = _defact.apply(mob);
-                    if (def != null) return ((INBTSerializable) def).serializeNBT(mob.registryAccess());
-                    else ThutCore.logInfo("No attachment for {} for {}", key, mob);
-                }
-                catch (Exception e)
-                {
-                    ThutCore.LOGGER.error("Error syncing attachments for {} for {}", key, mob, e);
-                }
-                return new CompoundTag();
-            });
-            if (tag.equals(test)) return;
-        }
         for (var _key : new ArrayList<>(mob.getPersistentData().getAllKeys()))
             if (_key.startsWith("thutcore:sync_attach_")) mob.getPersistentData().remove(_key);
-        if (data instanceof TrackedAttachment tracked) tracked.markClean();
-        if(ThutCore.conf.debug)
-        {
-            Tracker.SERVER_COUNTERS.computeIfAbsent("sync_attachment:" + key, _key -> new Tracker.Counter(_key, 200))
-                    .increment();
-        }
-        var p = new SyncAttachments(mob, tag, key);
-        ThutCore.packets.sendToTrackingAndSelf(p, mob);
+
+        var executor = Executors.newVirtualThreadPerTaskExecutor();
+        executor.submit(() -> {
+            default_check:
+            {
+                if (markDirty) break default_check;
+                if (data instanceof TrackedAttachment tracked && tracked.isDirty()) break default_check;
+                if (UNCHECKED_SYNC.contains(key)) break default_check;
+                @SuppressWarnings("unchecked")
+                var test = DEFAULTS.computeIfAbsent(key, a -> {
+                    Function<IAttachmentHolder, ?> _defact;
+                    try
+                    {
+                        _defact = (Function<IAttachmentHolder, ?>) GETDEF.get(type);
+                        var def = _defact.apply(mob);
+                        if (def != null) return ((INBTSerializable) def).serializeNBT(mob.registryAccess());
+                        else ThutCore.logInfo("No attachment for {} for {}", key, mob);
+                    }
+                    catch (Exception e)
+                    {
+                        ThutCore.LOGGER.error("Error syncing attachments for {} for {}", key, mob, e);
+                    }
+                    return new CompoundTag();
+                });
+                if (tag.equals(test)) return;
+            }
+            if (data instanceof TrackedAttachment tracked) tracked.markClean();
+            if (ThutCore.conf.debug)
+            {
+                Tracker.SERVER_COUNTERS.computeIfAbsent("sync_attachment:" + key,
+                        _key -> new Tracker.Counter(_key, 200)).increment();
+            }
+            var p = new SyncAttachments(mob, tag, key);
+            ThutCore.packets.sendToTrackingAndSelf(p, mob);
+        });
     }
 
     private static void sendPackets(LivingEntity mob)

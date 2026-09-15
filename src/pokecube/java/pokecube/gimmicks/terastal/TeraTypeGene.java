@@ -171,23 +171,20 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
             {
                 worn = ThutWearables.getWearables(living);
             }
-            if (worn != null)
+            checkHats();
+            ItemStack HAT = SILLY_HATS.get(this.getValue().teraType);
+            if (!HAT.isEmpty())
             {
-                checkHats();
-                ItemStack HAT = SILLY_HATS.get(this.getValue().teraType);
-                if (!HAT.isEmpty())
+                boolean hadHat = living.getPersistentData().getBoolean("pokecube:silly_hat");
+                if (this.getValue().isTera)
                 {
-                    boolean hadHat = living.getPersistentData().getBoolean("pokecube:silly_hat");
-                    if (this.getValue().isTera)
-                    {
-                        worn.setWearable(EnumWearable.HAT, HAT.copy(), 0);
-                        if (!hadHat) living.getPersistentData().putBoolean("pokecube:silly_hat", true);
-                    }
-                    else if (hadHat)
-                    {
-                        worn.setWearable(EnumWearable.HAT, ItemStack.EMPTY, 0);
-                        living.getPersistentData().putBoolean("pokecube:silly_hat", false);
-                    }
+                    worn.setWearable(EnumWearable.HAT, HAT.copy(), 0);
+                    if (!hadHat) living.getPersistentData().putBoolean("pokecube:silly_hat", true);
+                }
+                else if (hadHat)
+                {
+                    worn.setWearable(EnumWearable.HAT, ItemStack.EMPTY, 0);
+                    living.getPersistentData().putBoolean("pokecube:silly_hat", false);
                 }
             }
         }

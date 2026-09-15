@@ -131,6 +131,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     protected void initSizes(final float size, boolean forceAdd)
     {
         final PokedexEntry entry = this.getPokemob().getPokedexEntry();
+        this.scaleFast = this.getScale();
 
         // We need to here send a packet to sync the IDs of the new parts vs the
         // old parts.
@@ -342,14 +343,22 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     @Override
     public void aiStep()
     {
+        this.scaleFast = this.getScale();
         this.updatePartsPos();
         colHeight = this.dimensions.height();
         colWidth = this.dimensions.width();
         super.aiStep();
     }
 
+    @Override
+    public float getScaleFast()
+    {
+        return scaleFast;
+    }
+
     protected float colWidth = 0;
     protected float colHeight = 0;
+    protected float scaleFast = 0;
 
     @Override
     public void move(final MoverType typeIn, Vec3 velocity)

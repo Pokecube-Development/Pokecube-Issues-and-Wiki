@@ -210,12 +210,13 @@ public class RecipeClone extends PoweredRecipe
                 sourceGenes.setGenes(gene_1, gene_2);
             });
             sourceGenes.getAlleles().put(GeneticsManager.SPECIESGENE, alleles);
+            sourceGenes.markDirty();
 
             // to avoid the death on spawn
             entity.setHealth(entity.getMaxHealth());
             int exp = Tools.levelToXp(entry.getEvolutionMode(), this.level);
 
-            if (sourceGenes != null) GeneticsManager.initFromGenes(sourceGenes, pokemob);
+            GeneticsManager.initFromGenes(sourceGenes, pokemob);
             pokemob.onGenesChanged();
             pokemob.getEntity().getPersistentData().putInt(TagNames.SPAWN_EXP, exp);
             // The new spawn rule ensures that it is marked as if it recently spawned.

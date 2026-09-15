@@ -3,7 +3,6 @@ package pokecube.core.ai.tasks.misc;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.Brain;
@@ -56,6 +55,9 @@ public class WalkToTask extends Behavior<Mob>
             this.remainingCooldown--;
             return false;
         } else {
+//            int rate = 10;
+//            int rng = owner.getId()%rate;
+//            if(owner.tickCount%rate!=rng) return false;
             IPokemob pokemob = PokemobCaps.getPokemobFor(owner);
             if(!TaskBase.canMove(pokemob)) return false;
             Brain<?> brain = owner.getBrain();

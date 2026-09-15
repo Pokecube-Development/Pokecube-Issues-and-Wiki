@@ -31,10 +31,7 @@ public interface IMobGenetics extends INBTSerializable<ListTag>, TrackedAttachme
     /**
      * This is called whenever the mob associated with this gene ticks.
      */
-    default void onUpdateTick(final Entity entity)
-    {
-        this.getAlleles().values().forEach(allele -> allele.getExpressed().onUpdateTick(entity));
-    }
+    void onUpdateTick(final Entity entity);
 
     void setFromParents(IMobGenetics parent1, IMobGenetics parent2);
 
@@ -46,6 +43,7 @@ public interface IMobGenetics extends INBTSerializable<ListTag>, TrackedAttachme
     {
         for (var key : genes.getAlleles().keySet())
             if (!this.getAlleles().containsKey(key)) this.getAlleles().put(key, genes.getAlleles(key));
+        this.markDirty();
     }
 
     void markInWorld(boolean inWorld);

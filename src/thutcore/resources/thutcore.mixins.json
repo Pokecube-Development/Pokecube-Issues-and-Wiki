@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "thutcore.refmap.json",
   "mixins": [
+    "accessors.EntityAccessor",
     "accessors.LevelEntityGetterMixin",
     "accessors.WalkAniAccessor",
     "entity.EntityPartCapabilities",

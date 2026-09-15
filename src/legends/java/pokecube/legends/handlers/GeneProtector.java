@@ -47,6 +47,7 @@ public class GeneProtector
                 if (this.invalidGene(gene)) evt.resultGenes.getAlleles().remove(GeneticsManager.SPECIESGENE);
                 if (this.invalidGene(parentA)) evt.resultGenes.getAlleles().remove(GeneticsManager.SPECIESGENE);
                 if (this.invalidGene(parentB)) evt.resultGenes.getAlleles().remove(GeneticsManager.SPECIESGENE);
+                evt.resultGenes.markDirty();
             }
         }
     }

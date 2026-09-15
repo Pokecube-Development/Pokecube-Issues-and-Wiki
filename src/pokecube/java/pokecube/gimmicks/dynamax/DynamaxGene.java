@@ -78,8 +78,6 @@ public class DynamaxGene implements Gene<DynaObject>
     // Our actual gene information
     private DynaObject value = new DynaObject();
 
-    // Used for the tick logic below
-    private long dynatime = -1;
     private boolean de_dyna = false;
     private boolean was_dyna = false;
 
@@ -108,62 +106,66 @@ public class DynamaxGene implements Gene<DynaObject>
         result.value = ThutCore.newRandom().nextBoolean() ? other.getValue() : this.getValue();
         return result;
     }
+    private IPokemob _pokemob = null;
+    private boolean _checked = false;
 
     @Override
     public void onUpdateTick(Entity entity)
     {
-        IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-
-        boolean isDyna = DynamaxHelper.isDynamax(pokemob);
-        if (pokemob != null)
+        if (!entity.isAddedToLevel()) return;
+        if (!_checked)
         {
-            String[] g_z_moves = pokemob.getMoveStats().getMovesToUse();
-            if (isDyna)
+            _pokemob = PokemobCaps.getPokemobFor(entity);
+            _checked = true;
+        }
+        if(_pokemob==null)return;
+        boolean isDyna = DynamaxHelper.isDynamax(_pokemob);
+        String[] g_z_moves = _pokemob.getMoveStats().getMovesToUse();
+        if (isDyna)
+        {
+            was_dyna = true;
+            boolean isGigant = this.getValue().gigantamax;
+            for (int i = 0; i < 4; i++)
             {
-                was_dyna = true;
-                boolean isGigant = this.getValue().gigantamax;
-                for (int i = 0; i < 4; i++)
-                {
-                    String move = pokemob.getMoveStats().getBaseMoves()[i];
-                    final String gmove = GZMoveManager.getGMove(pokemob, move, isGigant);
-                    if (gmove != null) g_z_moves[i] = gmove;
-                }
+                String move = _pokemob.getMoveStats().getBaseMoves()[i];
+                final String gmove = GZMoveManager.getGMove(_pokemob, move, isGigant);
+                if (gmove != null) g_z_moves[i] = gmove;
             }
-            else if (was_dyna)
+        }
+        else if (was_dyna)
+        {
+            was_dyna = false;
+            for (int i = 0; i < 4; i++)
             {
-                was_dyna = false;
-                for (int i = 0; i < 4; i++)
-                {
-                    String move = pokemob.getMoveStats().getBaseMoves()[i];
-                    g_z_moves[i] = move;
-                }
+                String move = _pokemob.getMoveStats().getBaseMoves()[i];
+                g_z_moves[i] = move;
             }
         }
 
         if (entity.level().isClientSide()) return;
         // check dynamax timer for cooldown.
+        // Used for the tick logic below
+        long dynatime;
         if (isDyna)
         {
             final long time = Tracker.instance().getTick();
             int dynaEnd = entity.getPersistentData().getInt("pokecube:dynadur");
-            this.dynatime = entity.getPersistentData().getLong("pokecube:dynatime");
-            if (!this.de_dyna && time - dynaEnd > this.dynatime)
+            dynatime = entity.getPersistentData().getLong("pokecube:dynatime");
+            if (!this.de_dyna && time - dynaEnd > dynatime)
             {
-                Component mess = Component.translatableEscape("pokemob.dynamax.timeout.revert", pokemob.getDisplayName());
-                pokemob.displayMessageToOwner(mess);
+                Component mess = Component.translatableEscape("pokemob.dynamax.timeout.revert", _pokemob.getDisplayName());
+                _pokemob.displayMessageToOwner(mess);
 
-                final PokedexEntry newEntry = pokemob.getBasePokedexEntry();
-                mess = Component.translatableEscape("pokemob.dynamax.revert", pokemob.getDisplayName());
-                MegaEvoTicker.scheduleRevert(PokecubeCore.getConfig().evolutionTicks / 2, newEntry, pokemob, mess);
+                final PokedexEntry newEntry = _pokemob.getBasePokedexEntry();
+                mess = Component.translatableEscape("pokemob.dynamax.revert", _pokemob.getDisplayName());
+                MegaEvoTicker.scheduleRevert(PokecubeCore.getConfig().evolutionTicks / 2, newEntry, _pokemob, mess);
                 if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Reverting Dynamax");
 
                 this.de_dyna = true;
-                this.dynatime = -1;
             }
         }
         else
         {
-            this.dynatime = -1;
             this.de_dyna = false;
         }
     }

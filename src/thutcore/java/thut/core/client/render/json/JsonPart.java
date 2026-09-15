@@ -375,8 +375,7 @@ public class JsonPart extends Part
     @Override
     protected void prepareForCombine()
     {
-        renderPose.pose().identity();
-        renderPose.normal().identity();
+        renderPose.identity();
     }
 
     @Override

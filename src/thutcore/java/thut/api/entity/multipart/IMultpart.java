@@ -16,6 +16,7 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
+import thut.core.client.render.model.IModelCustom;
 import thut.core.common.network.PartSync;
 
 public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
@@ -103,6 +104,8 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         return (E) this;
     }
 
+    float getScaleFast();
+
     default void checkUpdateParts()
     {
         // This only does something complex if the parts have changed, otherwise
@@ -150,14 +153,10 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         rotY *= Math.PI / 180;
 
         var transform = getHolder().holder().transform;
-        transform.identity();
+        transform.set(IModelCustom.PoseInfo.IM4);
         transform.translate((float) v.x(), (float) v.y(), (float) v.z());
         transform.rotateY(rotY);
-        if(self instanceof LivingEntity e)
-        {
-            float scale = e.getScale();
-            transform.scale(scale);
-        }
+        transform.scale(getScaleFast());
 
         Vector3f r = getHolder().holder().r;
         r.set((float) v.x(), (float) v.y(), (float) v.z());

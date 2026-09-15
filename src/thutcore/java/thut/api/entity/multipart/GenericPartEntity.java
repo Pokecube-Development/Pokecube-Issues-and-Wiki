@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -15,6 +18,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.attachment.AttachmentHolder;
@@ -37,6 +41,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     public final String id;
 
     protected final IMultpart<?, E> parentMultipart;
+    protected final IEntityAccess usAccess;
 
     @SuppressWarnings("unchecked")
     protected GenericPartEntity(E parent, final String id)
@@ -44,6 +49,7 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
         super(parent);
         this.id = id;
         parentMultipart = (IMultpart<?, E>) parent;
+        usAccess = (IEntityAccess) this;
 
         // Hackery to use identical attachment map
         try
@@ -59,6 +65,33 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     }
 
     public abstract void update(Matrix4f transform);
+
+    @Override
+    public void setPos(double x, double y, double z)
+    {
+        var old = this.position();
+        if (old.x != x || old.y != y || old.z != z)
+        {
+            // Vanilla setPos calls setPosRaw, which is expensive as it does chunk tests.
+            usAccess.thutcore$setPosition(new Vec3(x, y, z));
+            int i = Mth.floor(x);
+            int j = Mth.floor(y);
+            int k = Mth.floor(z);
+            var blockPosition = this.blockPosition();
+            if (i != blockPosition.getX() || j != blockPosition.getY() || k != blockPosition.getZ())
+            {
+                usAccess.thutcore$setBlockPosition(new BlockPos(i, j, k));
+                usAccess.thutcore$setinBlockState(null);
+                var chunkPosition = this.chunkPosition();
+                if (SectionPos.blockToSectionCoord(i) != chunkPosition.x
+                        || SectionPos.blockToSectionCoord(k) != chunkPosition.z)
+                {
+                    usAccess.thutcore$setChunkPosition(new ChunkPos(blockPosition));
+                }
+            }
+        }
+        this.setBoundingBox(this.makeBoundingBox());
+    }
 
     public void applyPos(Vec3 dr)
     {

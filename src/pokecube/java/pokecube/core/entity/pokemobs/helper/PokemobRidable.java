@@ -379,8 +379,9 @@ public abstract class PokemobRidable extends PokemobHasParts
         }
         else
         {
-            final float size = this.getPokemob().getEntity().getScale();
             this.seatCount = entry.passengerOffsets.length;
+            if (seatCount == 0) return;
+            final float size = this.getScaleFast();
             for (int index = 0; index < this.seatCount; index++)
             {
                 final Vector3f seat = new Vector3f();

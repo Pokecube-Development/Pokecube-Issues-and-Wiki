@@ -25,9 +25,9 @@ public abstract class WalkNodeEvaluatorMultiPartMobs extends NodeEvaluator
     @Inject(method = "prepare", at = @At(value = "RETURN"))
     public void thutcore$prepare(PathNavigationRegion level, Mob mob, CallbackInfo ci)
     {
-        if (this.entityWidth * this.entityDepth > 16)
+        if (this.entityWidth * this.entityDepth > 4)
         {
-            this.entityWidth = this.entityDepth = 4;
+            this.entityWidth = this.entityDepth = 2;
             thutcore$needProcessing = true;
         }
     }

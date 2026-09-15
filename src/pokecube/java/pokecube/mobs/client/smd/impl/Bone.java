@@ -1,6 +1,7 @@
 package pokecube.mobs.client.smd.impl;
 
 import org.joml.Matrix4f;
+import thut.core.client.render.model.IModelCustom;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -178,8 +179,8 @@ public class Bone
 
     public void reset()
     {
-        this.transform.identity();
-        this.dynamicTransform.identity();
+        this.transform.set(IModelCustom.PoseInfo.IM4);
+        this.dynamicTransform.set(IModelCustom.PoseInfo.IM4);
     }
 
     public void setChildren(final Bone b, final ArrayList<Bone> bones)

@@ -137,6 +137,7 @@ public class ClonerHelper
         if (destGenes != null)
         {
             genes.getAlleles().forEach((key, value) -> destGenes.getAlleles().put(key, value));
+            destGenes.markDirty();
             stack.set(DefaultGenetics.GENE_STORE, new GeneHolder(genes, provider));
             return;
         }

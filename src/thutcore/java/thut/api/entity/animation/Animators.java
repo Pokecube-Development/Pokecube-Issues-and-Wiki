@@ -399,8 +399,6 @@ public class Animators
             // wraps below, but the Molang clock must remain continuous or the
             // expression snaps whenever the synthetic animation length is reached.
 
-            int aniTick = (int) Math.ceil(time1);
-
             boolean wasHidden = part.isHidden();
 
             // First clear these
@@ -441,7 +439,6 @@ public class Animators
                 if (component == null) break rots;
                 animated = true;
                 float time = component.limbBased || limb ? t2 : t1;
-                aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
 
@@ -462,7 +459,6 @@ public class Animators
                 rz += Math.fma(component.rotChange[2], ratio, component.rotOffset[2]);
             }
 
-            channel = CHANNEL.POS;
             // Position set
             pos:
             {
@@ -487,7 +483,6 @@ public class Animators
                 if (component == null) break pos;
                 animated = true;
                 float time = component.limbBased || limb ? t2 : t1;
-                aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
 

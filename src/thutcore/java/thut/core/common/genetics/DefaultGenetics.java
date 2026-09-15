@@ -7,6 +7,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -30,6 +31,7 @@ public class DefaultGenetics implements IMobGenetics
 {
     Random rand = ThutCore.newRandom();
     Map<ResourceLocation, Alleles<?, ?>> genetics = Maps.newHashMap();
+    List<Alleles<?,?>> _cache = new ArrayList<>();
 
     public DefaultGenetics()
     {}
@@ -57,6 +59,13 @@ public class DefaultGenetics implements IMobGenetics
     public List<Consumer<Gene<?>>> getChangeListeners()
     {
         return _listeners;
+    }
+
+    @Override
+    public void onUpdateTick(Entity entity)
+    {
+        if (_cache.size() != this.genetics.size()) _cache = new ArrayList<>(this.getAlleles().values());
+        _cache.forEach(allele -> allele.getExpressed().onUpdateTick(entity));
     }
 
     @Override
@@ -159,6 +168,7 @@ public class DefaultGenetics implements IMobGenetics
                 ThutCore.LOGGER.error("Error loading gene for key: {}", key, e);
             }
         }
+        this.markDirty();
     }
 
     public static IMobGenetics makeProvider(final IAttachmentHolder in)
@@ -199,6 +209,7 @@ public class DefaultGenetics implements IMobGenetics
     public void markDirty()
     {
         this.isDirty = true;
+        if (!_cache.isEmpty()) _cache = new ArrayList<>();
     }
 
     @Override
