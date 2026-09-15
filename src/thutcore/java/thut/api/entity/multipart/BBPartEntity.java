@@ -95,11 +95,6 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         m0.translate(shift);
 
         r.set(mid.x, mid.y, min.z, 1);
-
-        for (IMultpart.AttachmentPoint point : points)
-        {
-            point.mut().set(point.raw(), 1).mul(m);
-        }
         r.mul(m);
 
         boolean isHidden = (part.isHidden()) && part.getParent() != null;
@@ -126,7 +121,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
         this.r1.set((float) this.getParent().getX(), (float) this.getParent().getY(), (float) this.getParent().getZ());
         for (IMultpart.AttachmentPoint point : points)
         {
-            var v = point.mut().sub(r1);
+            var v = point.mut().set(point.raw(), 1).mul(m).sub(r1);
             point.mod().set(v.x, v.y, v.z);
         }
     }

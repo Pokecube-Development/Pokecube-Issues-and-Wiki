@@ -372,13 +372,19 @@ public class SpeciesGene implements Gene<SpeciesInfo>
                     _transformed = _copy.getCopiedMob()!=null;//Event could have been canceled
                 }
             }
-            if (this.info.getEntry() == null && mob != null && _transformed)
+            if (_transformed && this.info.getEntry() == null && mob != null)
             {
                 _copy.setCopiedMob(living,null);
                 entity.refreshDimensions();
                 _transformed = _copy.getCopiedMob()==null;//Event could have been cancelled
             }
         }
+    }
+
+    @Override
+    public boolean geneTicks()
+    {
+        return true;
     }
 
     @Override

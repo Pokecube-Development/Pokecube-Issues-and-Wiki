@@ -14,7 +14,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.attachment.AttachmentHolder;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -31,8 +30,6 @@ import thut.api.world.WorldTickManager.DelayedTask;
 import thut.core.common.ThutCore;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -54,7 +51,6 @@ public class SyncAttachments extends Packet
     private static final Map<ResourceLocation, Tag> DEFAULTS = new HashMap<>();
 
     private static final Field GETDEF;
-    private static final Method ATTCHMAP;
 
     static
     {
@@ -62,9 +58,6 @@ public class SyncAttachments extends Packet
         {
             GETDEF = AttachmentType.class.getDeclaredField("defaultValueSupplier");
             GETDEF.setAccessible(true);
-
-            ATTCHMAP = AttachmentHolder.class.getDeclaredMethod("getAttachmentMap");
-            ATTCHMAP.setAccessible(true);
         }
         catch (Exception e)
         {
@@ -121,7 +114,6 @@ public class SyncAttachments extends Packet
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void postTick(final EntityTickEvent.Post event)
-            throws InvocationTargetException, IllegalAccessException
     {
         if (event.getEntity().level().isClientSide()) return;
         // Handle primary mob first
@@ -129,21 +121,19 @@ public class SyncAttachments extends Packet
         syncDirty(mob);
     }
 
-    public static void syncDirty(Entity mob) throws InvocationTargetException, IllegalAccessException
+    public static void syncDirty(Entity mob)
     {
-        @SuppressWarnings("unchecked")
-        Map<AttachmentType<?>, Object> map = (Map<AttachmentType<?>, Object>) ATTCHMAP.invoke(mob);
-        map.forEach((type, value) -> {
-            if (value instanceof TrackedAttachment tracked && tracked.isDirty())
-            {
-                // Special handling for ICopyMobs
-                if (tracked.isDirty())
+        if (mob instanceof TrackedAttachment.ITrackedAttachmentHolder holder)
+        {
+            holder.thutcore$getTracked().forEach(tracked -> {
+                if (tracked.getB().isDirty())
                 {
-                    sendForKey(mob, NeoForgeRegistries.ATTACHMENT_TYPES.getKey(type), false);
+                    sendForKey(mob, tracked.getA(), false);
                 }
-            }
-        });
+            });
+        }
         // Now handle syncing copy's attachments
+        // If it wasn't for these, we could just use the neoforge syncData functions...
         var copy = ThutCaps.getCopyMob(mob);
         if (copy != null && copy.isFullTick())
         {

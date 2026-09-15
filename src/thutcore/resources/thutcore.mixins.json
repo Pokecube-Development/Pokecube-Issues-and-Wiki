@@ -8,6 +8,7 @@
     "accessors.EntityAccessor",
     "accessors.LevelEntityGetterMixin",
     "accessors.WalkAniAccessor",
+    "entity.EntityAttachments",
     "entity.EntityPartCapabilities",
     "entity.LevelEntityEventClient",
     "entity.LevelEntityEventServer",

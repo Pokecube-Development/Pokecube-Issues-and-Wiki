@@ -80,6 +80,11 @@ public interface Gene<T>
 
     }
 
+    default boolean geneTicks()
+    {
+        return false;
+    }
+
     /** @return nbttag compount for saving. */
     CompoundTag save(Provider provider);
 

@@ -191,6 +191,12 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
     }
 
     @Override
+    public boolean geneTicks()
+    {
+        return true;
+    }
+
+    @Override
     public Gene<TeraType> mutate()
     {
         TeraType mut = new TeraType();

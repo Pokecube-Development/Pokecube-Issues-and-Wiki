@@ -156,7 +156,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public PokedexEntry getPokedexEntry()
     {
-        if(!_entryChanged && this.getEntity().level().isClientSide())
+        if(!_entryChanged)
         {
             return this._renderEntryCache;
         }
@@ -203,7 +203,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public byte getSexe()
     {
-        if(!_sexeChanged && this.getEntity().level().isClientSide())
+        if(!_sexeChanged)
         {
             return this._renderSexe;
         }
@@ -482,7 +482,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public FormeHolder getCustomHolder()
     {
-        if(!_formChanged && this.getEntity().level().isClientSide())
+        if(!_formChanged)
         {
             return this._renderHolderCache;
         }

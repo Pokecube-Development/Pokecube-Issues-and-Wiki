@@ -97,10 +97,16 @@ public class SizeGene extends GeneFloat
     {
         if (value < 0.01f) value = 0.01f;
         if (value > 100f) value = 100f;
-        if (entity instanceof LivingEntity living && _last_set != this.value)
+        if (_last_set != this.value && entity instanceof LivingEntity living)
         {
             value = (float) setScale(living, value);
             this._last_set = this.value;
         }
+    }
+
+    @Override
+    public boolean geneTicks()
+    {
+        return true;
     }
 }

@@ -171,6 +171,12 @@ public class DynamaxGene implements Gene<DynaObject>
     }
 
     @Override
+    public boolean geneTicks()
+    {
+        return true;
+    }
+
+    @Override
     public void load(Provider provider, final CompoundTag tag)
     {
         this.value.deserializeNBT(provider, tag);

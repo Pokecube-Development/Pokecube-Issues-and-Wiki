@@ -95,10 +95,11 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
 
     public void applyPos(Vec3 dr)
     {
-        this.setPos(r.x, r.y - requiredShift, r.z);
-        this.xOld = this.getX() + dr.x;
-        this.yOld = this.getY() + dr.y;
-        this.zOld = this.getZ() + dr.z;
+        var y = r.y - requiredShift;
+        this.setPos(r.x, y, r.z);
+        this.xOld = r.x + dr.x;
+        this.yOld = y + dr.y;
+        this.zOld = r.z + dr.z;
     }
 
     @Override

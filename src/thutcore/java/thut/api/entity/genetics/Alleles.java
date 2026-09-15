@@ -45,8 +45,6 @@ public class Alleles<T, GENE extends Gene<T>>
 
     /**
      * This returns two Allele, one represeting each parent.
-     *
-     * @return
      */
     public GENE getAllele(final int index)
     {
@@ -55,8 +53,6 @@ public class Alleles<T, GENE extends Gene<T>>
 
     /**
      * This returns two Allele, one represeting each parent.
-     *
-     * @return
      */
     public void setAllele(final int index, final GENE gene)
     {
@@ -103,24 +99,18 @@ public class Alleles<T, GENE extends Gene<T>>
         }
         catch (final Exception e)
         {
-            ThutCore.LOGGER.error(this.getExpressed() + " " + this.getExpressed().getKey(), e);
+            ThutCore.LOGGER.error("{} {}", this.getExpressed(), this.getExpressed().getKey(), e);
         }
         tag.put("gene1", GeneRegistry.save(provider, this.getAllele(0)));
         tag.put("gene2", GeneRegistry.save(provider, this.getAllele(1)));
         return tag;
     }
+    public boolean geneTicks()
+    {
+        return this.alleles.getFirst().geneTicks();
+    }
 
     private List<Consumer<Gene<?>>> _listeners = new ArrayList<>();
-
-    public void setChangeListeners(List<Consumer<Gene<?>>> listeners)
-    {
-        _listeners = listeners;
-    }
-
-    public List<Consumer<Gene<?>>> getChangeListeners()
-    {
-        return _listeners;
-    }
 
     public void onChanged()
     {

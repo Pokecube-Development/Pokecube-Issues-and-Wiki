@@ -157,10 +157,10 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         r.set((float) v.x(), (float) v.y(), (float) v.z());
         final Vec3 dr = new Vec3(r.x - self.xOld, r.y - self.yOld, r.z - self.zOld);
         float requiredShift = 1e3f;
+        float _y = (float) self.getY();
         for (final T p : getUseParts())
         {
             p.update(transform);
-            float _y = (float) self.getY();
             p.requiredShift = p.r.y - _y;
             requiredShift = Math.min(requiredShift, p.requiredShift);
         }

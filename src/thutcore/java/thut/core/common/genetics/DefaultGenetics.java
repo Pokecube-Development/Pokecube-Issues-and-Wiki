@@ -32,6 +32,7 @@ public class DefaultGenetics implements IMobGenetics
     Random rand = ThutCore.newRandom();
     Map<ResourceLocation, Alleles<?, ?>> genetics = Maps.newHashMap();
     List<Alleles<?,?>> _cache = new ArrayList<>();
+    int _lastSize = -1;
 
     public DefaultGenetics()
     {}
@@ -64,8 +65,12 @@ public class DefaultGenetics implements IMobGenetics
     @Override
     public void onUpdateTick(Entity entity)
     {
-        if (_cache.size() != this.genetics.size()) _cache = new ArrayList<>(this.getAlleles().values());
-        _cache.forEach(allele -> allele.getExpressed().onUpdateTick(entity));
+        if (this.getAlleles().size() != _lastSize)
+        {
+            _lastSize = this.getAlleles().size();
+            _cache = new ArrayList<>(this.getAlleles().values().stream().filter(Alleles::geneTicks).toList());
+        }
+        for (var v : _cache) v.getExpressed().onUpdateTick(entity);
     }
 
     @Override
