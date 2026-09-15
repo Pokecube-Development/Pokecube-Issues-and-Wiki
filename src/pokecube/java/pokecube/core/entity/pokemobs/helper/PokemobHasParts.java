@@ -14,6 +14,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -151,7 +152,9 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         colWidth = width;
         colHeight = height;
 
-        if (entry.bodyModel != null)
+        this.getAttribute(Attributes.JUMP_STRENGTH).setBaseValue(0.7);
+
+        if (entry.bodyModel != null) //  && (width > 1 || height > 1.8)
         {
             this.initFromBBModel();
         }
@@ -356,15 +359,15 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         return scaleFast;
     }
 
-    protected float colWidth = 0;
-    protected float colHeight = 0;
+    public float colWidth = 0;
+    public float colHeight = 0;
     protected float scaleFast = 0;
 
     @Override
     public void move(final MoverType typeIn, Vec3 velocity)
     {
         var useParts = getUseParts();
-        if (useParts.isEmpty())
+        if (useParts.isEmpty() || (colWidth < 1 && colHeight < 1.8))
         {
             super.move(typeIn, velocity);
             return;

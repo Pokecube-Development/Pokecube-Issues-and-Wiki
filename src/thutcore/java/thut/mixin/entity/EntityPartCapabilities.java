@@ -15,7 +15,7 @@ public class EntityPartCapabilities
     public <T, C> void thutcore$getCapabilityContexted(EntityCapability<T, C> capability, C context,
             CallbackInfoReturnable<T> cbr)
     {
-        Object us = (Object) this;
+        Object us = this;
         if (us instanceof GenericPartEntity<?> parted)
         {
             cbr.setReturnValue(parted.getParent().getCapability(capability, context));
@@ -25,7 +25,7 @@ public class EntityPartCapabilities
     @Inject(method = "getCapability*", at = @At(value = "HEAD"), cancellable = true)
     public <T> void thutcore$getCapabilityContexted(EntityCapability<T, Void> capability, CallbackInfoReturnable<T> cbr)
     {
-        Object us = (Object) this;
+        Object us = this;
         if (us instanceof GenericPartEntity<?> parted)
         {
             cbr.setReturnValue(parted.getParent().getCapability(capability));
