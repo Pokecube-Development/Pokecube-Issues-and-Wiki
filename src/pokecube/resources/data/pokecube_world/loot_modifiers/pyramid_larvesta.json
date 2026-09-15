@@ -11,5 +11,5 @@
     }
   ],
   "priority": 1000,
-  "table": "pokecube:chests/larvesta_egg"
+  "table": "pokecube_world:chests/larvesta_egg"
 }
