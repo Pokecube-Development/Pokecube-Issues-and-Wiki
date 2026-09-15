@@ -33,6 +33,7 @@ import pokecube.core.network.pokemobs.PacketPingBoss;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.Tracker;
 import thut.api.attachments.CopyMob;
+import thut.api.attachments.IOwnable;
 import thut.api.attachments.Ownable;
 import thut.api.attachments.Shearable;
 import thut.api.entity.ICopyMob;
@@ -213,6 +214,8 @@ public abstract class PokemobBase implements IPokemob
 
     protected boolean isRemoved = false;
 
+    protected IOwnable ownerCache = null;
+
     public PokemobBase()
     {
         this.dataSync = new DataSync_Impl();
@@ -234,6 +237,7 @@ public abstract class PokemobBase implements IPokemob
     {
         if (entityIn == this.entity) return;
         var oldEntity = this.entity;
+        ownerCache = null;
         // Set this here before the below setData call for PokemobCaps.POKEMOB
         this.entity = entityIn;
         // ensure we are the entity's IPokemob
@@ -269,6 +273,7 @@ public abstract class PokemobBase implements IPokemob
         this.trackedEntity = entityIn;
         if (this.trackedEntity != this.entity)
         {
+            ownerCache = null;
             // Re-init attributes, as we might not have had an added to level event called
             PokecubeAttributes.resetToEntry(this);
         }
@@ -278,6 +283,13 @@ public abstract class PokemobBase implements IPokemob
     public LivingEntity getTrackedEntity()
     {
         return trackedEntity;
+    }
+
+    @Override
+    public IOwnable getOwnerHolder()
+    {
+        if (ownerCache == null) ownerCache = IPokemob.super.getOwnerHolder();
+        return ownerCache;
     }
 
     protected void setMaxHealth(final float maxHealth)
