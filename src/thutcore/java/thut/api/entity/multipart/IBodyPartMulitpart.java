@@ -48,9 +48,9 @@ public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entit
     default List<T> splitToParts(float width, float height, float length, float x0, float y0, float z0)
     {
         List<T> ret = new ArrayList<>();
-        final int nx = Mth.ceil(width / this.maxW());
-        final int nz = Mth.ceil(length / this.maxH());
-        final int ny = Mth.ceil(height / this.maxW());
+        final int nx = Mth.ceil(width / 4);
+        final int nz = Mth.ceil(length / 4);
+        final int ny = Mth.ceil(height / 4);
 
         final float dx = width / nx;
         final float dy = height / ny;
@@ -97,8 +97,8 @@ public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entit
             boolean subDivided = !getHolder().getParts().isEmpty();
             if (subDivided)
             {
-                float width = Math.min(weSelf().dimensions.width(), maxW());
-                float height = Math.min(weSelf().dimensions.height(), maxH());
+                float width = Math.min(weSelf().dimensions.width(), 4);
+                float height = Math.min(weSelf().dimensions.height(), 4);
                 weSelf().dimensions = EntityDimensions.fixed(width, height);
                 weSelf().noCulling = true;
 
@@ -125,7 +125,7 @@ public interface IBodyPartMulitpart<T extends BodyPartEntity<E>, E extends Entit
                 float sy = (float) (_node.__size__.y * size);
                 float sz = (float) (_node.__size__.z * size);
 
-                if (sx > this.maxW() || sz > this.maxW() || sy > this.maxH())
+                if (sx > 4 || sz > 4 || sy > 4)
                 {
                     float x0 = (float) (_node.__pos__.x * size);
                     float y0 = (float) (_node.__pos__.y * size);

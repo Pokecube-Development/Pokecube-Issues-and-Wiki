@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -23,14 +22,12 @@ import net.neoforged.neoforge.event.entity.EntityEvent;
 import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.core.PokecubeCore;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.entity.multipart.BBPartEntity;
 import thut.api.entity.multipart.BBPartEntity.Factory;
 import thut.api.entity.multipart.IBBPartMultipart;
-import thut.api.world.WorldTickManager;
 import thut.core.client.render.bbmodel.BBModel;
 import thut.core.common.network.PartSync;
 
@@ -46,7 +43,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         super(type, worldIn);
     }
 
-    protected boolean partsNeedSync = false;
+    protected boolean partsNeedSync = false, useForCollision = true;
     protected BBPartEntity.Factory<PokemobPart, PokemobHasParts> factory;
 
     @Override
@@ -73,6 +70,12 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     {
         if (this.getUseParts() == null) this.initParts();
         return this.shouldSyncParts();
+    }
+
+    @Override
+    public boolean partsUsedForCollision()
+    {
+        return useForCollision;
     }
 
     List<PokemobPart> _lastParts;
@@ -143,8 +146,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
 
         getHolder().clear();
 
-        final float maxH = this.maxH();
-        final float maxW = this.maxW();
         float width = entry.getWidth() * size;
         float length = entry.getLength() * size;
         float height = entry.getHeight() * size;
@@ -160,20 +161,29 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         }
         else
         {
-            boolean subDivide = height > maxH || width > maxW || length > maxW;
+            boolean subDivide = height > 4 || width > 4 || length > 4;
             if (subDivide)
             {
                 this.trySubDivideParts(width, length, height);
-                colWidth = Math.min(1, maxW);
-                colHeight = Math.min(1, maxH);
+                colWidth = Math.min(1, 4);
+                colHeight = Math.min(1, 4);
             }
             else
             {
                 getHolder().setParts(new ArrayList<>());
             }
         }
+        checkHitBoxes(true);
+        final boolean first = this.firstTick;
+        this.firstTick = true;
+        this.refreshDimensions();
+        this.firstTick = first;
+    }
 
+    private AABB checkHitBoxes(boolean sendUpdate)
+    {
         AABB containing = null;
+        var old = partsNeedSync;
         for (final PokemobPart part : getHolder().allParts())
         {
             if (containing == null) containing = part.getBoundingBox();
@@ -187,38 +197,21 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             colHeight = (float) dh2;
             if (colWidth * colHeight > 190)
             {
+                // Throttle warning to once per 5s
+                if (this.tickCount % 100 == 0) PokecubeAPI.LOGGER.warn("Warning, {} is too big!", this);
                 colHeight = Math.min(9, colHeight);
                 colWidth = Math.min(21, colWidth);
             }
+            useForCollision = dw2 < 1 && dh2 < 2;
             partsNeedSync = colHeight * colWidth > 100;
         }
+
         // This needs the larger bounding box regardless of parts, so that the
         // lookup finds the parts at all for things like projectile impact
         // calculations.
-        this.dimensions = EntityDimensions.fixed(Math.max(width, length), height).withEyeHeight(0.75f * height);
-
-        final boolean first = this.firstTick;
-        this.firstTick = true;
-        this.refreshDimensions();
-        this.firstTick = first;
-        if (this.level instanceof ServerLevel && shouldSyncParts())
-        {
-            WorldTickManager.scheduleTask(this.level, () -> {
-                if (this.isAddedToLevel()) PartSync.sendUpdate(weSelf());
-            });
-        }
-    }
-
-    @Override
-    public float maxH()
-    {
-        return (float) PokecubeCore.getConfig().largeMobForSplit;
-    }
-
-    @Override
-    public float maxW()
-    {
-        return (float) PokecubeCore.getConfig().largeMobForSplit;
+        this.dimensions = EntityDimensions.fixed(colWidth, colHeight).withEyeHeight(0.75f * colHeight);
+        if (partsNeedSync != old || sendUpdate) if (this.isAddedToLevel()) PartSync.sendUpdate(weSelf());
+        return containing;
     }
 
     @Override
@@ -257,12 +250,18 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         return this.dimensions.scale(1 / this.getScale());
     }
 
+    float _last_size = 0;
     @SuppressWarnings("deprecation")
     @Override
     public void refreshDimensions()
     {
         if (this.getUseParts() == null) this.initParts();
-        if (this.getUseParts().isEmpty())
+        if (_last_size != this.getScaleFast())
+        {
+            checkHitBoxes(false);
+            _last_size = this.getScaleFast();
+        }
+        if (this.getUseParts().isEmpty() || !this.partsUsedForCollision())
         {
             super.refreshDimensions();
             return;
@@ -270,31 +269,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         Pose pose = this.getPose();
         // Vanilla hardcodes sleeping pose check inside the final getDimensions
         if (pose == Pose.SLEEPING) pose = Pose.STANDING;
-
-        AABB containing = null;
-        for (final PokemobPart part : getHolder().allParts())
-        {
-            var partBox = part.getBoundingBox();
-            if (containing == null) containing = partBox;
-            else containing = containing.minmax(partBox);
-        }
-        if (containing != null)
-        {
-            var dh2 = containing.getYsize();
-            var dw2 = Math.max(containing.getXsize(), containing.getZsize());
-            colWidth = (float) dw2;
-            colHeight = (float) dh2;
-            if (colWidth * colHeight > 190)
-            {
-                // Throttle warning to once per 5s
-                if (this.tickCount % 100 == 0) PokecubeAPI.LOGGER.warn("Warning, {} is too big!", this);
-                colHeight = Math.min(9, colHeight);
-                colWidth = Math.min(21, colWidth);
-            }
-            var old = partsNeedSync;
-            partsNeedSync = colHeight * colWidth > 100;
-            if (partsNeedSync != old) if (this.isAddedToLevel()) PartSync.sendUpdate(weSelf());
-        }
+        AABB containing = checkHitBoxes(false);
 
         final EntityEvent.Size sizeEvent = EventHooks.getEntitySizeForge(this, pose, this.getDimensions(pose));
         final EntityDimensions entitysize1 = sizeEvent.getNewSize();
@@ -318,7 +293,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     protected void pushEntities()
     {
         if (this.getUseParts() == null) this.initParts();
-        if (this.getUseParts().isEmpty()) super.pushEntities();
+        if (this.getUseParts().isEmpty() && this.partsUsedForCollision()) super.pushEntities();
     }
 
     @Override
@@ -326,7 +301,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     {
         if (entityIn.is(this)) return;
         if (this.getUseParts() == null) this.initParts();
-        if (!this.getUseParts().isEmpty())
+        if (!this.getUseParts().isEmpty() && this.partsUsedForCollision())
         {
             for (final PokemobPart part : this.getUseParts())
                 if (part.getBoundingBox().intersects(entityIn.getBoundingBox())) part.push(entityIn);
@@ -367,7 +342,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     public void move(final MoverType typeIn, Vec3 velocity)
     {
         var useParts = getUseParts();
-        if (useParts.isEmpty() || (colWidth < 1 && colHeight < 1.8))
+        if (useParts.isEmpty() || !this.partsUsedForCollision())
         {
             super.move(typeIn, velocity);
             return;

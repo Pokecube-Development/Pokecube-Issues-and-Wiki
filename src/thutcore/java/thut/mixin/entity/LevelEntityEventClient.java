@@ -36,7 +36,7 @@ public class LevelEntityEventClient
         for (var v : output)
         {
             if (v instanceof IMultpart<?, ?> multi && !multi.shouldSyncParts() && multi.getUseParts() != null
-                    && !multi.getUseParts().isEmpty())
+                    && !multi.getUseParts().isEmpty() && multi.partsUsedForCollision())
             {
                 remove.add(entityTypeTest.tryCast((Entity) v));
                 for (var p : multi.getUseParts())
@@ -61,7 +61,7 @@ public class LevelEntityEventClient
         for (var v : output)
         {
             if (v instanceof IMultpart<?, ?> multi && !multi.shouldSyncParts() && multi.getUseParts() != null
-                    && !multi.getUseParts().isEmpty())
+                    && !multi.getUseParts().isEmpty() && multi.partsUsedForCollision())
             {
                 remove.add(v);
                 for (var p : multi.getUseParts())

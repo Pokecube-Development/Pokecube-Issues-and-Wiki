@@ -58,6 +58,12 @@ public class RenderMobOverlays
             double d1 = -Mth.lerp(dt, entity.yOld, entity.getY());
             double d2 = -Mth.lerp(dt, entity.zOld, entity.getZ());
             var poseStack = event.getPoseStack();
+            float r = 1, g = 1, b = 0;
+            if (!multi.partsUsedForCollision())
+            {
+                r = 0;
+                b = 1;
+            }
             for (var p : parts)
             {
                 poseStack.pushPose();
@@ -66,7 +72,7 @@ public class RenderMobOverlays
                 double d5 = d2 + Mth.lerp(dt, p.zOld, p.getZ());
                 poseStack.translate(d3, d4, d5);
                 AABB aabb = p.getBoundingBox().move(-p.getX(), -p.getY(), -p.getZ());
-                LevelRenderer.renderLineBox(poseStack, buffer, aabb, 1, 1, 0, 1);
+                LevelRenderer.renderLineBox(poseStack, buffer, aabb, r, g, b, 1);
                 poseStack.popPose();
             }
         }

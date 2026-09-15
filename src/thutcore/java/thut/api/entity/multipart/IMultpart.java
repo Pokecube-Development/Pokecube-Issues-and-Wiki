@@ -93,6 +93,11 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
         return true;
     }
 
+    default boolean partsUsedForCollision()
+    {
+        return true;
+    }
+
     void initParts(boolean fromPacket);
 
     /**
@@ -123,16 +128,6 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
     }
 
     void trySubDivideParts(float width, float length, float height);
-
-    default float maxW()
-    {
-        return 2;
-    }
-
-    default float maxH()
-    {
-        return 2;
-    }
 
     void applyAnimations(IAnimated animHolder);
 
