@@ -11,5 +11,5 @@
     }
   ],
   "priority": 1000,
-  "table": "pokecube:chests/mineshaft_tms"
+  "table": "pokecube_world:chests/mineshaft_tms"
 }

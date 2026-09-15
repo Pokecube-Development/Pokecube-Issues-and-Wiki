@@ -1,7 +1,7 @@
 {
   "replace": false,
   "entries": [
-    "pokecube:mineshaft_tms",
-    "pokecube:pyramid_larvesta"
+    "pokecube_world:mineshaft_tms",
+    "pokecube_world:pyramid_larvesta"
   ]
 }
