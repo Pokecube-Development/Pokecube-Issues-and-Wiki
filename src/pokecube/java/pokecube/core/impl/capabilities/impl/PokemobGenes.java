@@ -34,6 +34,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     private boolean _entryChanged = true;
     private boolean _formChanged = true;
     private boolean _sexeChanged = true;
+    private int[] _colourCache = null;
 
     @Override
     public void accept(Gene<?> t)
@@ -41,6 +42,10 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         if (t.getKey().equals(GeneticsManager.SHINYGENE))
         {
             _shinyCache = null;
+        }
+        else if (t.getKey().equals(GeneticsManager.COLOURGENE))
+        {
+            _colourCache = null;
         }
         else if (t.getKey().equals(GeneticsManager.MOVESGENE))
         {
@@ -180,6 +185,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public int[] getRGBA()
     {
+        if (_colourCache != null) return _colourCache;
         if (this.getGenes() == null)
         {
             final int[] rgba = new int[4];
@@ -191,7 +197,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         }
         Alleles<int[], ColourGene> genesColour = getGenes().getAlleles(GeneticsManager.COLOURGENE);
         final ColourGene gene = genesColour.getExpressed();
-        return gene.getValue();
+        return _colourCache = gene.getValue();
     }
 
     @Override
@@ -235,6 +241,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this.shinyTexs.clear();
 
         this._shinyCache = null;
+        this._colourCache = null;
         this._movesChanged = true;
         this._abilityChanged = true;
         this._entryChanged = true;
