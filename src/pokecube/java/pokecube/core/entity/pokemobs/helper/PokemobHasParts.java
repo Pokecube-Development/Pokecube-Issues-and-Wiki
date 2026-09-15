@@ -202,7 +202,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
                 colHeight = Math.min(9, colHeight);
                 colWidth = Math.min(21, colWidth);
             }
-            useForCollision = dw2 < 1 && dh2 < 2;
+            useForCollision = dw2 > 1 || dh2 > 2;
             partsNeedSync = colHeight * colWidth > 100;
         }
 
