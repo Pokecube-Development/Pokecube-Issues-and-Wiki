@@ -1,6 +1,5 @@
 package thut.api.entity.multipart;
 
-import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.floats.FloatArraySet;
 import it.unimi.dsi.fastutil.floats.FloatArrays;
 import it.unimi.dsi.fastutil.floats.FloatSet;
@@ -8,7 +7,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.WorldBorder;
@@ -176,7 +174,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
             if (dy < step) aabb = aabb.setMinY(this.getParent().getY());
         }
         List<VoxelShape> list = this.level().getEntityCollisions(this.getParent(), aabb.expandTowards(vec));
-        Vec3 vec3 = vec.lengthSqr() == 0.0 ? vec : collideBoundingBox(this, vec, aabb, this.level(), list);
+        Vec3 vec3 = vec.lengthSqr() == 0.0 ? vec : collideBoundingBox(this.getParent(), vec, aabb, this.level(), list);
         boolean hitX = vec.x != vec3.x;
         boolean hitY = vec.y != vec3.y;
         boolean hitZ = vec.z != vec3.z;
@@ -190,7 +188,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
                 aabb2 = aabb2.expandTowards(0.0, -1.0E-5F, 0.0);
             }
 
-            List<VoxelShape> list1 = collectColliders(this, this.level, list, aabb2);
+            List<VoxelShape> list1 = collectColliders(this.getParent(), this.level, list, aabb2);
             float f = (float) vec3.y;
             float[] afloat = collectCandidateStepUpHeights(aabb1, list1, step, f);
 
