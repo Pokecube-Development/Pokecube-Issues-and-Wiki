@@ -97,11 +97,10 @@ public class InterestingMobs extends Sensor<LivingEntity>
         final double dv = 4;
         final AABB mateBox = user.getBoundingBox().inflate(dh, dv, dh);
         final AABB checkBox = user.getBoundingBox().inflate(s, s, s);
-        final List<Entity> list = worldIn.getEntitiesOfClass(Entity.class, checkBox, (hit) -> hit != user);
+        List<Entity> list = worldIn.getEntitiesOfClass(Entity.class, checkBox, (hit) -> hit != user);
         Set<Entity> _listCopy = new HashSet<>();
         for (var e : list) _listCopy.add(EntityTools.getCoreEntity(e));
-        list.clear();
-        list.addAll(_listCopy);
+        list = new ArrayList<>(_listCopy);
         list.sort(Comparator.comparingDouble(user::distanceToSqr));
         final Brain<?> brain = user.getBrain();
         final IPokemob us = PokemobCaps.getPokemobFor(user);

@@ -27,6 +27,8 @@ public interface IAnimated
      */
     List<String> getChoices();
 
+    void clearChoices();
+
     /**
      * List of non-looping animations to run during an existing animation.
      */

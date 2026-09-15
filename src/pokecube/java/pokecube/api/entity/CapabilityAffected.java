@@ -1,6 +1,8 @@
 package pokecube.api.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -25,9 +27,9 @@ public class CapabilityAffected
     public static class DefaultAffected implements IOngoingAffected
     {
         LivingEntity entity;
-        final List<IOngoingEffect> effects = Lists.newArrayList();
+        List<IOngoingEffect> effects = Lists.newArrayList();
         IOngoingEffect[] cachedArray;
-        final Map<ResourceLocation, Set<IOngoingEffect>> map = Maps.newHashMap();
+        Map<ResourceLocation, Set<IOngoingEffect>> map = Maps.newHashMap();
 
         public DefaultAffected(final LivingEntity entity)
         {
@@ -64,8 +66,8 @@ public class CapabilityAffected
         @Override
         public void clearEffects()
         {
-            this.effects.clear();
-            for (final Set<IOngoingEffect> set : this.map.values()) set.clear();
+            this.effects = new ArrayList<>();
+            for (var entry : map.entrySet()) entry.setValue(new HashSet<>());
         }
 
         @Override
@@ -77,7 +79,7 @@ public class CapabilityAffected
         @Override
         public Collection<IOngoingEffect> getEffects(final ResourceLocation id)
         {
-            if (!this.map.containsKey(id)) this.map.put(id, Sets.newHashSet());
+            if (!this.map.containsKey(id)) this.map.put(id, new HashSet<>());
             return this.map.get(id);
         }
 
@@ -100,7 +102,7 @@ public class CapabilityAffected
         {
             final Collection<IOngoingEffect> set = this.getEffects(id);
             this.effects.removeAll(set);
-            set.clear();
+            this.map.put(id, new HashSet<>());
         }
 
         @Override

@@ -1,6 +1,5 @@
 package pokecube.core.client.render.mobs;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -46,6 +45,7 @@ import thut.core.client.render.wrappers.ModelWrapper;
 import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -69,12 +69,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
 
     // holder is set per entity, so doesn't need to be in the ModelSet
     private IAnimationHolder holder = null;
-    // This one is used as a temporary holder
-    private final Vector3f rotPoint = new Vector3f();
-
-    // Temp listes for presently running animations
-    private final List<String> toRunNames = Lists.newArrayList();
-    private final List<Animation> toRun = Lists.newArrayList();
 
     // These below need to be from the model set, as depend on the model itself
     private HashMap<String, List<Animation>> anims = Maps.newHashMap();
@@ -261,16 +255,17 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     @Override
     public List<Animation> getAnimations(Entity entity, IModel model, String phase)
     {
-        this.toRun.clear();
-        this.toRunNames.clear();
+        List<Animation> toRun = new ArrayList<>();
+        // Temp listes for presently running animations
+        List<String> toRunNames = new ArrayList<>();
         var changer = model.getAnimationChanger();
-        if (changer != null) changer.getAlternates(this.toRunNames, entity, phase);
-        for (final String name : this.toRunNames)
+        if (changer != null) changer.getAlternates(toRunNames, entity, phase);
+        for (final String name : toRunNames)
         {
             final List<Animation> anims = changer.getAnimations().get(name);
-            if (anims != null) this.toRun.addAll(anims);
+            if (anims != null) toRun.addAll(anims);
         }
-        return this.toRun;
+        return toRun;
     }
 
     @Override

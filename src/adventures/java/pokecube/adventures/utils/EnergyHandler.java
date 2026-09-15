@@ -120,7 +120,6 @@ public class EnergyHandler
         List<Entity> l = tile.mobs;
         if (tile.updateTime == -1 || tile.updateTime < tile.getLevel().getGameTime())
         {
-            l.clear();
             l = tile.mobs = tile.getLevel().getEntitiesOfClass(Entity.class, box);
             tile.updateTime = tile.getLevel().getGameTime() + PokecubeAdv.config.siphonUpdateRate;
         }

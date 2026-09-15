@@ -3,6 +3,7 @@ package pokecube.api.data.spawns;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -143,7 +144,7 @@ public class SpawnBiomeMatcher
     {
         clearClientValues(matcher);
         var ors = new ArrayList<>(matcher._or_children);
-        matcher._or_children.clear();
+        matcher._or_children = new ArrayList<>();
 
         Map<SpawnBiomeMatcher, ClientValues> values = Maps.newHashMap();
         values.put(matcher, new ClientValues());
@@ -170,7 +171,7 @@ public class SpawnBiomeMatcher
 
                 boolean noChildBiomes = m._or_children.isEmpty() && m._and_children.isEmpty();
                 noChildBiomes = noChildBiomes && (m._validBiomes.isEmpty() || m._biomeMatchers.isEmpty());
-                if (noChildBiomes || s.clientBiomes.size() == reg.keySet().size()) s.clientBiomes.clear();
+                if (noChildBiomes || s.clientBiomes.size() == reg.keySet().size()) s.clientBiomes = new ArrayList<>();
             }
             catch (Exception e)
             {
@@ -181,7 +182,7 @@ public class SpawnBiomeMatcher
             {
                 if (m.checkSubBiome(type)) s.clientTypes.add(type.name);
             }
-            if (s.clientTypes.size() == BiomeType.values().size()) s.clientTypes.clear();
+            if (s.clientTypes.size() == BiomeType.values().size()) s.clientTypes = new ArrayList<>();
             s.clientStructures.addAll(matcher._validStructures);
             if (s.valid()) matcher.clientStuff.add(s);
         }
@@ -1085,32 +1086,18 @@ public class SpawnBiomeMatcher
 
         // Somehow these can end up null after the gson parsing, so we need to
         // ensure they are not null here.
-        if (this._validBiomes == null) this._validBiomes = Sets.newHashSet();
-        if (this._validSubBiomes == null) this._validSubBiomes = Sets.newHashSet();
-        if (this._blackListBiomes == null) this._blackListBiomes = Sets.newHashSet();
-        if (this._blackListSubBiomes == null) this._blackListSubBiomes = Sets.newHashSet();
-        if (this._validStructures == null) this._validStructures = Sets.newHashSet();
-        if (this._bannedWeather == null) this._bannedWeather = Sets.newHashSet();
-        if (this._neededWeather == null) this._neededWeather = Sets.newHashSet();
-        if (this._and_children == null) this._and_children = new ArrayList<>();
-        if (this._or_children == null) this._or_children = new ArrayList<>();
-        if (this._not_children == null) this._not_children = new ArrayList<>();
-        if (this._allMatchers == null) this._allMatchers = new ArrayList<>();
-        if (this._biomeMatchers == null) this._biomeMatchers = new ArrayList<>();
-
-        // Now lets ensure they are empty.
-        this._validBiomes.clear();
-        this._validSubBiomes.clear();
-        this._blackListBiomes.clear();
-        this._blackListSubBiomes.clear();
-        this._validStructures.clear();
-        this._bannedWeather.clear();
-        this._neededWeather.clear();
-        this._and_children.clear();
-        this._or_children.clear();
-        this._not_children.clear();
-        this._allMatchers.clear();
-        this._biomeMatchers.clear();
+         this._validBiomes = Sets.newHashSet();
+        this._validSubBiomes = Sets.newHashSet();
+        this._blackListBiomes = Sets.newHashSet();
+        this._blackListSubBiomes = Sets.newHashSet();
+        this._validStructures = Sets.newHashSet();
+        this._bannedWeather = Sets.newHashSet();
+        this._neededWeather = Sets.newHashSet();
+        this._and_children = new ArrayList<>();
+        this._or_children = new ArrayList<>();
+        this._not_children = new ArrayList<>();
+        this._allMatchers = new ArrayList<>();
+        this._biomeMatchers = new ArrayList<>();
 
         minLight = 0;
         maxLight = 1;

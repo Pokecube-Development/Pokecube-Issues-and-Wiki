@@ -1,5 +1,6 @@
 package pokecube.core.impl.capabilities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -130,7 +131,7 @@ public class TextureableCaps
             checkPokemob();
             if (this.animated != null)
             {
-                states.clear();
+                states = new ArrayList<>();
                 states.addAll(animated.getChoices());
                 states.addAll(animated.transientAnimations());
                 return states;

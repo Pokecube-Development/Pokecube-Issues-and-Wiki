@@ -35,8 +35,8 @@ public class TreeRemover
 
     public void clear()
     {
-        this.blocks.clear();
-        this.checked.clear();
+        this.blocks = new ArrayList<>();
+        this.checked = new ArrayList<>();
     }
 
     public int cut(final boolean count)

@@ -209,9 +209,9 @@ public class StoreItems implements INBTSerializable<CompoundTag>, ContainerListe
         if (stack != this.instructionsCache)
         {
             this.instructionsCache = stack;
-            keys.clear();
-            tags_i.clear();
-            tags_b.clear();
+            keys = new ArrayList<>();
+            tags_i = new ArrayList<>();
+            tags_b = new ArrayList<>();
             List<String> instructions = BookInstructionsParser.getInstructions(stack, "item filters", false,
                     s -> s.contains(":"));
             for (String line : instructions)

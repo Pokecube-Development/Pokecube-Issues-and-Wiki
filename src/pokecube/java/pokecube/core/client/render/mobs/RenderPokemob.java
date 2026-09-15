@@ -179,8 +179,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         public String name;
         public Map<String, PartInfo> parts = new Object2ObjectOpenHashMap<>();
-        private final List<String> toRunNames = new ArrayList<>();
-        private final List<Animation> toRun = new ArrayList<>();
         PokedexEntry entry;
 
         boolean checkedAnims = false;
@@ -253,16 +251,16 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         @Override
         public List<Animation> getAnimations(Entity entity, IModel model, String phase)
         {
-            this.toRun.clear();
-            this.toRunNames.clear();
+            List<Animation> toRun = new ArrayList<>();
+            List<String> toRunNames = new ArrayList<>();
             var animator = model.getAnimationChanger();
-            if (animator != null) animator.getAlternates(this.toRunNames, entity, phase);
-            for (final String name : this.toRunNames)
+            if (animator != null) animator.getAlternates(toRunNames, entity, phase);
+            for (final String name : toRunNames)
             {
                 final List<Animation> anims = animator.getAnimations().get(name);
-                if (anims != null) this.toRun.addAll(anims);
+                if (anims != null) toRun.addAll(anims);
             }
-            return this.toRun;
+            return toRun;
         }
 
         public void init(long time)
@@ -271,8 +269,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             if (noUpdate) return;
             if (ThutCore.conf.debug_models) PokecubeAPI.logDebug("Reloaded model for " + entry);
             RenderPokemob.holders.put(this.entry, this);
-            this.toRun.clear();
-            this.toRunNames.clear();
             this.parts.clear();
             this.initModel(new ModelWrapper<>(this, this));
             this.checkedAnims = false;

@@ -1,5 +1,6 @@
 package pokecube.core.ai.routes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -167,7 +168,7 @@ public class GuardAICapability implements IGuardAICapability
 
     private final List<IGuardTask> tasks = Lists.newArrayList(new GuardTask());
 
-    private final List<Runnable> listeners = Lists.newArrayList();
+    private List<Runnable> listeners = Lists.newArrayList();
 
     private GuardState state = GuardState.IDLE;
 
@@ -205,7 +206,7 @@ public class GuardAICapability implements IGuardAICapability
     public void onChanged()
     {
         List<Runnable> dirty = Lists.newArrayList(listeners);
-        this.listeners.clear();
+        this.listeners = new ArrayList<>();
         dirty.forEach(Runnable::run);
     }
 

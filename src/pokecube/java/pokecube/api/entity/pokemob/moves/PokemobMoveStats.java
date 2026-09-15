@@ -17,6 +17,7 @@ import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import thut.api.Tracker;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -82,7 +83,7 @@ public class PokemobMoveStats
     public int oldLevel = 0;
 
     /** Moves it is trying to learn. */
-    public final List<String> newMoves = Lists.newArrayList();
+    public List<String> newMoves = Lists.newArrayList();
     /** Index of new move to learn from newMoves. */
     public int num = 0;
     /** The last move we used. */
@@ -90,7 +91,7 @@ public class PokemobMoveStats
     /** Cache of currently selected move */
     public MoveEntry selectedMove;
     /** The moves we are currently using */
-    public final List<MoveApplication> movesInProgress = Lists.newArrayList();
+    public List<MoveApplication> movesInProgress = Lists.newArrayList();
     /** The application of the last move we used, useful for the effects of protecting moves. */
     public MoveApplication lastMoveApplication = null;
     public boolean targettingSelf = false;
@@ -128,7 +129,7 @@ public class PokemobMoveStats
             {
                 if (!PokemobMoveStats.IGNORE.contains(f.getName()))
                 {
-                    if (f.get(this) instanceof List<?> l) l.clear();
+                    if (f.get(this) instanceof List<?>) f.set(this, new ArrayList<>());
                     else f.set(this, f.get(PokemobMoveStats.defaults));
                 }
             }
@@ -141,7 +142,7 @@ public class PokemobMoveStats
     public void checkMovesInProgress(IPokemob user)
     {
         targettingSelf = false;
-        synchronized (movesInProgress)
+        synchronized (this)
         {
             movesInProgress.removeIf(MoveApplication::isFinished);
             for (var move : movesInProgress)
@@ -158,7 +159,7 @@ public class PokemobMoveStats
     public void addMoveInProgress(IPokemob user, MoveApplication application)
     {
         this.targettingSelf |= application.getTarget() == user.getEntity();
-        synchronized (movesInProgress)
+        synchronized (this)
         {
             this.movesInProgress.add(application);
         }

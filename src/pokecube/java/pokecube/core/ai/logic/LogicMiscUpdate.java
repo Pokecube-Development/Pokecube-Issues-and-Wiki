@@ -534,9 +534,9 @@ public class LogicMiscUpdate extends LogicBase
     private void checkAnimationStates(PokedexEntry entry)
     {
         if (animated == null) return;
+        animated.clearChoices();
         List<String> anims = animated.getChoices();
         List<String> transients = animated.transientAnimations();
-        anims.clear();
         var trackedEntity = pokemob.getTrackedEntity();
         var tracker = ThutCaps.getPositionTracker(trackedEntity);
         boolean isRidden = !entity.getPassengers().isEmpty();

@@ -34,7 +34,7 @@ public class CapabilityAnimation
 
         List<Animation> playingList = DefaultImpl.EMPTY;
         List<String> tmpTransients = new ArrayList<>();
-        final Set<Animation> transients = new HashSet<>();
+        Set<Animation> transients = new HashSet<>();
 
         /**
          * This is a map of animation uuid -> start time for the animation
@@ -70,7 +70,7 @@ public class CapabilityAnimation
             this.pending = _default;
             this.playing = _default;
             this.start_times.clear();
-            this.transients.clear();
+            this.transients = new HashSet<>();
             this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
         }
 
@@ -174,7 +174,7 @@ public class CapabilityAnimation
                     {
                         for (var anim : transients)
                         {
-                            this.tmpTransients.clear();
+                            this.tmpTransients = new ArrayList<>();
                             if (this.changer != null)
                             {
                                 this.changer.getAlternates(tmpTransients, e, anim);
@@ -183,7 +183,7 @@ public class CapabilityAnimation
                                     var animList = anims.get(s);
                                     if (animList == null || animList.isEmpty()) continue;
                                     int index = animList.size() > 1 ? RNG.nextInt(animList.size()) : 0;
-                                    synchronized (this.transients)
+                                    synchronized (this)
                                     {
                                         var selected = animList.get(index);
                                         if (this.transients.add(selected))
@@ -193,7 +193,7 @@ public class CapabilityAnimation
                             }
                             else if (this.anims.containsKey(anim))
                             {
-                                synchronized (this.transients)
+                                synchronized (this)
                                 {
                                     var list = anims.get(anim);
                                     for (var selected : list)

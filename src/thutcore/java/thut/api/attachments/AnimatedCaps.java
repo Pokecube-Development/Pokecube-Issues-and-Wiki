@@ -1,5 +1,6 @@
 package thut.api.attachments;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class AnimatedCaps
 
     public static class Impl implements IAnimated
     {
-        private final List<String> anims = Lists.newArrayList();
+        private List<String> anims = Lists.newArrayList();
         private final List<String> transients = Lists.newArrayList();
         private final Map<Object, Object> particles = new HashMap<>();
         private final Object context;
@@ -33,6 +34,12 @@ public class AnimatedCaps
         public List<String> getChoices()
         {
             return this.anims;
+        }
+
+        @Override
+        public void clearChoices()
+        {
+            this.anims = new ArrayList<>();
         }
 
         @Override

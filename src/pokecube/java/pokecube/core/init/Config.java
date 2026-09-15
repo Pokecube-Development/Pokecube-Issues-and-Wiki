@@ -18,6 +18,7 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.nfunk.jep.JEP;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
+import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.FunctionVariance;
 import pokecube.core.PokecubeCore;
@@ -889,6 +890,7 @@ public class Config extends ConfigData
         if (this.breedingDelay < 600) this.breedingDelay = 1000;
 
         AITools.initIDs();
+        TeleportHandler.initTeleportRestrictions();
 
         SpawnHandler.lvlCap = this.shouldCap;
         SpawnHandler.capLevel = this.levelCap;

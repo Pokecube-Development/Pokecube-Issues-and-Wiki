@@ -80,7 +80,7 @@ public class DataSync_Impl implements DataSync
         return (T) data;
     }
 
-    private final List<Data<?>> data = new ArrayList<>();
+    private List<Data<?>> data = new ArrayList<>();
 
     private long tick;
     private String regTag = "unk";
@@ -183,7 +183,7 @@ public class DataSync_Impl implements DataSync
     {
         Map<String, Data<?>> old = new HashMap<>();
         this.data.forEach(d -> old.put(d.getTag() + d.getName(), d));
-        this.data.clear();
+        this.data = new ArrayList<>();
         values.forEach(data -> {
             this.setRegisterTag(data.getTag());
             var key = data.getTag() + data.getName();

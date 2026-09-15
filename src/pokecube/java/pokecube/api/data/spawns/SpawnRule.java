@@ -91,7 +91,7 @@ public class SpawnRule
 
     public void loadMatchers()
     {
-        this._matchers.clear();
+        this._matchers = new ArrayList<>();
         this.matchers.forEach((key, value) -> {
             // Leave the match checkers alone after further runs of this
             if (value instanceof MatchChecker match)

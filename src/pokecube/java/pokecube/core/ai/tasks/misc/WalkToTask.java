@@ -55,9 +55,9 @@ public class WalkToTask extends Behavior<Mob>
             this.remainingCooldown--;
             return false;
         } else {
-//            int rate = 10;
-//            int rng = owner.getId()%rate;
-//            if(owner.tickCount%rate!=rng) return false;
+            int rate = 10;
+            int rng = owner.getId() % rate;
+            if (owner.tickCount % rate != rng) return false;
             IPokemob pokemob = PokemobCaps.getPokemobFor(owner);
             if(!TaskBase.canMove(pokemob)) return false;
             Brain<?> brain = owner.getBrain();
