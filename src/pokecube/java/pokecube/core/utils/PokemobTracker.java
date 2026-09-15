@@ -217,7 +217,9 @@ public class PokemobTracker
     public static void addPokemob(final IPokemob pokemob)
     {
         final PokemobTracker tracker = PokemobTracker.getFor(pokemob.getEntity());
-        tracker._addPokemob(pokemob);
+        var level = pokemob.getEntity().level();
+        if (level instanceof ServerLevel s) s.getServer().execute(() -> tracker._addPokemob(pokemob));
+        else tracker._addPokemob(pokemob);
     }
 
     public static void removePokemob(final IPokemob pokemob)
