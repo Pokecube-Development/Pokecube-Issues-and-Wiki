@@ -175,7 +175,7 @@ public class BBPartEntity<E extends Entity> extends GenericPartEntity<E>
             var dy = this.getY() - this.getParent().getY();
             if (dy < step) aabb = aabb.setMinY(this.getParent().getY());
         }
-        List<VoxelShape> list = this.level().getEntityCollisions(this, aabb.expandTowards(vec));
+        List<VoxelShape> list = this.level().getEntityCollisions(this.getParent(), aabb.expandTowards(vec));
         Vec3 vec3 = vec.lengthSqr() == 0.0 ? vec : collideBoundingBox(this, vec, aabb, this.level(), list);
         boolean hitX = vec.x != vec3.x;
         boolean hitY = vec.y != vec3.y;
