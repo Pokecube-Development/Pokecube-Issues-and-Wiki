@@ -204,6 +204,18 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
             }
             useForCollision = dw2 > 1 || dh2 > 2;
             partsNeedSync = colHeight * colWidth > 100;
+            if (!useForCollision)
+            {
+                var size = this.getScaleFast();
+                PokedexEntry entry = this.getPokemob().getPokedexEntry();
+                float width = entry.getWidth() * size;
+                float length = entry.getLength() * size;
+                float height = entry.getHeight() * size;
+                colWidth = Math.max(width, length);
+                colHeight = height;
+                var box = EntityDimensions.fixed(colWidth, colHeight).withEyeHeight(0.75f * colHeight);
+                containing = box.makeBoundingBox(this.position());
+            }
         }
 
         // This needs the larger bounding box regardless of parts, so that the

@@ -173,10 +173,12 @@ public interface IMultpart<T extends GenericPartEntity<E>, E extends Entity>
             p.applyPos(dr);
             total = total == null ? p.getBoundingBox() : total.minmax(p.getBoundingBox());
         }
+        // All further processing is only needed for custom collision
+        if (!this.partsUsedForCollision()) return;
         float dw = (float) Math.max(total.getXsize(), total.getZsize());
         float dh = (float) total.getYsize();
-        float dsigma = dw*dh;
-        float dsigmaO = self.dimensions.height()*self.dimensions.width();
+        float dsigma = dw * dh;
+        float dsigmaO = self.dimensions.height() * self.dimensions.width();
         float ratio = dsigmaO / dsigma;
         if (Math.abs(ratio > 1 ? ratio : 1 / ratio) > 1.1)
         {
