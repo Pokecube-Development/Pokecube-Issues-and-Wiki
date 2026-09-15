@@ -13,7 +13,6 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.DyeColor;
-import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IShearable;
@@ -44,6 +43,8 @@ public class AnimationChanger implements IAnimationChanger
     private final Set<String> checkWildCard = new ObjectOpenHashSet<>();
 
     IAnimationHolder currentHolder = null;
+    IMobColourable currentColourable = null;
+    IShearable currentShearable = null;
 
     public AnimationChanger()
     {}
@@ -114,18 +115,17 @@ public class AnimationChanger implements IAnimationChanger
     {
         this.checkWildCard(partIdentifier);
         int rgba = 0xFFFFFFFF;
-        final IMobColourable pokemob = ThutCaps.getColourable(entity);
-        if (pokemob == null) return rgba;
+        if (this.currentColourable == null) return rgba;
         rgba = 0xFF000000;
         if (this.dyeables.contains(partIdentifier))
         {
             final Function<Integer, Integer> offset = this.colourOffsets.get(partIdentifier);
-            int colour = pokemob.getDyeColour() & 15;
+            int colour = this.currentColourable.getDyeColour() & 15;
             if (offset != null) colour = offset.apply(colour);
             rgba |= DyeColor.byId(colour).getTextColor();
             return rgba;
         }
-        final int[] arr = pokemob.getRGBA();
+        final int[] arr = this.currentColourable.getRGBA();
         rgba = (arr[3] & 0xFF) << 24 | (arr[0] & 0xFF) << 16 | (arr[1] & 0xFF) << 8 | (arr[2] & 0xFF);
         return rgba;
     }
@@ -154,10 +154,9 @@ public class AnimationChanger implements IAnimationChanger
     {
         this.checkWildCard(part);
         for (final IAnimationChanger child : this.children) if (child.isPartHidden(part, entity, default_)) return true;
-        IShearable shear = ThutCaps.getShearable(entity);
-        if (this.shearables.contains(part) && shear != null)
+        if (this.shearables.contains(part) && this.currentShearable != null)
         {
-            return shear.isSheared();
+            return this.currentShearable.isSheared();
         }
         return default_;
     }
@@ -170,6 +169,18 @@ public class AnimationChanger implements IAnimationChanger
             ret = child.getAlternates(toFill, mob, phase) || ret;
         if (ret) return true;
         return IAnimationChanger.super.getAlternates(toFill, mob, phase);
+    }
+
+    @Override
+    public void setColourable(IMobColourable colourable)
+    {
+        this.currentColourable = colourable;
+    }
+
+    @Override
+    public void setShearable(IShearable shear)
+    {
+        this.currentShearable = shear;
     }
 
     @Override

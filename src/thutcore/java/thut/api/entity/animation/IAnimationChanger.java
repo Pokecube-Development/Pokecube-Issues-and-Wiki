@@ -10,6 +10,8 @@ import javax.annotation.Nullable;
 import net.minecraft.world.entity.Entity;
 import org.joml.Vector3f;
 import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.IMobColourable;
+import thut.api.entity.IShearable;
 import thut.core.common.ThutCore;
 
 public interface IAnimationChanger
@@ -63,6 +65,10 @@ public interface IAnimationChanger
         }
         return false;
     }
+
+    void setShearable(IShearable shear);
+
+    void setColourable(IMobColourable colourable);
 
     void setAnimationHolder(IAnimationHolder holder);
 

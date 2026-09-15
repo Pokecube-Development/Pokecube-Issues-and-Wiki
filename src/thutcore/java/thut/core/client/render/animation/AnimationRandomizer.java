@@ -12,6 +12,8 @@ import java.util.Set;
 import net.minecraft.world.entity.Entity;
 import thut.api.Tracker;
 import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.IMobColourable;
+import thut.api.entity.IShearable;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.core.client.render.animation.AnimationXML.SubAnim;
@@ -141,6 +143,18 @@ public class AnimationRandomizer implements IAnimationChanger
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void setShearable(IShearable shear)
+    {
+        // Nope
+    }
+
+    @Override
+    public void setColourable(IMobColourable colourable)
+    {
+        // Nope
     }
 
     @Override

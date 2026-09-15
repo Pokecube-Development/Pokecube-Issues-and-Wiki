@@ -126,21 +126,19 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.imodel.processAnimations(collection);
     }
 
-    private void initColours(final IExtendedModelPart part, final T entity, IMobColourable poke, final int brightness,
-            final int overlay)
+    private void initColours(final IExtendedModelPart part, final T entity, IAnimationChanger animChanger, int[] rgba,
+            final int brightness, final int overlay)
     {
         if (debugMode) return;
         int red = 255, green = 255, blue = 255;
         int alpha = 255;
-
-        if (poke != null)
+        if (rgba != null)
         {
-            red = poke.getRGBA()[0];
-            green = poke.getRGBA()[1];
-            blue = poke.getRGBA()[2];
-            alpha = poke.getRGBA()[3];
+            red = rgba[0];
+            green = rgba[1];
+            blue = rgba[2];
+            alpha = rgba[3];
         }
-        final IAnimationChanger animChanger = this.getModel().getAnimationChanger();
         if (animChanger != null && animChanger.modifyColourForPart(part.getName(), entity, this.tmp))
         {
             red = this.tmp[0];
@@ -193,11 +191,18 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             texer.bindObject(entity);
             if (texer instanceof TextureHelper helper) default_ = helper.default_tex;
         }
+        var animChanger = this.getModel().getAnimationChanger();
         final IMobColourable poke = ThutCaps.getColourable(entity);
+        int[] rgba = poke != null ? poke.getRGBA() : new int[] { 255, 255, 255, 255 };
+        if (animChanger != null)
+        {
+            animChanger.setShearable(ThutCaps.getShearable(entity));
+            animChanger.setColourable(poke);
+        }
         for (var p : model.getPartsList())
         {
             if (texer != null) p.applyTexture(bufferIn, default_, texer);
-            this.initColours(p, entity, poke, packedLight, packedOverlay);
+            this.initColours(p, entity, animChanger, rgba, packedLight, packedOverlay);
         }
         this.setEntity(entity);
     }
