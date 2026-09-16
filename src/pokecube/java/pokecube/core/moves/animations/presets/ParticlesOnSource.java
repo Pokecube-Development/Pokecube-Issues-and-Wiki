@@ -25,7 +25,7 @@ public class ParticlesOnSource extends ParticlesOnTarget
         final float width = this.values.width * dw;
         for (int i = 0; i < 50 * values.density; i++)
         {
-            temp.set(info.source).addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
+            temp.set(info.getSource()).addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
             PokecubeCore.spawnParticle(info.level, values.particle, temp, null, values.rgba);
         }
     }

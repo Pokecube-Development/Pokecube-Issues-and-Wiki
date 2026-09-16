@@ -1,69 +1,149 @@
 package pokecube.api.effects;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.behavior.EntityTracker;
-import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.EntityPositionSource;
+import net.minecraft.world.level.gameevent.PositionSource;
+import net.minecraft.world.level.gameevent.PositionSourceType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import pokecube.api.moves.MoveEntry;
-import thut.api.entity.ai.VectorPosWrapper;
+import pokecube.core.PokecubeCore;
 import thut.api.entity.multipart.IMultpart;
-import thut.api.maths.Vector3;
 
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public interface IMoveAnimation
 {
-    public static class TaggedEntityTracker implements PositionTracker
+    public static class TaggedEntityTracker implements PositionSource
     {
-        public static PositionTracker create(Entity attacker)
+        public static final MapCodec<TaggedEntityTracker> CODEC = RecordCodecBuilder.mapCodec(
+                instance -> instance.group(
+                        UUIDUtil.CODEC.fieldOf("source_entity").forGetter(TaggedEntityTracker::getUuid),
+                        Codec.STRING.fieldOf("key").orElse("head").forGetter(tracker -> tracker.key)).apply(instance,
+                        (uuid, string) -> new TaggedEntityTracker(Either.right(Either.left(uuid)), string)));
+        public static final StreamCodec<ByteBuf, TaggedEntityTracker> STREAM_CODEC = StreamCodec.composite(
+                ByteBufCodecs.VAR_INT, TaggedEntityTracker::getId, ByteBufCodecs.STRING_UTF8, tracker -> tracker.key,
+                (integer, string) -> new TaggedEntityTracker(Either.right(Either.right(integer)), string));
+
+        public static PositionSource create(Entity attacker)
         {
-            if (attacker instanceof IMultpart<?, ?> multi) for (var key : MoveEntry.DEFAULT_MOVE_SOURCES)
+            if (attacker instanceof IMultpart<?, ?>) for (var key : MoveEntry.DEFAULT_MOVE_SOURCES)
             {
-                var tracker = new TaggedEntityTracker(multi, key);
+                var tracker = new TaggedEntityTracker(attacker, key);
                 if (tracker.location != null) return tracker;
             }
-            return new EntityTracker(attacker, true);
+            return new EntityPositionSource(attacker, attacker.getBbHeight() / 2) {};
         }
 
-        IMultpart<?,?> entity;
+        public static final Supplier<PositionSourceType<TaggedEntityTracker>> TYPE;
+
+        static
+        {
+            TYPE = PokecubeCore.POSITION_SOURCES.register("entity_locator", TaggedEntityTracker.Type::new);
+        }
+        public static void init(){}
+
+        private Either<Entity, Either<UUID, Integer>> entityOrUuidOrId;
+        String key;
         Vector3f location;
 
-        public TaggedEntityTracker(IMultpart<?, ?> entity, String key)
+        public TaggedEntityTracker(Entity entity, String key)
         {
-            this.entity = entity;
-            if (entity.getAttachmentPointMap().containsKey(key))
+            this(Either.left(entity), key);
+            if (entity instanceof IMultpart<?, ?> multi && multi.getAttachmentPointMap().containsKey(key))
             {
-                var points = entity.getAttachmentPointMap().get(key);
-                var index = entity.weSelf().getRandom().nextInt(points.size());
+                var points = multi.getAttachmentPointMap().get(key);
+                var index = entity.getRandom().nextInt(points.size());
                 location = points.get(index).mod();
             }
             else location = null;
         }
 
-        @Override
-        public Vec3 currentPosition()
-        {
-            return new Vec3(location.x, location.y, location.z);
+        private TaggedEntityTracker(Either<Entity, Either<UUID, Integer>> entityOrUuidOrId, String key) {
+            this.entityOrUuidOrId = entityOrUuidOrId;
+            this.key = key;
         }
 
         @Override
-        public BlockPos currentBlockPosition()
+        public Optional<Vec3> getPosition(Level level)
         {
-            return null;
+            if (location == null && this.entityOrUuidOrId != null)
+            {
+                this.resolveEntity(level);
+                this.entityOrUuidOrId.left().ifPresentOrElse(entity -> {
+                    if (entity instanceof IMultpart<?, ?> multi && multi.getAttachmentPointMap().containsKey(key))
+                    {
+                        var points = multi.getAttachmentPointMap().get(key);
+                        var index = entity.getRandom().nextInt(points.size());
+                        location = points.get(index).mod();
+                    }
+                    else location = null;
+                    this.entityOrUuidOrId = null;
+                }, () -> this.entityOrUuidOrId = null);
+            }
+            if (location == null) return Optional.empty();
+            return Optional.of(new Vec3(location.x, location.y, location.z));
+        }
+
+        private void resolveEntity(Level level)
+        {
+            this.entityOrUuidOrId.map(Optional::of, either -> Optional.ofNullable(either.map(
+                    uuid -> level instanceof ServerLevel serverlevel ? serverlevel.getEntity(uuid) : null,
+                    level::getEntity))).ifPresent(entity -> this.entityOrUuidOrId = Either.left(entity));
+        }
+
+        private UUID getUuid()
+        {
+            return this.entityOrUuidOrId.map(Entity::getUUID,
+                    either -> either.map(Function.identity(), id -> {
+                        throw new RuntimeException("Unable to get entityId from uuid");
+                    }));
+        }
+
+        private int getId()
+        {
+            return this.entityOrUuidOrId.map(Entity::getId, either -> either.map(uuid -> {
+                throw new IllegalStateException("Unable to get entityId from uuid");
+            }, Function.identity()));
         }
 
         @Override
-        public boolean isVisibleBy(LivingEntity entity)
+        public PositionSourceType<TaggedEntityTracker> getType()
         {
-            return false;
+            return TaggedEntityTracker.TYPE.get();
+        }
+
+        public static class Type implements PositionSourceType<TaggedEntityTracker>
+        {
+            @Override
+            public MapCodec<TaggedEntityTracker> codec()
+            {
+                return TaggedEntityTracker.CODEC;
+            }
+
+            @Override
+            public StreamCodec<ByteBuf, TaggedEntityTracker> streamCodec()
+            {
+                return TaggedEntityTracker.STREAM_CODEC;
+            }
         }
     }
 
@@ -71,8 +151,8 @@ public interface IMoveAnimation
     {
         public final IMoveAnimation animation;
         public final Level level;
-        public final PositionTracker source;
-        public final PositionTracker target;
+        private final PositionSource source;
+        private final PositionSource target;
         public final float sourceScale;
         public final float targetScale;
 
@@ -82,7 +162,7 @@ public interface IMoveAnimation
         public float endTick;
         public float removalTick;
 
-        public MovePacketInfo(IMoveAnimation animation, Level level, PositionTracker source, PositionTracker target,
+        public MovePacketInfo(IMoveAnimation animation, Level level, PositionSource source, PositionSource target,
                 float sourceScale, float targetScale)
         {
             this.level = level;
@@ -94,12 +174,34 @@ public interface IMoveAnimation
             this.removalTick = animation.getDuration();
         }
 
-        public MovePacketInfo(IMoveAnimation animation, Level level, Entity source, Entity target, Vector3 targetPos)
+        public MovePacketInfo(IMoveAnimation animation, Level level, Entity source, Entity target, Vector3f targetPos)
         {
             this(animation, level, TaggedEntityTracker.create(source), target != null
-                            ? new EntityTracker(target, true)
-                            : targetPos != null ? new VectorPosWrapper(targetPos) : null, source.getBbWidth(),
+                            ? new EntityPositionSource(target, target.getBbHeight()/2)
+                            : targetPos != null ? new VectorPositionSource(targetPos) : null, source.getBbWidth(),
                     target != null ? target.getBbWidth() : 0.25f);
+        }
+
+        public Vector3f getSource()
+        {
+            var pos = source.getPosition(level);
+            if (pos.isEmpty())
+            {
+                this.currentTick = this.removalTick + 1;
+                return new Vector3f();
+            }
+            return pos.get().toVector3f();
+        }
+
+        public Vector3f getTarget()
+        {
+            var pos = target.getPosition(level);
+            if (pos.isEmpty())
+            {
+                this.currentTick = this.removalTick + 1;
+                return new Vector3f();
+            }
+            return pos.get().toVector3f();
         }
 
         public boolean isFinished()

@@ -25,7 +25,7 @@ public class ParticlesOnTarget extends MoveAnimationBase
         final float width = values.width * dw;
         for (int i = 0; i < 50 * values.density; i++)
         {
-            temp.set(info.target).addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
+            temp.set(info.getTarget()).addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
             PokecubeCore.spawnParticle(info.level, values.particle, temp, null, values.rgba);
         }
     }

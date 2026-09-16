@@ -100,12 +100,8 @@ public class CartesianFunction extends MoveAnimationBase
     @Override
     public void spawnClientEntities(MovePacketInfo info, float partialTicks)
     {
-        Vector3f source = values.reverse
-                ? info.source.currentPosition().toVector3f()
-                : info.target.currentPosition().toVector3f();
-        Vector3f target = values.reverse
-                ? info.target.currentPosition().toVector3f()
-                : info.source.currentPosition().toVector3f();
+        Vector3f source = values.reverse ? info.getSource() : info.getTarget();
+        Vector3f target = values.reverse ? info.getTarget() : info.getSource();
         source = ORIGIN_SHIFT.apply(source);
         Vector3f dir = new Vector3f(target);
         dir.sub(source);

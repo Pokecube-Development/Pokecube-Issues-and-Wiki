@@ -117,7 +117,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     {
         final float tick = info.currentTick;
         final float scale = (float) PokecubeCore.getConfig().moveVolumeEffect;
-        final Level world = PokecubeCore.proxy.getWorld();
+        final Level world = info.level;
         final Vector3 pos = new Vector3();
         for (WrappedAnimation component : this.components)
         {
@@ -143,16 +143,20 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                 }
                 boolean valid = component.soundSource;
                 // Check source sounds.
-                if (valid &= (info.source != null)) pos.set(info.source);
                 if (valid)
+                {
+                    pos.set(info.getSource());
                     world.playLocalSound(pos.x, pos.y, pos.z, component.soundEvent, SoundSource.HOSTILE, volume, pitch,
                             true);
+                }
                 // Check target sounds.
                 valid = component.soundTarget;
-                if (valid &= (info.target != null)) pos.set(info.target);
                 if (valid)
+                {
+                    pos.set(info.getTarget());
                     world.playLocalSound(pos.x, pos.y, pos.z, component.soundEvent, SoundSource.HOSTILE, volume, pitch,
                             true);
+                }
             }
         }
         info.currentTick = tick;

@@ -21,11 +21,13 @@ public class ParticleBeam extends CartesianFunction
         values.horizontal = false;
         values.reverse = !values.reverse;
         values.width = 1;
-        values.density = 0.05f / values.density;
+        values.lifetime = values.duration + 2; // +2 lets the beam visually ricochet a bit
+        values.density = 0.01f / values.density;
         values.f_x = "rand()*0.01";
         values.f_y = "rand()*0.01";
         // d is distance to target, m is maximum time, t is current time
-        values.f_z = "d*t/m"; // Forwards direction is z
+        values.f_z = "0"; // Forwards direction is z
+        values.v_z = "rand()*d/m";
 
         super.init(preset);
         return this;

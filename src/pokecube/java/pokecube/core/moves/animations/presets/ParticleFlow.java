@@ -19,13 +19,13 @@ public class ParticleFlow extends CartesianFunction
         // Now we override the ones to make our spread flow cartesian function
         values.absolute = true;
         values.horizontal = false;
+        values.lifetime = 10;
         values.reverse = !values.reverse;
-        values.density = 0.075f / values.density;
-        values.f_x = "rand()*t*" + values.width;
-        values.f_y = values.flat ? "0" : "rand()*t*" + values.width;
+        values.density = 0.01f / values.density;
         // d is distance to target, m is maximum time, t is current time
-        values.f_z = "t*d/m"; // Forwards direction is z
-        if (values.v_z == null) values.v_z = "0.05";
+        values.v_z = "(0.5+rand())*d/m";
+        values.v_x = "guassian()*" + values.width + "*0.05";
+        values.v_y = values.flat ? "0" : "guassian()*" + values.width + "*0.05";
         super.init(preset);
         return this;
     }

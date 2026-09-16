@@ -1,45 +1,31 @@
 package pokecube.core.moves.animations.presets;
 
-import java.util.Random;
-
 import com.google.gson.JsonObject;
 
 import pokecube.api.effects.IMoveAnimation;
-import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.AnimPreset;
-import pokecube.core.moves.animations.MoveAnimationBase;
-import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
+import pokecube.core.moves.animations.presets.parametric.CartesianFunction;
 
 @AnimPreset(getPreset = "powder")
-public class AnimationPowder extends MoveAnimationBase
+public class AnimationPowder extends CartesianFunction
 {
-    int meshId = 0;
-
     public AnimationPowder()
     {}
 
     @Override
     public IMoveAnimation init(JsonObject preset)
     {
-        super.init(preset);
+        // Load in initial values
+        this.loadValues(preset);
         if (!preset.has("particle")) this.values.particle = "powder";
+
+        values.density = 0.01f / values.density;
+        values.f_x = "guassian()*4";
+        values.f_y = "guassian()*4";
+        values.f_z = "guassian()*4";
+        values.v_y = "-0.05";
+
+        super.init(preset);
         return this;
     }
-
-    @Override
-    public void spawnClientEntities(MovePacketInfo info, float partialTicks)
-    {
-        final Vector3 target = new Vector3(info.target);
-        final Vector3 temp = new Vector3();
-        final Random rand = ThutCore.newRandom();
-        for (int i = 0; i < 100 * values.density; i++)
-        {
-            temp.set(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian());
-            temp.scalarMult(0.010 * values.width);
-            temp.addTo(target);
-            PokecubeCore.spawnParticle(info.level, values.particle, temp.copy(), null, values.rgba, values.lifetime);
-        }
-    }
-
 }

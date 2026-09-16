@@ -341,7 +341,7 @@ public class EntityMoveUse extends ThrowableProjectile
         var animation = move.getAnimation();
         if (this.info == null && animation instanceof MoveAnimationBase base && base.onMoveUse())
         {
-            info = new MovePacketInfo(animation, this.level(), this.getUser(), this.getTarget(), this.getEnd());
+            info = new MovePacketInfo(animation, this.level(), this.getUser(), this.getTarget(), this.getEnd().toJOML());
             info.onClientTick = MOVE_ANIMATION_CLIENT_FACTORY.apply(move);
             info.onServerTick = MOVE_ANIMATION_SERVER_FACTORY.apply(move);
             if (level().isClientSide()) ParticleEffects.ADD_FOR_RENDER.accept(info);

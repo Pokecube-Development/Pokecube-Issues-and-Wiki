@@ -8,7 +8,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
@@ -16,6 +15,7 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import org.joml.Vector3f;
 import pokecube.api.effects.IMoveAnimation;
 import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.VectorPositionSource;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
@@ -30,10 +30,8 @@ import pokecube.core.moves.damage.sources.TerrainDamageSource;
 import pokecube.core.moves.damage.sources.TerrainDamageSource.TerrainType;
 import pokecube.core.utils.AITools;
 import thut.api.Tracker;
-import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.level.terrain.TerrainSegment.ITerrainEffect;
-import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TerrainUpdate;
 
@@ -192,9 +190,9 @@ public class PokemobTerrainEffects implements ITerrainEffect
             if (entry != null && entry.getAnimation() != null)
             {
                 Vector3f chunkMid = new Vector3f(chunkX * 16 + 8, chunkY * 16 + 8, chunkZ * 16 + 8);
-                PositionTracker source = new VectorPosWrapper(new Vector3(chunkMid));
-                Vector3f dir = new Vector3f(level.random.nextFloat(), 0, level.random.nextFloat()).normalize();
-                PositionTracker end = new VectorPosWrapper(new Vector3(source.currentPosition()).add(dir.x, 0, dir.z));
+                var source = new VectorPositionSource(chunkMid);
+                Vector3f target = new Vector3f(level.random.nextFloat(), 0, level.random.nextFloat()).normalize();
+                var end = new VectorPositionSource(target.add(chunkMid));
                 renderEffect = new IMoveAnimation.MovePacketInfo(entry.getAnimation(), level, source, end, 1, 1);
                 renderEffect.onClientTick = EntityMoveUse.MOVE_ANIMATION_CLIENT_FACTORY.apply(entry);
                 renderEffect.onServerTick = EntityMoveUse.MOVE_ANIMATION_SERVER_FACTORY.apply(entry);

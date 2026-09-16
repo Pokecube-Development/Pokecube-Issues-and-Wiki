@@ -22,6 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.gameevent.PositionSourceType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -39,6 +40,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.conditions.PokemobConditionLoader;
 import pokecube.api.data.spawns.matchers.MatcherLoaders;
+import pokecube.api.effects.ParticleEffects;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.InitDatabase;
@@ -153,6 +155,7 @@ public class PokecubeCore
     public static final DeferredRegister<PaintingVariant> PAINTINGS;
     public static final DeferredRegister<DataComponentType<?>> ITEM_DATA;
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS;
+    public static final DeferredRegister<PositionSourceType<?>> POSITION_SOURCES;
 
     static
     {
@@ -173,6 +176,7 @@ public class PokecubeCore
         PAINTINGS = DeferredRegister.create(RegHelper.PAINTING_VARIANT_REGISTRY, PokecubeCore.MODID);
         ITEM_DATA = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, PokecubeCore.MODID);
         ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, PokecubeCore.MODID);
+        POSITION_SOURCES = DeferredRegister.create(BuiltInRegistries.POSITION_SOURCE_TYPE, PokecubeCore.MODID);
     }
 
     public static final String MODID = PokecubeAPI.MODID;
@@ -282,6 +286,7 @@ public class PokecubeCore
         PokecubeCore.PAINTINGS.register(bus);
         PokecubeCore.ATTACHMENTS.register(bus);
         PokecubeCore.ITEM_DATA.register(bus);
+        PokecubeCore.POSITION_SOURCES.register(bus);
         Triggers.REGISTER.register(bus);
         CoreCreativeTabs.TABS.register(bus);
         StatusEffects.REGISTER.register(bus);
@@ -290,6 +295,7 @@ public class PokecubeCore
         PokecubeWorld.init(bus);
         PokecubeLoot.init(bus);
         CommandManager.init(bus);
+        ParticleEffects.init();
 
         bus.addListener(this::loadComplete);
         bus.addListener(InventoryCaps::AttachCaps);

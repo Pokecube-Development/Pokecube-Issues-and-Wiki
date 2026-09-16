@@ -13,4 +13,10 @@ public class ParticleEffects
      * Adds the MovePacketInfo for any server side processing needed, this is presently not implemented.
      */
     public static Consumer<IMoveAnimation.MovePacketInfo> ADD_FOR_SERVER = info->{};
+
+    public static void init()
+    {
+        VectorPositionSource.init();
+        IMoveAnimation.TaggedEntityTracker.init();
+    }
 }

@@ -33,11 +33,10 @@ public class Thunder extends MoveAnimationBase
     @OnlyIn(value = Dist.CLIENT)
     public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
     {
-        var theRealWorld = info.level;
-        final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, theRealWorld);
-        var target = new Vector3(info.target);
+        final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, info.level);
+        var target = new Vector3(info.getTarget());
         target.moveEntity(lightning);
         lightning.setVisualOnly(true);
-        theRealWorld.addFreshEntity(lightning);
+        info.level.addFreshEntity(lightning);
     }
 }
