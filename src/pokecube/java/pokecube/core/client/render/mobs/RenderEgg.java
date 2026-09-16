@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import org.joml.Vector3f;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
@@ -171,13 +170,13 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     @Override
-    public boolean hasAnimation(final String phase, final Entity entity, IModel model)
+    public boolean hasAnimation(final String phase, final EntityPokemobEgg entity, IModel model)
     {
         return false;
     }
 
     @Override
-    public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
+    public void scaleEntity(final PoseStack mat, final EntityPokemobEgg entity, final IModel model, final float partialTick)
     {
     }
 

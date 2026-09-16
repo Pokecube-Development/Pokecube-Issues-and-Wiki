@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.TamableAnimal;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -59,9 +58,9 @@ public class EntityTypes
     public static void init()
     {}
 
-    private static PokemobType<TamableAnimal> makePokemobEntityType(PokedexEntry entry)
+    private static PokemobType<EntityPokemob> makePokemobEntityType(PokedexEntry entry)
     {
-        final PokemobType<TamableAnimal> type = new PokemobType<>(EntityPokemob::new, entry);
+        final PokemobType<EntityPokemob> type = new PokemobType<>(EntityPokemob::new, entry);
         PokecubeCore.typeMap.put(type, entry);
         return type;
     }

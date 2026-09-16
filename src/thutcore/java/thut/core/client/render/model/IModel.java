@@ -31,7 +31,7 @@ public interface IModel
 
     public static ImmutableMap<String, List<Animation>> emptyAnims = ImmutableMap.of();
 
-    void applyAnimation(Entity entity, IModelRenderer<?> renderer);
+    <T extends Entity> void applyAnimation(T entity, IModelRenderer<T> renderer);
 
     default Map<String, List<Animation>> getBuiltInAnimations()
     {

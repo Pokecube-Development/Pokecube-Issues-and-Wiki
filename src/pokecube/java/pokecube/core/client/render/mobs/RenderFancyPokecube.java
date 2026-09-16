@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import pokecube.core.PokecubeCore;
@@ -83,7 +82,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
         {
             var modelKey = ResourceLocation.fromNamespaceAndPath(cube.getNamespace(), MODEL.getPath() + cube.getPath());
             var holder = new ModelHolder(modelKey);
-            var model = new ModelWrapper<EntityPokecube>(holder, this);
+            var model = new ModelWrapper<>(holder, this);
             IModel m2 = ModelFactory.create(model.model, m -> {
                 synchronized (models)
                 {
@@ -115,7 +114,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             var modelKey = ResourceLocation.fromNamespaceAndPath(cube.getNamespace(), MODEL.getPath() + "cube");
             var holder = new ModelHolder(modelKey);
             holder.animation = animKey;
-            var _model = new ModelWrapper<EntityPokecube>(holder, this);
+            var _model = new ModelWrapper<>(holder, this);
             IModel m2 = ModelFactory.create(_model.model, m -> {
                 synchronized (models)
                 {
@@ -213,13 +212,13 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     }
 
     @Override
-    public boolean hasAnimation(String phase, Entity entity, IModel model)
+    public boolean hasAnimation(String phase, EntityPokecube entity, IModel model)
     {
         return model.getAnimationChanger().getAnimations().containsKey(phase);
     }
 
     @Override
-    public List<Animation> getAnimations(Entity entity, IModel model, String phase)
+    public List<Animation> getAnimations(EntityPokecube entity, IModel model, String phase)
     {
         List<Animation> toRun = new ArrayList<>();
         // Temp listes for presently running animations
@@ -235,7 +234,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     }
 
     @Override
-    public String getAnimation(final Entity entityIn, IModel model)
+    public String getAnimation(final EntityPokecube entityIn, IModel model)
     {
         if (entityIn instanceof EntityPokecube cube)
         {
@@ -281,7 +280,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     }
 
     @Override
-    public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
+    public void scaleEntity(final PoseStack mat, final EntityPokecube entity, final IModel model, final float partialTick)
     {
         final float s = 16;
         mat.mulPose(AxisAngles.ZP.rotationDegrees(90));

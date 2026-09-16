@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -50,6 +49,7 @@ import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.database.Database;
 import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.entity.boats.GenericBoat.BoatType;
+import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
@@ -265,13 +265,21 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
+    @SuppressWarnings("unchecked")
     public static void registerRenderers(final RegisterRenderers event)
     {
         for (final PokedexEntry e : Database.getSortedFormes())
         {
             if (!e.stock) continue;
-            final EntityType<? extends Mob> t = e.getEntityType();
-            event.registerEntityRenderer(t, (manager) -> new RenderPokemob(e, manager));
+            try
+            {
+                var t = (EntityType<? extends EntityPokemob>) e.getEntityType();
+                event.registerEntityRenderer(t, (manager) -> new RenderPokemob(e, manager));
+            }
+            catch (Exception ex)
+            {
+                PokecubeAPI.LOGGER.error(ex);
+            }
         }
         event.registerEntityRenderer(EntityTypes.getPokecube(), RenderPokecube::new);
         event.registerEntityRenderer(EntityTypes.getMove(), RenderMoves::new);

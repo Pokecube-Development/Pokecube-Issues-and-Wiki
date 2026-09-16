@@ -356,7 +356,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     }
 
     @Override
-    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer)
+    public <T extends Entity> void applyAnimation(final T entity, final IModelRenderer<T> renderer)
     {
         if (this.getPartsList().isEmpty()) return;
         var changer = this.getAnimationChanger();

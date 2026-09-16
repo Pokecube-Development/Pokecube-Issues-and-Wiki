@@ -39,7 +39,7 @@ import thut.core.client.render.texturing.TextureHelper;
 public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IModel
 {
     public final ModelHolder model;
-    public final IModelRenderer<?> renderer;
+    public final IModelRenderer<T> renderer;
     private IModel imodel;
     private IModelCustom renderModel;
     private T entityIn;
@@ -54,7 +54,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public final IRetexturableModel.Holder<IAnimationHolder> animHolderHolder = new IRetexturableModel.Holder<>();
     public final IRetexturableModel.Holder<IPartTexturer> texChangeHolder = new IRetexturableModel.Holder<>();
 
-    public ModelWrapper(final ModelHolder model, final IModelRenderer<?> renderer)
+    public ModelWrapper(final ModelHolder model, final IModelRenderer<T> renderer)
     {
         this.model = model;
         this.renderer = renderer;
@@ -69,7 +69,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     }
 
     @Override
-    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer)
+    public <V extends Entity> void applyAnimation(final V entity, final IModelRenderer<V> renderer)
     {
         if (!this.isLoaded()) return;
         this.imodel.applyAnimation(entity, renderer);
@@ -246,7 +246,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.rotationPointZ = par3;
     }
 
-    protected void transformGlobal(PoseStack mat,Entity entity, float partialTick)
+    protected void transformGlobal(PoseStack mat, T entity, float partialTick)
     {
         this.setOffset(new Vector3f());
         this.getModel().globalFix(mat, this.rotationPointX, this.rotationPointY, this.rotationPointZ);

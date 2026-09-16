@@ -18,18 +18,18 @@ public interface IModelRenderer<T extends Entity>
 {
     public static final String DEFAULTPHASE = "idle";
 
-    default String getAnimation(Entity entityIn, IModel model)
+    default String getAnimation(T entityIn, IModel model)
     {
         final IAnimationHolder holder = this.getAnimationHolder();
         if (holder != null) return holder.getAnimation(entityIn);
         return IModelRenderer.DEFAULTPHASE;
     }
 
-    boolean hasAnimation(String phase, Entity entity, IModel model);
+    boolean hasAnimation(String phase, T entity, IModel model);
 
-    void scaleEntity(PoseStack mat, Entity entity, IModel model, float partialTick);
+    void scaleEntity(PoseStack mat, T entity, IModel model, float partialTick);
 
-    default void setAnimation(final Entity entity, final IModel model)
+    default void setAnimation(final T entity, final IModel model)
     {
         final IAnimationHolder holder = this.getAnimationHolder();
         final String phase = this.getAnimation(entity, model);
@@ -45,7 +45,7 @@ public interface IModelRenderer<T extends Entity>
         }
     }
 
-    default List<Animation> getAnimations(Entity entity, IModel model, String phase)
+    default List<Animation> getAnimations(T entity, IModel model, String phase)
     {
         var changer = model.getAnimationChanger();
         if (changer.getAnimations() != null) return changer.getAnimations().get(phase);

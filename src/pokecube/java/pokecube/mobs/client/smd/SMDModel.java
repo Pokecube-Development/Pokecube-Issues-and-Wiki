@@ -180,7 +180,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer)
+    public <T extends Entity> void applyAnimation(final T entity, final IModelRenderer<T> renderer)
     {
         this.wrapped.setAnimation(renderer.getAnimation(entity, this));
     }

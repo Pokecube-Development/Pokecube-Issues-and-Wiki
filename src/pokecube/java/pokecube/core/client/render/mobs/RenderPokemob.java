@@ -17,7 +17,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.neoforged.fml.loading.FMLPaths;
@@ -27,11 +26,11 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.DefaultFormeHolder.TexColours;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
-import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.database.Database;
+import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.impl.capabilities.TextureableCaps.PokemobCap;
 import thut.api.ModelHolder;
@@ -68,7 +67,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
+public class RenderPokemob extends MobRenderer<EntityPokemob, ModelWrapper<EntityPokemob>>
 {
     public static class PokemobTexHelper extends TextureHelper
     {
@@ -172,9 +171,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
     }
 
-    public static class Holder extends ModelHolder implements IModelRenderer<Mob>
+    public static class Holder extends ModelHolder implements IModelRenderer<EntityPokemob>
     {
-        public ModelWrapper<Mob> wrapper;
+        public ModelWrapper<EntityPokemob> wrapper;
         final Vector3f rotPoint = new Vector3f();
 
         public String name;
@@ -222,7 +221,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public String getAnimation(final Entity entityIn, IModel model)
+        public String getAnimation(final EntityPokemob entityIn, IModel model)
         {
             final IAnimationHolder holder = this.getAnimationHolder();
             if (holder != null && holder.isFixed()) return holder.getAnimation(entityIn);
@@ -230,7 +229,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             return this.getPhase(entityIn);
         }
 
-        private String getPhase(final Entity entity)
+        private String getPhase(final EntityPokemob entity)
         {
             if (!this.wrapper.isLoaded()) return "not_loaded_yet!";
             final String phase = "idle";
@@ -241,7 +240,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public boolean hasAnimation(String phase, Entity entity, IModel model)
+        public boolean hasAnimation(String phase, EntityPokemob entity, IModel model)
         {
             var animator = model.getAnimationChanger();
             if (animator != null && animator.hasAnimation(phase)) return true;
@@ -249,7 +248,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public List<Animation> getAnimations(Entity entity, IModel model, String phase)
+        public List<Animation> getAnimations(EntityPokemob entity, IModel model, String phase)
         {
             List<Animation> toRun = new ArrayList<>();
             List<String> toRunNames = new ArrayList<>();
@@ -277,7 +276,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             this.wrapper.lastInit = time + 150;
         }
 
-        public void initModel(final ModelWrapper<Mob> model)
+        public void initModel(final ModelWrapper<EntityPokemob> model)
         {
             this.wrapper = model;
             ModelFactory.create(model.model, m -> {
@@ -288,9 +287,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
 
         @Override
-        public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
+        public void scaleEntity(final PoseStack mat, final EntityPokemob entity, final IModel model, final float partialTick)
         {
-            final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
+            final IPokemob pokemob = entity.getPokemob();
             float s = 1;
             if (pokemob != null && pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
             {
@@ -349,7 +348,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
     }
 
-    public static void convertModeltoBBModel(Holder renderHolder, Mob entity)
+    public static void convertModeltoBBModel(Holder renderHolder, EntityPokemob entity)
     {
         if (renderHolder.wrapper.getModel() instanceof BaseModel _model)
         {
@@ -440,9 +439,11 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (RenderPokemob.holders.containsKey(entry))
         {
             var holder = RenderPokemob.holders.get(entry);
+            output:
             if (PokecubeCore.getConfig().outputBBModels && PokecubeCore.proxy.getWorld() != null)
             {
                 var entity = PokecubeCore.createPokemob(entry, PokecubeCore.proxy.getWorld());
+                if(!(entity instanceof EntityPokemob entityPokemob)) break output;
                 var old = ThutCore.conf.asyncModelLoads;
                 ThutCore.conf.asyncModelLoads = false;
                 // Step 1, save as a bbmodel for client side use
@@ -450,14 +451,14 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 Part.mergeMeshes = false;
                 if (holder.wrapper != null) holder.wrapper.lastInit = -1;
                 holder.init(time);
-                convertModeltoBBModel(holder, entity);
+                convertModeltoBBModel(holder, entityPokemob);
                 // Now re-do with merging enabled for server side
                 BBModelPart.mergeMeshs = true;
                 Part.mergeMeshes = true;
                 if (holder.wrapper != null) holder.wrapper.lastInit = -1;
                 holder.init(time);
                 // Then save as a bbmodel for server
-                saveModelForServer(holder, entity);
+                saveModelForServer(holder, entityPokemob);
                 BBModelPart.mergeMeshs = false;
                 Part.mergeMeshes = true; // then set this back as is
                 // Then reload mesh for the entry
@@ -470,9 +471,11 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
         for (final Holder holder : RenderPokemob.customs.values())
         {
+            output:
             if (PokecubeCore.getConfig().outputBBModels && PokecubeCore.proxy.getWorld() != null)
             {
                 var entity = PokecubeCore.createPokemob(holder.entry, PokecubeCore.proxy.getWorld());
+                if(!(entity instanceof EntityPokemob entityPokemob)) break output;
                 var old = ThutCore.conf.asyncModelLoads;
                 ThutCore.conf.asyncModelLoads = false;
                 // Step 1, save as a bbmodel for client side use
@@ -480,14 +483,14 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 Part.mergeMeshes = false;
                 if (holder.wrapper != null) holder.wrapper.lastInit = -1;
                 holder.init(time);
-                convertModeltoBBModel(holder, entity);
+                convertModeltoBBModel(holder, entityPokemob);
                 // Now re-do with merging enabled for server side
                 BBModelPart.mergeMeshs = true;
                 Part.mergeMeshes = true;
                 if (holder.wrapper != null) holder.wrapper.lastInit = -1;
                 holder.init(time);
                 // Then save as a bbmodel for server
-                saveModelForServer(holder, entity);
+                saveModelForServer(holder, entityPokemob);
                 BBModelPart.mergeMeshs = false;
                 Part.mergeMeshes = true; // then set this back as is
                 // Then reload mesh for the entry
@@ -561,17 +564,16 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     }
 
     @Override
-    protected float getFlipDegrees(final Mob entityLivingBaseIn)
+    protected float getFlipDegrees(final EntityPokemob entityLivingBaseIn)
     {
         return 85.0f;
     }
 
     @Override
-    public void render(final Mob entity, final float entityYaw, final float partialTicks, final PoseStack matrixStackIn,
+    public void render(final EntityPokemob entity, final float entityYaw, final float partialTicks, final PoseStack matrixStackIn,
             final MultiBufferSource bufferIn, final int packedLightIn)
     {
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-        if (pokemob == null) return;
+        final IPokemob pokemob = entity.getPokemob();
         PokedexEntry entry = pokemob.getPokedexEntry();
         long time = Tracker.instance().getTick();
 
@@ -641,7 +643,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     }
 
     @Override
-    protected RenderType getRenderType(final Mob entity, final boolean regular, final boolean model,
+    protected RenderType getRenderType(final EntityPokemob entity, final boolean regular, final boolean model,
             final boolean glowing)
     {
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
@@ -656,12 +658,11 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     }
 
     @Override
-    public ResourceLocation getTextureLocation(final Mob entity)
+    public ResourceLocation getTextureLocation(final EntityPokemob entity)
     {
         ResourceLocation texture = Database.missingno.texture;
         Holder holder;
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-        if (pokemob == null) return texture;
+        final IPokemob pokemob = entity.getPokemob();
         holder = RenderPokemob.holders.getOrDefault(pokemob.getPokedexEntry(), this.holder);
         if (pokemob.getCustomHolder() != null)
         {
@@ -697,7 +698,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     }
 
     @Override
-    protected void setupRotations(Mob entity, PoseStack stack, float bob, float yBodyRot, float partialTicks,
+    protected void setupRotations(EntityPokemob entity, PoseStack stack, float bob, float yBodyRot, float partialTicks,
             float scale)
     {
         // See super implementation for default stuff.

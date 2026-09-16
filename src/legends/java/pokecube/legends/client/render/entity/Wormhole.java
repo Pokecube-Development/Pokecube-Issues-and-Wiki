@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import org.joml.Vector3f;
 import pokecube.legends.Reference;
 import pokecube.legends.entity.WormholeEntity;
@@ -82,32 +81,20 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     }
 
     @Override
-    public boolean hasAnimation(final String phase, final Entity entity, IModel model)
+    public boolean hasAnimation(final String phase, final WormholeEntity entity, IModel model)
     {
         return model.getAnimationChanger().getAnimations().containsKey(phase);
     }
 
     @Override
-    public String getAnimation(final Entity entityIn, IModel model)
+    public String getAnimation(final WormholeEntity entityIn, IModel model)
     {
-        if (entityIn instanceof WormholeEntity wormhole)
-        {
-            return wormhole.isIdle() ? "stable"
-                    : wormhole.isClosing() ? "closing" : wormhole.isOpening() ? "opening" : "idle";
-        }
-
-        final IAnimationHolder holder = this.getAnimationHolder();
-        if (holder != null)
-        {
-            String result = holder.getAnimation(entityIn);
-            if (result.isEmpty()) result = IModelRenderer.DEFAULTPHASE;
-            return result;
-        }
-        return IModelRenderer.DEFAULTPHASE;
+        return entityIn.isIdle() ? "stable"
+                : entityIn.isClosing() ? "closing" : entityIn.isOpening() ? "opening" : "idle";
     }
 
     @Override
-    public void scaleEntity(final PoseStack mat, final Entity entity, final IModel model, final float partialTick)
+    public void scaleEntity(final PoseStack mat, final WormholeEntity entity, final IModel model, final float partialTick)
     {
         this.rotPoint.set(0);
         model.setOffset(this.rotPoint);

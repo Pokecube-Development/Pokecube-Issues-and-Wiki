@@ -15,8 +15,6 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import net.neoforged.neoforge.client.event.RenderNameTagEvent;
 import net.neoforged.neoforge.common.util.TriState;
-import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.overlays.Health;
 import pokecube.core.client.render.mobs.overlays.Status;
@@ -33,10 +31,9 @@ public class RenderMobOverlays
         Minecraft mc = Minecraft.getInstance();
         Entity cameraEntity = mc.getCameraEntity();
         if (cameraEntity == null) return;
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
-        if (pokemob != null)
+        if (event.getEntity() instanceof EntityPokemob pokemob)
         {
-            Status.render(event, pokemob);
+            Status.render(event, pokemob.getPokemob());
         }
         var dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
         // Render bounding boxes for sub-parts if they are not "real" ones
