@@ -2,7 +2,7 @@ package pokecube.core.effects.presets;
 
 import com.google.gson.JsonObject;
 
-import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.IAnimatedEffects;
 import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.presets.parametric.CartesianFunction;
 
@@ -13,7 +13,7 @@ public class AnimationPowder extends CartesianFunction
     {}
 
     @Override
-    public IMoveAnimation init(JsonObject preset)
+    public IAnimatedEffects init(JsonObject preset)
     {
         // Load in initial values
         this.loadValues(preset);

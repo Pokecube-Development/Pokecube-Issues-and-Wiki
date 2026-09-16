@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.IAnimatedEffects;
 import pokecube.api.effects.ParticleEffects;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -80,7 +80,7 @@ public class LogicMiscUpdate extends LogicBase
     private boolean usingMoveThisTick = false;
     private boolean complexTick = false;
     private boolean exitingCube = false;
-    private IMoveAnimation.MovePacketInfo evo_effect = null;
+    private IAnimatedEffects.EffectPacketInfo evo_effect = null;
 
     private int floatTimer = 0;
 
@@ -392,7 +392,7 @@ public class LogicMiscUpdate extends LogicBase
                         var applied = function.apply(new CompoundTag());
                         if (applied != null)
                         {
-                            var effect = new IMoveAnimation.MovePacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                            var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
                             ParticleEffects.ADD_FOR_RENDER.accept(effect);
                         }
                     }
@@ -409,7 +409,7 @@ public class LogicMiscUpdate extends LogicBase
                             var applied = function.apply(tag);
                             if (applied != null)
                             {
-                                var effect = new IMoveAnimation.MovePacketInfo(applied, entity,
+                                var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity,
                                         EvolutionRays.EVO_ANCHORS);
                                 ParticleEffects.ADD_FOR_RENDER.accept(effect);
                             }

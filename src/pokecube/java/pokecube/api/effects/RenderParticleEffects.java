@@ -10,7 +10,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
-import pokecube.api.effects.IMoveAnimation.MovePacketInfo;
+import pokecube.api.effects.IAnimatedEffects.EffectPacketInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +20,10 @@ public class RenderParticleEffects
 {
     private static final Object lock = new Object();
     private static final Object renderlock = new Object();
-    private static final List<MovePacketInfo> TO_TICK = new ArrayList<>();
-    private static final List<MovePacketInfo> TO_RENDER = new ArrayList<>();
+    private static final List<EffectPacketInfo> TO_TICK = new ArrayList<>();
+    private static final List<EffectPacketInfo> TO_RENDER = new ArrayList<>();
 
-    private static boolean tickMovePacketInfo(MovePacketInfo info)
+    private static boolean tickMovePacketInfo(EffectPacketInfo info)
     {
         info.onClientTick.accept(info);
         info.animation.spawnClientEntities(info, info.currentTick + 1);
@@ -31,7 +31,7 @@ public class RenderParticleEffects
         return info.isFinished();
     }
 
-    public static void addParticleEffect(MovePacketInfo info)
+    public static void addParticleEffect(EffectPacketInfo info)
     {
         synchronized (lock)
         {
@@ -73,10 +73,10 @@ public class RenderParticleEffects
         var stack = event.getPoseStack();
         var tick = event.getPartialTick();
         var delta = tick.getGameTimeDeltaTicks();
-        List<MovePacketInfo> toRender;
+        List<EffectPacketInfo> toRender;
         synchronized (renderlock)
         {
-            TO_RENDER.removeIf(MovePacketInfo::isFinished);
+            TO_RENDER.removeIf(EffectPacketInfo::isFinished);
             toRender = new ArrayList<>(TO_RENDER);
         }
         final Player player = Minecraft.getInstance().player;

@@ -31,7 +31,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public interface IMoveAnimation
+public interface IAnimatedEffects
 {
     public static PositionSource getEntityCentre(Entity entity)
     {
@@ -162,17 +162,17 @@ public interface IMoveAnimation
         }
     }
 
-    public static class MovePacketInfo
+    public static class EffectPacketInfo
     {
-        public final IMoveAnimation animation;
+        public final IAnimatedEffects animation;
         public final Level level;
         private final PositionSource source;
         private final PositionSource target;
         public final float sourceScale;
         public final float targetScale;
 
-        public Consumer<MovePacketInfo> onClientTick = (m)->{};
-        public Consumer<MovePacketInfo> onServerTick = (m)->{};
+        public Consumer<EffectPacketInfo> onClientTick = (m)->{};
+        public Consumer<EffectPacketInfo> onServerTick = (m)->{};
         public Object context;
         public int currentTick;
         public int endTick;
@@ -182,7 +182,7 @@ public interface IMoveAnimation
         public Vector3f lastTickSource;
         private Vector3f thisTickSource;
 
-        public MovePacketInfo(IMoveAnimation animation, Level level, PositionSource source, PositionSource target,
+        public EffectPacketInfo(IAnimatedEffects animation, Level level, PositionSource source, PositionSource target,
                 float sourceScale, float targetScale)
         {
             this.level = level;
@@ -197,21 +197,23 @@ public interface IMoveAnimation
             lastTickSource = this.getSource();
         }
 
-        public MovePacketInfo(IMoveAnimation animation, Entity source, List<String> locators)
+        public EffectPacketInfo(IAnimatedEffects animation, Entity source, List<String> locators)
         {
             this(animation, source.level(), TaggedEntityTracker.create(source, locators),
                     getEntityCentrePlusLook(source), source.getBbWidth(), source.getBbWidth());
+            this.setContext(source);
         }
 
-        public MovePacketInfo(IMoveAnimation animation, Level level, Entity source, Entity target, Vector3f targetPos)
+        public EffectPacketInfo(IAnimatedEffects animation, Level level, Entity source, Entity target, Vector3f targetPos)
         {
             this(animation, level, TaggedEntityTracker.create(source), target != null
                             ? getEntityCentre(target)
                             : targetPos != null ? new VectorPositionSource(targetPos) : null, source.getBbWidth(),
                     target != null ? target.getBbWidth() : 0.25f);
+            this.setContext(source);
         }
 
-        public MovePacketInfo setContext(Object context)
+        public EffectPacketInfo setContext(Object context)
         {
             this.context = context;
             return this;
@@ -263,8 +265,12 @@ public interface IMoveAnimation
 
     /**
      * How far into the duration should the move actually be applied.
+     * This is relevant for effects added to attacks
      */
-    int getApplicationTick();
+    default int getApplicationTick()
+    {
+        return 0;
+    }
     /**
      * Sets the duration.
      */
@@ -292,14 +298,14 @@ public interface IMoveAnimation
      * specificed in getDuration(); This is used for direct GL call rendering
      */
     @OnlyIn(Dist.CLIENT)
-    default void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
+    default void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final EffectPacketInfo info,
             final float partialTick, int packedLightIn)
     {}
 
     /**
-     * Used if you need to spawn in something like thunder effects.
+     * Used to spawn particle effects, etc.
      */
     @OnlyIn(Dist.CLIENT)
-    default void spawnClientEntities(final MovePacketInfo info, float partialTicks)
+    default void spawnClientEntities(final EffectPacketInfo info, float partialTicks)
     {}
 }

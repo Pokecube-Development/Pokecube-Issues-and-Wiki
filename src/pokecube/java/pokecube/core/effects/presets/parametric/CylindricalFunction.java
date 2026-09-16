@@ -4,7 +4,7 @@ import org.nfunk.jep.JEP;
 
 import com.google.gson.JsonObject;
 
-import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.IAnimatedEffects;
 import pokecube.core.PokecubeCore;
 import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.MoveAnimationBase;
@@ -20,7 +20,7 @@ public class CylindricalFunction extends MoveAnimationBase
     {}
 
     @Override
-    public IMoveAnimation init(JsonObject preset)
+    public IAnimatedEffects init(JsonObject preset)
     {
         super.init(preset);
         if (values.f_radial == null) values.f_radial = "z";
@@ -54,7 +54,7 @@ public class CylindricalFunction extends MoveAnimationBase
     }
 
     @Override
-    public void spawnClientEntities(MovePacketInfo info, float partialTicks)
+    public void spawnClientEntities(EffectPacketInfo info, float partialTicks)
     {
         final Vector3 source = new Vector3(info.getSource());
         final Vector3 target = new Vector3(info.getTarget());

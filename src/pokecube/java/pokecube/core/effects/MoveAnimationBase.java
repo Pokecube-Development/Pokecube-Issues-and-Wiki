@@ -6,12 +6,12 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.IAnimatedEffects;
 import thut.api.util.JsonUtil;
 
 import java.util.Random;
 
-public abstract class MoveAnimationBase implements IMoveAnimation
+public abstract class MoveAnimationBase implements IAnimatedEffects
 {
     public static class Values
     {
@@ -95,7 +95,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
         loaded = true;
     }
 
-    public IMoveAnimation init(JsonObject preset)
+    public IAnimatedEffects init(JsonObject preset)
     {
         if(!loaded) loadValues(preset);
         return this;
@@ -111,16 +111,18 @@ public abstract class MoveAnimationBase implements IMoveAnimation
             this.values.rgba = this.getColourFromMove(move, 255);
             return;
         }
-        if (this.values.particle.equals("airbubble")) this.values.rgba = 0x78000000 + DyeColor.CYAN.getTextColor();
-        else if (this.values.particle.equals("aurora"))
+        switch (this.values.particle)
+        {
+        case "airbubble", "iceshard" -> this.values.rgba = 0x78000000 + DyeColor.CYAN.getTextColor();
+        case "aurora" ->
         {
             final DyeColor colour = DyeColor.values()[new Random(((int) time) / 10).nextInt(DyeColor.values().length)];
             final int rand = colour.getTextColor();
             this.values.rgba = 0x61000000 + rand;
         }
-        else if (this.values.particle.equals("iceshard")) this.values.rgba = 0x78000000 + DyeColor.CYAN.getTextColor();
-        else if (this.values.particle.equals("spark")) this.values.rgba = 0x78000000 + DyeColor.YELLOW.getTextColor();
-        else this.values.rgba = this.getColourFromMove(move, 255);
+        case "spark" -> this.values.rgba = 0x78000000 + DyeColor.YELLOW.getTextColor();
+        default -> this.values.rgba = this.getColourFromMove(move, 255);
+        }
     }
 
     @Override
@@ -158,7 +160,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
             {
                 this.values.rgba = Integer.parseInt(val);
             }
-            catch (final NumberFormatException e)
+            catch (final NumberFormatException ignored)
             {
 
             }

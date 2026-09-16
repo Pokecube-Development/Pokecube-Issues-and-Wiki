@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.util.Mth;
 import org.joml.Vector3f;
 import org.nfunk.jep.JEP;
-import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.IAnimatedEffects;
 import pokecube.core.PokecubeCore;
 import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.MoveAnimationBase;
@@ -28,7 +28,7 @@ public class CartesianFunction extends MoveAnimationBase
     {}
 
     @Override
-    public IMoveAnimation init(JsonObject preset)
+    public IAnimatedEffects init(JsonObject preset)
     {
         super.init(preset);
         if (values.f_x == null) values.f_x = "0";
@@ -99,7 +99,7 @@ public class CartesianFunction extends MoveAnimationBase
     }
 
     @Override
-    public void spawnClientEntities(MovePacketInfo info, float partialTicks)
+    public void spawnClientEntities(EffectPacketInfo info, float partialTicks)
     {
         Vector3f source = values.reverse ? info.getSource() : info.getTarget();
         Vector3f target = values.reverse ? info.getTarget() : info.getSource();

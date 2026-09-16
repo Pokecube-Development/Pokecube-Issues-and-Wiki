@@ -74,7 +74,7 @@ public class ThrowParticle extends MoveAnimationBase
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
+    public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final EffectPacketInfo info,
             final float partialTick, int packedLightIn)
     {
         var buf = Utils.makeBuilder(ClientSide.RENDER_TYPE, buffer);

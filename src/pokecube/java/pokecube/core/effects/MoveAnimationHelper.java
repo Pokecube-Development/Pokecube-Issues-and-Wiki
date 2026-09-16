@@ -6,7 +6,7 @@ import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.objectweb.asm.Type;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.IAnimatedEffects;
 import thut.lib.CompatParser.ClassFinder;
 
 import java.util.Collection;
@@ -51,7 +51,7 @@ public class MoveAnimationHelper
         }
     }
 
-    public static IMoveAnimation getAnimationPreset(final String preset, JsonObject values)
+    public static IAnimatedEffects getAnimationPreset(final String preset, JsonObject values)
     {
         MoveAnimationBase animation = null;
         if (preset == null || preset.isEmpty()) return animation;

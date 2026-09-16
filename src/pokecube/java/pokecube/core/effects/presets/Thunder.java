@@ -31,7 +31,7 @@ public class Thunder extends MoveAnimationBase
 
     @Override
     @OnlyIn(value = Dist.CLIENT)
-    public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
+    public void spawnClientEntities(final EffectPacketInfo info, float partialTicks)
     {
         final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, info.level);
         var target = new Vector3(info.getTarget());

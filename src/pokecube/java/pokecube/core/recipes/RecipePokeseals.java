@@ -20,7 +20,7 @@ import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.IAnimatedEffects;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.items.PokesealContents;
@@ -36,7 +36,7 @@ public class RecipePokeseals extends CustomRecipe
     public static final ResourceLocation ANYDYE = ResourceLocation.fromNamespaceAndPath("c", "dyes");
     public static final ResourceLocation[] DYES = new ResourceLocation[DyeColor.values().length];
 
-    public static Map<String, Function<Tag, IMoveAnimation>> POKESEAL_EFFECTS = new HashMap<>();
+    public static Map<String, Function<Tag, IAnimatedEffects>> POKESEAL_EFFECTS = new HashMap<>();
 
     static
     {

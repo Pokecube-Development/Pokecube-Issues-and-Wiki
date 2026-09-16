@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.Animations.AnimationJson;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.IAnimatedEffects;
 import pokecube.core.PokecubeCore;
 import pokecube.core.effects.presets.Thunder;
 import thut.api.maths.Vector3;
@@ -23,7 +23,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
 {
     public static class WrappedAnimation
     {
-        IMoveAnimation wrapped;
+        IAnimatedEffects wrapped;
         ResourceLocation sound;
         SoundEvent soundEvent;
         boolean soundSource = false;
@@ -33,7 +33,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
         int start;
     }
 
-    public static boolean isThunderAnimation(final IMoveAnimation input)
+    public static boolean isThunderAnimation(final IAnimatedEffects input)
     {
         if (input == null) return false;
         if (!(input instanceof AnimationMultiAnimations anim)) return input instanceof Thunder;
@@ -53,7 +53,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
         if (animations == null || animations.isEmpty()) return;
         for (final AnimationJson anim : animations)
         {
-            final IMoveAnimation animation = MoveAnimationHelper.getAnimationPreset(anim.preset, anim.preset_values);
+            final IAnimatedEffects animation = MoveAnimationHelper.getAnimationPreset(anim.preset, anim.preset_values);
             if (animation == null)
             {
                 PokecubeAPI.LOGGER.warn("Warning, unknown animation for preset: {}", anim.preset);
@@ -82,7 +82,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     }
 
     @Override
-    public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
+    public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final EffectPacketInfo info,
             final float partialTick, int packedLightIn)
     {
         int tick = info.currentTick;
@@ -113,7 +113,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     }
 
     @Override
-    public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
+    public void spawnClientEntities(final EffectPacketInfo info, float partialTicks)
     {
         int tick = info.currentTick;
         float scale = (float) PokecubeCore.getConfig().moveVolumeEffect;

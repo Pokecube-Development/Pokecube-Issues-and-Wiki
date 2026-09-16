@@ -14,7 +14,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.IAnimatedEffects;
 import pokecube.api.effects.ParticleEffects;
 import pokecube.api.effects.VectorPositionSource;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -42,16 +42,16 @@ public class EvolutionRays extends MoveAnimationBase
         EVO_ANCHORS.add("body");
     }
 
-    public static Function<IPokemob, MovePacketInfo> EVO_EFFECT_FACTORY = pokemob -> {
+    public static Function<IPokemob, EffectPacketInfo> EVO_EFFECT_FACTORY = pokemob -> {
         var level = pokemob.getEntity().level();
         var targ = new Vector3(pokemob.getEntity()).addTo(new Vector3(pokemob.getEntity().getLookAngle()));
         var animation = new EvolutionRays();
-        return new MovePacketInfo(animation, level,
-                IMoveAnimation.TaggedEntityTracker.create(pokemob.getEntity(), EVO_ANCHORS),
+        return new EffectPacketInfo(animation, level,
+                IAnimatedEffects.TaggedEntityTracker.create(pokemob.getEntity(), EVO_ANCHORS),
                 new VectorPositionSource(targ.toJOML()), 1, 1).setContext(pokemob);
     };
 
-    public static MovePacketInfo makeAndAddEffect(IPokemob pokemob, int duration)
+    public static EffectPacketInfo makeAndAddEffect(IPokemob pokemob, int duration)
     {
         var evo_effect = EvolutionRays.EVO_EFFECT_FACTORY.apply(pokemob);
         evo_effect.animation.setDuration(duration);
@@ -64,7 +64,7 @@ public class EvolutionRays extends MoveAnimationBase
 
     public static record EvoContext(Color col1, Color col2, PokedexEntry entry, Supplier<Float> scale)
     {
-        public static EvoContext fromMoveInfo(MovePacketInfo info)
+        public static EvoContext fromMoveInfo(EffectPacketInfo info)
         {
             if(info.context instanceof EvoContext context) return context;
             if(info.context instanceof IPokemob pokemob)
@@ -143,7 +143,7 @@ public class EvolutionRays extends MoveAnimationBase
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void clientAnimation(PoseStack mat, MultiBufferSource buffer, MovePacketInfo info, float partialTick,
+    public void clientAnimation(PoseStack mat, MultiBufferSource buffer, EffectPacketInfo info, float partialTick,
             int packedLightIn)
     {
         EvoContext context = EvoContext.fromMoveInfo(info);

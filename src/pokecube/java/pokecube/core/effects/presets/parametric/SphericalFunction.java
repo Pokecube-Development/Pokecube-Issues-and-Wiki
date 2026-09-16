@@ -5,7 +5,7 @@ import org.nfunk.jep.JEP;
 import com.google.gson.JsonObject;
 
 import net.minecraft.util.Mth;
-import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.IAnimatedEffects;
 import pokecube.core.PokecubeCore;
 import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.MoveAnimationBase;
@@ -22,7 +22,7 @@ public class SphericalFunction extends MoveAnimationBase
     {}
 
     @Override
-    public IMoveAnimation init(JsonObject preset)
+    public IAnimatedEffects init(JsonObject preset)
     {
         super.init(preset);
         if (values.f_radial == null) values.f_radial = "t";
@@ -62,7 +62,7 @@ public class SphericalFunction extends MoveAnimationBase
     }
 
     @Override
-    public void spawnClientEntities(MovePacketInfo info, float partialTicks)
+    public void spawnClientEntities(EffectPacketInfo info, float partialTicks)
     {
         final Vector3 source = values.reverse ? new Vector3(info.getSource()) : new Vector3(info.getTarget());
         final Vector3 temp = new Vector3();

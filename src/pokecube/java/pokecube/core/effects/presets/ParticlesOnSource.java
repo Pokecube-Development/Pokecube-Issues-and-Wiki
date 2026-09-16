@@ -16,7 +16,7 @@ public class ParticlesOnSource extends ParticlesOnTarget
     }
 
     @Override
-    public void spawnClientEntities(MovePacketInfo info, float partialTicks)
+    public void spawnClientEntities(EffectPacketInfo info, float partialTicks)
     {
         if (Math.random() > this.values.density) return;
         final Vector3 temp = new Vector3();
