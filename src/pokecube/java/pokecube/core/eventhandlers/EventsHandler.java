@@ -26,7 +26,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.entity.EntityTypeTest;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
@@ -110,7 +109,6 @@ import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
 import thut.lib.RegHelper;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -147,7 +145,7 @@ public class EventsHandler
                 if (hasStarter)
                 {
                     packet.data.putBoolean("C", false);
-                    packet.data.putBoolean("H", hasStarter);
+                    packet.data.putBoolean("H", true);
                 }
                 else
                 {
@@ -797,12 +795,13 @@ public class EventsHandler
     {
         final Entity entity = evt.getEntity();
         final Level tworld = entity.level();
-        if (tworld.isClientSide || !(tworld instanceof ServerLevel world)) return;
+        if (tworld.isClientSide || !(tworld instanceof ServerLevel world) || !(entity instanceof LivingEntity living))
+            return;
         // Recall the pokemobs if the player changes dimension.
         final ResourceKey<Level> newDim = evt.getDimension();
         if (newDim == world.dimension() || entity.getPersistentData().contains("thutcore:dimtp")) return;
-        final List<Entity> pokemobs = new ArrayList<>(world.getEntities(EntityTypeTest.forClass(Entity.class),
-                e -> EventsHandler.shouldRecallOnChangeDimension(entity, e)));
+        final List<Entity> pokemobs = PokemobTracker.getMobs(living,
+                e -> EventsHandler.shouldRecallOnChangeDimension(entity, e));
         PCEventsHandler.recallAll(pokemobs, false);
     }
 
@@ -893,6 +892,7 @@ public class EventsHandler
     {
         if (!toRecall.isAlive()) return false;
         if (!toRecall.isAddedToLevel()) return false;
+        if (toRecall.isVehicle() || toRecall.isOnPortalCooldown()) return false;
         final IPokemob mob = PokemobCaps.getPokemobFor(toRecall);
         if (mob == null)
         {
