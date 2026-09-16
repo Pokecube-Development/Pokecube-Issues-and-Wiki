@@ -1,12 +1,15 @@
 package pokecube.core.moves.animations.presets.parametric;
 
 import com.google.gson.JsonObject;
+import net.minecraft.util.Mth;
 import org.joml.Vector3f;
 import org.nfunk.jep.JEP;
-import pokecube.api.moves.utils.IMoveAnimation;
+import pokecube.api.effects.IMoveAnimation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
+
+import java.util.function.Function;
 
 @AnimPreset(getPreset = "cartFunc")
 public class CartesianFunction extends MoveAnimationBase
@@ -18,7 +21,7 @@ public class CartesianFunction extends MoveAnimationBase
     JEP vy;
     JEP vz;
 
-    boolean horizontal = true;
+    Function<Vector3f, Vector3f> ORIGIN_SHIFT = v->v;
 
     public CartesianFunction()
     {}
@@ -39,7 +42,15 @@ public class CartesianFunction extends MoveAnimationBase
         this.initJEP(values.v_x, this.vx = new JEP());
         this.initJEP(values.v_y, this.vy = new JEP());
         this.initJEP(values.v_z, this.vz = new JEP());
-        this.horizontal = values.horizontal;
+        if ("chunk_centre".equals(values.reference))
+        {
+            ORIGIN_SHIFT = v -> {
+                v.x = 16 * Mth.floor(v.x / 16) + 8;
+                v.y = 16 * Mth.floor(v.y / 16) + 8;
+                v.z = 16 * Mth.floor(v.z / 16) + 8;
+                return v;
+            };
+        }
         return this;
     }
 
@@ -95,6 +106,7 @@ public class CartesianFunction extends MoveAnimationBase
         Vector3f target = values.reverse
                 ? info.target.currentPosition().toVector3f()
                 : info.source.currentPosition().toVector3f();
+        source = ORIGIN_SHIFT.apply(source);
         Vector3f dir = new Vector3f(target);
         dir.sub(source);
         double d = dir.length();
@@ -108,17 +120,17 @@ public class CartesianFunction extends MoveAnimationBase
             up.normalize();
             dir.normalize();
         }
-        else dir.set(0,0,1);
+        else dir.set(0, 0, 1);
         final Vector3f vec_r = new Vector3f(), vec_v = new Vector3f();
         float scale = 1;
         if (!values.absolute)
         {
             scale = values.width;
-            if (values.reverse) scale *= info.attackerScale;
-            else scale *= info.attackedScale;
+            if (values.reverse) scale *= info.sourceScale;
+            else scale *= info.targetScale;
         }
         int t_0 = (int) info.currentTick;
-        double t_1 = (int) Math.min(t_0 + 2, info.endTick) + values.density*0.1;
+        double t_1 = (int) Math.min(t_0 + 2, info.endTick) + values.density * 0.1;
         for (double i = t_0; i <= t_1; i += values.density)
         {
             this.setVector(i, info.endTick, d, vec_r, vec_v);

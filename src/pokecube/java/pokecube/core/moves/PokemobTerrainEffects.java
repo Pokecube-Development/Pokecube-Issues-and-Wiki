@@ -1,14 +1,6 @@
 package pokecube.core.moves;
 
-import com.google.common.collect.Lists;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.ParticleStatus;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -16,32 +8,41 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import org.joml.Matrix4f;
+import net.minecraft.world.entity.ai.behavior.PositionTracker;
+import net.minecraft.world.level.Level;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import org.joml.Vector3f;
+import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.ParticleEffects;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.render.mobs.overlays.Utils;
 import pokecube.core.eventhandlers.EventsHandler;
-import pokecube.core.moves.animations.MoveAnimationHelper;
+import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.moves.damage.sources.TerrainDamageSource;
 import pokecube.core.moves.damage.sources.TerrainDamageSource.TerrainType;
 import pokecube.core.utils.AITools;
 import thut.api.Tracker;
+import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.level.terrain.TerrainSegment.ITerrainEffect;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 import thut.core.common.network.TerrainUpdate;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 public class PokemobTerrainEffects implements ITerrainEffect
 {
@@ -128,32 +129,39 @@ public class PokemobTerrainEffects implements ITerrainEffect
         }
     }
 
+    public static Map<EffectType, Supplier<MoveEntry>> ANIMATION_SOURCES = new HashMap<>();
+
     public static class Effect
     {
-        long duration;
+        private long endTick;
         private final EffectType type;
         private IPokemob mob;
         protected final UUID mobID;
+        private Level level;
+        private final PokemobTerrainEffects holder;
+        private IMoveAnimation.MovePacketInfo renderEffect;
 
-        public Effect(final EffectType type, final long duration, final IPokemob mob)
+        public Effect(PokemobTerrainEffects holder, final EffectType type, final long duration, final IPokemob mob)
         {
+            this.holder = holder;
             this.type = type;
-            this.duration = duration;
+            this.endTick = duration;
             this.mob = mob;
             if (mob != null) this.mobID = mob.getEntity().getUUID();
             else this.mobID = null;
         }
 
-        public Effect(final EffectType type, final long duration, final UUID mob)
+        public Effect(PokemobTerrainEffects holder, final EffectType type, final long duration, final UUID mob)
         {
+            this.holder = holder;
             this.type = type;
-            this.duration = duration;
+            this.endTick = duration;
             this.mobID = mob;
         }
 
-        public long getDuration()
+        public long getEndTick()
         {
-            return this.duration;
+            return this.endTick;
         }
 
         public IPokemob getMob(ServerLevel level)
@@ -161,6 +169,58 @@ public class PokemobTerrainEffects implements ITerrainEffect
             if (this.mob == null && this.mobID != null)
                 this.mob = PokemobCaps.getPokemobFor(level.getEntity(this.mobID));
             return this.mob;
+        }
+
+        public void end()
+        {
+            if (renderEffect != null)
+            {
+                renderEffect.currentTick = renderEffect.removalTick;
+                renderEffect = null;
+                ThutCore.FORGE_BUS.unregister(this);
+            }
+            if (this.level != null && !this.level.isClientSide())
+            {
+                holder.segment.chunk.setUnsaved(true);
+                TerrainUpdate.sendTerrainToWatching(holder.segment);
+            }
+        }
+
+        public void start(Level level, int chunkX, int chunkY, int chunkZ)
+        {
+            var entry = ANIMATION_SOURCES.getOrDefault(type, () -> null).get();
+            if (entry != null && entry.getAnimation() != null)
+            {
+                Vector3f chunkMid = new Vector3f(chunkX * 16 + 8, chunkY * 16 + 8, chunkZ * 16 + 8);
+                PositionTracker source = new VectorPosWrapper(new Vector3(chunkMid));
+                Vector3f dir = new Vector3f(level.random.nextFloat(), 0, level.random.nextFloat()).normalize();
+                PositionTracker end = new VectorPosWrapper(new Vector3(source.currentPosition()).add(dir.x, 0, dir.z));
+                renderEffect = new IMoveAnimation.MovePacketInfo(entry.getAnimation(), level, source, end, 1, 1);
+                renderEffect.onClientTick = EntityMoveUse.MOVE_ANIMATION_CLIENT_FACTORY.apply(entry);
+                renderEffect.onServerTick = EntityMoveUse.MOVE_ANIMATION_SERVER_FACTORY.apply(entry);
+                ParticleEffects.ADD_FOR_RENDER.accept(renderEffect);
+                this.level = level;
+                ThutCore.FORGE_BUS.register(this);
+            }
+        }
+
+        @SubscribeEvent
+        public void onLevelUnload(LevelEvent.Unload event)
+        {
+            if (event.getLevel() == this.level) ThutCore.FORGE_BUS.unregister(this);
+        }
+
+        @SubscribeEvent
+        public void tick(LevelTickEvent.Pre event)
+        {
+            if (event.getLevel() != this.level) return;
+            long remaining = endTick - Tracker.instance().getTick();
+            if (renderEffect != null && renderEffect.isFinished() && remaining > 0)
+            {
+                renderEffect.currentTick = 0;
+                ParticleEffects.ADD_FOR_RENDER.accept(renderEffect);
+            }
+            if (remaining <= 0) this.end();
         }
 
         public EffectType getType()
@@ -186,8 +246,6 @@ public class PokemobTerrainEffects implements ITerrainEffect
     int chunkY;
 
     public TerrainSegment segment;
-
-    long lastTick = 0;
 
     public PokemobTerrainEffects() {}
 
@@ -244,12 +302,23 @@ public class PokemobTerrainEffects implements ITerrainEffect
         else if (!PokecubeCore.getConfig().pokemobsDamagePlayers) immune = true;
 
         if (source != null && !immune) entity.hurt(source, damage);
-        this.dropDurations(level);
     }
 
     public boolean isEffectActive(final EffectType effect)
     {
-        return this.effects.containsKey(effect.getIndex());
+        int i = effect.getIndex();
+        boolean has = this.effects.containsKey(i);
+        if (has)
+        {
+            var e = this.effects.get(i);
+            boolean done = Tracker.instance().getTick() > e.endTick;
+            if (done)
+            {
+                has = false;
+                this.effects.remove(i);
+            }
+        }
+        return has;
     }
 
     @Override
@@ -294,29 +363,6 @@ public class PokemobTerrainEffects implements ITerrainEffect
         }
     }
 
-    private void dropDurations(final ServerLevel world)
-    {
-        final long time = Tracker.instance().getTick();
-        boolean send = false;
-        final List<Integer> effectKeys = Lists.newArrayList(this.effects.keySet());
-        for (final int type : effectKeys)
-        {
-            final Effect effect = this.effects.get(type);
-            if (effect.duration < time)
-            {
-                effect.duration = 0;
-                this.effects.remove(type);
-                send = true;
-            }
-        }
-        this.lastTick = time;
-        if (send) if (!world.isClientSide)
-        {
-            this.segment.chunk.setUnsaved(true);
-            TerrainUpdate.sendTerrainToWatching(this.segment);
-        }
-    }
-
     @Override
     public String getIdentifier()
     {
@@ -325,6 +371,10 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public boolean hasEffects()
     {
+        // Validate and remove any that are finished
+        List<Effect> toTest = new ArrayList<>(this.effects.values());
+        long tick = Tracker.instance().getTick();
+        toTest.forEach(e -> {if (e.endTick <= tick) this.effects.remove(e.type.getIndex());});
         return !this.effects.isEmpty();
     }
 
@@ -333,6 +383,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
     {
         if (nbt.contains("e"))
         {
+            long tick = Tracker.instance().getTick();
             var list = nbt.getList("e", CompoundTag.TAG_COMPOUND);
             for (var e : list)
             {
@@ -340,10 +391,16 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 int i = tag.getInt("i");
                 UUID id = tag.contains("u") ? UUIDUtil.uuidFromIntArray(tag.getIntArray("u")) : null;
                 long duration = tag.getLong("t");
-                effects.put(i, new Effect(EFFECTS.get(i), duration, id));
-                if (segment.chunk.getLevel() != null && segment.chunk.getLevel().isClientSide())
+                if (effects.containsKey(i)) effects.get(i).end();
+                if (duration > tick)
                 {
-                    MoveAnimationHelper.Instance().addForRender(this);
+                    var effect = new Effect(this, EFFECTS.get(i), duration, id);
+                    effects.put(i, effect);
+                    var level = segment.chunk.getLevel();
+                    if (level != null)
+                    {
+                        effect.start(level, chunkX, chunkY, chunkZ);
+                    }
                 }
             }
         }
@@ -358,124 +415,10 @@ public class PokemobTerrainEffects implements ITerrainEffect
             CompoundTag tag = new CompoundTag();
             tag.putInt("i", effect.getType().getIndex());
             if (effect.mobID != null) tag.putIntArray("u", UUIDUtil.uuidToIntArray(effect.mobID));
-            tag.putLong("t", effect.getDuration());
+            tag.putLong("t", effect.getEndTick());
             list.add(tag);
         }
         if (!list.isEmpty()) nbt.put("e", list);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private void renderEffect(final VertexConsumer builder, final Matrix4f pos, final Vector3 origin,
-            final Vector3 direction, final float tick, final float r, final float g, final float b, final float a,
-            int j)
-    {
-        if (Minecraft.getInstance().player == null) return;
-
-        final Vector3 temp = new Vector3();
-        final Vector3 temp2 = new Vector3();
-        final Vector3 dir = direction.scalarMult(8);
-        final int time = Minecraft.getInstance().player.tickCount;
-        final Random rand = new Random(time / 200);
-
-        final double dx = direction.x * 1;
-        final double dy = direction.y * 1;
-        final double dz = direction.z * 1;
-
-        final int num = Minecraft.getInstance().options.particles().get() == ParticleStatus.ALL
-                ? 10000
-                : Minecraft.getInstance().options.particles().get() == ParticleStatus.DECREASED ? 1000 : 100;
-
-        for (int i = 0; i < num; i++)
-        {
-            temp.set(rand.nextFloat() - 0.5, rand.nextFloat() - 0.5, rand.nextFloat() - 0.5);
-            temp.scalarMultBy(16);
-            temp.addTo(temp2.set(direction).scalarMultBy(tick));
-            temp.y = temp.y % 16;
-            temp.x = temp.x % 16;
-            temp.z = temp.z % 16;
-            temp.addTo(origin);
-            temp.subtractFrom(dir);
-            final float size = 0.03f;
-            float x, y, z;
-
-            // One face
-            x = (float) (temp.x + dx);
-            y = (float) (temp.y + dy);
-            z = (float) (temp.z + dz);
-            builder.addVertex(pos, x, y, z).setColor(r, g, b, a).setLight(j);
-
-            x = (float) (temp.x + dx);
-            y = (float) (temp.y - size + dy);
-            z = (float) (temp.z + dz);
-            builder.addVertex(pos, x, y, z).setColor(r, g, b, a).setLight(j);
-
-            x = (float) (temp.x + dx);
-            y = (float) (temp.y - size + dy);
-            z = (float) (temp.z - size + dz);
-            builder.addVertex(pos, x, y, z).setColor(r, g, b, a).setLight(j);
-
-            x = (float) (temp.x + dx);
-            y = (float) (temp.y + dy);
-            z = (float) (temp.z - size + dz);
-            builder.addVertex(pos, x, y, z).setColor(r, g, b, a).setLight(j);
-
-            // Other face
-            x = (float) (temp.x + dx);
-            y = (float) (temp.y + dy);
-            z = (float) (temp.z - size + dz);
-            builder.addVertex(pos, x, y, z).setColor(r, g, b, a).setLight(j);
-
-            x = (float) (temp.x + dx);
-            y = (float) (temp.y - size + dy);
-            z = (float) (temp.z - size + dz);
-            builder.addVertex(pos, x, y, z).setColor(r, g, b, a).setLight(j);
-
-            x = (float) (temp.x + dx);
-            y = (float) (temp.y - size + dy);
-            z = (float) (temp.z + dz);
-            builder.addVertex(pos, x, y, z).setColor(r, g, b, a).setLight(j);
-
-            x = (float) (temp.x + dx);
-            y = (float) (temp.y + dy);
-            z = (float) (temp.z + dz);
-            builder.addVertex(pos, x, y, z).setColor(r, g, b, a).setLight(j);
-        }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public void renderTerrainEffects(final RenderLevelStageEvent event, final Vector3 origin)
-    {
-        if (this.hasEffects())
-        {
-            PoseStack mat = event.getPoseStack();
-            int time = Minecraft.getInstance().player.tickCount;
-
-            Vector3 direction = new Vector3().set(0, -1, 0);
-            float partialTicks = event.getPartialTick().getGameTimeDeltaPartialTick(true);
-            float tick = (time + partialTicks) / 10f;
-
-            MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-
-            var builder = Utils.makeBuilder(RenderType.textBackground(), buffer);
-            var pos = mat.last().pose();
-
-            mat.pushPose();
-            RenderSystem.enableBlend();
-
-            int j = 15 << 20 | 15 << 4;
-
-            if (this.effects.containsKey(WeatherEffectType.RAIN.getIndex()))
-                this.renderEffect(builder, pos, origin, direction, tick, 0, 0, 1, 0.25f, j);
-
-            if (this.effects.containsKey(WeatherEffectType.HAIL.getIndex()))
-                this.renderEffect(builder, pos, origin, direction, tick, 1, 1, 1, 0.25f, j);
-            direction.set(0, 0, 1);
-
-            if (this.effects.containsKey(WeatherEffectType.SAND.getIndex()))
-                this.renderEffect(builder, pos, origin, direction, tick, 0.86f, 0.82f, 0.75f, 1, j);
-
-            mat.popPose();
-        }
     }
 
     public Effect getEffect(final EffectType type)
@@ -491,22 +434,27 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public void setEffectDuration(final EffectType type, final long duration, final IPokemob mob)
     {
-        final Effect effect = new Effect(type, duration, mob);
-        effect.duration = duration;
+        final Effect effect = new Effect(this, type, duration, mob);
+        effect.endTick = duration;
         if (type != NoEffects.NO_EFFECTS)
         {
             if (type != NoEffects.CLEAR_WEATHER)
             {
                 if (!this.effects.containsKey(type.getIndex())) this.effects.put(type.getIndex(), effect);
-                else this.effects.replace(type.getIndex(), effect);
+                else this.effects.replace(type.getIndex(), effect).end();
             }
             else
             {
+                this.effects.values().forEach(Effect::end);
                 this.effects.clear();
                 this.effects.put(type.getIndex(), effect);
             }
         }
-        else this.effects.clear();
+        else
+        {
+            this.effects.values().forEach(Effect::end);
+            this.effects.clear();
+        }
         if(this.segment.chunk != null) this.segment.chunk.setUnsaved(true);
     }
 }

@@ -16,8 +16,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -25,7 +23,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
@@ -73,14 +70,12 @@ import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.init.ClientSetupHandler;
 import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.moves.animations.MoveAnimationHelper;
 import pokecube.core.network.packets.PacketSyncBattle;
 import pokecube.core.network.pokemobs.PacketBattleTargets;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Resources;
-import thut.api.world.mobs.data.Data;
 import thut.core.common.ThutCore;
 
 import java.util.ArrayList;
@@ -109,7 +104,6 @@ public class EventsHandlerClient
 
         // Initialise this gui
         GuiDisplayPokecubeInfo.instance();
-        MoveAnimationHelper.Instance();
     }
 
     /**

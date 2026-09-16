@@ -1,7 +1,7 @@
 package pokecube.core.moves.animations.presets;
 
 import com.google.gson.JsonObject;
-import pokecube.api.moves.utils.IMoveAnimation;
+import pokecube.api.effects.IMoveAnimation;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.presets.parametric.CartesianFunction;
 

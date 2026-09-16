@@ -6,14 +6,13 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveAnimation;
+import pokecube.api.effects.IMoveAnimation;
 import thut.api.util.JsonUtil;
 
 import java.util.Random;
 
 public abstract class MoveAnimationBase implements IMoveAnimation
 {
-
     public static class Values
     {
         public String particle = "misc";
@@ -33,6 +32,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
         public float angle = 0;
 
         public String rgba_string = null;
+        public String reference = null;
 
         public String f_radial;
         public String f_phi;
@@ -51,6 +51,13 @@ public abstract class MoveAnimationBase implements IMoveAnimation
 
     protected Values values = new Values();
     protected boolean loaded = false;
+    // This should be false for things like terrain moves
+    protected boolean applyOnMoveUse = true;
+
+    public boolean onMoveUse()
+    {
+        return applyOnMoveUse;
+    }
 
     @Override
     public int getApplicationTick()
@@ -157,7 +164,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
             }
             return;
         }
-        this.values.rgba = colour.getTextColor() + 0x01000000 * alpha;
+        this.values.rgba = colour.getTextColor() | (0xFF | alpha >> 24);
         this.values.customColour = true;
     }
 

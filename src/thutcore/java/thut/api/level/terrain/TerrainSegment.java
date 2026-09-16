@@ -71,8 +71,8 @@ public class TerrainSegment
 
                 // If not can see sky, if there is water, it is cave_water,
                 // otherwise it is cave.
-                if (!sky && TerrainSegment.count(world, Blocks.WATER, v, 1) > 2) return BiomeType.CAVE_WATER;
-                else if (!sky) return BiomeType.CAVE;
+                if (TerrainSegment.count(world, Blocks.WATER, v, 1) > 2) return BiomeType.CAVE_WATER;
+                else return BiomeType.CAVE;
             }
             else
             {
@@ -102,7 +102,6 @@ public class TerrainSegment
 
                 return biome;
             }
-            return BiomeType.NONE;
         }
     }
 
@@ -180,7 +179,7 @@ public class TerrainSegment
                     {
                         temp.set(v).addTo(i, j, k);
                         final BlockState state = getter.getBlockState(temp.getPos());
-                        if (state.getBlock() == b || b == null && state.getBlock() == null) ret++;
+                        if (state.getBlock() == b) ret++;
                     }
                 }
         return ret;
@@ -262,8 +261,6 @@ public class TerrainSegment
 
     public boolean toSave = false;
 
-    public boolean isSky = false;
-
     public boolean init = true;
 
     Vector3 temp = new Vector3();
@@ -301,7 +298,7 @@ public class TerrainSegment
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                ThutCore.LOGGER.error(e);
             }
         final List<ITerrainEffect> toSort = Lists.newArrayList(this.effects.values());
         toSort.sort(Comparator.comparing(ITerrainEffect::getIdentifier));

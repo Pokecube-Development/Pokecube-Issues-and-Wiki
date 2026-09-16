@@ -13,7 +13,11 @@ import net.neoforged.fml.util.ObfuscationReflectionHelper;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.RenderParticleEffects;
 import pokecube.core.PokecubeCore;
+import pokecube.core.moves.animations.MoveAnimationBase;
+import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.moves.damage.effects.StatusEffects;
 
 import java.lang.reflect.Field;
@@ -26,6 +30,11 @@ public class ClientMod
         container.registerExtensionPoint(IConfigScreenFactory.class,
                 (mc, parent) -> new ConfigurationScreen(container, parent));
         container.getEventBus().addListener(ClientMod::onClientExtensions);
+
+        EntityMoveUse.MOVE_ANIMATION_CLIENT_FACTORY = entry -> info -> {
+            if (info.animation instanceof MoveAnimationBase base) base.initColour(info.currentTick, entry);
+        };
+        ParticleEffects.ADD_FOR_RENDER = RenderParticleEffects::addParticleEffect;
     }
 
     public static void onClientExtensions(RegisterClientExtensionsEvent event)

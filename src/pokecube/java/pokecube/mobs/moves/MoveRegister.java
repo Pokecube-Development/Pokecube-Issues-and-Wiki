@@ -11,11 +11,13 @@ import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.InitMoveEntry;
 import pokecube.api.events.pokemobs.combat.MoveUse.DuringUse;
+import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.MoveEntry.MoveSounds;
 import pokecube.api.moves.MoveEntry.PowerProvider;
 import pokecube.api.moves.MoveEntry.TypeProvider;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools.MergeOrder;
+import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.PokemobTerrainEffects.EntryEffectType;
 import pokecube.core.moves.PokemobTerrainEffects.TerrainEffectType;
 import pokecube.core.moves.PokemobTerrainEffects.WeatherEffectType;
@@ -279,6 +281,14 @@ public class MoveRegister
         CUSTOM.put("toxic-spikes", TerrainMove.forEffect(EntryEffectType.POISON));
         CUSTOM.put("stealth-rock", TerrainMove.forEffect(EntryEffectType.ROCKS));
         CUSTOM.put("sticky-web", TerrainMove.forEffect(EntryEffectType.WEBS));
+
+        // Any other moves that also add this should be done afterwards
+        CUSTOM.forEach((key, value) -> {
+            if (value instanceof TerrainMove move)
+            {
+                PokemobTerrainEffects.ANIMATION_SOURCES.put(move.effect, () -> MoveEntry.get(key));
+            }
+        });
     }
 
     static

@@ -5,11 +5,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveAnimation;
-import pokecube.api.moves.utils.IMoveAnimation.MovePacketInfo;
-import pokecube.core.moves.animations.MoveAnimationBase;
+import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.IMoveAnimation.MovePacketInfo;
 import pokecube.core.moves.damage.EntityMoveUse;
 
 public class RenderMoves extends EntityRenderer<EntityMoveUse>
@@ -32,14 +30,6 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
         {
             mat.pushPose();
             final MovePacketInfo info = entity.getMoveInfo();
-            info.currentTick += partialTicks;
-            float timer = entity.tickCount + partialTicks;
-            if (animation instanceof MoveAnimationBase anim) anim.initColour(info.currentTick, move);
-            if (Math.abs(timer - info.lastApplyTimer) >= 1)
-            {
-                info.lastApplyTimer = timer;
-                animation.spawnClientEntities(info, partialTicks);
-            }
             animation.clientAnimation(mat, bufferIn, info, partialTicks, packedLightIn);
             mat.popPose();
         }

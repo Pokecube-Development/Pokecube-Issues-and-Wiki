@@ -22,23 +22,27 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.effects.ParticleEffects;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveAnimation.MovePacketInfo;
+import pokecube.api.effects.IMoveAnimation.MovePacketInfo;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.moves.animations.MoveAnimationBase;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.EntityProvider;
 import thut.api.maths.Vector3;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class EntityMoveUse extends ThrowableProjectile
@@ -85,6 +89,9 @@ public class EntityMoveUse extends ThrowableProjectile
         entity.setEnd(endpoint);
         return entity;
     }
+
+    public static Function<MoveEntry, Consumer<MovePacketInfo>> MOVE_ANIMATION_CLIENT_FACTORY = moveEntry -> (m) -> {};
+    public static Function<MoveEntry, Consumer<MovePacketInfo>> MOVE_ANIMATION_SERVER_FACTORY = moveEntry -> (m) -> {};
 
     Vector3 end = new Vector3();
     Vector3 start = new Vector3();
@@ -331,12 +338,16 @@ public class EntityMoveUse extends ThrowableProjectile
     public MovePacketInfo getMoveInfo()
     {
         var move = this.getMove();
-        if (this.info == null)
+        var animation = move.getAnimation();
+        if (this.info == null && animation instanceof MoveAnimationBase base && base.onMoveUse())
         {
-            info = new MovePacketInfo(this.level(), this.getUser(), this.getTarget(), this.getEnd());
+            info = new MovePacketInfo(animation, this.level(), this.getUser(), this.getTarget(), this.getEnd());
+            info.onClientTick = MOVE_ANIMATION_CLIENT_FACTORY.apply(move);
+            info.onServerTick = MOVE_ANIMATION_SERVER_FACTORY.apply(move);
+            if (level().isClientSide()) ParticleEffects.ADD_FOR_RENDER.accept(info);
+            else ParticleEffects.ADD_FOR_SERVER.accept(info);
+            info.endTick = animation.getDuration();
         }
-        info.currentTick = move.getAnimation().getDuration() - this.getDuration();
-        info.endTick = move.getAnimation().getDuration();
         return info;
     }
 
@@ -480,6 +491,7 @@ public class EntityMoveUse extends ThrowableProjectile
     {
         this.init(this.apply);
         if (!this.init) return;
+        this.getMoveInfo();
 
         final int start = this.getStartTick() - 1;
         this.getEntityData().set(EntityMoveUse.STARTTICK, start);

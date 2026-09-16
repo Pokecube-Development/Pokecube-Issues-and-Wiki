@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.google.gson.JsonObject;
 
-import pokecube.api.moves.utils.IMoveAnimation;
+import pokecube.api.effects.IMoveAnimation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;

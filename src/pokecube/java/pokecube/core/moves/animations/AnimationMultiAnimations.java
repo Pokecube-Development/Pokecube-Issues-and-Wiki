@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.Animations.AnimationJson;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveAnimation;
+import pokecube.api.effects.IMoveAnimation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.presets.Thunder;
 import thut.api.maths.Vector3;
@@ -49,6 +49,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     {
         final List<AnimationJson> animations = move.root_entry.animation.animations;
         this.values.duration = 0;
+        this.applyOnMoveUse = move.root_entry.animation.onMoveUse;
         if (animations == null || animations.isEmpty()) return;
         for (final AnimationJson anim : animations)
         {
@@ -58,8 +59,10 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                 PokecubeAPI.LOGGER.warn("Warning, unknown animation for preset: {}", anim.preset);
                 continue;
             }
-            final int start = anim.starttick;
-            final int dur = anim.duration;
+            int start = anim.starttick;
+            int dur = anim.duration >= 0 ? anim.duration : 5;
+            if (animations.size() == 1 && anim.duration >= 0) animation.setDuration(dur);
+            dur = animation.getDuration();
             if (anim.applyAfter) this.applicationTick = Math.max(start + dur, this.applicationTick);
             this.values.duration = Math.max(this.values.duration, start + dur);
             final WrappedAnimation wrapped = new WrappedAnimation();

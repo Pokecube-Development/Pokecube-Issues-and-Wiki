@@ -13,7 +13,6 @@ import pokecube.core.moves.PokemobTerrainEffects.EntryEffectType;
 import thut.api.Tracker;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
-import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TerrainUpdate;
 
@@ -28,7 +27,7 @@ public class TerrainMove implements IMove
         return DEFAULTS.computeIfAbsent(type, TerrainMove::new);
     }
 
-    private final EffectType effect;
+    public final EffectType effect;
     public int duration = 300;
 
     private TerrainMove(EffectType effect)

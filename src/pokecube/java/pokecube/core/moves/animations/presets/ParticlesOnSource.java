@@ -21,7 +21,7 @@ public class ParticlesOnSource extends ParticlesOnTarget
         if (Math.random() > this.values.density) return;
         final Vector3 temp = new Vector3();
         final Random rand = ThutCore.newRandom();
-        float dw = info.attackerScale;
+        float dw = info.sourceScale;
         final float width = this.values.width * dw;
         for (int i = 0; i < 50 * values.density; i++)
         {

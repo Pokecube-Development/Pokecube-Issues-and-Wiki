@@ -103,11 +103,11 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
         var holder = this.getHolder();
         // Sync both lists to each other.
         holder.clear();
-        holder.setParts(holder.allParts());
+        List<T> newParts = new ArrayList<>();
         var model = getBBModel();
-        var parts = model.getPartsList();
         synchronized (model)
         {
+            var parts = model.getPartsList();
             for (var part : parts)
             {
                 part.resetToInit();
@@ -116,7 +116,7 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
                     T partEntity = getFactory().create(weSelf(), p, model);
                     if (partEntity.height != 0 && partEntity.width != 0)
                     {
-                        holder.allParts().add(partEntity);
+                        newParts.add(partEntity);
                         partEntity.points.forEach((point) -> {
                             this.getAttachmentPointMap().computeIfAbsent(point.key(), k -> new ArrayList<>())
                                     .add(point);
@@ -126,6 +126,8 @@ public interface IBBPartMultipart<T extends BBPartEntity<E>, E extends Entity> e
                 }
             }
         }
+        holder.allParts().addAll(newParts);
+        holder.setParts(holder.allParts());
         holder.holder().animTick = -1;
         final IAnimated animHolder = ThutCaps.getAnimated(weSelf());
         if (animHolder != null) applyAnimations(animHolder);

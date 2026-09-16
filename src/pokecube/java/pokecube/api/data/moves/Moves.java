@@ -71,6 +71,7 @@ public class Moves
         public int sort_order = 100;
 
         public String name;
+        public boolean onMoveUse = true;
         public List<AnimationJson> animations = Lists.newArrayList();
 
         @Override

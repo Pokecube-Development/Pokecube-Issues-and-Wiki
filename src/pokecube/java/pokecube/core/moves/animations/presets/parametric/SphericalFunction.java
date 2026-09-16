@@ -5,7 +5,7 @@ import org.nfunk.jep.JEP;
 import com.google.gson.JsonObject;
 
 import net.minecraft.util.Mth;
-import pokecube.api.moves.utils.IMoveAnimation;
+import pokecube.api.effects.IMoveAnimation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
@@ -67,8 +67,8 @@ public class SphericalFunction extends MoveAnimationBase
         final Vector3 source = values.reverse ? new Vector3(info.source) : new Vector3(info.target);
         final Vector3 temp = new Vector3();
         double scale = values.width;
-        if (!values.absolute) if (values.reverse) scale *= info.attackerScale;
-        else scale *= info.attackedScale;
+        if (!values.absolute) if (values.reverse) scale *= info.sourceScale;
+        else scale *= info.targetScale;
         for (double i = info.currentTick; i < info.currentTick + 1; i += values.density)
         {
             this.setVector(i, temp);

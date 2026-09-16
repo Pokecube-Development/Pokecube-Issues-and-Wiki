@@ -2,34 +2,15 @@ package pokecube.core.moves.animations;
 
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
-import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.objectweb.asm.Type;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.moves.utils.IMoveAnimation;
-import pokecube.core.moves.PokemobTerrainEffects;
-import thut.api.level.terrain.CapabilityTerrain;
-import thut.api.level.terrain.TerrainSegment;
-import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
+import pokecube.api.effects.IMoveAnimation;
 import thut.lib.CompatParser.ClassFinder;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiFunction;
 
 public class MoveAnimationHelper
@@ -67,11 +48,9 @@ public class MoveAnimationHelper
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
     }
-
-    private static MoveAnimationHelper instance;
 
     public static IMoveAnimation getAnimationPreset(final String preset, JsonObject values)
     {
@@ -85,101 +64,8 @@ public class MoveAnimationHelper
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
         return animation;
-    }
-
-    public static MoveAnimationHelper Instance()
-    {
-        if (MoveAnimationHelper.instance == null)
-        {
-            MoveAnimationHelper.instance = new MoveAnimationHelper();
-            ThutCore.FORGE_BUS.register(MoveAnimationHelper.instance);
-        }
-        return MoveAnimationHelper.instance;
-    }
-
-    final Vector3 source = new Vector3();
-    final Vector3 target = new Vector3();
-    final int index;
-    Lock mutex = new ReentrantLock();
-    Set<PokemobTerrainEffects> effects = new HashSet<>();
-
-    public MoveAnimationHelper()
-    {
-        final TerrainSegment dummy = new TerrainSegment(0, 0, 0);
-        int found = -1;
-        for (int i = 0; i < dummy.effectArr.length; i++)
-            if (dummy.effectArr[i] instanceof PokemobTerrainEffects)
-            {
-                found = i;
-                break;
-            }
-        this.index = found;
-    }
-
-    public void addForRender(PokemobTerrainEffects effect)
-    {
-        mutex.lock();
-        this.effects.removeIf(e -> e.segment.pos.equals(effect.segment.pos));
-        effects.add(effect);
-        mutex.unlock();
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public void chunkUnload(final ChunkEvent.Unload evt)
-    {
-        if (!evt.getLevel().isClientSide()) return;
-        var provider = evt.getChunk().getData(CapabilityTerrain.TYPE_SAVE);
-        provider.apply(segment -> {
-            var eff = segment.geTerrainEffect("pokemob_effects");
-            mutex.lock();
-            if (eff instanceof PokemobTerrainEffects effect) effects.remove(effect);
-            mutex.unlock();
-        });
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public void onRenderWorldPost(final RenderLevelStageEvent event)
-    {
-        if (event.getStage() != Stage.AFTER_SOLID_BLOCKS) return;
-        if (this.index == -1) return;
-        mutex.lock();
-        Set<PokemobTerrainEffects> run = new HashSet<>(effects);
-        mutex.unlock();
-
-        final Player player = Minecraft.getInstance().player;
-        this.source.set(player);
-
-        final Minecraft mc = Minecraft.getInstance();
-        final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
-        final PoseStack mat = event.getPoseStack();
-        mat.pushPose();
-        mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-
-        run.removeIf(teffect -> {
-            if (!teffect.hasEffects()) return false;
-            try
-            {
-                this.target.set(teffect.segment.getCentre());
-                this.target.add(-8, -8, -8);
-                mat.pushPose();
-                teffect.renderTerrainEffects(event, this.target);
-                mat.popPose();
-            }
-            catch (final Throwable e)
-            {
-                PokecubeAPI.LOGGER.error(e);
-            }
-            return true;
-        });
-        mat.popPose();
-
-        mutex.lock();
-        effects.removeAll(run);
-        mutex.unlock();
     }
 }

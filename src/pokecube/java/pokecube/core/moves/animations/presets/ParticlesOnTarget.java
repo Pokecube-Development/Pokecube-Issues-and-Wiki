@@ -21,7 +21,7 @@ public class ParticlesOnTarget extends MoveAnimationBase
         if (Math.random() > values.density) return;
         final Vector3 temp = new Vector3();
         final Random rand = ThutCore.newRandom();
-        float dw = info.attackedScale;
+        float dw = info.targetScale;
         final float width = values.width * dw;
         for (int i = 0; i < 50 * values.density; i++)
         {

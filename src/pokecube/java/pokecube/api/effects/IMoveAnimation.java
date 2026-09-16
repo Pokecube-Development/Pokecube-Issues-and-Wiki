@@ -1,4 +1,4 @@
-package pokecube.api.moves.utils;
+package pokecube.api.effects;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,6 +16,8 @@ import pokecube.api.moves.MoveEntry;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.entity.multipart.IMultpart;
 import thut.api.maths.Vector3;
+
+import java.util.function.Consumer;
 
 public interface IMoveAnimation
 {
@@ -67,49 +69,53 @@ public interface IMoveAnimation
 
     public static class MovePacketInfo
     {
+        public final IMoveAnimation animation;
         public final Level level;
         public final PositionTracker source;
         public final PositionTracker target;
-        public final float attackerScale;
-        public final float attackedScale;
+        public final float sourceScale;
+        public final float targetScale;
 
+        public Consumer<MovePacketInfo> onClientTick = (m)->{};
+        public Consumer<MovePacketInfo> onServerTick = (m)->{};
         public float currentTick;
         public float endTick;
-        public float lastApplyTimer = -1;
+        public float removalTick;
 
-        public MovePacketInfo(Level level, PositionTracker source, PositionTracker target, float sourceScale,
-                float targetScale)
+        public MovePacketInfo(IMoveAnimation animation, Level level, PositionTracker source, PositionTracker target,
+                float sourceScale, float targetScale)
         {
             this.level = level;
-            this.attackerScale = sourceScale;
-            this.attackedScale = targetScale;
+            this.sourceScale = sourceScale;
+            this.targetScale = targetScale;
             this.source = source;
             this.target = target != null ? target : source;
+            this.animation = animation;
+            this.removalTick = animation.getDuration();
         }
 
-        public MovePacketInfo(Level level, Entity source, Entity target, Vector3 targetPos)
+        public MovePacketInfo(IMoveAnimation animation, Level level, Entity source, Entity target, Vector3 targetPos)
         {
-            this(level, TaggedEntityTracker.create(source), target != null
+            this(animation, level, TaggedEntityTracker.create(source), target != null
                             ? new EntityTracker(target, true)
                             : targetPos != null ? new VectorPosWrapper(targetPos) : null, source.getBbWidth(),
                     target != null ? target.getBbWidth() : 0.25f);
         }
-    }
 
-    /**
-     * Actually plays the animation in the world, this is called every render tick for the number of world ticks
-     * specificed in getDuration(); This is used for direct GL call rendering
-     */
-    @OnlyIn(Dist.CLIENT)
-    default public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
-            final float partialTick, int packedLightIn)
-    {}
+        public boolean isFinished()
+        {
+            return currentTick >= removalTick;
+        }
+    }
 
     /**
      * How far into the duration should the move actually be applied.
      */
     public int getApplicationTick();
-
+    /**
+     * Sets the duration.
+     */
+    public void setDuration(int duration);
     /**
      * How long this animation plays for in world ticks.
      */
@@ -119,11 +125,14 @@ public interface IMoveAnimation
     @OnlyIn(Dist.CLIENT)
     default void reallyInitRGBA()
     {}
-
     /**
-     * Sets the duration.
+     * Actually plays the animation in the world, this is called every render tick for the number of world ticks
+     * specificed in getDuration(); This is used for direct GL call rendering
      */
-    public void setDuration(int duration);
+    @OnlyIn(Dist.CLIENT)
+    default public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
+            final float partialTick, int packedLightIn)
+    {}
 
     /**
      * Used if you need to spawn in something like thunder effects.
