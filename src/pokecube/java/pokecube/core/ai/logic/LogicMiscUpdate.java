@@ -1,7 +1,8 @@
 package pokecube.core.ai.logic;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -34,6 +35,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
+import pokecube.core.effects.presets.AnimationPowder;
 import pokecube.core.effects.presets.EvolutionRays;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
@@ -49,8 +51,6 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IAnimated.MolangVars;
 import thut.api.entity.multipart.IBBPartMultipart;
 import thut.api.item.ItemList;
-import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,6 +58,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * Mostly does visuals updates, such as particle effects, checking that shearing status is reset properly. It also
@@ -66,6 +68,60 @@ import java.util.UUID;
 public class LogicMiscUpdate extends LogicBase
 {
     public static final int[] FLAVCOLOURS = new int[] { 0xFFFF4932, 0xFF4475ED, 0xFFF95B86, 0xFF2EBC63, 0xFFEBCE36 };
+    public static Function<IPokemob, IAnimatedEffects> HOLIDAY_EFFECT = pokemob->{
+        var powder = new AnimationPowder();
+        var json = new JsonObject();
+        json.add("v_y", new JsonPrimitive("0"));
+        json.add("f_y", new JsonPrimitive("4*rand()*" + pokemob.getEntity().getBbHeight()));
+        powder.init(json);
+        powder.values.density = 1.5f;
+        powder.values.width = 0.15f;
+        powder.values.particle = "aurora"; // Merry Xmas
+        powder.setDuration(20);
+        return powder;
+    };
+
+    public static Function<IPokemob, IAnimatedEffects> SHADOW_EFFECT = pokemob->{
+        var powder = new AnimationPowder();
+        var json = new JsonObject();
+        json.add("v_y", new JsonPrimitive("0"));
+        json.add("f_y", new JsonPrimitive("4*rand()*" + pokemob.getEntity().getBbHeight()));
+        powder.init(json);
+        powder.values.density = 1.5f;
+        powder.values.width = 0.15f;
+        powder.values.particle = "portal";
+        powder.setDuration(20);
+        return powder;
+    };
+
+    public static Function<IPokemob, IAnimatedEffects> MATE_EFFECT = pokemob->{
+        var powder = new AnimationPowder();
+        var json = new JsonObject();
+        json.add("v_y", new JsonPrimitive("0"));
+        json.add("f_y", new JsonPrimitive("4*rand()*" + pokemob.getEntity().getBbHeight()));
+        powder.init(json);
+        powder.values.density = 1.75f;
+        powder.values.width = 0.15f;
+        powder.values.particle = "heart";
+        powder.setDuration(10);
+        return powder;
+    };
+
+    public static BiFunction<IPokemob, int[], IAnimatedEffects> FLAVOUR_EFFECT = (pokemob, index_amount) -> {
+        int index = index_amount[0];
+        int amt = index_amount[1];
+        var powder = new AnimationPowder();
+        var json = new JsonObject();
+        json.add("v_y", new JsonPrimitive("0"));
+        json.add("f_y", new JsonPrimitive("4*rand()*" + pokemob.getEntity().getBbHeight()));
+        powder.init(json);
+        powder.values.density = 1.0f / amt;
+        powder.values.width = 0.15f * amt;
+        powder.values.rgba = FLAVCOLOURS[index];
+        powder.values.particle = "powder";
+        powder.setDuration(20);
+        return powder;
+    };
 
     public static int EXITCUBEDURATION = 40;
 
@@ -74,13 +130,13 @@ public class LogicMiscUpdate extends LogicBase
 
     private final int[] flavourAmounts = new int[5];
 
-    private String particle = null;
     private boolean checkedEvol = false;
     private boolean usedMoveSinceResetAttr = false;
     private boolean usingMoveThisTick = false;
     private boolean complexTick = false;
     private boolean exitingCube = false;
     private IAnimatedEffects.EffectPacketInfo evo_effect = null;
+    private IAnimatedEffects.EffectPacketInfo cube_effect = null;
 
     private int floatTimer = 0;
 
@@ -354,70 +410,6 @@ public class LogicMiscUpdate extends LogicBase
             final PokecubeBehaviour behaviour = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             if (behaviour != null) behaviour.onUpdate(this.pokemob);
         }
-        else
-        {
-            if (holder != null)
-            {
-                // Update molang things for stuff that is slow to read.
-                float health = this.pokemob.getHealth();
-                final float max = this.pokemob.getMaxHealth();
-                MolangVars molangs = holder.getMolangVars();
-
-                molangs.health = health;
-                molangs.max_health = max;
-
-                molangs.yaw_speed = entity.getYRot() - entity.yRotO;
-
-                molangs.on_fire_time = entity.getRemainingFireTicks();
-
-                molangs.is_in_water_or_rain = entity.isInWaterOrRain() ? 1 : 0;
-                molangs.is_on_ground = entity.onGround() ? 1 : 0;
-                molangs.is_in_water = entity.isInWater() ? 1 : 0;
-                molangs.is_on_fire = entity.isOnFire() ? 1 : 0;
-            }
-            if (evolving && evo_effect == null) evo_effect = EvolutionRays.makeAndAddEffect(pokemob, PokecubeCore.getConfig().evolutionTicks);
-            if (evo_effect != null && evo_effect.isFinished())
-            {
-                evo_effect = null;
-            }
-            if (exitingCube && evo_effect == null)
-            {
-                evo_effect = EvolutionRays.makeAndAddEffect(pokemob, PokecubeCore.getConfig().exitCubeDuration);
-                // Now add pokeseal effects, starting with "Shiny"
-                if (pokemob.isShiny())
-                {
-                    var function = RecipePokeseals.POKESEAL_EFFECTS.get("Shiny");
-                    if (function != null)
-                    {
-                        var applied = function.apply(new CompoundTag());
-                        if (applied != null)
-                        {
-                            var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
-                            ParticleEffects.ADD_FOR_RENDER.accept(effect);
-                        }
-                    }
-                }
-                var seal = pokemob.getPokecube().get(PokemobCaps.POKESEAL_DATA);
-                if (seal != null && !seal.tag().isEmpty())
-                {
-                    for (String key : seal.tag().getAllKeys())
-                    {
-                        var tag = seal.tag().get(key);
-                        var function = RecipePokeseals.POKESEAL_EFFECTS.get(key);
-                        if (function != null)
-                        {
-                            var applied = function.apply(tag);
-                            if (applied != null)
-                            {
-                                var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity,
-                                        EvolutionRays.EVO_ANCHORS);
-                                ParticleEffects.ADD_FOR_RENDER.accept(effect);
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
         for (int i = 0; i < 5; i++) this.flavourAmounts[i] = this.pokemob.getFlavourAmount(i);
         for (int i = 0; i < this.flavourAmounts.length; i++)
@@ -434,6 +426,26 @@ public class LogicMiscUpdate extends LogicBase
             return;
         }
 
+        if (holder != null)
+        {
+            // Update molang things for stuff that is slow to read.
+            float health = this.pokemob.getHealth();
+            final float max = this.pokemob.getMaxHealth();
+            MolangVars molangs = holder.getMolangVars();
+
+            molangs.health = health;
+            molangs.max_health = max;
+
+            molangs.yaw_speed = entity.getYRot() - entity.yRotO;
+
+            molangs.on_fire_time = entity.getRemainingFireTicks();
+
+            molangs.is_in_water_or_rain = entity.isInWaterOrRain() ? 1 : 0;
+            molangs.is_on_ground = entity.onGround() ? 1 : 0;
+            molangs.is_in_water = entity.isInWater() ? 1 : 0;
+            molangs.is_on_fire = entity.isOnFire() ? 1 : 0;
+        }
+
         var effects = new ArrayList<>(entity.getActiveEffects());
         for (var e : effects)
         {
@@ -443,124 +455,107 @@ public class LogicMiscUpdate extends LogicBase
             }
         }
 
-        // Particle stuff below here, WARNING, RESETTING RNG HERE
-        rand = ThutCore.newRandom();
-        final Vector3 particleLoc = new Vector3().set(this.entity);
-        boolean randomV = false;
-        final Vector3 particleVelo = new Vector3();
-        boolean pokedex = false;
-        int particleIntensity = 100;
-        if (this.pokemob.isShadow()) this.particle = "portal";
-        particles:
-        if (this.particle == null && entry.particleData != null)
+        // Particle stuff below here
+        if (this.entity.tickCount % 20 == 0)
         {
-            pokedex = true;
-            final double intensity = Double.parseDouble(entry.particleData[1]);
-            int val = (int) intensity;
-            if (intensity < 1) if (rand.nextDouble() <= intensity) val = 1;
-            if (val == 0) break particles;
-            this.particle = entry.particleData[0];
-            particleIntensity = val;
-            if (entry.particleData.length > 2)
+            // Shadow mob effect
+            if (this.pokemob.isShadow())
             {
-                final String[] args = entry.particleData[2].split(",");
-                double dx = 0, dy, dz = 0;
-                if (args.length == 1) dy = Double.parseDouble(args[0]) * this.entity.getBbHeight();
-                else
+                var applied = SHADOW_EFFECT.apply(pokemob);
+                if (applied != null)
                 {
-                    dx = Double.parseDouble(args[0]);
-                    dy = Double.parseDouble(args[1]);
-                    dz = Double.parseDouble(args[2]);
+                    var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                    ParticleEffects.ADD_FOR_RENDER.accept(effect);
                 }
-                particleLoc.addTo(dx, dy, dz);
             }
-            if (entry.particleData.length > 3)
+            // Holiday effect
+            if (LogicMiscUpdate.holiday)
             {
-                final String[] args = entry.particleData[3].split(",");
-                double dx, dy, dz;
-                if (args.length == 1) switch (args[0])
+                var applied = HOLIDAY_EFFECT.apply(pokemob);
+                if (applied != null)
                 {
-                case "r":
-                    randomV = true;
-                    break;
-                case "v":
-                    particleVelo.setToVelocity(this.entity);
-                    break;
-                default:
-                    break;
+                    var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                    ParticleEffects.ADD_FOR_RENDER.accept(effect);
                 }
-                else
+            }
+            // flavour effects
+            int[] index_amount = { 0, 0 };
+            for (int i = 0; i < this.flavourAmounts.length; i++)
+            {
+                final int var = this.flavourAmounts[i];
+                if (var > 0)
                 {
-                    dx = Double.parseDouble(args[0]);
-                    dy = Double.parseDouble(args[1]);
-                    dz = Double.parseDouble(args[2]);
-                    particleVelo.set(dx, dy, dz);
+                    index_amount[0] = i;
+                    index_amount[1] = var;
+                    var applied = FLAVOUR_EFFECT.apply(pokemob, index_amount);
+                    if (applied != null)
+                    {
+                        var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                        ParticleEffects.ADD_FOR_RENDER.accept(effect);
+                    }
                 }
             }
         }
-        if (LogicMiscUpdate.holiday)
+        if (this.entity.tickCount % 10 == 0 && this.pokemob.getGeneralState(GeneralStates.MATING))
         {
-            this.particle = "aurora";// Merry Xmas
-            particleIntensity = 10;
-        }
-        if (this.pokemob.getGeneralState(GeneralStates.MATING) && this.entity.tickCount % 10 == 0)
-        {
-            final Vector3 heart = new Vector3();
-            for (int i = 0; i < 3; ++i)
+            var applied = MATE_EFFECT.apply(pokemob);
+            if (applied != null)
             {
-                heart.set(this.entity.getX() + rand.nextFloat() * this.entity.getBbWidth() * 2.0F
-                                - this.entity.getBbWidth(),
-                        this.entity.getY() + 0.5D + rand.nextFloat() * this.entity.getBbHeight(),
-                        this.entity.getZ() + rand.nextFloat() * this.entity.getBbWidth() * 2.0F
-                                - this.entity.getBbWidth());
-                this.entity.level().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0, 0);
+                var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                ParticleEffects.ADD_FOR_RENDER.accept(effect);
             }
         }
-        int[] args = {};
-        if (this.particle != null && rand.nextInt(100) < particleIntensity)
+
+        // Evolution effects
+        if (evolving && evo_effect == null)
         {
-            if (!pokedex)
-            {
-                final float scale = this.entity.getBbWidth() * 2;
-                final Vector3 offset = new Vector3().set(rand.nextDouble() - 0.5, rand.nextDouble(),
-                        rand.nextDouble() - 0.5);
-                offset.scalarMultBy(scale);
-                particleLoc.addTo(offset);
-            }
-            if (randomV)
-            {
-                particleVelo.set(rand.nextDouble() - 0.5, rand.nextDouble() + this.entity.getBbHeight() / 2,
-                        rand.nextDouble() - 0.5);
-                particleVelo.scalarMultBy(0.25);
-            }
-            PokecubeCore.spawnParticle(this.entity.level(), this.particle, particleLoc, particleVelo, args);
+            evo_effect = EvolutionRays.makeAndAddEffect(pokemob, PokecubeCore.getConfig().evolutionTicks);
+            evo_effect.onClientEnd = evo_effect.onClientEnd.andThen(info -> {
+                if (info.isFinished()) this.evo_effect = null;
+            });
         }
-        for (int i = 0; i < this.flavourAmounts.length; i++)
+        // Exiting cube and pokeseal effects
+        if (exitingCube && cube_effect == null)
         {
-            final int var = this.flavourAmounts[i];
-            particleIntensity = var;
-            if (var > 0 && rand.nextInt(100) < particleIntensity)
+            cube_effect = EvolutionRays.makeAndAddEffect(pokemob, PokecubeCore.getConfig().exitCubeDuration);
+            cube_effect.onClientEnd = cube_effect.onClientEnd.andThen(info -> {
+                if (info.isFinished()) this.cube_effect = null;
+            });
+            // Now add pokeseal effects, starting with "Shiny"
+            if (pokemob.isShiny())
             {
-                if (!pokedex)
+                var function = RecipePokeseals.POKESEAL_EFFECTS.get("Shiny");
+                if (function != null)
                 {
-                    final float scale = this.entity.getBbWidth() * 2;
-                    final Vector3 offset = new Vector3().set(rand.nextDouble() - 0.5, rand.nextDouble(),
-                            rand.nextDouble() - 0.5);
-                    offset.scalarMultBy(scale);
-                    particleLoc.addTo(offset);
+                    var applied = function.apply(new CompoundTag());
+                    if (applied != null)
+                    {
+                        var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                        ParticleEffects.ADD_FOR_RENDER.accept(effect);
+                    }
                 }
-                if (randomV)
+            }
+            // Then process the pokeseal data
+            var seal = pokemob.getPokecube().get(PokemobCaps.POKESEAL_DATA);
+            if (seal != null && !seal.tag().isEmpty())
+            {
+                for (String key : seal.tag().getAllKeys())
                 {
-                    particleVelo.set(rand.nextDouble() - 0.5, rand.nextDouble() + this.entity.getBbHeight() / 2,
-                            rand.nextDouble() - 0.5);
-                    particleVelo.scalarMultBy(0.25);
+                    var tag = seal.tag().get(key);
+                    var function = RecipePokeseals.POKESEAL_EFFECTS.get(key);
+                    if (function != null)
+                    {
+                        var applied = function.apply(tag);
+                        if (applied != null)
+                        {
+                            var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity,
+                                    EvolutionRays.EVO_ANCHORS);
+                            ParticleEffects.ADD_FOR_RENDER.accept(effect);
+                        }
+                    }
                 }
-                args = new int[] { LogicMiscUpdate.FLAVCOLOURS[i] };
-                this.particle = "powder";
-                PokecubeCore.spawnParticle(this.entity.level(), this.particle, particleLoc, particleVelo, args);
             }
         }
-        this.particle = null;
     }
 
     private void checkPose()

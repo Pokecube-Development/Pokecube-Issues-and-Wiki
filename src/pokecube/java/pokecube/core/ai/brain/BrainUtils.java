@@ -118,7 +118,10 @@ public class BrainUtils extends BrainUtil
     {
         final Brain<?> brain = mobIn.getBrain();
         if (brain.checkMemory(MemoryModules.MATE_TARGET, MemoryStatus.REGISTERED))
-            brain.setMemory(MemoryModules.MATE_TARGET, target);
+        {
+            if (target == null) brain.eraseMemory(MemoryModules.MATE_TARGET);
+            else brain.setMemory(MemoryModules.MATE_TARGET, target);
+        }
     }
 
     public static void setMoveUseTarget(final LivingEntity mobIn, final Vector3 pos)

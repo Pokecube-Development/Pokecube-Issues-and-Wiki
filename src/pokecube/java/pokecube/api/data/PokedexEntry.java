@@ -878,9 +878,6 @@ public class PokedexEntry
     @CopyToGender
     private String modId;
 
-    /** Particle Effects. */
-    @CopyToGender
-    public String[] particleData;
     /** Offset between top of hitbox and where player sits */
     @CopyToGender
     public double[][] passengerOffsets = { { 0, 0.75, 0 } };

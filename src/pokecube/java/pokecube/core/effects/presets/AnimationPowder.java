@@ -20,9 +20,9 @@ public class AnimationPowder extends CartesianFunction
         if (!preset.has("particle")) this.values.particle = "powder";
 
         values.density = 0.01f / values.density;
-        values.f_x = "guassian()*4";
-        values.f_y = "guassian()*4";
-        values.f_z = "guassian()*4";
+        if (values.f_x == null) values.f_x = "guassian()*4";
+        if (values.f_y == null) values.f_y = "guassian()*4";
+        if (values.f_z == null) values.f_z = "guassian()*4";
         if (values.v_y == null) values.v_y = "-0.05";
 
         super.init(preset);

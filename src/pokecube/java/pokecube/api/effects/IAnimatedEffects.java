@@ -20,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import thut.api.entity.multipart.IMultpart;
@@ -173,6 +174,7 @@ public interface IAnimatedEffects
 
         public Consumer<EffectPacketInfo> onClientTick = (m)->{};
         public Consumer<EffectPacketInfo> onServerTick = (m)->{};
+        public Consumer<EffectPacketInfo> onClientEnd = (m)->{};
         public Object context;
         public int currentTick;
         public int endTick;
@@ -254,12 +256,16 @@ public interface IAnimatedEffects
 
         public boolean isFinished()
         {
+            // Some manual overrides for entity and pokemob contexts
+            if (context instanceof Entity e && !e.isAlive()) return true;
+            if (context instanceof IPokemob e && e.getTrackedEntity().isAlive()) return true;
             return currentTick >= removalTick;
         }
 
         public void terminate()
         {
             this.removalTick = -1;
+            onClientEnd.accept(this);
         }
     }
 

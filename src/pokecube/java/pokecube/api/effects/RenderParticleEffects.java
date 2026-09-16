@@ -28,6 +28,9 @@ public class RenderParticleEffects
         info.onClientTick.accept(info);
         info.animation.spawnClientEntities(info, info.currentTick + 1);
         info.currentTick++;
+        boolean done = info.isFinished();
+        if (done) info.terminate();
+        // Calls isFinished again incase the onClientEnd reset it.
         return info.isFinished();
     }
 
