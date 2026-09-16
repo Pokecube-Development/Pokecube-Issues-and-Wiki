@@ -5,6 +5,7 @@ package pokecube.core.entity.pokemobs;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -24,7 +25,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -71,6 +71,7 @@ import thut.api.Tracker;
 import thut.api.entity.IAnimated;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.core.common.genetics.DefaultGenetics;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -218,6 +219,8 @@ public class EntityPokemob extends PokemobRidable
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
         CompoundTag tag = buffer.readNbt();
         if (!tag.isEmpty()) this.getPersistentData().put("url_model", tag);
+        var genes = this.getData(DefaultGenetics.TYPE);
+        genes.deserializeNBT(this.level().registryAccess(), (ListTag) buffer.readNbt().get("g"));
     }
 
     @Override
@@ -260,6 +263,9 @@ public class EntityPokemob extends PokemobRidable
         this.getPokemob().updateHealth();
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
         CompoundTag nbt = this.getPersistentData().getCompound("url_model");
+        buffer.writeNbt(nbt);
+        nbt = new CompoundTag();
+        nbt.put("g", this.getData(DefaultGenetics.TYPE).serializeNBT(this.level().registryAccess()));
         buffer.writeNbt(nbt);
     }
 
