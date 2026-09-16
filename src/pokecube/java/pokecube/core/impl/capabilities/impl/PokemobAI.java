@@ -61,6 +61,7 @@ public abstract class PokemobAI extends PokemobEvolves
     private final Map<String, IAIRunnable> namedTasks = new HashMap<>();
 
     private Battle battle;
+    private int _tameCacheTick = -1;
 
     @Override
     public float getPitch()
@@ -71,9 +72,19 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean getGeneralState(GeneralStates state)
     {
-        // Read tamed status based on if we have an owner, rather than flag in
-        // the bitmask.
-        if (state == GeneralStates.TAMED) return this.getOwnerId() != null;
+        // sync tamed status based on if we have an owner,
+        // rather than only using the flag in the bitmask.
+        if (state == GeneralStates.TAMED)
+        {
+            int tick = this.getEntity().tickCount;
+            if (_tameCacheTick < tick)
+            {
+                // The wrapped getOwnerId() can be a bit slow at times.
+                boolean _tameCache = this.getOwnerId() != null;
+                this.setGeneralState(GeneralStates.TAMED, _tameCache);
+                _tameCacheTick = tick + 20;
+            }
+        }
         return super.getGeneralState(state);
     }
 
@@ -368,7 +379,7 @@ public abstract class PokemobAI extends PokemobEvolves
             /*
              * Ensure that the target being set is actually a valid target.
              */
-            if (entity == this.getEntity())
+            if (entity == this.getEntity() || entity == this.getTrackedEntity())
             {
                 entity = null;
             }
