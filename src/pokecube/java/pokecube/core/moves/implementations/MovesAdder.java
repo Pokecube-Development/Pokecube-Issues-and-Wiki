@@ -17,7 +17,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.animations.AnimationMultiAnimations;
+import pokecube.core.effects.AnimationMultiAnimations;
 import pokecube.core.moves.templates.Move_Explode;
 import pokecube.core.moves.world.DefaultElectricAction;
 import pokecube.core.moves.world.DefaultFireAction;

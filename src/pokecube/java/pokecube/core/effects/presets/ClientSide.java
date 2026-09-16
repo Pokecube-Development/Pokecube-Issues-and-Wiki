@@ -1,4 +1,4 @@
-package pokecube.core.moves.animations.presets;
+package pokecube.core.effects.presets;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;

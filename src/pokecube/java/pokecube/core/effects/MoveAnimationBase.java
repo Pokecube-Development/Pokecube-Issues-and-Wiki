@@ -1,4 +1,4 @@
-package pokecube.core.moves.animations;
+package pokecube.core.effects;
 
 import com.google.gson.JsonObject;
 import net.minecraft.world.item.DyeColor;

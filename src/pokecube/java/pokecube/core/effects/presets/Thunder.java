@@ -1,12 +1,12 @@
-package pokecube.core.moves.animations.presets;
+package pokecube.core.effects.presets;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.api.moves.MoveEntry;
-import pokecube.core.moves.animations.AnimPreset;
-import pokecube.core.moves.animations.MoveAnimationBase;
+import pokecube.core.effects.AnimPreset;
+import pokecube.core.effects.MoveAnimationBase;
 import thut.api.maths.Vector3;
 
 @AnimPreset(getPreset = "thunder")

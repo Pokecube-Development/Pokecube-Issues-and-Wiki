@@ -9,18 +9,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.util.ObfuscationReflectionHelper;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import pokecube.api.effects.ParticleEffects;
 import pokecube.api.effects.RenderParticleEffects;
 import pokecube.core.PokecubeCore;
-import pokecube.core.moves.animations.MoveAnimationBase;
+import pokecube.core.effects.MoveAnimationBase;
 import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.moves.damage.effects.StatusEffects;
-
-import java.lang.reflect.Field;
 
 @Mod(value = PokecubeCore.MODID, dist = Dist.CLIENT)
 public class ClientMod

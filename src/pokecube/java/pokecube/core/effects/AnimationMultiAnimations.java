@@ -1,4 +1,4 @@
-package pokecube.core.moves.animations;
+package pokecube.core.effects;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -13,7 +13,7 @@ import pokecube.api.data.moves.Animations.AnimationJson;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.effects.IMoveAnimation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.moves.animations.presets.Thunder;
+import pokecube.core.effects.presets.Thunder;
 import thut.api.maths.Vector3;
 
 import java.util.Comparator;

@@ -1,10 +1,10 @@
-package pokecube.core.moves.animations.presets;
+package pokecube.core.effects.presets;
 
 import com.google.gson.JsonObject;
 
 import pokecube.api.effects.IMoveAnimation;
-import pokecube.core.moves.animations.AnimPreset;
-import pokecube.core.moves.animations.presets.parametric.CartesianFunction;
+import pokecube.core.effects.AnimPreset;
+import pokecube.core.effects.presets.parametric.CartesianFunction;
 
 @AnimPreset(getPreset = "powder")
 public class AnimationPowder extends CartesianFunction

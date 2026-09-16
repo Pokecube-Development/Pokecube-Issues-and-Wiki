@@ -1,9 +1,9 @@
-package pokecube.core.moves.animations.presets;
+package pokecube.core.effects.presets;
 
 import java.util.Random;
 
 import pokecube.core.PokecubeCore;
-import pokecube.core.moves.animations.AnimPreset;
+import pokecube.core.effects.AnimPreset;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 

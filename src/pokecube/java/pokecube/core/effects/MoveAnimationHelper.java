@@ -1,4 +1,4 @@
-package pokecube.core.moves.animations;
+package pokecube.core.effects;
 
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;

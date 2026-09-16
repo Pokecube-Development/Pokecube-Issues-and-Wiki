@@ -1,4 +1,4 @@
-package pokecube.core.moves.animations.presets.parametric;
+package pokecube.core.effects.presets.parametric;
 
 import com.google.gson.JsonObject;
 import net.minecraft.util.Mth;
@@ -6,8 +6,8 @@ import org.joml.Vector3f;
 import org.nfunk.jep.JEP;
 import pokecube.api.effects.IMoveAnimation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.moves.animations.AnimPreset;
-import pokecube.core.moves.animations.MoveAnimationBase;
+import pokecube.core.effects.AnimPreset;
+import pokecube.core.effects.MoveAnimationBase;
 
 import java.util.function.Function;
 

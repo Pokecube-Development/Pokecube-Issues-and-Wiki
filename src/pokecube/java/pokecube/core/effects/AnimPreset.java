@@ -1,4 +1,4 @@
-package pokecube.core.moves.animations;
+package pokecube.core.effects;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

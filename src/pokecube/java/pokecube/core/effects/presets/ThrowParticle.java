@@ -1,4 +1,4 @@
-package pokecube.core.moves.animations.presets;
+package pokecube.core.effects.presets;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -8,8 +8,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import pokecube.core.client.render.mobs.overlays.Utils;
-import pokecube.core.moves.animations.AnimPreset;
-import pokecube.core.moves.animations.MoveAnimationBase;
+import pokecube.core.effects.AnimPreset;
+import pokecube.core.effects.MoveAnimationBase;
 
 import java.util.ArrayList;
 import java.util.List;

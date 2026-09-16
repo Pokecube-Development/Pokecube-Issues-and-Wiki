@@ -34,7 +34,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.animations.MoveAnimationBase;
+import pokecube.core.effects.MoveAnimationBase;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.EntityProvider;
 import thut.api.maths.Vector3;
