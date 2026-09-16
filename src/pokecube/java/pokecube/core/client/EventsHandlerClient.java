@@ -1,6 +1,7 @@
 package pokecube.core.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.DeltaTracker;
@@ -77,6 +78,7 @@ import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Resources;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -261,11 +263,40 @@ public class EventsHandlerClient
         }
     }
 
+    public static final ResourceLocation TARGET_TEXTURE = ResourceLocation.parse("pokecube:icons/target_icon");
     private static final ResourceLocation IS_POKECUBE = ResourceLocation.parse("pokecube:pokecubes");
 
     @SubscribeEvent
     public static void renderBounds(final RenderLevelStageEvent event)
     {
+        Vec3 camera = event.getCamera().getPosition();
+        Entity entity = TargetInfo.lastViewedTarget;
+        float f = event.getCamera().getPartialTickTime();
+        if (event.getStage() == Stage.AFTER_PARTICLES && entity != null && PokecubeCore.getConfig().displayViewedInfo
+                && PokecubeCore.getConfig().displayViewedArrow)
+        {
+            // Render target icon over the selected mob's head
+            MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+            var gfx = new GuiGraphics(Minecraft.getInstance(), buffer);
+            gfx.pose().pushPose();
+            double x = Mth.lerp(f, entity.xOld, entity.getX());
+            double y = Mth.lerp(f, entity.yOld, entity.getY());
+            double z = Mth.lerp(f, entity.zOld, entity.getZ());
+            RenderSystem.enableBlend();
+            float dh = 2 + Mth.sin((f + entity.tickCount) / 10);
+            gfx.pose().translate(x - camera.x, y - camera.y, z - camera.z);
+            gfx.pose().mulPose(event.getCamera().rotation());
+            gfx.pose().mulPose(AxisAngles.XP.rotationDegrees(180));
+            gfx.pose().translate(0, -entity.getBbHeight() - 0.125f * dh, 0);
+            gfx.pose().scale(0.05f, 0.05f, 0.05f);
+            var t = ResourceLocation.parse("pokecube:icons/target_icon");
+            RenderSystem.disableDepthTest();
+            gfx.blitSprite(t, -8, -16, -1, 16, 16);
+            RenderSystem.enableDepthTest();
+            gfx.pose().popPose();
+        }
+
+
         // the handler for drawing selected box around targeted
         // entities for throwing cubes at
 
@@ -286,18 +317,16 @@ public class EventsHandlerClient
 
         if (validToShow)
         {
-            Entity entity = hovorTarget;
+            entity = hovorTarget;
             if (entity != null)
             {
                 AABB box = entity.getBoundingBox().move(-entity.getX(), -entity.getY(), -entity.getZ());
                 final PoseStack matrix = event.getPoseStack();
-                float f = Minecraft.getInstance().getTimer().getGameTimeDeltaTicks();
                 double x = Mth.lerp(f, entity.xOld, entity.getX());
                 double y = Mth.lerp(f, entity.yOld, entity.getY());
                 double z = Mth.lerp(f, entity.zOld, entity.getZ());
                 MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
                 VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
-                Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
                 matrix.pushPose();
                 matrix.translate(x - camera.x, y - camera.y, z - camera.z);
                 LevelRenderer.renderLineBox(matrix, builder, box, 1.0F, 0.0F, 0.0F, 1.0F);

@@ -20,7 +20,6 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.overlays.Health;
 import pokecube.core.client.render.mobs.overlays.Status;
-import pokecube.core.client.render.mobs.overlays.Target;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import thut.api.entity.multipart.IMultpart;
 
@@ -93,17 +92,10 @@ public class RenderMobOverlays
                 }
             }
             // Otherwise we also disable this here. TODO maybe see if we need to handle name tags?
-            if (PokecubeCore.getConfig().displayViewedInfo && PokecubeCore.getConfig().displayViewedArrow)
+            if (PokecubeCore.getConfig().displayViewedInfo && PokecubeCore.getConfig().displayViewedArrow
+                    && event.getEntity() instanceof EntityPokemob)
             {
-                MultiBufferSource buf = event.getMultiBufferSource();
-                PoseStack mat = event.getPoseStack();
-                Minecraft mc = Minecraft.getInstance();
-                Entity cameraEntity = mc.getCameraEntity();
-                float partialTick = event.getPartialTick();
-                int br = event.getPackedLight();
-                // Now, add the target icon if we are the viewd thing.
-                Target.renderTargetArrow(living, mat, buf, partialTick, cameraEntity, br);
-                if (event.getEntity() instanceof EntityPokemob) event.setCanRender(TriState.FALSE);
+                event.setCanRender(TriState.FALSE);
             }
         }
     }
