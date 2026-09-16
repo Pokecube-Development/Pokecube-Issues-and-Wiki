@@ -19,6 +19,31 @@ public class ThutParticles
     public static final ParticleNoGravity POWDER = new ParticleNoGravity(0, 0);
     public static final ParticleOrientable LEAF = new ParticleOrientable(2, 2);
 
+    public static final int[][] powder_textures = new int[7][2];
+    public static final int[][] misc_textures = new int[2][2];
+    
+    static
+    {
+        powder_textures[0][0] = 0;
+        powder_textures[0][1] = 0;
+        powder_textures[1][0] = 1;
+        powder_textures[1][1] = 0;
+        powder_textures[2][0] = 2;
+        powder_textures[2][1] = 0;
+        powder_textures[3][0] = 3;
+        powder_textures[3][1] = 0;
+        powder_textures[4][0] = 4;
+        powder_textures[4][1] = 0;
+        powder_textures[5][0] = 5;
+        powder_textures[5][1] = 0;
+        powder_textures[6][0] = 6;
+        powder_textures[6][1] = 0;
+
+        misc_textures[0][0] = 2;
+        misc_textures[0][1] = 4;
+        misc_textures[1][0] = 1;
+        misc_textures[1][1] = 4;
+    }
     public static ParticleBase clone(final ParticleBase type)
     {
         ParticleBase ret = null;
@@ -62,12 +87,7 @@ public class ThutParticles
         {
             final ParticleNoGravity particle = ThutParticles.AURORA;
             particle.setVelocity(vel);
-            final int[][] textures = new int[2][2];
-            textures[0][0] = 2;
-            textures[0][1] = 4;
-            textures[1][0] = 1;
-            textures[1][1] = 4;
-            particle.setTex(textures);
+            particle.setTex(misc_textures);
             int life = 32;
             if (args.length > 1) life = args[1];
             particle.setStartTime(ThutCore.newRandom().nextInt(100));
@@ -81,12 +101,7 @@ public class ThutParticles
         {
             final ParticleNoGravity particle = ThutParticles.MISC;
             particle.setVelocity(vel);
-            final int[][] textures = new int[2][2];
-            textures[0][0] = 2;
-            textures[0][1] = 4;
-            textures[1][0] = 1;
-            textures[1][1] = 4;
-            particle.setTex(textures);
+            particle.setTex(misc_textures);
             int life = 32;
             if (args.length > 0) particle.setColour(args[0]);
             if (args.length > 1) life = args[1];
@@ -98,22 +113,7 @@ public class ThutParticles
         {
             final ParticleNoGravity particle = ThutParticles.POWDER;
             particle.setVelocity(vel);
-            final int[][] textures = new int[7][2];
-            textures[0][0] = 0;
-            textures[0][1] = 0;
-            textures[1][0] = 1;
-            textures[1][1] = 0;
-            textures[2][0] = 2;
-            textures[2][1] = 0;
-            textures[3][0] = 3;
-            textures[3][1] = 0;
-            textures[4][0] = 4;
-            textures[4][1] = 0;
-            textures[5][0] = 5;
-            textures[5][1] = 0;
-            textures[6][0] = 6;
-            textures[6][1] = 0;
-            particle.setTex(textures);
+            particle.setTex(powder_textures);
             particle.setSize(0.125f);
             int life = 32;
             if (args.length > 0) particle.setColour(args[0]);
