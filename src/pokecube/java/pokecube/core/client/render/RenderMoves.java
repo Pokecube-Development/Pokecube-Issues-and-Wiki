@@ -30,7 +30,8 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
         {
             mat.pushPose();
             final MovePacketInfo info = entity.getMoveInfo();
-            animation.clientAnimation(mat, bufferIn, info, partialTicks, packedLightIn);
+            // This is null in the case where the animation comes from the chunk instead of the move entity.
+            if (info != null) animation.clientAnimation(mat, bufferIn, info, partialTicks, packedLightIn);
             mat.popPose();
         }
     }
