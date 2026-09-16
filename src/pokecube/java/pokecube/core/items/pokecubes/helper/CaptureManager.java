@@ -28,6 +28,7 @@ import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.effects.presets.EvolutionRays;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.init.Sounds;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -92,6 +93,7 @@ public class CaptureManager
         }
         else if (hitten != null)
         {
+            EvolutionRays.makeAndAddEffect(hitten, PokecubeCore.getConfig().exitCubeDuration);
             if (capturePre.isCanceled())
             {
                 int n = cube.getTilt();

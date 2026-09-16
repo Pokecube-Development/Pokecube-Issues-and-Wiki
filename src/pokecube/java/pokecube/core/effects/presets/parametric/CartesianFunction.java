@@ -9,6 +9,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.MoveAnimationBase;
 
+import java.util.Random;
 import java.util.function.Function;
 
 @AnimPreset(getPreset = "cartFunc")
@@ -125,10 +126,13 @@ public class CartesianFunction extends MoveAnimationBase
             if (values.reverse) scale *= info.sourceScale;
             else scale *= info.targetScale;
         }
-        int t_0 = (int) info.currentTick;
-        double t_1 = (int) Math.min(t_0 + 2, info.endTick) + values.density * 0.1;
+        int t_0 = info.currentTick;
+        double t_1 = Math.min(t_0 + 2, info.endTick) + values.density * 0.1;
+        double rng_v = values.density - 1;
+        var RNG = new Random();
         for (double i = t_0; i <= t_1; i += values.density)
         {
+            if (RNG.nextFloat() < rng_v) return;
             this.setVector(i, info.endTick, d, vec_r, vec_v);
             vec_r.set(lft.x * vec_r.x + up.x * vec_r.y + dir.x * vec_r.z,
                     lft.y * vec_r.x + up.y * vec_r.y + dir.y * vec_r.z,

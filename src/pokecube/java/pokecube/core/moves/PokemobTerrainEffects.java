@@ -194,6 +194,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 Vector3f target = new Vector3f(level.random.nextFloat(), 0, level.random.nextFloat()).normalize();
                 var end = new VectorPositionSource(target.add(chunkMid));
                 renderEffect = new IMoveAnimation.MovePacketInfo(entry.getAnimation(), level, source, end, 1, 1);
+                renderEffect.setContext(entry);
                 renderEffect.onClientTick = EntityMoveUse.MOVE_ANIMATION_CLIENT_FACTORY.apply(entry);
                 renderEffect.onServerTick = EntityMoveUse.MOVE_ANIMATION_SERVER_FACTORY.apply(entry);
                 ParticleEffects.ADD_FOR_RENDER.accept(renderEffect);

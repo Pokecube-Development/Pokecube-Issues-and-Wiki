@@ -2,6 +2,7 @@ package pokecube.core.ai.logic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
@@ -12,9 +13,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.ParticleEffects;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -30,11 +34,13 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
+import pokecube.core.effects.presets.EvolutionRays;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.moves.damage.effects.Sleep;
 import pokecube.core.moves.damage.effects.StatusEffects;
+import pokecube.core.recipes.RecipePokeseals;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
 import thut.api.ThutCaps;
@@ -73,6 +79,8 @@ public class LogicMiscUpdate extends LogicBase
     private boolean usedMoveSinceResetAttr = false;
     private boolean usingMoveThisTick = false;
     private boolean complexTick = false;
+    private boolean exitingCube = false;
+    private IMoveAnimation.MovePacketInfo evo_effect = null;
 
     private int floatTimer = 0;
 
@@ -176,8 +184,8 @@ public class LogicMiscUpdate extends LogicBase
             this.pokemob.setGeneralState(GeneralStates.TAMED, false);
 
         // Check exit cube state.
-        if (this.entity.tickCount > LogicMiscUpdate.EXITCUBEDURATION && this.pokemob.getGeneralState(
-                GeneralStates.EXITINGCUBE)) this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+        if (this.entity.tickCount > LogicMiscUpdate.EXITCUBEDURATION && exitingCube)
+            this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
         boolean noMotion = !TaskBase.canMove(this.pokemob);
         boolean sitting = this.pokemob.getLogicState(LogicStates.SITTING);
         noMotion |= sitting;
@@ -222,9 +230,8 @@ public class LogicMiscUpdate extends LogicBase
         if (!pokemob.getMoveStats().isExecutingMoves()) pokemob.setCombatState(CombatStates.EXECUTINGMOVE, false);
     }
 
-    private void checkEvolution()
+    private void checkEvolution(boolean evolving)
     {
-        boolean evolving = this.pokemob.getGeneralState(GeneralStates.EVOLVING);
         if (ItemList.is(ICanEvolve.EVERSTONE, this.pokemob.getHeldItem()))
         {
             if (evolving)
@@ -311,6 +318,9 @@ public class LogicMiscUpdate extends LogicBase
         usingMoveThisTick = this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE);
         this.usedMoveSinceResetAttr |= usingMoveThisTick;
 
+        boolean evolving = this.pokemob.getGeneralState(GeneralStates.EVOLVING);
+        this.exitingCube = this.pokemob.getGeneralState(GeneralStates.EXITINGCUBE);
+
         // Now some server only processing
         if (!world.isClientSide)
         {
@@ -319,7 +329,7 @@ public class LogicMiscUpdate extends LogicBase
             // Check that AI states are correct
             this.checkAIStates(ownerID);
             // Check evolution
-            this.checkEvolution();
+            this.checkEvolution(evolving);
             // Check and tick inventory
             this.checkInventory(world);
 
@@ -344,24 +354,69 @@ public class LogicMiscUpdate extends LogicBase
             final PokecubeBehaviour behaviour = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             if (behaviour != null) behaviour.onUpdate(this.pokemob);
         }
-        else if (holder != null)
+        else
         {
-            // Update molang things for stuff that is slow to read.
-            float health = this.pokemob.getHealth();
-            final float max = this.pokemob.getMaxHealth();
-            MolangVars molangs = holder.getMolangVars();
+            if (holder != null)
+            {
+                // Update molang things for stuff that is slow to read.
+                float health = this.pokemob.getHealth();
+                final float max = this.pokemob.getMaxHealth();
+                MolangVars molangs = holder.getMolangVars();
 
-            molangs.health = health;
-            molangs.max_health = max;
+                molangs.health = health;
+                molangs.max_health = max;
 
-            molangs.yaw_speed = entity.getYRot() - entity.yRotO;
+                molangs.yaw_speed = entity.getYRot() - entity.yRotO;
 
-            molangs.on_fire_time = entity.getRemainingFireTicks();
+                molangs.on_fire_time = entity.getRemainingFireTicks();
 
-            molangs.is_in_water_or_rain = entity.isInWaterOrRain() ? 1 : 0;
-            molangs.is_on_ground = entity.onGround() ? 1 : 0;
-            molangs.is_in_water = entity.isInWater() ? 1 : 0;
-            molangs.is_on_fire = entity.isOnFire() ? 1 : 0;
+                molangs.is_in_water_or_rain = entity.isInWaterOrRain() ? 1 : 0;
+                molangs.is_on_ground = entity.onGround() ? 1 : 0;
+                molangs.is_in_water = entity.isInWater() ? 1 : 0;
+                molangs.is_on_fire = entity.isOnFire() ? 1 : 0;
+            }
+            if (evolving && evo_effect == null) evo_effect = EvolutionRays.makeAndAddEffect(pokemob, PokecubeCore.getConfig().evolutionTicks);
+            if (evo_effect != null && evo_effect.isFinished())
+            {
+                evo_effect = null;
+            }
+            if (exitingCube && evo_effect == null)
+            {
+                evo_effect = EvolutionRays.makeAndAddEffect(pokemob, PokecubeCore.getConfig().exitCubeDuration);
+                // Now add pokeseal effects, starting with "Shiny"
+                if (pokemob.isShiny())
+                {
+                    var function = RecipePokeseals.POKESEAL_EFFECTS.get("Shiny");
+                    if (function != null)
+                    {
+                        var applied = function.apply(new CompoundTag());
+                        if (applied != null)
+                        {
+                            var effect = new IMoveAnimation.MovePacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                            ParticleEffects.ADD_FOR_RENDER.accept(effect);
+                        }
+                    }
+                }
+                var seal = pokemob.getPokecube().get(PokemobCaps.POKESEAL_DATA);
+                if (seal != null && !seal.tag().isEmpty())
+                {
+                    for (String key : seal.tag().getAllKeys())
+                    {
+                        var tag = seal.tag().get(key);
+                        var function = RecipePokeseals.POKESEAL_EFFECTS.get(key);
+                        if (function != null)
+                        {
+                            var applied = function.apply(tag);
+                            if (applied != null)
+                            {
+                                var effect = new IMoveAnimation.MovePacketInfo(applied, entity,
+                                        EvolutionRays.EVO_ANCHORS);
+                                ParticleEffects.ADD_FOR_RENDER.accept(effect);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         for (int i = 0; i < 5; i++) this.flavourAmounts[i] = this.pokemob.getFlavourAmount(i);

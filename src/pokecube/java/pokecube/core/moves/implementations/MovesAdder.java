@@ -117,7 +117,7 @@ public class MovesAdder implements IMoveConstants
         // Next do move packages
         foundClasses.clear();
 
-        Type ANNOTE = Type.getType("Lpokecube/api/data/moves/MoveProvider;");
+        Type ANNOTE = Type.getType(MoveProvider.class);
         BiFunction<IModFile, String, Boolean> validClass = (file, name) -> {
             for (final AnnotationData a : file.getScanResult().getAnnotations())
                 if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE)) return true;

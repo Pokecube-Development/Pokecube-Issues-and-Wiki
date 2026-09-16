@@ -85,7 +85,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
             final float partialTick, int packedLightIn)
     {
-        float tick = info.currentTick;
+        int tick = info.currentTick;
         for (WrappedAnimation toRun : this.components)
         {
             if (tick > toRun.start + toRun.wrapped.getDuration()) continue;
@@ -115,10 +115,10 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     @Override
     public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
     {
-        final float tick = info.currentTick;
-        final float scale = (float) PokecubeCore.getConfig().moveVolumeEffect;
-        final Level world = info.level;
-        final Vector3 pos = new Vector3();
+        int tick = info.currentTick;
+        float scale = (float) PokecubeCore.getConfig().moveVolumeEffect;
+        Level world = info.level;
+        Vector3 pos = new Vector3();
         for (WrappedAnimation component : this.components)
         {
             if (component.start > tick) continue;
@@ -126,8 +126,8 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             info.currentTick = tick - component.start;
             info.endTick = component.wrapped.getDuration();
             component.wrapped.spawnClientEntities(info, partialTicks);
-            final float volume = component.volume * scale;
-            final float pitch = component.pitch;
+            float volume = component.volume * scale;
+            float pitch = component.pitch;
             sound:
             if (info.currentTick < 1 && component.sound != null)
             {

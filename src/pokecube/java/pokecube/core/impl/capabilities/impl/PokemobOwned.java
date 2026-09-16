@@ -274,7 +274,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
                 added = player.getInventory().add(itemstack);
                 if (!added) break toPlayer;
             }
-            if (!owner.isShiftKeyDown() && this.getEntity().isAlive() && !ownerDead)
+            if (!owner.isShiftKeyDown() && this.getEntity().isAlive())
             {
                 boolean has = StatsCollector.getCaptured(this.getPokedexEntry(), player) > 0;
                 has = has || StatsCollector.getHatched(this.getPokedexEntry(), player) > 0;

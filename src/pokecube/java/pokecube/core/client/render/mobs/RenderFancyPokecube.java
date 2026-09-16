@@ -15,15 +15,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import org.joml.Vector3f;
-import pokecube.api.data.PokedexEntry;
-import pokecube.api.entity.SharedAttributes;
-import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.render.mobs.RenderPokecube.ModelPokecube;
-import pokecube.core.client.render.mobs.overlays.Evolution;
 import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
@@ -180,34 +174,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             }
         }
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
-
-        LivingEntity capturing = entity.getCapturing();
-        if (capturing != null)
-        {
-            int duration = CaptureManager.CAPTURE_SHRINK_TIMER;
-            float dt = (duration - (capturing.tickCount + partialTicks));
-            float scale = dt / duration;
-            if (scale > 0)
-            {
-                SharedAttributes.adjustScale(entity, scale, RenderPokecube.EXITCUBE, false);
-                IPokemob pokemob = PokemobCaps.getPokemobFor(capturing);
-                stack.pushPose();
-                Vector3f capt = entity.capturePos.toJOML();
-                stack.translate(capt.x - entity.getX(), capt.y - entity.getY(), capt.z - entity.getZ());
-                if (pokemob != null)
-                {
-                    float scaleShift;
-                    final PokedexEntry entry = pokemob.getPokedexEntry();
-                    var dims = entry.getModelSize();
-                    scaleShift = dims.y * pokemob.getEntity().getScale() / 2;
-                    float mobScale = pokemob.getEntity().getScale();
-                    scale = 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
-                    Evolution.renderEffect(pokemob, stack, bufferIn, partialTicks, (int) dt, duration, scale,
-                            scaleShift, true);
-                }
-                stack.popPose();
-            }
-        }
     }
 
     @Override

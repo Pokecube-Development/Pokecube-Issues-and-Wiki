@@ -18,8 +18,6 @@ import net.neoforged.neoforge.common.util.TriState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.render.mobs.overlays.Evolution;
-import pokecube.core.client.render.mobs.overlays.ExitCube;
 import pokecube.core.client.render.mobs.overlays.Health;
 import pokecube.core.client.render.mobs.overlays.Status;
 import pokecube.core.client.render.mobs.overlays.Target;
@@ -35,14 +33,10 @@ public class RenderMobOverlays
         if (!RenderMobOverlays.enabled) return;
         Minecraft mc = Minecraft.getInstance();
         Entity cameraEntity = mc.getCameraEntity();
-        float partialTicks = event.getPartialTick();
         if (cameraEntity == null) return;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
-        if (pokemob != null) // TODO && event.getEntity().canUpdate() what was this for?
+        if (pokemob != null)
         {
-            final PoseStack mat = event.getPoseStack();
-            Evolution.render(pokemob, mat, event.getMultiBufferSource(), partialTicks);
-            ExitCube.render(pokemob, mat, event.getMultiBufferSource(), partialTicks);
             Status.render(event, pokemob);
         }
         var dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();

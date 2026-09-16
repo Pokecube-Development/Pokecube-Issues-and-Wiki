@@ -24,6 +24,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import thut.api.entity.multipart.IMultpart;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -32,6 +33,15 @@ import java.util.function.Supplier;
 
 public interface IMoveAnimation
 {
+    public static PositionSource getEntityCentre(Entity entity)
+    {
+        return new EntityPositionSource(entity, entity.getBbHeight() / 2);
+    }
+    public static PositionSource getEntityCentrePlusLook(Entity entity)
+    {
+        return new EntityPositionSource(entity, entity.getBbHeight() / 2);
+    }
+
     public static class TaggedEntityTracker implements PositionSource
     {
         public static final MapCodec<TaggedEntityTracker> CODEC = RecordCodecBuilder.mapCodec(
@@ -45,12 +55,17 @@ public interface IMoveAnimation
 
         public static PositionSource create(Entity attacker)
         {
-            if (attacker instanceof IMultpart<?, ?>) for (var key : MoveEntry.DEFAULT_MOVE_SOURCES)
+            return create(attacker, MoveEntry.DEFAULT_MOVE_SOURCES);
+        }
+
+        public static PositionSource create(Entity attacker, List<String> validTags)
+        {
+            if (attacker instanceof IMultpart<?, ?>) for (var key : validTags)
             {
                 var tracker = new TaggedEntityTracker(attacker, key);
                 if (tracker.location != null) return tracker;
             }
-            return new EntityPositionSource(attacker, attacker.getBbHeight() / 2) {};
+            return getEntityCentre(attacker);
         }
 
         public static final Supplier<PositionSourceType<TaggedEntityTracker>> TYPE;
@@ -158,9 +173,14 @@ public interface IMoveAnimation
 
         public Consumer<MovePacketInfo> onClientTick = (m)->{};
         public Consumer<MovePacketInfo> onServerTick = (m)->{};
-        public float currentTick;
-        public float endTick;
-        public float removalTick;
+        public Object context;
+        public int currentTick;
+        public int endTick;
+        public int removalTick;
+
+        private int _lastTickCheck = -1;
+        public Vector3f lastTickSource;
+        private Vector3f thisTickSource;
 
         public MovePacketInfo(IMoveAnimation animation, Level level, PositionSource source, PositionSource target,
                 float sourceScale, float targetScale)
@@ -172,14 +192,29 @@ public interface IMoveAnimation
             this.target = target != null ? target : source;
             this.animation = animation;
             this.removalTick = animation.getDuration();
+            this.endTick = this.removalTick;
+            _lastTickCheck = 0;
+            lastTickSource = this.getSource();
+        }
+
+        public MovePacketInfo(IMoveAnimation animation, Entity source, List<String> locators)
+        {
+            this(animation, source.level(), TaggedEntityTracker.create(source, locators),
+                    getEntityCentrePlusLook(source), source.getBbWidth(), source.getBbWidth());
         }
 
         public MovePacketInfo(IMoveAnimation animation, Level level, Entity source, Entity target, Vector3f targetPos)
         {
             this(animation, level, TaggedEntityTracker.create(source), target != null
-                            ? new EntityPositionSource(target, target.getBbHeight()/2)
+                            ? getEntityCentre(target)
                             : targetPos != null ? new VectorPositionSource(targetPos) : null, source.getBbWidth(),
                     target != null ? target.getBbWidth() : 0.25f);
+        }
+
+        public MovePacketInfo setContext(Object context)
+        {
+            this.context = context;
+            return this;
         }
 
         public Vector3f getSource()
@@ -188,9 +223,20 @@ public interface IMoveAnimation
             if (pos.isEmpty())
             {
                 this.currentTick = this.removalTick + 1;
-                return new Vector3f();
+                return thisTickSource = new Vector3f();
             }
-            return pos.get().toVector3f();
+            if (_lastTickCheck != currentTick)
+            {
+                _lastTickCheck = currentTick;
+                lastTickSource = thisTickSource;
+            }
+            thisTickSource = pos.get().toVector3f();
+            return thisTickSource;
+        }
+
+        public Vector3f getPrevSource()
+        {
+            return lastTickSource;
         }
 
         public Vector3f getTarget()
@@ -208,20 +254,34 @@ public interface IMoveAnimation
         {
             return currentTick >= removalTick;
         }
+
+        public void terminate()
+        {
+            this.removalTick = -1;
+        }
     }
 
     /**
      * How far into the duration should the move actually be applied.
      */
-    public int getApplicationTick();
+    int getApplicationTick();
     /**
      * Sets the duration.
      */
-    public void setDuration(int duration);
+    void setDuration(int duration);
     /**
      * How long this animation plays for in world ticks.
      */
-    public int getDuration();
+    int getDuration();
+
+    /**
+     * Whether we do custom rendering beyond simple particle effects, if this is the case, we will have clientAnimation
+     * run during the RenderLevelEvent.
+     */
+    default boolean hasComplexRender()
+    {
+        return false;
+    }
 
     /** Initialise colours for the move. */
     @OnlyIn(Dist.CLIENT)
@@ -232,7 +292,7 @@ public interface IMoveAnimation
      * specificed in getDuration(); This is used for direct GL call rendering
      */
     @OnlyIn(Dist.CLIENT)
-    default public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
+    default void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final MovePacketInfo info,
             final float partialTick, int packedLightIn)
     {}
 
@@ -240,6 +300,6 @@ public interface IMoveAnimation
      * Used if you need to spawn in something like thunder effects.
      */
     @OnlyIn(Dist.CLIENT)
-    default public void spawnClientEntities(final MovePacketInfo info, float partialTicks)
+    default void spawnClientEntities(final MovePacketInfo info, float partialTicks)
     {}
 }

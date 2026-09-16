@@ -23,7 +23,7 @@ public class AnimationPowder extends CartesianFunction
         values.f_x = "guassian()*4";
         values.f_y = "guassian()*4";
         values.f_z = "guassian()*4";
-        values.v_y = "-0.05";
+        if (values.v_y == null) values.v_y = "-0.05";
 
         super.init(preset);
         return this;

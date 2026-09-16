@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -71,14 +70,6 @@ public class PokecubeManager
         PokecubeContents contents = PokemobCaps.getPokemobIn(itemStack, level);
         if (contents == null || contents.pokemob() == null) return null;
         return contents.pokemob().getPokedexEntry();
-    }
-
-    public static CompoundTag getSealTag(final Entity pokemob)
-    {
-        final IPokemob poke = PokemobCaps.getPokemobFor(pokemob);
-        ItemStack cube;
-        if ((cube = poke.getPokecube()).isEmpty()) return null;
-        return getSealTag(cube);
     }
 
     public static CompoundTag getSealTag(final ItemStack stack)

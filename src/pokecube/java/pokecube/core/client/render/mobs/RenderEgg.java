@@ -2,6 +2,7 @@ package pokecube.core.client.render.mobs;
 
 import java.awt.Color;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,6 +47,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     private static class EggColourer implements IAnimationChanger
     {
         IAnimationHolder anims = new CapabilityAnimation.DefaultImpl();
+        Map<String, List<Animation>> anim_map = new HashMap<>();
 
         @Override
         public void addChild(final IAnimationChanger animationRandomizer)
@@ -71,7 +73,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
         @Override
         public Map<String, List<Animation>> getAnimations()
         {
-            return Map.of();
+            return anim_map;
         }
 
         @Override

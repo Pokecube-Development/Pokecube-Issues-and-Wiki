@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.objectweb.asm.Type;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.pokedex.EvolutionDataLoader;
 import thut.lib.CompatParser.ClassFinder;
 
@@ -35,7 +36,7 @@ public class PokemobConditionLoader
 
         List<Class<?>> foundClasses = Lists.newArrayList();
 
-        Type ANNOTE = Type.getType("Lpokecube/api/data/pokedex/conditions/Condition;");
+        Type ANNOTE = Type.getType(Condition.class);
         BiFunction<IModFile, String, Boolean> validClass = (file, name) -> {
             for (final AnnotationData a : file.getScanResult().getAnnotations())
                 if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE)) return true;
@@ -51,7 +52,7 @@ public class PokemobConditionLoader
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
         }
 
@@ -69,7 +70,7 @@ public class PokemobConditionLoader
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
     }
 }

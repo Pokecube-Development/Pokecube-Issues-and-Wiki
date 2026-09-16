@@ -15,14 +15,13 @@ import java.util.function.BiFunction;
 
 public class MoveAnimationHelper
 {
-    private static final Type PRESETANNOTATION = Type.getType("Lpokecube/core/moves/animations/AnimPreset;");
+    private static final Type PRESETANNOTATION = Type.getType(AnimPreset.class);
 
     static Map<String, Class<? extends MoveAnimationBase>> presets = Maps.newHashMap();
 
     private static final BiFunction<IModFile, String, Boolean> validClass = (file, name) -> {
         for (final AnnotationData a : file.getScanResult().getAnnotations())
-            if (name.equals(a.clazz().getClassName()) && a.annotationType()
-                    .equals(MoveAnimationHelper.PRESETANNOTATION)) return true;
+            if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(PRESETANNOTATION)) return true;
         return false;
     };
 

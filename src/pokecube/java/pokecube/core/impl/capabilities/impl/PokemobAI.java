@@ -45,6 +45,7 @@ import thut.api.attachments.IOwnable;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.core.common.genetics.DefaultGenetics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -182,6 +183,8 @@ public abstract class PokemobAI extends PokemobEvolves
             pokeballId.setCount(1);
             // Remove the extra tag containing data about this pokemob
             pokeballId.remove(PokemobCaps.POKECUBE_DATA);
+            // Also remove the genetics data
+            pokeballId.remove(DefaultGenetics.GENE_STORE);
         }
         this.pokecube = pokeballId;
     }

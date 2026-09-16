@@ -10,6 +10,7 @@ import net.neoforged.neoforgespi.locating.IModFile;
 import org.objectweb.asm.Type;
 import thut.bot.ThutBot;
 import thut.bot.entity.BotPlayer;
+import thut.core.common.ThutCore;
 import thut.lib.CompatParser.ClassFinder;
 
 import javax.annotation.Nullable;
@@ -77,7 +78,7 @@ public interface IBotAI
     static void init()
     {
         REGISTRY.clear();
-        Type ANNOTE = Type.getType("Lthut/bot/entity/ai/BotAI;");
+        Type ANNOTE = Type.getType(BotAI.class);
         BiFunction<IModFile, String, Boolean> validClass = (file, name) -> {
             for (final ModFileScanData.AnnotationData a : file.getScanResult().getAnnotations())
                 if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE))
@@ -116,14 +117,14 @@ public interface IBotAI
                                 catch (InstantiationException | IllegalAccessException | IllegalArgumentException |
                                         InvocationTargetException e)
                                 {
-                                    e.printStackTrace();
+                                    ThutCore.LOGGER.error(e);
                                 }
                                 return null;
                             });
                         }
                         catch (NoSuchMethodException | SecurityException e1)
                         {
-                            e1.printStackTrace();
+                            ThutCore.LOGGER.error(e1);
                         }
                     }
                 }
@@ -131,7 +132,7 @@ public interface IBotAI
             }
             catch (IOException e)
             {
-                e.printStackTrace();
+                ThutCore.LOGGER.error(e);
             }
         }
 

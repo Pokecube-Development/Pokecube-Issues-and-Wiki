@@ -59,7 +59,7 @@ public class AbilityManager
     {
         List<Class<?>> foundClasses = Lists.newArrayList();
 
-        Type ANNOTE = Type.getType("Lpokecube/api/data/abilities/AbilityProvider;");
+        Type ANNOTE = Type.getType(AbilityProvider.class);
         BiFunction<IModFile, String, Boolean> validClass = (file, name) -> {
             for (final AnnotationData a : file.getScanResult().getAnnotations())
                 if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE)) return true;
@@ -75,7 +75,7 @@ public class AbilityManager
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
         }
         try
@@ -101,7 +101,7 @@ public class AbilityManager
                             }
                             catch (Exception e)
                             {
-                                e.printStackTrace();
+                                PokecubeAPI.LOGGER.error(e);
                             }
                         }
                         else
@@ -128,7 +128,7 @@ public class AbilityManager
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
     }
 

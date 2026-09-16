@@ -7,7 +7,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -102,7 +101,8 @@ public class SendOutManager
     {
         if (cube.level().isClientSide || cube.isReleasing()) return null;
         final ServerLevel world = (ServerLevel) cube.level();
-        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.level(), true);
+        var cubeStack = cube.getItem().copy();
+        final Entity mob = PokecubeManager.itemToMob(cubeStack, cube.level(), true);
 
         if (mob == null) return null;
 
@@ -203,17 +203,12 @@ public class SendOutManager
                 }
                 return null;
             }
-            ItemStack cubeStack = pokemob.getPokecube();
-            if (cubeStack.isEmpty())
-            {
-                cubeStack = cube.getItem().copy();
-                PokemobCaps.removePokemob(cubeStack);
-                pokemob.setPokecube(cubeStack);
-            }
+            PokemobCaps.removePokemob(cubeStack);
+            pokemob.setPokecube(cubeStack);
 
             cube.setReleased(mob);
             SendOutManager.apply(world, mob, v, pokemob, summon);
-            cube.setItem(pokemob.getPokecube());
+            cube.setItem(pokemob.getPokecube().copy());
         }
         else if (mob instanceof LivingEntity living)
         {

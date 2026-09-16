@@ -29,41 +29,6 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
         this(PokemobCaps.getPokemobFor(entity), entity, serializeEntity(entity));
     }
 
-    public PokecubeContents withPokemob(IPokemob pokemob)
-    {
-        CompoundTag copy = tag.copy();
-        if (pokemob == null)
-        {
-            copy.remove("M");
-            copy.remove("K");
-            copy.remove("I");
-            copy.remove("CHP");
-            copy.remove("MHP");
-        }
-        if (pokemob == null) return new PokecubeContents(copy);
-        copy.merge(serializePokemob(pokemob));
-        return new PokecubeContents(pokemob, pokemob.getEntity(), copy);
-    }
-
-    public PokecubeContents withEntity(LivingEntity entity)
-    {
-        CompoundTag copy = tag.copy(), saved;
-        if (entity == null)
-        {
-            copy.remove("M");
-            copy.remove("K");
-            copy.remove("I");
-            copy.remove("CHP");
-            copy.remove("MHP");
-        }
-        if (entity == null) return new PokecubeContents(copy);
-        IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-        if (pokemob != null) saved = serializePokemob(pokemob);
-        else saved = serializeEntity(entity);
-        copy.merge(saved);
-        return new PokecubeContents(pokemob, entity, copy);
-    }
-
     public PokecubeContents withTilt(int tilt)
     {
         tag().putInt("tilt", tilt);
@@ -123,13 +88,6 @@ public record PokecubeContents(IPokemob pokemob, LivingEntity entity, CompoundTa
     public static PokecubeContents parse(CompoundTag location)
     {
         return new PokecubeContents(location);
-    }
-
-    public static CompoundTag serializePokemob(IPokemob pokemob)
-    {
-        CompoundTag tag = serializeEntity(pokemob.getEntity());
-        tag.putString("K", pokemob.serKey().toString());
-        return tag;
     }
 
     public static final List<String> TAGSTOREMOVE = Lists.newArrayList();

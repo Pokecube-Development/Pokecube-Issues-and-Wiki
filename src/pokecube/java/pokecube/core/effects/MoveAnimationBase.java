@@ -49,7 +49,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
         public String v_z;
     }
 
-    protected Values values = new Values();
+    public Values values = new Values();
     protected boolean loaded = false;
     // This should be false for things like terrain moves
     protected boolean applyOnMoveUse = true;

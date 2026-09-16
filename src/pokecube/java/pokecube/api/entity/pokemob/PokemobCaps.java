@@ -168,6 +168,7 @@ public class PokemobCaps
     public static void removePokemob(ItemStack in)
     {
         in.remove(POKECUBE_DATA);
+        in.remove(DefaultGenetics.GENE_STORE);
     }
 
     public static void updatePokecube(ItemStack in, PokecubeContents contents)

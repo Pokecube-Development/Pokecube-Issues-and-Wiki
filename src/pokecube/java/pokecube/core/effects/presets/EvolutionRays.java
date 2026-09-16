@@ -3,17 +3,94 @@ package pokecube.core.effects.presets;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Axis;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.effects.IMoveAnimation;
+import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.VectorPositionSource;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.utils.PokeType;
+import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.MoveAnimationBase;
+import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
+import thut.api.maths.Vector3;
 
-import java.awt.*;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
+@AnimPreset(getPreset = "evo_rays")
 public class EvolutionRays extends MoveAnimationBase
 {
+    public static List<String> EVO_ANCHORS = new ArrayList<>();
+
+    static
+    {
+        // Put this in as a default.
+        EVO_ANCHORS.add("body");
+    }
+
+    public static Function<IPokemob, MovePacketInfo> EVO_EFFECT_FACTORY = pokemob -> {
+        var level = pokemob.getEntity().level();
+        var targ = new Vector3(pokemob.getEntity()).addTo(new Vector3(pokemob.getEntity().getLookAngle()));
+        var animation = new EvolutionRays();
+        return new MovePacketInfo(animation, level,
+                IMoveAnimation.TaggedEntityTracker.create(pokemob.getEntity(), EVO_ANCHORS),
+                new VectorPositionSource(targ.toJOML()), 1, 1).setContext(pokemob);
+    };
+
+    public static MovePacketInfo makeAndAddEffect(IPokemob pokemob, int duration)
+    {
+        var evo_effect = EvolutionRays.EVO_EFFECT_FACTORY.apply(pokemob);
+        evo_effect.animation.setDuration(duration);
+        // Reset this to match new duration
+        evo_effect.removalTick = evo_effect.animation.getDuration();
+        evo_effect.endTick = evo_effect.removalTick;
+        ParticleEffects.ADD_FOR_RENDER.accept(evo_effect);
+        return evo_effect;
+    }
+
+    public static record EvoContext(Color col1, Color col2, PokedexEntry entry, Supplier<Float> scale)
+    {
+        public static EvoContext fromMoveInfo(MovePacketInfo info)
+        {
+            if(info.context instanceof EvoContext context) return context;
+            if(info.context instanceof IPokemob pokemob)
+            {
+                var entry = pokemob.getPokedexEntry();
+                int color1 = pokemob.getType1().colour;
+                int color2 = pokemob.getType2().colour;
+                if (pokemob.getType2() == PokeType.unknown) color2 = color1;
+                Color col1 = new Color(color1);
+                Color col2 = new Color(color2);
+                Supplier<Float> scale = () -> {
+                    float mobScale;
+                    if (pokemob.getEntity() instanceof PokemobHasParts parts) mobScale = parts.getScaleFast();
+                    else mobScale = pokemob.getEntity().getScale();
+                    var dims = entry.getModelSize();
+                    return 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+                };
+                var context = new EvoContext(col1, col2, entry, scale);
+                info.context = context;
+                return context;
+            }
+            return null;
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
     private static final RenderStateShard.TransparencyStateShard TRANSP = new RenderStateShard.TransparencyStateShard(
             "lightning_transparency", () ->
     {
@@ -25,6 +102,7 @@ public class EvolutionRays extends MoveAnimationBase
     });
 
     private static final float sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
+    @OnlyIn(Dist.CLIENT)
     public static final RenderType EFFECT = RenderType.create("pokemob:evo_effect", DefaultVertexFormat.POSITION_COLOR,
             VertexFormat.Mode.QUADS, 256, false, true,
             RenderType.CompositeState.builder().setShaderState(RenderType.POSITION_COLOR_SHADER)
@@ -32,6 +110,7 @@ public class EvolutionRays extends MoveAnimationBase
                     .setTransparencyState(EvolutionRays.TRANSP).createCompositeState(false));
 
 
+    @OnlyIn(Dist.CLIENT)
     private static void white_points(final VertexConsumer builder, final Matrix4f posmat, final int alpha,
             final Color col)
     {
@@ -39,6 +118,7 @@ public class EvolutionRays extends MoveAnimationBase
         builder.addVertex(posmat, 0.0F, 0.0F, 0.0F).setColor(col.getRed(), col.getGreen(), col.getBlue(), alpha);
     }
 
+    @OnlyIn(Dist.CLIENT)
     private static void transp_point_a(final VertexConsumer builder, final Matrix4f posmat, final float dy,
             final float dxz, final Color col)
     {
@@ -46,6 +126,7 @@ public class EvolutionRays extends MoveAnimationBase
                 .setColor(col.getRed(), col.getGreen(), col.getBlue(), 0);
     }
 
+    @OnlyIn(Dist.CLIENT)
     private static void transp_point_b(final VertexConsumer builder, final Matrix4f posmat, final float dy,
             final float dxz, final Color col)
     {
@@ -53,11 +134,73 @@ public class EvolutionRays extends MoveAnimationBase
                 .setColor(col.getRed(), col.getGreen(), col.getBlue(), 0);
     }
 
+    @OnlyIn(Dist.CLIENT)
     private static void transp_point_c(final VertexConsumer builder, final Matrix4f posmat, final float dy,
             final float dz, final Color col)
     {
         builder.addVertex(posmat, 0.0F, dy, dz).setColor(col.getRed(), col.getGreen(), col.getBlue(), 0);
     }
 
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void clientAnimation(PoseStack mat, MultiBufferSource buffer, MovePacketInfo info, float partialTick,
+            int packedLightIn)
+    {
+        EvoContext context = EvoContext.fromMoveInfo(info);
+        if (context == null || info.endTick == 0)
+        {
+            info.currentTick = info.endTick;
+            return;
+        }
 
+        if(!(buffer instanceof MultiBufferSource.BufferSource source)) return;
+
+        Color col1 = context.col1;
+        Color col2 = context.col2;
+        float scale = context.scale.get();
+        float scaleShift = scale * context.entry.getModelSize().y / 2;
+
+        final float time = 40 * (info.currentTick + partialTick) / info.endTick;
+        final float f5 = time / 200f;
+        final Random random = new Random(432L);
+        float f7 = 0.0F;
+        if (f5 > 0.8F) f7 = (f5 - 0.8F) / 0.2F;
+
+        var builder = source.getBuffer(EvolutionRays.EFFECT);
+        mat.pushPose();
+        mat.translate(0, scaleShift, 0);
+        for (int i = 0; i < (f5 + f5 * f5) / 2.0F * 100.0F; ++i)
+        {
+            mat.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F + f5 * 90.0F));
+            float f3 = (random.nextFloat() * 20.0F + 5.0F + f7 * 10.0F) * scale;
+            float f4 = (random.nextFloat() * 2.0F + 1.0F + f7 * 2.0F) * scale;
+
+            final Matrix4f matrix4f = mat.last().pose();
+            final int j = (int) (200 * (1.0F - f7));
+
+            EvolutionRays.white_points(builder, matrix4f, j, col1);
+            EvolutionRays.transp_point_a(builder, matrix4f, f3, f4, col2);
+            EvolutionRays.transp_point_b(builder, matrix4f, f3, f4, col2);
+            EvolutionRays.white_points(builder, matrix4f, j, col2);
+            EvolutionRays.transp_point_b(builder, matrix4f, f3, f4, col1);
+            EvolutionRays.transp_point_c(builder, matrix4f, f3, f4, col1);
+            EvolutionRays.white_points(builder, matrix4f, j, col1);
+            EvolutionRays.transp_point_c(builder, matrix4f, f3, f4, col2);
+            EvolutionRays.transp_point_a(builder, matrix4f, f3, f4, col2);
+
+        }
+        mat.popPose();
+        source.endBatch(EvolutionRays.EFFECT);
+    }
+
+    @Override
+    public boolean hasComplexRender()
+    {
+        return true;
+    }
 }

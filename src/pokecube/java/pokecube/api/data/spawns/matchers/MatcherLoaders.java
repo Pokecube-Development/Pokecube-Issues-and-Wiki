@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.objectweb.asm.Type;
+import pokecube.api.PokecubeAPI;
 import thut.lib.CompatParser.ClassFinder;
 
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class MatcherLoaders
     {
         List<Class<?>> foundClasses = Lists.newArrayList();
 
-        Type ANNOTE = Type.getType("Lpokecube/api/data/spawns/matchers/MatcherFunction;");
+        Type ANNOTE = Type.getType(MatcherFunction.class);
         BiFunction<IModFile, String, Boolean> validClass = (file, name) -> {
             for (final AnnotationData a : file.getScanResult().getAnnotations())
                 if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE)) return true;
@@ -49,7 +50,7 @@ public class MatcherLoaders
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
         }
 
@@ -67,7 +68,7 @@ public class MatcherLoaders
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
     }
 }

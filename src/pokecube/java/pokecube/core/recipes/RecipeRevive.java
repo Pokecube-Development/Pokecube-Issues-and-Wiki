@@ -37,7 +37,7 @@ public class RecipeRevive extends CustomRecipe
     {
         ItemStack healed = ItemStack.EMPTY;
         boolean revive = false;
-        boolean pokeseal = false;
+        boolean pokeseal;
         ItemStack other = ItemStack.EMPTY;
         ItemStack seal = ItemStack.EMPTY;
 
@@ -46,9 +46,9 @@ public class RecipeRevive extends CustomRecipe
             final ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty())
             {
-                if (PokecubeManager.isFilled(stack)) other = stack;
+                if (PokecubeManager.isFilled(stack)) other = stack.copy();
                 if (ItemList.is(RecipeRevive.REVIVETAG, stack)) revive = true;
-                if (stack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehaviour.POKESEAL)) seal = stack;
+                if (stack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehaviour.POKESEAL)) seal = stack.copy();
             }
         }
         revive = revive && !other.isEmpty();
@@ -69,10 +69,9 @@ public class RecipeRevive extends CustomRecipe
         }
         else if (revive)
         {
-            final ItemStack stack = other;
-            if (PokecubeManager.isFilled(stack))
+            if (PokecubeManager.isFilled(other))
             {
-                healed = stack.copy();
+                healed = other.copy();
                 PokecubeManager.heal(healed, PokecubeCore.proxy.getWorld(), false);
             }
         }
