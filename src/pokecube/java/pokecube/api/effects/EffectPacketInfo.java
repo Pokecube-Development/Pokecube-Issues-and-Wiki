@@ -6,8 +6,10 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.UUIDUtil;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -161,8 +163,46 @@ public class EffectPacketInfo
         }
     }
 
-    public final IAnimatedEffects.EffectRecord animation;
+    public static void write(RegistryFriendlyByteBuf buffer, EffectPacketInfo info)
+    {
+        buffer.writeUtf(info.animation.key());
+        PositionSource.STREAM_CODEC.encode(buffer, info.source);
+        PositionSource.STREAM_CODEC.encode(buffer, info.target);
+        buffer.writeFloat(info.sourceScale);
+        buffer.writeFloat(info.targetScale);
+        if (info.context != null)
+        {
+            buffer.writeResourceLocation(info.context.getKey());
+            info.context.write(buffer);
+        }
+    }
+
+    public static EffectPacketInfo read(RegistryFriendlyByteBuf buffer, Level level)
+    {
+        var key = buffer.readUtf();
+        var animation = ParticleEffects.EFFECT_REGISTRY.get(key);
+        if (animation == null) return null;
+        var source = PositionSource.STREAM_CODEC.decode(buffer);
+        var target = PositionSource.STREAM_CODEC.decode(buffer);
+        float sscale = buffer.readFloat();
+        float tscale = buffer.readFloat();
+        EffectContext<?> context = null;
+        if (buffer.readableBytes() > 0)
+        {
+            ResourceLocation location = buffer.readResourceLocation();
+            var codec = ParticleEffects.CONTEXT_REGISTRY.get(location);
+            if (codec != null)
+            {
+                context = codec.decode(buffer);
+            }
+        }
+        var info = new EffectPacketInfo(animation.get(), level, source, target, sscale, tscale);
+        if (context != null) info.setContext(context);
+        return info;
+    }
+
     public final Level level;
+    public final IAnimatedEffects.EffectRecord animation;
     private final PositionSource source;
     private final PositionSource target;
     public final float sourceScale;

@@ -1,7 +1,6 @@
 package pokecube.api.effects.context;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
@@ -11,7 +10,6 @@ import pokecube.api.moves.MoveEntry;
 
 public class MoveEntryContext implements EffectContext<MoveEntry>
 {
-    public static final Type TYPE = new Type();
     public static final StreamCodec<ByteBuf, MoveEntryContext> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8, MoveEntryContext::getName,
             (string) -> new MoveEntryContext(MoveEntry.get(string)));
@@ -30,29 +28,20 @@ public class MoveEntryContext implements EffectContext<MoveEntry>
         return this.entry;
     }
 
-    private String getName()
+    @Override
+    public void write(ByteBuf buffer)
     {
-        return this.entry.getName();
+        STREAM_CODEC.encode(buffer, this);
     }
 
     @Override
-    public EffectContextType<? extends EffectContext<?>> getType()
+    public ResourceLocation getKey()
     {
-        return TYPE;
+        return ParticleEffects.MOVE_CONTEXT;
     }
 
-    public static class Type implements EffectContextType<MoveEntryContext>
+    private String getName()
     {
-        @Override
-        public StreamCodec<? super RegistryFriendlyByteBuf, MoveEntryContext> streamCodec()
-        {
-            return MoveEntryContext.STREAM_CODEC;
-        }
-
-        @Override
-        public ResourceLocation key()
-        {
-            return ParticleEffects.MOVE_CONTEXT;
-        }
+        return this.entry.getName();
     }
 }

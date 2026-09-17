@@ -14,7 +14,6 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 
 public class PokemobContext implements EffectContext<IPokemob>
 {
-    public static final Type TYPE = new Type();
     public static final StreamCodec<ByteBuf, PokemobContext> STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.VAR_INT,
             PokemobContext::getId, (integer) -> new PokemobContext(Either.right(integer)));
 
@@ -45,6 +44,18 @@ public class PokemobContext implements EffectContext<IPokemob>
         return pokemob;
     }
 
+    @Override
+    public void write(ByteBuf buffer)
+    {
+        STREAM_CODEC.encode(buffer, this);
+    }
+
+    @Override
+    public ResourceLocation getKey()
+    {
+        return ParticleEffects.POKEMOB_CONTEXT;
+    }
+
     private void resolveEntity(Level level)
     {
         this.entityOrId.right().ifPresent(id -> {
@@ -55,26 +66,5 @@ public class PokemobContext implements EffectContext<IPokemob>
     private int getId()
     {
         return pokemob != null ? pokemob.getEntity().getId() : -1;
-    }
-
-    @Override
-    public EffectContextType<? extends EffectContext<?>> getType()
-    {
-        return TYPE;
-    }
-
-    public static class Type implements EffectContextType<PokemobContext>
-    {
-        @Override
-        public StreamCodec<ByteBuf, PokemobContext> streamCodec()
-        {
-            return PokemobContext.STREAM_CODEC;
-        }
-
-        @Override
-        public ResourceLocation key()
-        {
-            return ParticleEffects.POKEMOB_CONTEXT;
-        }
     }
 }

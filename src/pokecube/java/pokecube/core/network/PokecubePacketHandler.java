@@ -6,6 +6,7 @@ package pokecube.core.network;
 import pokecube.core.PokecubeCore;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.network.packets.PacketDataSync;
+import pokecube.api.effects.network.PacketEffects;
 import pokecube.core.network.packets.PacketHeal;
 import pokecube.core.network.packets.PacketPC;
 import pokecube.core.network.packets.PacketPokecube;
@@ -46,6 +47,7 @@ public class PokecubePacketHandler
         PokecubeCore.packets.registerBiDirectionalMessage(PacketChoose.class);
         PokecubeCore.packets.registerToClientMessage(PacketSyncPokedex.class);
         PokecubeCore.packets.registerToClientMessage(PacketSyncBattle.class);
+        PokecubeCore.packets.registerToClientMessage(PacketEffects.class);
 
         // Packets for blocks
         PokecubeCore.packets.registerBiDirectionalMessage(PacketPC.class);

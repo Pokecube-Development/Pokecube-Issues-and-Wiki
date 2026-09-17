@@ -12,7 +12,6 @@ import pokecube.api.effects.ParticleEffects;
 
 public class EntityContext implements EffectContext<Entity>
 {
-    public static final Type TYPE = new Type();
     public static final StreamCodec<ByteBuf, EntityContext> STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.VAR_INT,
             EntityContext::getId, (integer) -> new EntityContext(Either.right(integer)));
 
@@ -43,6 +42,18 @@ public class EntityContext implements EffectContext<Entity>
         return entity;
     }
 
+    @Override
+    public void write(ByteBuf buffer)
+    {
+        STREAM_CODEC.encode(buffer, this);
+    }
+
+    @Override
+    public ResourceLocation getKey()
+    {
+        return ParticleEffects.ENTITY_CONTEXT;
+    }
+
     private void resolveEntity(Level level)
     {
         this.entityOrId.right().ifPresent(id -> {
@@ -53,26 +64,5 @@ public class EntityContext implements EffectContext<Entity>
     private int getId()
     {
         return entity != null ? entity.getId() : -1;
-    }
-
-    @Override
-    public EffectContextType<? extends EffectContext<?>> getType()
-    {
-        return TYPE;
-    }
-
-    public static class Type implements EffectContextType<EntityContext>
-    {
-        @Override
-        public StreamCodec<ByteBuf, EntityContext> streamCodec()
-        {
-            return EntityContext.STREAM_CODEC;
-        }
-
-        @Override
-        public ResourceLocation key()
-        {
-            return ParticleEffects.ENTITY_CONTEXT;
-        }
     }
 }
