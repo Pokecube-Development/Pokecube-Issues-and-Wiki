@@ -7,6 +7,7 @@ import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
+import pokecube.api.effects.EffectPacketInfo;
 import pokecube.core.client.render.mobs.overlays.Utils;
 import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.MoveAnimationBase;

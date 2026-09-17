@@ -5,9 +5,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.effects.IAnimatedEffects;
-import pokecube.api.effects.IAnimatedEffects.EffectPacketInfo;
 import pokecube.core.moves.damage.EntityMoveUse;
 
 public class RenderMoves extends EntityRenderer<EntityMoveUse>
@@ -25,13 +25,13 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
     {
         if (entity.getStartTick() > 0) return;
         final MoveEntry move = entity.getMove();
-        IAnimatedEffects animation;
+        IAnimatedEffects.EffectRecord animation;
         if (move != null && (animation = move.getAnimation()) != null && entity.getUser() != null)
         {
             mat.pushPose();
             final EffectPacketInfo info = entity.getMoveInfo();
             // This is null in the case where the animation comes from the chunk instead of the move entity.
-            if (info != null) animation.clientAnimation(mat, bufferIn, info, partialTicks, packedLightIn);
+            if (info != null) animation.effect().clientAnimation(mat, bufferIn, info, partialTicks, packedLightIn);
             mat.popPose();
         }
     }

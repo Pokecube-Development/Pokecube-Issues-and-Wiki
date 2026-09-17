@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.Animations.AnimationJson;
+import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.effects.IAnimatedEffects;
 import pokecube.core.PokecubeCore;
@@ -33,10 +34,11 @@ public class AnimationMultiAnimations extends MoveAnimationBase
         int start;
     }
 
-    public static boolean isThunderAnimation(final IAnimatedEffects input)
+    public static boolean isThunderAnimation(final IAnimatedEffects.EffectRecord input)
     {
         if (input == null) return false;
-        if (!(input instanceof AnimationMultiAnimations anim)) return input instanceof Thunder;
+        var effect = input.effect();
+        if (!(effect instanceof AnimationMultiAnimations anim)) return effect instanceof Thunder;
         for (final WrappedAnimation a : anim.components) if (a.wrapped instanceof Thunder) return true;
         return false;
     }

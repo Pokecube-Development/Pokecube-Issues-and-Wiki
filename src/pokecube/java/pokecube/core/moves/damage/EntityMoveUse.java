@@ -23,12 +23,13 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.context.MoveEntryContext;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.effects.IAnimatedEffects.EffectPacketInfo;
+import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -339,11 +340,12 @@ public class EntityMoveUse extends ThrowableProjectile
     {
         var move = this.getMove();
         var animation = move.getAnimation();
-        if (this.info == null && animation instanceof MoveAnimationBase base && base.onMoveUse())
+        if (this.info == null && animation != null && animation.effect() instanceof MoveAnimationBase base
+                && base.onMoveUse())
         {
             info = new EffectPacketInfo(animation, this.level(), this.getUser(), this.getTarget(),
                     this.getEnd().toJOML());
-            info.setContext(move);
+            info.setContext(new MoveEntryContext(move));
             info.onClientTick = MOVE_ANIMATION_CLIENT_FACTORY.apply(move);
             info.onServerTick = MOVE_ANIMATION_SERVER_FACTORY.apply(move);
             if (level().isClientSide()) ParticleEffects.ADD_FOR_RENDER.accept(info);

@@ -14,7 +14,7 @@ import pokecube.api.data.moves.Moves.MoveHolder;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.init.InitMoveEntry;
 import pokecube.api.events.pokemobs.combat.MoveUse.MoveWorldAction;
-import pokecube.api.effects.IAnimatedEffects;
+import pokecube.api.effects.IAnimatedEffects.EffectRecord;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
@@ -150,7 +150,7 @@ public class MoveEntry implements IMoveConstants
 
     private MoveSounds sounds;
 
-    private IAnimatedEffects animation;
+    private EffectRecord animation;
 
     public TypeProvider typer = user -> this.type;
     public PowerProvider powerp = (user, target, power) -> power;
@@ -207,17 +207,17 @@ public class MoveEntry implements IMoveConstants
      * Sets the move animation
      *
      */
-    public MoveEntry setAnimation(final IAnimatedEffects anim)
+    public MoveEntry setAnimation(final EffectRecord anim)
     {
         this.animation = anim;
         return this;
     }
 
     /**
-     * Gets the {@link IAnimatedEffects} for this move.
+     * Gets the {@link EffectRecord} for this move.
      *
      */
-    public IAnimatedEffects getAnimation()
+    public EffectRecord getAnimation()
     {
         return this.animation;
     }

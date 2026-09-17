@@ -10,7 +10,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
-import pokecube.api.effects.IAnimatedEffects.EffectPacketInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class RenderParticleEffects
     private static boolean tickMovePacketInfo(EffectPacketInfo info)
     {
         info.onClientTick.accept(info);
-        info.animation.spawnClientEntities(info, info.currentTick + 1);
+        info.animation.effect().spawnClientEntities(info, info.currentTick + 1);
         info.currentTick++;
         boolean done = info.isFinished();
         if (done) info.terminate();
@@ -40,7 +39,7 @@ public class RenderParticleEffects
         {
             TO_TICK.add(info);
         }
-        if (info.animation.hasComplexRender()) synchronized (renderlock)
+        if (info.animation.effect().hasComplexRender()) synchronized (renderlock)
         {
             TO_RENDER.add(info);
         }
@@ -96,7 +95,7 @@ public class RenderParticleEffects
             y = Mth.lerp(f, prev.y, y);
             z = Mth.lerp(f, prev.z, z);
             stack.translate(x - camera.x, y - camera.y, z - camera.z);
-            info.animation.clientAnimation(stack, buffers, info, delta, LightTexture.FULL_BLOCK);
+            info.animation.effect().clientAnimation(stack, buffers, info, delta, LightTexture.FULL_BLOCK);
             stack.popPose();
         });
     }

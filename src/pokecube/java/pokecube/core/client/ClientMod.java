@@ -31,7 +31,7 @@ public class ClientMod
 
         // Init some client side effect stuff
         EntityMoveUse.MOVE_ANIMATION_CLIENT_FACTORY = entry -> info -> {
-            if (info.animation instanceof MoveAnimationBase base) base.initColour(info.currentTick, entry);
+            if (info.animation.effect() instanceof MoveAnimationBase base) base.initColour(info.currentTick, entry);
         };
         ParticleEffects.ADD_FOR_RENDER = RenderParticleEffects::addParticleEffect;
         EvolutionRays.init();

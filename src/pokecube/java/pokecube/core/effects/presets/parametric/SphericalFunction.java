@@ -5,6 +5,7 @@ import org.nfunk.jep.JEP;
 import com.google.gson.JsonObject;
 
 import net.minecraft.util.Mth;
+import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.effects.IAnimatedEffects;
 import pokecube.core.PokecubeCore;
 import pokecube.core.effects.AnimPreset;

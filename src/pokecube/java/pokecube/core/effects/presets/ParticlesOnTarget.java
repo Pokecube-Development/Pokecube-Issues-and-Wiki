@@ -2,6 +2,7 @@ package pokecube.core.effects.presets;
 
 import java.util.Random;
 
+import pokecube.api.effects.EffectPacketInfo;
 import pokecube.core.PokecubeCore;
 import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.MoveAnimationBase;

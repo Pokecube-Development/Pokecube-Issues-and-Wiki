@@ -10,6 +10,8 @@ import pokecube.api.data.moves.IMove;
 import pokecube.api.data.moves.LoadedMove;
 import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.data.moves.MoveProvider;
+import pokecube.api.effects.IAnimatedEffects.EffectRecord;
+import pokecube.api.effects.ParticleEffects;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveWorldEffect;
@@ -64,7 +66,10 @@ public class MovesAdder implements IMoveConstants
             {
                 if (PokecubeCore.getConfig().debug_moves)
                     PokecubeAPI.logInfo(move.name + ": animations: " + move.root_entry.animation.animations);
-                move.setAnimation(new AnimationMultiAnimations(move));
+                var key = "pokecube.move."+move.getName();
+                var effect = new EffectRecord(key, new AnimationMultiAnimations(move));
+                ParticleEffects.registerRecord(effect);
+                move.setAnimation(effect);
                 continue;
             }
             // Now register auto-generated actions for moves which were not

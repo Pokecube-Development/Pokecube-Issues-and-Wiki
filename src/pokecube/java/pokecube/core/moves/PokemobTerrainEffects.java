@@ -13,9 +13,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import org.joml.Vector3f;
-import pokecube.api.effects.IAnimatedEffects;
+import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.effects.ParticleEffects;
 import pokecube.api.effects.VectorPositionSource;
+import pokecube.api.effects.context.MoveEntryContext;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
@@ -137,7 +138,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
         protected final UUID mobID;
         private Level level;
         private final PokemobTerrainEffects holder;
-        private IAnimatedEffects.EffectPacketInfo renderEffect;
+        private EffectPacketInfo renderEffect;
 
         public Effect(PokemobTerrainEffects holder, final EffectType type, final long duration, final IPokemob mob)
         {
@@ -193,8 +194,8 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 var source = new VectorPositionSource(chunkMid);
                 Vector3f target = new Vector3f(level.random.nextFloat(), 0, level.random.nextFloat()).normalize();
                 var end = new VectorPositionSource(target.add(chunkMid));
-                renderEffect = new IAnimatedEffects.EffectPacketInfo(entry.getAnimation(), level, source, end, 1, 1);
-                renderEffect.setContext(entry);
+                renderEffect = new EffectPacketInfo(entry.getAnimation(), level, source, end, 1, 1);
+                renderEffect.setContext(new MoveEntryContext(entry));
                 renderEffect.onClientTick = EntityMoveUse.MOVE_ANIMATION_CLIENT_FACTORY.apply(entry);
                 renderEffect.onServerTick = EntityMoveUse.MOVE_ANIMATION_SERVER_FACTORY.apply(entry);
                 ParticleEffects.ADD_FOR_RENDER.accept(renderEffect);

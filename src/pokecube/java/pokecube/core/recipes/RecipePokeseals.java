@@ -36,7 +36,7 @@ public class RecipePokeseals extends CustomRecipe
     public static final ResourceLocation ANYDYE = ResourceLocation.fromNamespaceAndPath("c", "dyes");
     public static final ResourceLocation[] DYES = new ResourceLocation[DyeColor.values().length];
 
-    public static Map<String, Function<Tag, IAnimatedEffects>> POKESEAL_EFFECTS = new HashMap<>();
+    public static Map<String, Function<Tag, IAnimatedEffects.EffectRecord>> POKESEAL_EFFECTS = new HashMap<>();
 
     static
     {
@@ -60,7 +60,7 @@ public class RecipePokeseals extends CustomRecipe
                 powder.values.width = 0.5f;
                 powder.values.rgba = colour | 0xFF000000;
                 powder.setDuration(PokecubeCore.getConfig().exitCubeDuration);
-                return powder;
+                return new IAnimatedEffects.EffectRecord("pokecube.pokeseal.dye." + id, powder);
             }
             return null;
         });
@@ -74,7 +74,7 @@ public class RecipePokeseals extends CustomRecipe
             powder.values.width = 0.25f;
             powder.values.particle = "leaf";
             powder.setDuration(PokecubeCore.getConfig().exitCubeDuration);
-            return powder;
+            return new IAnimatedEffects.EffectRecord("pokecube.pokeseal.leaves", powder);
         });
 
         POKESEAL_EFFECTS.put("Flames", tag -> {
@@ -86,7 +86,7 @@ public class RecipePokeseals extends CustomRecipe
             powder.values.width = 0.25f;
             powder.values.particle = "flame";
             powder.setDuration(PokecubeCore.getConfig().exitCubeDuration);
-            return powder;
+            return new IAnimatedEffects.EffectRecord("pokecube.pokeseal.flames", powder);
         });
 
         POKESEAL_EFFECTS.put("Bubbles", tag -> {
@@ -98,7 +98,7 @@ public class RecipePokeseals extends CustomRecipe
             powder.values.width = 0.25f;
             powder.values.particle = "bubble";
             powder.setDuration(PokecubeCore.getConfig().exitCubeDuration);
-            return powder;
+            return new IAnimatedEffects.EffectRecord("pokecube.pokeseal.bubbles", powder);
         });
 
         POKESEAL_EFFECTS.put("Shiny", tag -> {
@@ -110,7 +110,7 @@ public class RecipePokeseals extends CustomRecipe
             powder.values.width = 0.25f;
             powder.values.particle = "happy_villager";
             powder.setDuration(PokecubeCore.getConfig().exitCubeDuration);
-            return powder;
+            return new IAnimatedEffects.EffectRecord("pokecube.pokeseal.shiny", powder);
         });
     }
 

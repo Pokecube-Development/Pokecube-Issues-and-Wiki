@@ -5,20 +5,20 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class EvolutionEffect
 {
 
-    public static Function<IPokemob, IAnimatedEffects.EffectPacketInfo> EVO_EFFECT_FACTORY = pokemob -> null;
+    public static Function<IPokemob, EffectPacketInfo> EVO_EFFECT_FACTORY = pokemob -> null;
 
-    public static IAnimatedEffects.EffectPacketInfo makeAndAddEffect(IPokemob pokemob, int duration)
+    public static EffectPacketInfo makeAndAddEffect(IPokemob pokemob, int duration)
     {
         var evo_effect = EVO_EFFECT_FACTORY.apply(pokemob);
         if (evo_effect == null) return evo_effect;
-        evo_effect.animation.setDuration(duration);
+        evo_effect.animation.effect().setDuration(duration);
         // Reset this to match new duration
         evo_effect.removalTick = evo_effect.animation.getDuration();
         evo_effect.endTick = evo_effect.removalTick;
@@ -28,10 +28,12 @@ public class EvolutionEffect
 
     public static record EvoContext(Color col1, Color col2, PokedexEntry entry, Supplier<Float> scale)
     {
-        public static EvoContext fromMoveInfo(IAnimatedEffects.EffectPacketInfo info)
+        public static EvoContext fromMoveInfo(EffectPacketInfo info)
         {
-            if(info.context instanceof EvoContext context) return context;
-            if(info.context instanceof IPokemob pokemob)
+            if(info.processedContext instanceof EvoContext context) return context;
+            if(info.context==null) return null;
+            var _context = info.context.getContext(info.level);
+            if(_context instanceof IPokemob pokemob)
             {
                 var entry = pokemob.getPokedexEntry();
                 int color1 = pokemob.getType1().colour;
@@ -47,7 +49,7 @@ public class EvolutionEffect
                     return 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
                 };
                 var context = new EvoContext(col1, col2, entry, scale);
-                info.context = context;
+                info.processedContext = context;
                 return context;
             }
             return null;
