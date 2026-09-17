@@ -9,15 +9,34 @@ public interface IAnimatedEffects
 {
     public static record EffectRecord(String key, IAnimatedEffects effect)
     {
+        public EffectRecord(String key)
+        {
+            this(key, new IAnimatedEffects()
+            {
+                @Override
+                public void setDuration(int duration)
+                {
+                }
+
+                @Override
+                public int getDuration()
+                {
+                    return 0;
+                }
+            });
+        }
+
         public int getDuration()
         {
             return effect().getDuration();
         }
+
         public int getApplicationTick()
         {
             return effect().getApplicationTick();
         }
     }
+
     /**
      * How far into the duration should the move actually be applied.
      * This is relevant for effects added to attacks

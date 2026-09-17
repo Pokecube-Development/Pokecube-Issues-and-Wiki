@@ -15,12 +15,10 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.effects.EvolutionEffect;
+import pokecube.api.effects.IAnimatedEffects;
 import pokecube.api.effects.ParticleEffects;
-import pokecube.api.effects.VectorPositionSource;
-import pokecube.api.effects.context.PokemobContext;
 import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.MoveAnimationBase;
-import thut.api.maths.Vector3;
 
 import java.awt.Color;
 import java.util.Random;
@@ -30,14 +28,8 @@ public class EvolutionRays extends MoveAnimationBase
 {
     public static void init()
     {
-        EvolutionEffect.EVO_EFFECT_FACTORY = pokemob -> {
-            var level = pokemob.getEntity().level();
-            var targ = new Vector3(pokemob.getEntity()).addTo(new Vector3(pokemob.getEntity().getLookAngle()));
-            var animation = new EffectRecord("pokecube.pokemob.evolution", new EvolutionRays());
-            return new EffectPacketInfo(animation, level,
-                    EffectPacketInfo.TaggedEntityTracker.create(pokemob.getEntity(), ParticleEffects.EVO_ANCHORS),
-                    new VectorPositionSource(targ.toJOML()), 1, 1).setContext(new PokemobContext(pokemob));
-        };
+        ParticleEffects.registerRecord("pokecube.pokemob.evolution",
+                context -> new IAnimatedEffects.EffectRecord("pokecube.pokemob.evolution", new EvolutionRays()));
     }
 
     @OnlyIn(Dist.CLIENT)

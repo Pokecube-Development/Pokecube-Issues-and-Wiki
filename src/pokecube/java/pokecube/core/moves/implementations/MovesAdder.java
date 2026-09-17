@@ -66,9 +66,9 @@ public class MovesAdder implements IMoveConstants
             {
                 if (PokecubeCore.getConfig().debug_moves)
                     PokecubeAPI.logInfo(move.name + ": animations: " + move.root_entry.animation.animations);
-                var key = "pokecube.move."+move.getName();
+                var key = "pokecube.move." + move.getName();
                 var effect = new EffectRecord(key, new AnimationMultiAnimations(move));
-                ParticleEffects.registerRecord(effect);
+                ParticleEffects.registerRecord(key, effectContext -> effect);
                 move.setAnimation(effect);
                 continue;
             }

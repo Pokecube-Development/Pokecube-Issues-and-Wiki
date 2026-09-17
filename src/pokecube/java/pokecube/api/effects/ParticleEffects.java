@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class ParticleEffects
 {
@@ -41,7 +41,7 @@ public class ParticleEffects
     public static ResourceLocation ENTITY_CONTEXT = ResourceLocation.fromNamespaceAndPath("pokecube", "entity");
     public static ResourceLocation MOVE_CONTEXT = ResourceLocation.fromNamespaceAndPath("pokecube", "move_entry");
 
-    public static Map<String, Supplier<IAnimatedEffects.EffectRecord>> EFFECT_REGISTRY = new ConcurrentHashMap<>();
+    public static Map<String, Function<EffectContext<?>, IAnimatedEffects.EffectRecord>> EFFECT_REGISTRY = new ConcurrentHashMap<>();
 
     static
     {
@@ -56,10 +56,21 @@ public class ParticleEffects
     {
         VectorPositionSource.init();
         EffectPacketInfo.TaggedEntityTracker.init();
+        DefaultEffects.init();
     }
 
-    public static void registerRecord(IAnimatedEffects.EffectRecord effect)
+    public static void registerRecord(String key)
     {
-        EFFECT_REGISTRY.put(effect.key(), () -> effect);
+        EFFECT_REGISTRY.put(key,  (context) -> new IAnimatedEffects.EffectRecord(key));
+    }
+
+    public static void registerRecord(String key, Function<EffectContext<?>, IAnimatedEffects.EffectRecord> effect)
+    {
+        EFFECT_REGISTRY.put(key, effect);
+    }
+
+    public static Function<EffectContext<?>, IAnimatedEffects.EffectRecord> getEffect(String key)
+    {
+        return EFFECT_REGISTRY.getOrDefault(key, (context) -> new IAnimatedEffects.EffectRecord(key));
     }
 }

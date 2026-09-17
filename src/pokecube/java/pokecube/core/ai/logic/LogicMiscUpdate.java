@@ -18,6 +18,8 @@ import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.effects.EvolutionEffect;
 import pokecube.api.effects.IAnimatedEffects;
 import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.PokemobTickParticles;
+import pokecube.api.effects.context.PokemobContext;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
@@ -68,62 +70,6 @@ import java.util.function.Function;
  */
 public class LogicMiscUpdate extends LogicBase
 {
-    public static final int[] FLAVCOLOURS = new int[] { 0xFFFF4932, 0xFF4475ED, 0xFFF95B86, 0xFF2EBC63, 0xFFEBCE36 };
-    public static Function<IPokemob, IAnimatedEffects.EffectRecord> HOLIDAY_EFFECT = pokemob->{
-        var powder = new AnimationPowder();
-        var json = new JsonObject();
-        json.add("v_y", new JsonPrimitive("0"));
-        json.add("f_y", new JsonPrimitive("4*rand()*" + pokemob.getEntity().getBbHeight()));
-        powder.init(json);
-        powder.values.density = 1.5f;
-        powder.values.width = 0.15f;
-        powder.values.particle = "aurora"; // Merry Xmas
-        powder.setDuration(20);
-        return new IAnimatedEffects.EffectRecord("pokecube.pokemob.holiday", powder);
-    };
-
-    public static Function<IPokemob, IAnimatedEffects.EffectRecord> SHADOW_EFFECT = pokemob->{
-        var powder = new AnimationPowder();
-        var json = new JsonObject();
-        json.add("v_y", new JsonPrimitive("0"));
-        json.add("f_y", new JsonPrimitive("4*rand()*" + pokemob.getEntity().getBbHeight()));
-        powder.init(json);
-        powder.values.density = 1.5f;
-        powder.values.width = 0.15f;
-        powder.values.particle = "portal";
-        powder.setDuration(20);
-        return new IAnimatedEffects.EffectRecord("pokecube.pokemob.shadow", powder);
-    };
-
-    public static Function<IPokemob, IAnimatedEffects.EffectRecord> MATE_EFFECT = pokemob->{
-        var powder = new AnimationPowder();
-        var json = new JsonObject();
-        json.add("v_y", new JsonPrimitive("0"));
-        json.add("f_y", new JsonPrimitive("4*rand()*" + pokemob.getEntity().getBbHeight()));
-        powder.init(json);
-        powder.values.density = 1.75f;
-        powder.values.width = 0.15f;
-        powder.values.particle = "heart";
-        powder.setDuration(10);
-        return new IAnimatedEffects.EffectRecord("pokecube.pokemob.mating", powder);
-    };
-
-    public static BiFunction<IPokemob, int[], IAnimatedEffects.EffectRecord> FLAVOUR_EFFECT = (pokemob, index_amount) -> {
-        int index = index_amount[0];
-        int amt = index_amount[1];
-        var powder = new AnimationPowder();
-        var json = new JsonObject();
-        json.add("v_y", new JsonPrimitive("0"));
-        json.add("f_y", new JsonPrimitive("4*rand()*" + pokemob.getEntity().getBbHeight()));
-        powder.init(json);
-        powder.values.density = 1.0f / amt;
-        powder.values.width = 0.15f * amt;
-        powder.values.rgba = FLAVCOLOURS[index];
-        powder.values.particle = "powder";
-        powder.setDuration(20);
-        return new IAnimatedEffects.EffectRecord("pokecube.pokemob.flavour." + index, powder);
-    };
-
     public static int EXITCUBEDURATION = 40;
 
     public static final boolean holiday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25
@@ -456,13 +402,14 @@ public class LogicMiscUpdate extends LogicBase
             }
         }
 
+        var context = new PokemobContext(this.pokemob);
         // Particle stuff below here
         if (this.entity.tickCount % 20 == 0)
         {
             // Shadow mob effect
             if (this.pokemob.isShadow())
             {
-                var applied = SHADOW_EFFECT.apply(pokemob);
+                var applied = PokemobTickParticles.SHADOW_EFFECT.apply(context);
                 if (applied != null)
                 {
                     var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
@@ -472,7 +419,7 @@ public class LogicMiscUpdate extends LogicBase
             // Holiday effect
             if (LogicMiscUpdate.holiday)
             {
-                var applied = HOLIDAY_EFFECT.apply(pokemob);
+                var applied = PokemobTickParticles.HOLIDAY_EFFECT.apply(context);
                 if (applied != null)
                 {
                     var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
@@ -480,26 +427,28 @@ public class LogicMiscUpdate extends LogicBase
                 }
             }
             // flavour effects
-            int[] index_amount = { 0, 0 };
-            for (int i = 0; i < this.flavourAmounts.length; i++)
+            boolean anyFlav = false;
+            for (final int var : this.flavourAmounts)
             {
-                final int var = this.flavourAmounts[i];
                 if (var > 0)
                 {
-                    index_amount[0] = i;
-                    index_amount[1] = var;
-                    var applied = FLAVOUR_EFFECT.apply(pokemob, index_amount);
-                    if (applied != null)
-                    {
-                        var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
-                        ParticleEffects.ADD_FOR_RENDER.accept(effect);
-                    }
+                    anyFlav = true;
+                    break;
+                }
+            }
+            if (anyFlav)
+            {
+                var applied = PokemobTickParticles.FLAVOUR_EFFECT.apply(context);
+                if (applied != null)
+                {
+                    var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
+                    ParticleEffects.ADD_FOR_RENDER.accept(effect);
                 }
             }
         }
         if (this.entity.tickCount % 10 == 0 && this.pokemob.getGeneralState(GeneralStates.MATING))
         {
-            var applied = MATE_EFFECT.apply(pokemob);
+            var applied = PokemobTickParticles.MATE_EFFECT.apply(context);
             if (applied != null)
             {
                 var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);

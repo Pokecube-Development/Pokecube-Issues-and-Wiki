@@ -83,6 +83,20 @@ public class AnimationMultiAnimations extends MoveAnimationBase
         this.components.sort(Comparator.comparingInt(arg0 -> arg0.start));
     }
 
+    public AnimationMultiAnimations(List<IAnimatedEffects> effects)
+    {
+        this.values.duration = 0;
+        for (var effect : effects)
+        {
+            this.values.duration = Math.max(this.values.duration, effect.getDuration());
+            final WrappedAnimation wrapped = new WrappedAnimation();
+            wrapped.wrapped = effect;
+            wrapped.start = 0;
+            this.components.add(wrapped);
+        }
+        this.components.sort(Comparator.comparingInt(arg0 -> arg0.start));
+    }
+
     @Override
     public void clientAnimation(final PoseStack mat, final MultiBufferSource buffer, final EffectPacketInfo info,
             final float partialTick, int packedLightIn)

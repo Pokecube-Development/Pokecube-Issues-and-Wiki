@@ -35,6 +35,7 @@ public class CommandManager
         Reset.register(command);
         Reload.register(command);
         ReloadMoves.register(command);
+        Effects.register(command);
 
         commandDispatcher.register(command);
         TM.register(commandDispatcher);

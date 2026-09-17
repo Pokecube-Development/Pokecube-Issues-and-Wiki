@@ -45,6 +45,12 @@ public class PokemobContext implements EffectContext<IPokemob>
     }
 
     @Override
+    public IPokemob getContext()
+    {
+        return pokemob;
+    }
+
+    @Override
     public void write(ByteBuf buffer)
     {
         STREAM_CODEC.encode(buffer, this);

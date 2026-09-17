@@ -13,6 +13,7 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.PokemobTickParticles;
 import pokecube.api.effects.RenderParticleEffects;
 import pokecube.core.PokecubeCore;
 import pokecube.core.effects.MoveAnimationBase;
@@ -35,6 +36,7 @@ public class ClientMod
         };
         ParticleEffects.ADD_FOR_RENDER = RenderParticleEffects::addParticleEffect;
         EvolutionRays.init();
+        PokemobTickParticles.init();
     }
 
     public static void onClientExtensions(RegisterClientExtensionsEvent event)

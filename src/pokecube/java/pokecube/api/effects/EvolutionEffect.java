@@ -1,9 +1,11 @@
 package pokecube.api.effects;
 
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.effects.context.PokemobContext;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
+import thut.api.maths.Vector3;
 
 import java.awt.Color;
 import java.util.function.Function;
@@ -12,12 +14,20 @@ import java.util.function.Supplier;
 public class EvolutionEffect
 {
 
-    public static Function<IPokemob, EffectPacketInfo> EVO_EFFECT_FACTORY = pokemob -> null;
+    public static Function<IPokemob, EffectPacketInfo> EVO_EFFECT_FACTORY = pokemob -> {
+        var level = pokemob.getEntity().level();
+        var targ = new Vector3(pokemob.getEntity()).addTo(new Vector3(pokemob.getEntity().getLookAngle()));
+        var context = new PokemobContext(pokemob);
+        var animation = ParticleEffects.getEffect("pokecube.pokemob.evolution");
+        return new EffectPacketInfo(animation.apply(context), level,
+                EffectPacketInfo.TaggedEntityTracker.create(pokemob.getEntity(), ParticleEffects.EVO_ANCHORS),
+                new VectorPositionSource(targ.toJOML()), 1, 1).setContext(context);
+    };
 
     public static EffectPacketInfo makeAndAddEffect(IPokemob pokemob, int duration)
     {
         var evo_effect = EVO_EFFECT_FACTORY.apply(pokemob);
-        if (evo_effect == null) return evo_effect;
+        if (evo_effect == null) return null;
         evo_effect.animation.effect().setDuration(duration);
         // Reset this to match new duration
         evo_effect.removalTick = evo_effect.animation.getDuration();

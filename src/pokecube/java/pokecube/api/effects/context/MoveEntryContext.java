@@ -29,6 +29,12 @@ public class MoveEntryContext implements EffectContext<MoveEntry>
     }
 
     @Override
+    public MoveEntry getContext()
+    {
+        return entry;
+    }
+
+    @Override
     public void write(ByteBuf buffer)
     {
         STREAM_CODEC.encode(buffer, this);

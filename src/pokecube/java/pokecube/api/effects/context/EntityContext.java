@@ -43,6 +43,12 @@ public class EntityContext implements EffectContext<Entity>
     }
 
     @Override
+    public Entity getContext()
+    {
+        return entity;
+    }
+
+    @Override
     public void write(ByteBuf buffer)
     {
         STREAM_CODEC.encode(buffer, this);

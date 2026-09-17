@@ -7,6 +7,7 @@ import net.minecraft.world.level.Level;
 public interface EffectContext<T>
 {
     T getContext(Level level);
+    T getContext();
     void write(ByteBuf buffer);
     ResourceLocation getKey();
 }

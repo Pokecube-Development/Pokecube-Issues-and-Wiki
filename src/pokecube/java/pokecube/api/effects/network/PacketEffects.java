@@ -1,6 +1,7 @@
 package pokecube.api.effects.network;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -38,7 +39,8 @@ public class PacketEffects extends Packet
     @Override
     public void read(FriendlyByteBuf buffer)
     {
-        this.buffer = new FriendlyByteBuf(buffer.duplicate());
+        this.buffer = new FriendlyByteBuf(Unpooled.copiedBuffer(buffer));
+        buffer.readBytes(buffer.readableBytes());
     }
 
     @Override

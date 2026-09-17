@@ -194,9 +194,10 @@ public class EffectPacketInfo
             if (codec != null)
             {
                 context = codec.decode(buffer);
+                context.getContext(level);
             }
         }
-        var info = new EffectPacketInfo(animation.get(), level, source, target, sscale, tscale);
+        var info = new EffectPacketInfo(animation.apply(context), level, source, target, sscale, tscale);
         if (context != null) info.setContext(context);
         return info;
     }
