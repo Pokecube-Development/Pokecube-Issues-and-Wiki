@@ -14,6 +14,7 @@ import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.EventHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.AbilityManager;
+import pokecube.api.effects.EvolutionEffect;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -28,7 +29,6 @@ import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.effects.presets.EvolutionRays;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.init.Sounds;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -93,7 +93,7 @@ public class CaptureManager
         }
         else if (hitten != null)
         {
-            EvolutionRays.makeAndAddEffect(hitten, PokecubeCore.getConfig().exitCubeDuration);
+            EvolutionEffect.makeAndAddEffect(hitten, PokecubeCore.getConfig().exitCubeDuration);
             if (capturePre.isCanceled())
             {
                 int n = cube.getTilt();

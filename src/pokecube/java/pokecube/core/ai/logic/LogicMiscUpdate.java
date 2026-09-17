@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.effects.EvolutionEffect;
 import pokecube.api.effects.IAnimatedEffects;
 import pokecube.api.effects.ParticleEffects;
 import pokecube.api.entity.pokemob.ICanEvolve;
@@ -36,7 +37,6 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.effects.presets.AnimationPowder;
-import pokecube.core.effects.presets.EvolutionRays;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
@@ -464,7 +464,7 @@ public class LogicMiscUpdate extends LogicBase
                 var applied = SHADOW_EFFECT.apply(pokemob);
                 if (applied != null)
                 {
-                    var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                    var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
                     ParticleEffects.ADD_FOR_RENDER.accept(effect);
                 }
             }
@@ -474,7 +474,7 @@ public class LogicMiscUpdate extends LogicBase
                 var applied = HOLIDAY_EFFECT.apply(pokemob);
                 if (applied != null)
                 {
-                    var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                    var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
                     ParticleEffects.ADD_FOR_RENDER.accept(effect);
                 }
             }
@@ -490,7 +490,7 @@ public class LogicMiscUpdate extends LogicBase
                     var applied = FLAVOUR_EFFECT.apply(pokemob, index_amount);
                     if (applied != null)
                     {
-                        var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                        var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
                         ParticleEffects.ADD_FOR_RENDER.accept(effect);
                     }
                 }
@@ -501,7 +501,7 @@ public class LogicMiscUpdate extends LogicBase
             var applied = MATE_EFFECT.apply(pokemob);
             if (applied != null)
             {
-                var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
                 ParticleEffects.ADD_FOR_RENDER.accept(effect);
             }
         }
@@ -509,7 +509,7 @@ public class LogicMiscUpdate extends LogicBase
         // Evolution effects
         if (evolving && evo_effect == null)
         {
-            evo_effect = EvolutionRays.makeAndAddEffect(pokemob, PokecubeCore.getConfig().evolutionTicks);
+            evo_effect = EvolutionEffect.makeAndAddEffect(pokemob, PokecubeCore.getConfig().evolutionTicks);
             evo_effect.onClientEnd = evo_effect.onClientEnd.andThen(info -> {
                 if (info.isFinished()) this.evo_effect = null;
             });
@@ -517,7 +517,7 @@ public class LogicMiscUpdate extends LogicBase
         // Exiting cube and pokeseal effects
         if (exitingCube && cube_effect == null)
         {
-            cube_effect = EvolutionRays.makeAndAddEffect(pokemob, PokecubeCore.getConfig().exitCubeDuration);
+            cube_effect = EvolutionEffect.makeAndAddEffect(pokemob, PokecubeCore.getConfig().exitCubeDuration);
             cube_effect.onClientEnd = cube_effect.onClientEnd.andThen(info -> {
                 if (info.isFinished()) this.cube_effect = null;
             });
@@ -530,7 +530,7 @@ public class LogicMiscUpdate extends LogicBase
                     var applied = function.apply(new CompoundTag());
                     if (applied != null)
                     {
-                        var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, EvolutionRays.EVO_ANCHORS);
+                        var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
                         ParticleEffects.ADD_FOR_RENDER.accept(effect);
                     }
                 }
@@ -549,7 +549,7 @@ public class LogicMiscUpdate extends LogicBase
                         if (applied != null)
                         {
                             var effect = new IAnimatedEffects.EffectPacketInfo(applied, entity,
-                                    EvolutionRays.EVO_ANCHORS);
+                                    ParticleEffects.EVO_ANCHORS);
                             ParticleEffects.ADD_FOR_RENDER.accept(effect);
                         }
                     }

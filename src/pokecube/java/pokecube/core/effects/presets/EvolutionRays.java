@@ -13,81 +13,30 @@ import net.minecraft.client.renderer.RenderType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
-import pokecube.api.data.PokedexEntry;
+import pokecube.api.effects.EvolutionEffect;
 import pokecube.api.effects.IAnimatedEffects;
 import pokecube.api.effects.ParticleEffects;
 import pokecube.api.effects.VectorPositionSource;
-import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.utils.PokeType;
 import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.MoveAnimationBase;
-import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
 import thut.api.maths.Vector3;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 @AnimPreset(getPreset = "evo_rays")
 public class EvolutionRays extends MoveAnimationBase
 {
-    public static List<String> EVO_ANCHORS = new ArrayList<>();
-
-    static
+    public static void init()
     {
-        // Put this in as a default.
-        EVO_ANCHORS.add("body");
-    }
-
-    public static Function<IPokemob, EffectPacketInfo> EVO_EFFECT_FACTORY = pokemob -> {
-        var level = pokemob.getEntity().level();
-        var targ = new Vector3(pokemob.getEntity()).addTo(new Vector3(pokemob.getEntity().getLookAngle()));
-        var animation = new EvolutionRays();
-        return new EffectPacketInfo(animation, level,
-                IAnimatedEffects.TaggedEntityTracker.create(pokemob.getEntity(), EVO_ANCHORS),
-                new VectorPositionSource(targ.toJOML()), 1, 1).setContext(pokemob);
-    };
-
-    public static EffectPacketInfo makeAndAddEffect(IPokemob pokemob, int duration)
-    {
-        var evo_effect = EvolutionRays.EVO_EFFECT_FACTORY.apply(pokemob);
-        evo_effect.animation.setDuration(duration);
-        // Reset this to match new duration
-        evo_effect.removalTick = evo_effect.animation.getDuration();
-        evo_effect.endTick = evo_effect.removalTick;
-        ParticleEffects.ADD_FOR_RENDER.accept(evo_effect);
-        return evo_effect;
-    }
-
-    public static record EvoContext(Color col1, Color col2, PokedexEntry entry, Supplier<Float> scale)
-    {
-        public static EvoContext fromMoveInfo(EffectPacketInfo info)
-        {
-            if(info.context instanceof EvoContext context) return context;
-            if(info.context instanceof IPokemob pokemob)
-            {
-                var entry = pokemob.getPokedexEntry();
-                int color1 = pokemob.getType1().colour;
-                int color2 = pokemob.getType2().colour;
-                if (pokemob.getType2() == PokeType.unknown) color2 = color1;
-                Color col1 = new Color(color1);
-                Color col2 = new Color(color2);
-                Supplier<Float> scale = () -> {
-                    float mobScale;
-                    if (pokemob.getEntity() instanceof PokemobHasParts parts) mobScale = parts.getScaleFast();
-                    else mobScale = pokemob.getEntity().getScale();
-                    var dims = entry.getModelSize();
-                    return 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
-                };
-                var context = new EvoContext(col1, col2, entry, scale);
-                info.context = context;
-                return context;
-            }
-            return null;
-        }
+        EvolutionEffect.EVO_EFFECT_FACTORY = pokemob -> {
+            var level = pokemob.getEntity().level();
+            var targ = new Vector3(pokemob.getEntity()).addTo(new Vector3(pokemob.getEntity().getLookAngle()));
+            var animation = new EvolutionRays();
+            return new IAnimatedEffects.EffectPacketInfo(animation, level,
+                    IAnimatedEffects.TaggedEntityTracker.create(pokemob.getEntity(), ParticleEffects.EVO_ANCHORS),
+                    new VectorPositionSource(targ.toJOML()), 1, 1).setContext(pokemob);
+        };
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -146,7 +95,7 @@ public class EvolutionRays extends MoveAnimationBase
     public void clientAnimation(PoseStack mat, MultiBufferSource buffer, EffectPacketInfo info, float partialTick,
             int packedLightIn)
     {
-        EvoContext context = EvoContext.fromMoveInfo(info);
+        EvolutionEffect.EvoContext context = EvolutionEffect.EvoContext.fromMoveInfo(info);
         if (context == null || info.endTick == 0)
         {
             info.currentTick = info.endTick;
@@ -155,10 +104,10 @@ public class EvolutionRays extends MoveAnimationBase
 
         if(!(buffer instanceof MultiBufferSource.BufferSource source)) return;
 
-        Color col1 = context.col1;
-        Color col2 = context.col2;
-        float scale = context.scale.get();
-        float scaleShift = scale * context.entry.getModelSize().y / 2;
+        Color col1 = context.col1();
+        Color col2 = context.col2();
+        float scale = context.scale().get();
+        float scaleShift = scale * context.entry().getModelSize().y / 2;
 
         final float time = 40 * (info.currentTick + partialTick) / info.endTick;
         final float f5 = time / 200f;
