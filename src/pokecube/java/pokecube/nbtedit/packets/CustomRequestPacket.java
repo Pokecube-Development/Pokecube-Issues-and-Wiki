@@ -30,7 +30,7 @@ public class CustomRequestPacket extends Packet
     public void read(final FriendlyByteBuf buf)
     {
         this.entityID = buf.readInt();
-        this.customName = new FriendlyByteBuf(buf).readUtf(30);
+        this.customName = buf.readUtf(30);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class CustomRequestPacket extends Packet
     public void write(final FriendlyByteBuf buf)
     {
         buf.writeInt(this.entityID);
-        new FriendlyByteBuf(buf).writeUtf(this.customName);
+        buf.writeUtf(this.customName);
     }
 
     private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:nbtedit_custom_request"));

@@ -31,9 +31,8 @@ public class PacketNickname extends Packet
 
     public void read(final FriendlyByteBuf buf)
     {
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
-        this.entityId = buffer.readInt();
-        this.name = buffer.readUtf();
+        this.entityId = buf.readInt();
+        this.name = buf.readUtf();
     }
 
     @Override
@@ -63,9 +62,8 @@ public class PacketNickname extends Packet
     @Override
     public void write(final FriendlyByteBuf buf)
     {
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
-        buffer.writeInt(this.entityId);
-        buffer.writeUtf(this.name);
+        buf.writeInt(this.entityId);
+        buf.writeUtf(this.name);
     }
 
     private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:pokemob_set_nickname"));

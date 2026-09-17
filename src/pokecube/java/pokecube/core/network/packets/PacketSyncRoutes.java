@@ -72,9 +72,8 @@ public class PacketSyncRoutes extends Packet
 
     public void read(final FriendlyByteBuf buf)
     {
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
-        this.entityId = buffer.readInt();
-        this.data = buffer.readNbt();
+        this.entityId = buf.readInt();
+        this.data = buf.readNbt();
     }
 
     @Override
@@ -114,9 +113,8 @@ public class PacketSyncRoutes extends Packet
     @Override
     public void write(final FriendlyByteBuf buf)
     {
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
-        buffer.writeInt(this.entityId);
-        buffer.writeNbt(this.data);
+        buf.writeInt(this.entityId);
+        buf.writeNbt(this.data);
     }
 
     private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:sync_routes"));

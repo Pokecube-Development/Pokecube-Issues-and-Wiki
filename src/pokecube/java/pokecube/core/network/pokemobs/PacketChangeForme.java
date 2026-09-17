@@ -49,10 +49,9 @@ public class PacketChangeForme extends Packet
     @Override
     public void write(final FriendlyByteBuf buf)
     {
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
-        buffer.writeInt(this.entityId);
-        if (this.forme != null) buffer.writeUtf(this.forme.getName());
-        else buffer.writeUtf("");
+        buf.writeInt(this.entityId);
+        if (this.forme != null) buf.writeUtf(this.forme.getName());
+        else buf.writeUtf("");
     }
 
     private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube:pokemob_change_form"));

@@ -56,20 +56,7 @@ public class PacketBag extends Packet
     public void read(final FriendlyByteBuf buf)
     {
         this.message = buf.readByte();
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
-        this.data = buffer.readNbt();
-    }
-
-    @Override
-    public void handleClient(Player player)
-    {
-        switch (this.message)
-        {
-        case OPEN:
-            break;
-        default:
-            break;
-        }
+        this.data = buf.readNbt();
     }
 
     @Override
@@ -90,8 +77,6 @@ public class PacketBag extends Packet
                 container.changeName(name);
             }
             break;
-        case INIT:
-            break;
         default:
             break;
         }
@@ -101,8 +86,7 @@ public class PacketBag extends Packet
     public void write(final FriendlyByteBuf buf)
     {
         buf.writeByte(this.message);
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
-        buffer.writeNbt(this.data);
+        buf.writeNbt(this.data);
     }
 
     private final static Type<Packet> TYPE = new Type<Packet>(ResourceLocation.parse("pokecube_adventures:bag_packet"));

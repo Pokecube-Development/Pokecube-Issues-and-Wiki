@@ -86,10 +86,9 @@ public class PacketChoose extends Packet
         this.message = message;
     }
 
-    public void read(final FriendlyByteBuf buf)
+    public void read(final FriendlyByteBuf buffer)
     {
-        this.message = buf.readByte();
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
+        this.message = buffer.readByte();
         this.data = buffer.readNbt();
     }
 
@@ -170,10 +169,9 @@ public class PacketChoose extends Packet
     }
 
     @Override
-    public void write(final FriendlyByteBuf buf)
+    public void write(final FriendlyByteBuf buffer)
     {
-        buf.writeByte(this.message);
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
+        buffer.writeByte(this.message);
         buffer.writeNbt(this.data);
     }
 

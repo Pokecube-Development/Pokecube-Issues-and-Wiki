@@ -72,8 +72,7 @@ public class PacketTMs extends Packet
     @Override
     public void write(final FriendlyByteBuf buf)
     {
-        final FriendlyByteBuf buffer = new FriendlyByteBuf(buf);
-        buffer.writeNbt(this.data);
+        buf.writeNbt(this.data);
     }
 
     private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("pokecube:use_tm_machine"));
