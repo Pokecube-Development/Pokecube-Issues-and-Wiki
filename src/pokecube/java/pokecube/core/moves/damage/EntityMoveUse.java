@@ -42,8 +42,6 @@ import thut.api.maths.Vector3;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class EntityMoveUse extends ThrowableProjectile
@@ -90,9 +88,6 @@ public class EntityMoveUse extends ThrowableProjectile
         entity.setEnd(endpoint);
         return entity;
     }
-
-    public static Function<MoveEntry, Consumer<EffectPacketInfo>> MOVE_ANIMATION_CLIENT_FACTORY = moveEntry -> (m) -> {};
-    public static Function<MoveEntry, Consumer<EffectPacketInfo>> MOVE_ANIMATION_SERVER_FACTORY = moveEntry -> (m) -> {};
 
     Vector3 end = new Vector3();
     Vector3 start = new Vector3();
@@ -346,8 +341,6 @@ public class EntityMoveUse extends ThrowableProjectile
             info = new EffectPacketInfo(animation, this.level(), this.getUser(), this.getTarget(),
                     this.getEnd().toJOML());
             info.setContext(new MoveEntryContext(move));
-            info.onClientTick = MOVE_ANIMATION_CLIENT_FACTORY.apply(move);
-            info.onServerTick = MOVE_ANIMATION_SERVER_FACTORY.apply(move);
             if (level().isClientSide()) ParticleEffects.ADD_FOR_RENDER.accept(info);
             else ParticleEffects.ADD_FOR_SERVER.accept(info);
             info.endTick = animation.getDuration();

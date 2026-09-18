@@ -258,6 +258,7 @@ public class EffectPacketInfo
     public EffectPacketInfo setContext(EffectContext<?> context)
     {
         this.context = context;
+        if(context!=null) context.onAttach(this);
         return this;
     }
 
@@ -297,8 +298,8 @@ public class EffectPacketInfo
     public boolean isFinished()
     {
         // Some manual overrides for entity and pokemob contexts
-        if (context instanceof Entity e && !e.isAlive()) return true;
-        if (context instanceof IPokemob e && e.getTrackedEntity().isAlive()) return true;
+        if (context.getContext() instanceof Entity e && !e.isAlive()) return true;
+        if (context.getContext() instanceof IPokemob e && e.getTrackedEntity().isAlive()) return true;
         return currentTick >= removalTick;
     }
 

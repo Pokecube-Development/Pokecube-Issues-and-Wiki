@@ -19,6 +19,7 @@ public class RegistryObjects
     public static final Supplier<ParticleNoGravity> AURORA;
     public static final Supplier<ParticleNoGravity> MISC;
     public static final Supplier<ParticleNoGravity> POWDER;
+    public static final Supplier<ParticleNoGravity> BUBBLE;
     public static final Supplier<ParticleOrientable> LEAF;
 
     static
@@ -30,6 +31,7 @@ public class RegistryObjects
         LEAF = ThutCore.RegistryEvents.PARTICLES.register("leaf", () -> ThutParticles.LEAF);
         MISC = ThutCore.RegistryEvents.PARTICLES.register("misc", () -> ThutParticles.MISC);
         STRING = ThutCore.RegistryEvents.PARTICLES.register("string", () -> ThutParticles.STRING);
+        BUBBLE = ThutCore.RegistryEvents.PARTICLES.register("bubble", () -> ThutParticles.BUBBLE);
         POWDER = ThutCore.RegistryEvents.PARTICLES.register("powder", () -> ThutParticles.POWDER);
     }
 

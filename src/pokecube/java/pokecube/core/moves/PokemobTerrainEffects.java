@@ -25,7 +25,6 @@ import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.EventsHandler;
-import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.moves.damage.sources.TerrainDamageSource;
 import pokecube.core.moves.damage.sources.TerrainDamageSource.TerrainType;
@@ -196,8 +195,6 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 var end = new VectorPositionSource(target.add(chunkMid));
                 renderEffect = new EffectPacketInfo(entry.getAnimation(), level, source, end, 1, 1);
                 renderEffect.setContext(new MoveEntryContext(entry));
-                renderEffect.onClientTick = EntityMoveUse.MOVE_ANIMATION_CLIENT_FACTORY.apply(entry);
-                renderEffect.onServerTick = EntityMoveUse.MOVE_ANIMATION_SERVER_FACTORY.apply(entry);
                 ParticleEffects.ADD_FOR_RENDER.accept(renderEffect);
                 this.level = level;
                 ThutCore.FORGE_BUS.register(this);

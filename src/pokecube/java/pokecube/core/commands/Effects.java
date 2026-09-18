@@ -9,8 +9,10 @@ import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
 import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.context.MoveEntryContext;
 import pokecube.api.effects.context.PokemobContext;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.utils.Permissions;
@@ -34,14 +36,18 @@ public class Effects
             if (pokemob == null) return -1;
             var context = new PokemobContext(pokemob);
             var record = function.apply(context);
-            ParticleEffects.ADD_FOR_RENDER.accept(new EffectPacketInfo(record, e, ParticleEffects.EVO_ANCHORS));
+            ParticleEffects.ADD_FOR_RENDER.accept(new EffectPacketInfo(record, e, ParticleEffects.EVO_ANCHORS).setContext(context));
             return 0;
         }
         // Move effect, we will just place it in front of the player
         else if (effect.contains(".move."))
         {
-            var record = function.apply(null);
-            ParticleEffects.ADD_FOR_RENDER.accept(new EffectPacketInfo(record, e, ParticleEffects.EVO_ANCHORS));
+            var moveEntry = MoveEntry.get(effect.replaceFirst("pokecube.move.", ""));
+            var context = new MoveEntryContext(moveEntry);
+            var record = function.apply(context);
+            var target = e.getEyePosition().toVector3f().add(e.getLookAngle().toVector3f().mul(5));
+            var info = new EffectPacketInfo(record, e.level(), e, null, target).setContext(context);
+            ParticleEffects.ADD_FOR_RENDER.accept(info);
             return 0;
         }
         return -1;

@@ -8,6 +8,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.effects.EffectPacketInfo;
+import pokecube.api.effects.EvolutionEffect;
 import pokecube.api.effects.ParticleEffects;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -48,6 +50,12 @@ public class PokemobContext implements EffectContext<IPokemob>
     public IPokemob getContext()
     {
         return pokemob;
+    }
+
+    @Override
+    public void onAttach(EffectPacketInfo info)
+    {
+        if (info.processedContext == null) info.processedContext = EvolutionEffect.EvoContext.fromMoveInfo(info);
     }
 
     @Override

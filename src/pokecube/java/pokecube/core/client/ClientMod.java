@@ -15,10 +15,10 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import pokecube.api.effects.ParticleEffects;
 import pokecube.api.effects.PokemobTickParticles;
 import pokecube.api.effects.RenderParticleEffects;
+import pokecube.api.effects.context.MoveEntryContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.effects.MoveAnimationBase;
 import pokecube.core.effects.presets.EvolutionRays;
-import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.moves.damage.effects.StatusEffects;
 
 @Mod(value = PokecubeCore.MODID, dist = Dist.CLIENT)
@@ -31,7 +31,7 @@ public class ClientMod
         container.getEventBus().addListener(ClientMod::onClientExtensions);
 
         // Init some client side effect stuff
-        EntityMoveUse.MOVE_ANIMATION_CLIENT_FACTORY = entry -> info -> {
+        MoveEntryContext.MOVE_ANIMATION_CLIENT_FACTORY = entry -> info -> {
             if (info.animation.effect() instanceof MoveAnimationBase base) base.initColour(info.currentTick, entry);
         };
         ParticleEffects.ADD_FOR_RENDER = RenderParticleEffects::addParticleEffect;

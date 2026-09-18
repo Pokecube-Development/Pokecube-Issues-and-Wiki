@@ -86,6 +86,7 @@ public class ClientInit
             event.registerSpecial(ThutParticles.STRING, ParticleFactories.GENERICFACTORY);
             event.registerSpecial(ThutParticles.LEAF, ParticleFactories.GENERICFACTORY);
             event.registerSpecial(ThutParticles.POWDER, ParticleFactories.GENERICFACTORY);
+            event.registerSpecial(ThutParticles.BUBBLE, ParticleFactories.GENERICFACTORY);
         }
     }
 

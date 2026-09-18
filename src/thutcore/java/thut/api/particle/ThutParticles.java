@@ -17,6 +17,7 @@ public class ThutParticles
     public static final ParticleNoGravity AURORA = new ParticleNoGravity(0, 0);
     public static final ParticleNoGravity MISC = new ParticleNoGravity(0, 0);
     public static final ParticleNoGravity POWDER = new ParticleNoGravity(0, 0);
+    public static final ParticleNoGravity BUBBLE = new ParticleNoGravity(0, 2);
     public static final ParticleOrientable LEAF = new ParticleOrientable(2, 2);
 
     public static final int[][] powder_textures = new int[7][2];
@@ -51,6 +52,7 @@ public class ThutParticles
         else if (type == ThutParticles.STRING) ret = new ParticleNoGravity(8, 5);
         else if (type == ThutParticles.MISC) ret = new ParticleNoGravity(0, 0);
         else if (type == ThutParticles.POWDER) ret = new ParticleNoGravity(0, 0);
+        else if (type == ThutParticles.BUBBLE) ret = new ParticleNoGravity(0, 2);
         else if (type == ThutParticles.LEAF)
         {
             ret = new ParticleOrientable(2, 2);
@@ -102,6 +104,17 @@ public class ThutParticles
             final ParticleNoGravity particle = ThutParticles.MISC;
             particle.setVelocity(vel);
             particle.setTex(misc_textures);
+            int life = 32;
+            if (args.length > 0) particle.setColour(args[0]);
+            if (args.length > 1) life = args[1];
+            particle.setLifetime(life);
+            particle.setSize(0.15f);
+            ret = particle;
+        }
+        else if (name.equalsIgnoreCase("bubble"))
+        {
+            final ParticleNoGravity particle = ThutParticles.BUBBLE;
+            particle.setVelocity(vel);
             int life = 32;
             if (args.length > 0) particle.setColour(args[0]);
             if (args.length > 1) life = args[1];
