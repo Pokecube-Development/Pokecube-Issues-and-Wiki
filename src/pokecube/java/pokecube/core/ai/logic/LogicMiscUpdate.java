@@ -1,7 +1,5 @@
 package pokecube.core.ai.logic;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +14,6 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.effects.EvolutionEffect;
-import pokecube.api.effects.IAnimatedEffects;
 import pokecube.api.effects.ParticleEffects;
 import pokecube.api.effects.PokemobTickParticles;
 import pokecube.api.effects.context.PokemobContext;
@@ -39,7 +36,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.effects.presets.AnimationPowder;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
@@ -61,8 +57,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * Mostly does visuals updates, such as particle effects, checking that shearing status is reset properly. It also
@@ -468,9 +462,6 @@ public class LogicMiscUpdate extends LogicBase
         if (exitingCube && cube_effect == null)
         {
             cube_effect = EvolutionEffect.makeAndAddEffect(pokemob, PokecubeCore.getConfig().exitCubeDuration);
-            cube_effect.onClientEnd = cube_effect.onClientEnd.andThen(info -> {
-                if (info.isFinished()) this.cube_effect = null;
-            });
             // Now add pokeseal effects, starting with "Shiny"
             if (pokemob.isShiny())
             {

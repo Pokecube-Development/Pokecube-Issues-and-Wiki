@@ -289,9 +289,8 @@ public class EventsHandlerClient
             gfx.pose().mulPose(AxisAngles.XP.rotationDegrees(180));
             gfx.pose().translate(0, -entity.getBbHeight() - 0.125f * dh, 0);
             gfx.pose().scale(0.05f, 0.05f, 0.05f);
-            var t = ResourceLocation.parse("pokecube:icons/target_icon");
             RenderSystem.disableDepthTest();
-            gfx.blitSprite(t, -8, -16, -1, 16, 16);
+            gfx.blitSprite(TARGET_TEXTURE, -8, -16, -1, 16, 16);
             RenderSystem.enableDepthTest();
             gfx.pose().popPose();
         }
