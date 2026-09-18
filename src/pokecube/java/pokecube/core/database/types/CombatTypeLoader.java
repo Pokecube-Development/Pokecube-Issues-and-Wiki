@@ -81,7 +81,7 @@ public class CombatTypeLoader
     }
 
     private static final String DATABASES = "database/types/";
-    private static Gson gson = new Gson();
+    private static final Gson gson = new Gson();
 
     public static void loadTypes()
     {
@@ -98,7 +98,7 @@ public class CombatTypeLoader
             }
             catch (final Exception e1)
             {
-                PokecubeAPI.LOGGER.error("Error with types database " + s, e1);
+                PokecubeAPI.LOGGER.error("Error with types database {}", s, e1);
             }
         });
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Type Databases: " + resources);

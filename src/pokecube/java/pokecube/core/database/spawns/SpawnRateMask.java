@@ -117,8 +117,8 @@ public class SpawnRateMask
         if (!r)
         {
             _parser.setVarValue("x", xValue);
-            _parser.setVarValue("y", yValue);;
-            _parser.setVarValue("px", phase_x);;
+            _parser.setVarValue("y", yValue);
+            _parser.setVarValue("px", phase_x);
             _parser.setVarValue("py", phase_y);
         }
         else
@@ -154,7 +154,7 @@ public class SpawnRateMask
         if (!r) parseExpression(location.x - spawn.x, location.z - spawn.z, r);
         else
         {
-            /**
+            /*
              * Set y coordinates equal to ensure only radial function in
              * horizontal plane.
              */

@@ -50,7 +50,7 @@ public class MutationHelper extends ResourceData
         var resources = PackFinder.getJsonResources(path);
         this.validLoad = !resources.isEmpty();
         preLoad();
-        resources.forEach((l, r) -> this.loadFile(l, r));
+        resources.forEach(this::loadFile);
         if (this.validLoad) valid.set(true);
     }
 

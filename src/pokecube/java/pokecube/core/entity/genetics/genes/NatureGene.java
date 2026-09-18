@@ -114,8 +114,7 @@ public class NatureGene implements Gene<Nature>
     @Override
     public Gene<Nature> mutate()
     {
-        final NatureGene newGene = new NatureGene();
-        return newGene;
+        return new NatureGene();
     }
 
     @Override

@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.events.PokedexInspectEvent;
 import pokecube.api.stats.CaptureStats;
 import pokecube.api.utils.Tools;
@@ -71,20 +72,16 @@ public class PokedexInspector
                 return this.check(entity, (String) this.configField.get(PokecubeCore.getConfig()), data.tag,
                         this.reward, num, giveReward);
             }
-            catch (final IllegalArgumentException e)
+            catch (Exception e)
             {
-                e.printStackTrace();
-            }
-            catch (final IllegalAccessException e)
-            {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
             return false;
         }
 
         private boolean matches(final int num, final String arg)
         {
-            int required = 0;
+            int required;
             if (arg.contains("%"))
                 required = (int) (Double.parseDouble(arg.replace("%", "")) * Database.spawnables.size() / 100d);
             else required = (int) Double.parseDouble(arg);
@@ -106,7 +103,7 @@ public class PokedexInspector
         return evt.isCanceled();
     }
 
-    @SubscribeEvent(receiveCanceled = false, priority = EventPriority.LOWEST)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void inspectEvent(final PokedexInspectEvent evt)
     {
         final String uuid = evt.getEntity().getStringUUID();

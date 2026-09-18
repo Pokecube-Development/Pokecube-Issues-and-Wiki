@@ -56,7 +56,7 @@ public class Mutations
         public Mutation getFor(final float value)
         {
             if (this._total == 0) throw new IllegalStateException("Cannot have no mutations!");
-            Mutation mutation = this._sorted.get(0);
+            Mutation mutation = this._sorted.getFirst();
             for (int i = 1; i < this._sorted.size(); i++)
             {
                 mutation = this._sorted.get(i - 1);

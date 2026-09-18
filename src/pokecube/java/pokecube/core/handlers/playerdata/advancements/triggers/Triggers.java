@@ -1,7 +1,6 @@
 package pokecube.core.handlers.playerdata.advancements.triggers;
 
 import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
@@ -13,7 +12,6 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 
-import java.lang.reflect.Field;
 import java.util.function.Consumer;
 
 public class Triggers

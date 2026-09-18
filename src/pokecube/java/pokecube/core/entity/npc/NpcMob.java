@@ -49,6 +49,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.events.npcs.NpcBreedEvent;
 import pokecube.api.events.npcs.NpcEvent;
 import pokecube.api.events.npcs.NpcTradesEvent;
@@ -182,7 +183,7 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
         villager.setNpcType(newType);
 
         villager.finalizeSpawn(level, level.getCurrentDifficultyAt(villager.blockPosition()), MobSpawnType.BREEDING,
-                (SpawnGroupData) null);
+                null);
         return villager;
     }
 
@@ -252,9 +253,7 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
                 buffer.writeInt(this.getId());
                 final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new NpcContainer(i, p, buffer),
                         this.getDisplayName());
-                sp.openMenu(provider, buf -> {
-                    buf.writeInt(this.getId());
-                });
+                sp.openMenu(provider, buf -> buf.writeInt(this.getId()));
             }
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
@@ -327,7 +326,7 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
         catch (final Exception e)
         {
             this.type = (NpcType.byType("professor"));
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
     }
 
@@ -344,9 +343,8 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
                 else display = Component.literal(this.getNPCName());
             }
             else display = Component.literal(this.getNPCName());
-            display.withStyle((style) -> {
-                return style.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID());
-            });
+            display.withStyle(
+                    (style) -> style.withHoverEvent(this.createHoverEvent()).withInsertion(this.getStringUUID()));
             return display;
         }
         return super.getDisplayName();
@@ -385,7 +383,7 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
         catch (final Exception e)
         {
             this.type = (NpcType.byType("professor"));
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
     }
 
@@ -447,7 +445,6 @@ public class NpcMob extends Villager implements IEntityWithComplexSpawn
             if (this.getNpcType().getProfession() != VillagerProfession.NITWIT) super.updateTrades();
             // Next try custom ones
             VillagerData villagerdata = this.getVillagerData();
-            ;
             VillagerTrades.ItemListing[] itemListings = type.getTrades(villagerdata.getLevel());
             if (itemListings != null) this.addOffersFromItemListings(this.offers, itemListings, 2);
         }

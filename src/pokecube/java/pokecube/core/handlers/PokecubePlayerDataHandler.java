@@ -6,6 +6,7 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.util.INBTSerializable;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import thut.core.common.handlers.PlayerDataHandler;
 
@@ -44,7 +45,7 @@ public class PokecubePlayerDataHandler extends PlayerDataHandler
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
             return null;
         }
     }

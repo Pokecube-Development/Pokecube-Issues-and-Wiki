@@ -67,7 +67,7 @@ public abstract class SimplePokemobTrigger extends SimpleCriterionTrigger<Pokede
         public boolean matches(LootContext context, boolean allowEmpty)
         {
             if (entry == Database.missingno) return true;
-            if (!allowEmpty && (entry == null || entry == Database.missingno)) return false;
+            if (!allowEmpty && entry == null) return false;
             if (!context.hasParam(Triggers.POKEDEX_ENTRY)) return false;
             PokedexEntry test = context.getParam(Triggers.POKEDEX_ENTRY);
             return entry == test;

@@ -39,7 +39,7 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
         if (DispenseBehaviourInteract.DEFAULTS.containsKey(RegHelper.getKey(stack))) return;
         final DispenseItemBehavior original = DispenserBlock.DISPENSER_REGISTRY.get(stack.getItem());
         DispenseBehaviourInteract.DEFAULTS.put(RegHelper.getKey(stack), original);
-        DispenserBlock.registerBehavior(() -> stack.getItem(), new DispenseBehaviourInteract());
+        DispenserBlock.registerBehavior(stack::getItem, new DispenseBehaviourInteract());
     }
 
     public static void registerBehavior(final ResourceLocation tag)
@@ -74,15 +74,15 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
         {
             player.getInventory().clearContent();
             player.setItemInHand(InteractionHand.MAIN_HAND, stack);
-            InteractionResult cancelResult = CommonHooks.onInteractEntityAt(player, mobs.get(0), new Vec3(0, 0, 0),
+            InteractionResult cancelResult = CommonHooks.onInteractEntityAt(player, mobs.getFirst(), new Vec3(0, 0, 0),
                     InteractionHand.MAIN_HAND);
             if (cancelResult == null)
-                cancelResult = CommonHooks.onInteractEntity(player, mobs.get(0), InteractionHand.MAIN_HAND);
+                cancelResult = CommonHooks.onInteractEntity(player, mobs.getFirst(), InteractionHand.MAIN_HAND);
 
             final boolean interacted = cancelResult != null
-                    || mobs.get(0).interact(player, InteractionHand.MAIN_HAND) != InteractionResult.PASS;
+                    || mobs.getFirst().interact(player, InteractionHand.MAIN_HAND) != InteractionResult.PASS;
             InteractionResult result = InteractionResult.PASS;
-            if (!interacted) result = stack.interactLivingEntity(player, mobs.get(0), InteractionHand.MAIN_HAND);
+            if (!interacted) result = stack.interactLivingEntity(player, mobs.getFirst(), InteractionHand.MAIN_HAND);
             for (final ItemStack stack3 : player.getInventory().items) if (!stack3.isEmpty()) if (stack3 != stack)
             {
                 result = InteractionResult.SUCCESS;

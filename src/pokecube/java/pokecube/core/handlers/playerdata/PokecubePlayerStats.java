@@ -125,11 +125,6 @@ public class PokecubePlayerStats extends PlayerData
         return this.kills;
     }
 
-    public boolean hasFirst()
-    {
-        return this.hasFirst;
-    }
-
     public boolean hasInspected(final PokedexEntry entry)
     {
         if (this.inspected == null) this.initMaps();

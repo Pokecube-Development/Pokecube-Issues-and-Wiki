@@ -30,8 +30,7 @@ public class EVsGene extends GeneByteArr
     public Gene<byte[]> interpolate(final Gene<byte[]> other)
     {
         // Don't actually interpolate the EVs.
-        final EVsGene newGene = new EVsGene();
-        return newGene;
+        return new EVsGene();
     }
 
     @Override

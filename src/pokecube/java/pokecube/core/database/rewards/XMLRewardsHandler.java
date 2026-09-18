@@ -86,7 +86,7 @@ public class XMLRewardsHandler
                 }
                 catch (final IllegalArgumentException e)
                 {
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.error(e);
                 }
                 return false;
             }
@@ -229,13 +229,13 @@ public class XMLRewardsHandler
                             }
                             catch (Exception e)
                             {
-                                PokecubeAPI.LOGGER.error("Error with parsing book for " + this.tagKey + " " + json, e);
+                                PokecubeAPI.LOGGER.error("Error with parsing book for {} {}", this.tagKey, json, e);
                             }
                             this.lang_stacks.put(key, stack);
                         }
                         catch (final Exception e)
                         {
-                            PokecubeAPI.LOGGER.error("Error with book for " + this.tagKey + " " + json, e);
+                            PokecubeAPI.LOGGER.error("Error with book for {} {}", this.tagKey, json, e);
                         }
                     }
                     stream.close();
@@ -243,12 +243,12 @@ public class XMLRewardsHandler
                 catch (final FileNotFoundException e)
                 {
                     if (lang.equals(FreeBookParser.default_lang))
-                        PokecubeAPI.LOGGER.error("Error with book for " + this.tagKey, e);
+                        PokecubeAPI.LOGGER.error("Error with book for {}", this.tagKey, e);
                     else this.initLangBook(FreeBookParser.default_lang, lang);
                 }
                 catch (final Exception e)
                 {
-                    PokecubeAPI.LOGGER.error("Error with book for " + this.tagKey, e);
+                    PokecubeAPI.LOGGER.error("Error with book for {}", this.tagKey, e);
                 }
 
             }
@@ -328,7 +328,7 @@ public class XMLRewardsHandler
         }
         catch (final NullPointerException e)
         {
-            PokecubeAPI.LOGGER.error("Error with a recipe, Error for: " + recipe, e);
+            PokecubeAPI.LOGGER.error("Error with a recipe, Error for: {}", recipe, e);
         }
     }
 }

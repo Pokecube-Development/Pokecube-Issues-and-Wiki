@@ -81,8 +81,8 @@ public class IVsGene extends GeneByteArr
         if (evs1 == null || evs2 == null || ivs1 == null || ivs2 == null)
         {
             // No Mutation, return clone of this gene.
-            PokecubeAPI.LOGGER.error("Someone has null genes: " + evs1 + " " + evs2 + " " + ivs1 + " " + ivs2 + " "
-                    + parent1 + " " + parent2);
+            PokecubeAPI.LOGGER.error("Someone has null genes: {} {} {} {} {} {}", evs1, evs2, ivs1, ivs2, parent1,
+                    parent2);
             return newGene;
         }
         final Random rand = ThutCore.newRandom();

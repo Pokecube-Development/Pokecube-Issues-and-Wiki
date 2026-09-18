@@ -55,7 +55,7 @@ public class SpawnPresets extends ResourceData
         this.validLoad = !resources.isEmpty();
         PRESETS.clear();
         preLoad();
-        resources.forEach((l, r) -> this.loadFile(l, r));
+        resources.forEach(this::loadFile);
         if (this.validLoad)
         {
             if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Spawn Rule presets.");

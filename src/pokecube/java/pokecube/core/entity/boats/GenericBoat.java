@@ -35,7 +35,7 @@ public class GenericBoat extends Boat
         BOAT_REGISTRY.defaultReturnValue(NULL_TYPE);
     }
 
-    public static final BoatType registerBoat(Supplier<Block> block, Supplier<Item> item, Supplier<Item> chestBoat,
+    public static BoatType registerBoat(Supplier<Block> block, Supplier<Item> item, Supplier<Item> chestBoat,
             String name)
     {
         BoatType type = new BoatType(block, item, chestBoat, name);

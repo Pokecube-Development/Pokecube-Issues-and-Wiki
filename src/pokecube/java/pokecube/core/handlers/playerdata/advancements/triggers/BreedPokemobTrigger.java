@@ -45,8 +45,8 @@ public class BreedPokemobTrigger extends SimpleCriterionTrigger<BreedPokemobTrig
 
         public boolean matches(LootContext contextA, LootContext contextB)
         {
-            boolean A_matches = !parent_a.isPresent() || (parent_a.get().matches(contextA));
-            boolean B_matches = !parent_b.isPresent() || (parent_b.get().matches(contextB));
+            boolean A_matches = parent_a.isEmpty() || (parent_a.get().matches(contextA));
+            boolean B_matches = parent_b.isEmpty() || (parent_b.get().matches(contextB));
             return A_matches && B_matches;
         }
 

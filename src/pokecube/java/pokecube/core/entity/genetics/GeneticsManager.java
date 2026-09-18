@@ -10,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import org.nfunk.jep.JEP;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.genetics.epigenes.EVsGene;
@@ -33,7 +32,6 @@ import thut.core.common.genetics.DefaultGenetics;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class GeneticsManager
 {
@@ -41,9 +39,7 @@ public class GeneticsManager
     public static String epigeneticFunction = "rand()*(((2*v + 256) * 31) / 512)";
 
     public static JEP epigeneticParser = new JEP();
-    public static final ResourceLocation POKECUBEGENETICS = ResourceLocation.parse(TagNames.GENESCAP);
 
-    public static final String GENES = "Genes";
     public static final ResourceLocation ABILITYGENE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "ability");
     public static final ResourceLocation COLOURGENE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "colour");
     public static final ResourceLocation SIZEGENE = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "size");
@@ -75,8 +71,6 @@ public class GeneticsManager
         GeneticsManager.init();
     }
 
-    public static final ResourceLocation GENEHOLDERS = ResourceLocation.parse("pokecube:dna_holder");
-
     public static List<String> getMutationConfig()
     {
         final List<String> ret = Lists.newArrayList();
@@ -86,18 +80,6 @@ public class GeneticsManager
             ret.add(var);
         }
         return ret;
-    }
-
-    public static <T> Gene<T> getOrMutate(Gene<T> gene, LivingEntity owner)
-    {
-        return gene.getMutationRate() > owner.getRandom().nextFloat() ? gene.mutate() : gene;
-    }
-
-    public static void initGene(ResourceLocation key, LivingEntity living, IMobGenetics genes, Supplier<Gene<?>> source)
-    {
-        var g1 = getOrMutate(source.get(), living);
-        var g2 = getOrMutate(source.get(), living);
-        genes.setGenes(g1, g2);
     }
 
     private static void init()

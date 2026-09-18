@@ -23,9 +23,8 @@ public class PackListener implements PreparableReloadListener
     {
         for (String s : pack.getNamespaces(PackType.SERVER_DATA))
         {
-            ((MultiPackResourceManager) manager.resources).namespacedManagers.computeIfAbsent(s, (namespace) -> {
-                return new FallbackResourceManager(PackType.SERVER_DATA, namespace);
-            }).push(pack);
+            ((MultiPackResourceManager) manager.resources).namespacedManagers.computeIfAbsent(s,
+                    (namespace) -> new FallbackResourceManager(PackType.SERVER_DATA, namespace)).push(pack);
         }
     }
 
@@ -34,9 +33,8 @@ public class PackListener implements PreparableReloadListener
             final ResourceManager resourceManager, final ProfilerFiller preparationsProfiler,
             final ProfilerFiller reloadProfiler, final Executor backgroundExecutor, final Executor gameExecutor)
     {
-        return CompletableFuture.completedFuture((Void) null).thenCompose(stage::wait).thenAcceptAsync((v) -> {
-            this.add(resourceManager);
-        }, gameExecutor);
+        return CompletableFuture.completedFuture((Void) null).thenCompose(stage::wait)
+                .thenAcceptAsync((v) -> this.add(resourceManager), gameExecutor);
     }
 
     public void add(final ResourceManager resourceManager)

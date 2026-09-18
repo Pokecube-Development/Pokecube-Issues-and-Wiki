@@ -65,7 +65,7 @@ public class PokedexEntryLoader
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
 
             var def = new JsonPokedexEntry();
@@ -103,7 +103,7 @@ public class PokedexEntryLoader
     @SuppressWarnings(
     { "unchecked" })
     public static Object getSerializableCopy(final Class<?> type, final Object original)
-            throws InstantiationException, IllegalAccessException
+            throws IllegalAccessException
     {
         Field[] fields = new Field[] {};
         try
@@ -113,9 +113,9 @@ public class PokedexEntryLoader
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
-        Object copy = null;
+        Object copy;
         try
         {
             copy = type.getConstructor().newInstance();
@@ -187,7 +187,7 @@ public class PokedexEntryLoader
         }
         catch (final IllegalAccessException e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
         return copy;
     }
@@ -290,7 +290,7 @@ public class PokedexEntryLoader
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
         Object valueOut;
         Object valueIn;
@@ -332,7 +332,7 @@ public class PokedexEntryLoader
         }
         catch (final IllegalAccessException e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
     }
 

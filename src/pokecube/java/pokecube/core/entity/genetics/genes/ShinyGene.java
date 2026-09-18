@@ -1,16 +1,12 @@
 package pokecube.core.entity.genetics.genes;
 
-import java.util.Random;
-
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.entity.genetics.GeneticsManager;
 import thut.api.entity.genetics.Gene;
-import thut.core.common.ThutCore;
 import thut.core.common.genetics.genes.GeneBoolean;
 
 public class ShinyGene extends GeneBoolean
 {
-    Random rand = ThutCore.newRandom();
 
     @Override
     public ResourceLocation getKey()

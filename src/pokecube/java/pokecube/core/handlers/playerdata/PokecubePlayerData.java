@@ -65,7 +65,7 @@ public class PokecubePlayerData extends PlayerData
         this.telelocs.clear();
         if (temp2 instanceof ListTag tagListOptions)
         {
-            CompoundTag pokemobData2 = null;
+            CompoundTag pokemobData2;
             for (int j = 0; j < tagListOptions.size(); j++)
             {
                 pokemobData2 = tagListOptions.getCompound(j);

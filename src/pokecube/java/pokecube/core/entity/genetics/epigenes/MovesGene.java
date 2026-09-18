@@ -20,7 +20,7 @@ public class MovesGene implements Gene<String[]>
         return 0;
     };
 
-    private static final void cleanup(final String[] moves)
+    private static void cleanup(final String[] moves)
     {
         outer:
         for (int i = 0; i < moves.length; i++)

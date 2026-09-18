@@ -46,7 +46,7 @@ public class StructureSpawnPresetLoader
                     final SpawnPresets database = JsonUtil.gson.fromJson(loaded, SpawnPresets.class);
                     for (final JsonObject preset : database.presets) if (preset.has("preset_name"))
                         StructureSpawnPresetLoader.presetMap.put(preset.get("preset_name").getAsString(), preset);
-                    else PokecubeAPI.LOGGER.error("Warning, needs a \"preset_name\" field for " + preset);
+                    else PokecubeAPI.LOGGER.error("Warning, needs a \"preset_name\" field for {}", preset);
                 }
 
             }

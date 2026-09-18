@@ -9,9 +9,8 @@ public class PaintingsHandler
 
     public static PaintingVariant createPainting(String id, int width, int height)
     {
-        final PaintingVariant painting = new PaintingVariant(width, height,
+        return new PaintingVariant(width, height,
                 ResourceLocation.fromNamespaceAndPath("pokecube", id));
-        return painting;
     }
 
     public static void init()
