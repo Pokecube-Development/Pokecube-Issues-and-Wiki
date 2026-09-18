@@ -411,8 +411,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
     @Override
     public void updatePartsPos()
     {
-        getUseParts();
-        IBBPartMultipart.super.updatePartsPos();
+        if (this.getBBModel() != null) IBBPartMultipart.super.updatePartsPos();
     }
     // ================= Pose Related =====================
 
