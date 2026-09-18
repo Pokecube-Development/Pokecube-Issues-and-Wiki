@@ -49,7 +49,7 @@ public abstract class PokemobSided extends PokemobBase
 
     protected PokedexEntry _renderEntryCache, _lastEntryCache;
     protected FormeHolder _renderHolderCache, _lastHolderCache;
-    protected byte _renderSexe, _lastRenderSexe;
+    protected byte _renderSexe;
 
     protected Object2ObjectOpenHashMap<ResourceLocation, ResourceLocation> _TEXCACHE = new Object2ObjectOpenHashMap<>();
 

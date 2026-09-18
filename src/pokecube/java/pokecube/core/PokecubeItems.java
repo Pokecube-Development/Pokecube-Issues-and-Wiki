@@ -53,11 +53,9 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
-import pokecube.api.utils.Tools;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.blocks.pc.PCBlock;
@@ -68,7 +66,6 @@ import pokecube.core.blocks.tms.TMBlock;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderBlock;
 import pokecube.core.blocks.trade.TraderTile;
-import pokecube.core.database.Database;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.inventory.barrels.GenericBarrelMenu;
 import pokecube.core.items.ItemPokedex;
@@ -137,15 +134,10 @@ public class PokecubeItems extends ItemList
 
     /** contains pokecubes by name */
     public static List<ResourceLocation> cubeIds = new ArrayList<>();
-    /**
-     * Items to be considered for re-animation, mapped to the pokedex number to
-     * reanimate to.
-     */
-    public static HashMap<ItemStack, PokedexEntry> fossils = new HashMap<>();
 
     public static Set<Class<?>> DEFAULT_OWNABLE_TE = new HashSet<>();
 
-    private static Set<ResourceLocation> errored = Sets.newHashSet();
+    private static final Set<ResourceLocation> errored = Sets.newHashSet();
 
     static
     {
@@ -624,11 +616,6 @@ public class PokecubeItems extends ItemList
         PokecubeItems.times.add(time);
         tag.putLong("time", time);
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
-    }
-
-    public static void registerFossil(final ItemStack fossil, final String pokemonName)
-    {
-        if (Database.entryExists(pokemonName)) PokecubeItems.fossils.put(fossil.copy(), Database.getEntry(pokemonName));
     }
 
     public static void saveTime(final CompoundTag nbt)

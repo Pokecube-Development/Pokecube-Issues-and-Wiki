@@ -25,12 +25,12 @@ public class PokemobInventory extends SimpleContainer implements Nameable
     private final Int2ObjectArrayMap<EquipmentSlot> SLOTMAP = new Int2ObjectArrayMap<>(5);
 
     private final NonNullList<ItemStack> tmpList = NonNullList.of(ItemStack.EMPTY, ItemStack.EMPTY);
-    Container start = null;
+    Container start;
 
     public final LivingEntity entity;
     public final IPokemob pokemob;
 
-    private int startSize = 0;
+    private final int startSize;
 
     public PokemobInventory(LivingEntity entity)
     {
@@ -89,7 +89,7 @@ public class PokemobInventory extends SimpleContainer implements Nameable
         {
             List<ItemStack> list = tmpList;
             list.set(0, getItem(slot));
-            return list != null && !list.getFirst().isEmpty() ? ContainerHelper.removeItem(list, 0, amount)
+            return !list.getFirst().isEmpty() ? ContainerHelper.removeItem(list, 0, amount)
                     : ItemStack.EMPTY;
         }
         if (slot == 1)

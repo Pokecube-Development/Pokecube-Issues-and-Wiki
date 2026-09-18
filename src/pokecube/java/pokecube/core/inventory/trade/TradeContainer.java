@@ -9,7 +9,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.trade.TraderTile;
@@ -108,8 +107,6 @@ public class TradeContainer extends BaseContainer
     public void removed(final Player playerIn)
     {
         super.removed(playerIn);
-        this.pos.execute((world, pos) -> {
-            this.clearContainer(playerIn, this.inv);
-        });
+        this.pos.execute((world, pos) -> this.clearContainer(playerIn, this.inv));
     }
 }

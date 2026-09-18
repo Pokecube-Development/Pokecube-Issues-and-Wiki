@@ -113,8 +113,7 @@ public class AITools
                 // Do not target creative or spectator
                 if (player.isCreative() || player.isSpectator()) return false;
                 // Do not target any player on easy or peaceful
-                if (player.level().getDifficulty().getId() <= Difficulty.EASY.getId()) return false;
-                return true;
+                return player.level().getDifficulty().getId() > Difficulty.EASY.getId();
             }
             // Confirm is not an egg or a pokecube as well
             if (core instanceof EntityPokemobEgg) return false;
@@ -231,9 +230,7 @@ public class AITools
         // We were checking in general, from a null mob, so valid at this point.
         if (entity == null) return true;
         // Otherwise, prevent combat on same team
-        if (TeamManager.sameTeam(entity, target)) return false;
-        // If we got to here, it was a valid target
-        return true;
+        return !TeamManager.sameTeam(entity, target);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -242,7 +239,6 @@ public class AITools
         if (compound.contains("Brain", 10))
         {
             final Brain brain = entity.getBrain();
-            final CompoundTag mems = compound.getCompound("Brain").getCompound("memories");
             var ops = new Dynamic<>(NbtOps.INSTANCE, compound.get("Brain"));
             var memoryTypes = brain.memories.keySet();
             var sensorTypes = brain.sensors.keySet();

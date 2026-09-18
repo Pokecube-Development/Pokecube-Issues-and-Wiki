@@ -135,12 +135,6 @@ public class StatEffect extends BaseEffect
     }
 
     @Override
-    public boolean onSavePersistant()
-    {
-        return true;
-    }
-
-    @Override
     public CompoundTag serializeNBT(Provider access)
     {
         final CompoundTag tag = super.serializeNBT(access);

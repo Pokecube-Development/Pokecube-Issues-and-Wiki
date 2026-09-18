@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import pokecube.core.PokecubeCore;
 import pokecube.core.items.ItemTM;
@@ -24,10 +23,10 @@ import thut.core.common.commands.CommandTools;
 
 public class TM
 {
-    private static SuggestionProvider<CommandSourceStack> SUGGEST_TMS = (ctx,
+    private static final SuggestionProvider<CommandSourceStack> SUGGEST_TMS = (ctx,
             sb) -> net.minecraft.commands.SharedSuggestionProvider.suggest(MovesUtils.getKnownMoveNames(), sb);
 
-    public static int execute(final CommandSourceStack source, final ServerPlayer serverplayerentity, final String tm)
+    public static int execute(final ServerPlayer serverplayerentity, final String tm)
     {
         final ItemStack itemstack = ItemTM.getTM(tm);
         final boolean flag = serverplayerentity.getInventory().add(itemstack);
@@ -36,7 +35,7 @@ public class TM
             itemstack.setCount(1);
             final ItemEntity itementity1 = serverplayerentity.drop(itemstack, false);
             if (itementity1 != null) itementity1.makeFakeItem();
-            serverplayerentity.level.playSound((Player) null, serverplayerentity.getX(), serverplayerentity.getY(),
+            serverplayerentity.level.playSound(null, serverplayerentity.getX(), serverplayerentity.getY(),
                     serverplayerentity.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F,
                     ((serverplayerentity.getRandom().nextFloat() - serverplayerentity.getRandom().nextFloat()) * 0.7F
                             + 1.0F) * 2.0F);
@@ -57,7 +56,7 @@ public class TM
     public static int execute(final CommandSourceStack source, final String tm) throws CommandSyntaxException
     {
         final ServerPlayer player = source.getPlayerOrException();
-        return TM.execute(source, player, tm);
+        return TM.execute(player, tm);
     }
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
@@ -74,8 +73,9 @@ public class TM
                 .executes(ctx -> TM.execute(ctx.getSource(), StringArgumentType.getString(ctx, "tm"))));
         // Target argument version
         command = command.then(Commands.argument("tm", StringArgumentType.string()).suggests(TM.SUGGEST_TMS)
-                .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> TM.execute(ctx.getSource(),
-                        EntityArgument.getPlayer(ctx, "player"), StringArgumentType.getString(ctx, "tm")))));
+                .then(Commands.argument("player", EntityArgument.player()).executes(
+                        ctx -> TM.execute(EntityArgument.getPlayer(ctx, "player"),
+                                StringArgumentType.getString(ctx, "tm")))));
         commandDispatcher.register(command);
     }
 }

@@ -1,6 +1,5 @@
 package pokecube.core.moves.damage.effects;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -15,7 +14,6 @@ import pokecube.core.moves.damage.sources.StatusEffectDamageSource;
 public class Poison extends StatusEffect
 {
     public static int BAD_POISON_AMPLIFIER = 64;
-    public static ResourceLocation MODIFIER = ResourceLocation.parse("pokecube:effect.freeze");
 
     public Poison(int color)
     {

@@ -23,12 +23,6 @@ public class TradeInventory extends SimpleContainer implements INBTSerializable<
         wrapper = new InvWrapper(this);
     }
 
-    public TradeInventory(final TraderTile tile)
-    {
-        this();
-        this.tile = tile;
-    }
-
     @Override
     public void stopOpen(final Player player)
     {
@@ -42,9 +36,7 @@ public class TradeInventory extends SimpleContainer implements INBTSerializable<
         // Allow filled cubes.
         if (PokecubeManager.isFilled(stack)) return true;
         // Allow empty cubes for masking.
-        if (stack.getItem() instanceof IPokecube && stack.getCount() == 1) return true;
-
-        return false;
+        return stack.getItem() instanceof IPokecube && stack.getCount() == 1;
     }
 
     @Override

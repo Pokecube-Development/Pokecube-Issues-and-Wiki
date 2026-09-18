@@ -8,7 +8,7 @@ import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 
 public class PCSlot extends Slot
 {
-    private int actualSlot = -1;
+    private int actualSlot;
     public boolean release = false;
 
     public PCSlot(final Container inventory, final int slotIndex, final int xDisplay, final int yDisplay)

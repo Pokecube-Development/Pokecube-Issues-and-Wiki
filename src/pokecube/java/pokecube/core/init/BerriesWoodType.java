@@ -12,7 +12,7 @@ import pokecube.core.PokecubeCore;
 
 public class BerriesWoodType
 {
-    private static Map<String, WoodType> TYPES = Maps.newHashMap();
+    private static final Map<String, WoodType> TYPES = Maps.newHashMap();
 
     public static WoodType addWoodTypes(String name)
     {
@@ -21,11 +21,6 @@ public class BerriesWoodType
                 new BlockSetType(ResourceLocation.fromNamespaceAndPath(PokecubeCore.MODID, name).toString())));
         TYPES.put(name, type);
         return type;
-    }
-
-    public static WoodType getWoodType(String name)
-    {
-        return TYPES.get(name);
     }
 
     public static void register()

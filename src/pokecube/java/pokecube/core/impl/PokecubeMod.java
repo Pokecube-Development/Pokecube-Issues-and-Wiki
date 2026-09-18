@@ -23,7 +23,7 @@ public abstract class PokecubeMod
 {
     public final static String ID = "pokecube";
 
-    private static HashMap<Level, FakePlayer> fakePlayers = new HashMap<>();
+    private static final HashMap<Level, FakePlayer> fakePlayers = new HashMap<>();
 
     public static final UUID fakeUUID = new UUID(1234, 4321);
 

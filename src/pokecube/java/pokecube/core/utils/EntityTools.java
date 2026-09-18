@@ -80,11 +80,6 @@ public class EntityTools
      * will miss large mobs which are centred on chunks at the edge of the given
      * range, but outside the chunk looked, it is meant to be used for cases
      * where quick lookup are needed, and precision is not needed.
-     *
-     * @param toFill
-     * @param centre
-     * @param range
-     * @param valid
      */
     public static void getNearMobsFast(final List<Entity> toFill, final Level world, final BlockPos centre,
             final int range, final Predicate<Entity> valid)

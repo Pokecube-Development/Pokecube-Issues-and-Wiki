@@ -10,7 +10,7 @@ public class PCManager extends Manager<PCInventory>
 
     public PCManager()
     {
-        super(s -> PCContainer.isItemValid(s), PCInventory::new, PCInventory::new);
+        super(PCContainer::isItemValid, PCInventory::new, PCInventory::new);
     }
 
     public Collection<PCInventory> getPCs()

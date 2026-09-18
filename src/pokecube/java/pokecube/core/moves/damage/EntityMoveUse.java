@@ -538,7 +538,7 @@ public class EntityMoveUse extends ThrowableProjectile
         if (attack.isAoE())
         {
             // AOE moves are just a 8-radius box around us.
-            final double frac = 2 * (this.startAge - this.getDuration()) / this.startAge;
+            final double frac = 2d * (this.startAge - this.getDuration()) / this.startAge;
             // The 2x above is as sh and sv were divided by 2 earlier.
             testBox = this.start.getAABB().inflate(sh * frac, sv * frac, sh * frac);
             hitboxes.add(testBox);

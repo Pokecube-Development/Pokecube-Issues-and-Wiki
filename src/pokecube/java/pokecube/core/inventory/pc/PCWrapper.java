@@ -57,7 +57,7 @@ public class PCWrapper extends ItemCap
 
     public boolean stillValid(Player player)
     {
-        return this.tile.isBound() ? player.getUUID().equals(this.tile.boundId) : true;
+        return !this.tile.isBound() || player.getUUID().equals(this.tile.boundId);
     }
 
     @Override

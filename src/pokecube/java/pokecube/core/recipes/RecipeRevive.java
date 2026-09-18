@@ -88,7 +88,7 @@ public class RecipeRevive extends CustomRecipe
     public boolean matches(final CraftingInput inv, final Level worldIn)
     {
         boolean revive = false;
-        boolean pokeseal = false;
+        boolean pokeseal;
         ItemStack other = ItemStack.EMPTY;
         ItemStack seal = ItemStack.EMPTY;
 

@@ -91,11 +91,6 @@ public class MoveRecipe implements Recipe<MoveRecipe.WorldCraftInventory>
         {
             return wrapped.size();
         }
-
-        public void addItem(ItemStack item)
-        {
-            wrapped.items().add(item);
-        }
     }
 
     public static class MoveMatcher implements Predicate<String>
@@ -264,7 +259,7 @@ public class MoveRecipe implements Recipe<MoveRecipe.WorldCraftInventory>
         return depth;
     }
 
-    public boolean attemptCraft(IPokemob attacker, Vector3 location, HitResult hit)
+    public boolean attemptCraft(IPokemob attacker, Vector3 location, HitResult ignored)
     {
         // This should look for items near the location, and try to stuff
         // them into a shapeless recipe.

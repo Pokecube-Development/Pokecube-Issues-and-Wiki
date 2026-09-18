@@ -31,7 +31,6 @@ public class PCContainer extends BaseContainer
 {
     public static Set<Predicate<ItemStack>> CUSTOMPCWHILTELIST = Sets.newHashSet();
 
-    public static int STACKLIMIT = 64;
     public static int yOffset;
     public static int xOffset;
 
@@ -148,12 +147,6 @@ public class PCContainer extends BaseContainer
     public boolean getRelease()
     {
         return this.release;
-    }
-
-    @Override
-    public Slot getSlot(final int par1)
-    {
-        return this.slots.get(par1);
     }
 
     public void gotoInventoryPage(final int page)

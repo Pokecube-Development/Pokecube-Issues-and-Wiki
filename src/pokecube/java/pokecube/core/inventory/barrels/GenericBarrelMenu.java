@@ -8,8 +8,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class GenericBarrelMenu extends AbstractContainerMenu
 {
@@ -24,9 +22,6 @@ public class GenericBarrelMenu extends AbstractContainerMenu
 		return new GenericBarrelMenu(MenuType.GENERIC_9x3, slots, playerInventory, 3);
 	}
 
-	public static GenericBarrelMenu threeRows(int slots, Inventory playerInventory, Container inventory) {
-		return new GenericBarrelMenu(MenuType.GENERIC_9x3, slots, playerInventory, inventory, 3);
-	}
 	public GenericBarrelMenu(MenuType<?> containerType, int windowId, Inventory playerInventory, Container inventory, int slot) {
 	      super(containerType, windowId);
 	      checkContainerSize(inventory, slot * 9);
@@ -88,10 +83,5 @@ public class GenericBarrelMenu extends AbstractContainerMenu
 
 	public Container getContainer() {
 		return this.container;
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public int getRowCount() {
-		return this.containerRows;
 	}
 }

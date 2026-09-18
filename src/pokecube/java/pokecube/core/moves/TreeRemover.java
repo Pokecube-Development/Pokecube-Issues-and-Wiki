@@ -117,9 +117,8 @@ public class TreeRemover
         return base;
     }
 
-    private boolean nextPoint(final Vector3 prev, final List<Vector3> tempList)
+    private void nextPoint(final Vector3 prev, final List<Vector3> tempList)
     {
-        boolean ret = false;
         final Vector3 temp = new Vector3();
         for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) for (int k = -1; k <= 1; k++)
         {
@@ -127,11 +126,9 @@ public class TreeRemover
             if (PokecubeTerrainChecker.isWood(temp.getBlockState(this.world)))
             {
                 tempList.add(temp.copy());
-                ret = true;
             }
         }
         this.checked.add(prev);
-        return ret;
     }
 
     private void populateList(final Vector3 base)

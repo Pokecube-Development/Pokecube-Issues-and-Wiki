@@ -308,7 +308,7 @@ public class CoreCreativeTabs
 
     public static void add(BuildCreativeModeTabContentsEvent event, ItemStack stack)
     {
-        if (stack.isEmpty() || stack==null)
+        if (stack.isEmpty())
         {
             PokecubeAPI.LOGGER.error("Warning, Attempting to register an empty stack to tab!",
                     new IllegalArgumentException());

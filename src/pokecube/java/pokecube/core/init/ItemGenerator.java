@@ -14,7 +14,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.HangingSignItem;
@@ -34,7 +33,6 @@ import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
@@ -44,7 +42,6 @@ import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
@@ -126,14 +123,10 @@ public class ItemGenerator
 
     public static Map<String, DeferredBlock<Block>> berry_wall_signs = Maps.newHashMap();
     public static Map<String, DeferredBlock<Block>> berry_signs = Maps.newHashMap();
-    public static Map<String, DeferredItem<Item>> berry_sign_items = Maps.newHashMap();
     public static Map<String, DeferredBlock<Block>> berry_hanging_signs = Maps.newHashMap();
     public static Map<String, DeferredBlock<Block>> berry_wall_hanging_signs = Maps.newHashMap();
-    public static Map<String, DeferredItem<Item>> berry_hanging_sign_items = Maps.newHashMap();
 
-    private static Map<String, DeferredBlock<Block>> berry_wood_things = Maps.newHashMap();
-
-    public static Map<Item, DeferredBlock<Block>> potted_berries = Maps.newHashMap();
+    private static final Map<String, DeferredBlock<Block>> berry_wood_things = Maps.newHashMap();
 
     public static List<DeferredBlock<Block>> SIGN_BLOCKS = Lists.newArrayList();
     public static List<DeferredBlock<Block>> HANGING_SIGN_BLOCKS = Lists.newArrayList();
@@ -441,17 +434,15 @@ public class ItemGenerator
         {
             final int index = BerryManager.indexByName.get(name);
             // Leaves
-            makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(0).apply(name),
-                    () -> new BerryLeaf(BlockBehaviour.Properties.of().mapColor(ItemGenerator.onlyBerryLeaves.get(name))
-                            .strength(0.2F).randomTicks().noOcclusion().ignitedByLava().sound(SoundType.GRASS)
+            makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.getFirst().apply(name), () -> new BerryLeaf(
+                    BlockBehaviour.Properties.of().mapColor(ItemGenerator.onlyBerryLeaves.get(name)).strength(0.2F)
+                            .randomTicks().noOcclusion().ignitedByLava().sound(SoundType.GRASS)
                             .pushReaction(PushReaction.DESTROY).isSuffocating((s, r, p) -> false)
                             .isViewBlocking((s, r, p) -> false).isRedstoneConductor((s, r, p) -> false)
-                            .isValidSpawn(PokecubeItems::ocelotOrParrot), index),
-                    block ->
-                    {
-                        ItemGenerator.leaves.put(name, block);
-                        BerryManager.berryLeaves.put(index, block);
-                    });
+                            .isValidSpawn(PokecubeItems::ocelotOrParrot), index), block -> {
+                ItemGenerator.leaves.put(name, block);
+                BerryManager.berryLeaves.put(index, block);
+            });
         }
     }
 
@@ -513,7 +504,7 @@ public class ItemGenerator
         }
         for (final String name : leaves)
         {
-            String regName = BERRY_WOOD_THINGS.get(0).apply(name);
+            String regName = BERRY_WOOD_THINGS.getFirst().apply(name);
             Item.Properties props = new Item.Properties();
             PokecubeCore.ITEMS.register(regName, () -> new BlockItem(berry_wood_things.get(regName).get(), props));
         }
@@ -675,12 +666,6 @@ public class ItemGenerator
             for (final String name : onlyLeaves)
                 ItemGenerator.flammableBlocks(ItemGenerator.leaves.get(name).get(), 30, 60);
         });
-    }
-
-    public static void postInitItems()
-    {
-        for (final String type : ItemGenerator.fossilVariants)
-            PokecubeItems.registerFossil(new ItemStack(ItemGenerator.fossils.get(type).get()), type);
     }
 
     public static void processHeldItemUse(final MoveApplication moveUse, final IPokemob mob, final ItemStack held)

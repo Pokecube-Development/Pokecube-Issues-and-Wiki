@@ -826,9 +826,6 @@ public class Config extends ConfigData
     @Configure(category = Config.advanced, type = Type.SERVER, comment = "Number of ender pearls required to teleport to a Pokecenter in a different dimension, using the attack teleport. [Default: 16]")
     public int telePearlsCostOtherDim = 16;
 
-    @Configure(category = Config.advanced, type = Type.SERVER, comment = "Pokemobs larger than this are treated a bit differently to try to reduce lag when they move around. [Default: 2]")
-    public double largeMobForSplit = 2;
-
     @Configure(category = Config.advanced, type = Type.SERVER, comment = "A spacing around a player which prevents them from riding something too fast off the edge of the loaded area. This effectively limits the speed at which they can generate terrain. [Default: 32]")
     public double movementPauseThreshold = 32;
 

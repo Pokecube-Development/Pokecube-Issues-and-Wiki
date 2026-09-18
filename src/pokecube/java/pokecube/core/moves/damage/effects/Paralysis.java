@@ -7,7 +7,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class Paralysis extends StatusEffect
 {
-    public static ResourceLocation MODIFIER = ResourceLocation.parse("pokecube:effect.freeze");
+    public static ResourceLocation MODIFIER = ResourceLocation.parse("pokecube:effect.paralysis");
 
     public Paralysis(int color)
     {

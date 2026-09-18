@@ -23,6 +23,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
+import pokecube.api.PokecubeAPI;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.PokecenterSound;
 import thut.core.common.ThutCore;
@@ -32,8 +33,8 @@ public class ClientProxy extends CommonProxy
     @OnlyIn(value = Dist.CLIENT)
     public final Map<BlockPos, PokecenterSound> pokecenter_sounds = Maps.newHashMap();
 
-    private static Map<String, ResourceLocation> players = Maps.newHashMap();
-    private static Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
+    private static final Map<String, ResourceLocation> players = Maps.newHashMap();
+    private static final Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
 
     public ClientProxy()
     {
@@ -107,7 +108,7 @@ public class ClientProxy extends CommonProxy
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
             return DefaultPlayerSkin.getDefaultTexture();
         }
         return ClientProxy.urlSkins.get(urlSkin);

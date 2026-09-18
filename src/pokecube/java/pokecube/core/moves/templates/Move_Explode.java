@@ -122,6 +122,11 @@ public class Move_Explode implements IMove
         });
     }
 
+    public DamageApplier getDamage()
+    {
+        return damage;
+    }
+
     @Override
     public PostMoveUse getPostUse(MoveApplication t)
     {
