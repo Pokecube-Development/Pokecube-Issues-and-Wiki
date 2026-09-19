@@ -92,6 +92,7 @@ public class PacketBattleTargets extends Packet
             // TODO decide if we want to handle this for not pokemobs?
             var list = PacketSyncBattle.getEnemies();
             int n = list.size();
+            if (n == 0) return;
             int i = manualTargetIndex;
             i %= n;
             var target = list.get(i);
