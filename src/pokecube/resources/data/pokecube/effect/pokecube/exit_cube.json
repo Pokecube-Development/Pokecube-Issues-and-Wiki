@@ -1,0 +1,12 @@
+{
+  "name": "exit_cube",
+  "animations": [
+    {
+      "preset": "evo_rays",
+      "duration": 50,
+      "starttick": 0,
+      "preset_values": {
+      }
+    }
+  ]
+}

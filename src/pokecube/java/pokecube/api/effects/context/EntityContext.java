@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.effects.ParticleEffects;
 
 public class EntityContext implements EffectContext<Entity>
 {
@@ -57,7 +56,7 @@ public class EntityContext implements EffectContext<Entity>
     @Override
     public ResourceLocation getKey()
     {
-        return ParticleEffects.ENTITY_CONTEXT;
+        return ENTITY;
     }
 
     private void resolveEntity(Level level)

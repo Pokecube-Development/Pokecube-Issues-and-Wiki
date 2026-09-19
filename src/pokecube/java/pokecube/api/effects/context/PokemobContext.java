@@ -10,12 +10,17 @@ import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.effects.EvolutionEffect;
-import pokecube.api.effects.ParticleEffects;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 public class PokemobContext implements EffectContext<IPokemob>
 {
+    public static Function<IPokemob, Consumer<EffectPacketInfo>> ANIMATION_CLIENT_FACTORY = pokemob -> (m) -> {};
+    public static Function<IPokemob, Consumer<EffectPacketInfo>> ANIMATION_SERVER_FACTORY = pokemob -> (m) -> {};
+
     public static final StreamCodec<ByteBuf, PokemobContext> STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.VAR_INT,
             PokemobContext::getId, (integer) -> new PokemobContext(Either.right(integer)));
 
@@ -56,6 +61,9 @@ public class PokemobContext implements EffectContext<IPokemob>
     public void onAttach(EffectPacketInfo info)
     {
         if (info.processedContext == null) info.processedContext = EvolutionEffect.EvoContext.fromMoveInfo(info);
+        this.getContext(info.level);
+        if (info.level.isClientSide()) ANIMATION_CLIENT_FACTORY.apply(getContext()).accept(info);
+        else ANIMATION_SERVER_FACTORY.apply(getContext()).accept(info);
     }
 
     @Override
@@ -67,7 +75,7 @@ public class PokemobContext implements EffectContext<IPokemob>
     @Override
     public ResourceLocation getKey()
     {
-        return ParticleEffects.POKEMOB_CONTEXT;
+        return POKEMOB;
     }
 
     private void resolveEntity(Level level)

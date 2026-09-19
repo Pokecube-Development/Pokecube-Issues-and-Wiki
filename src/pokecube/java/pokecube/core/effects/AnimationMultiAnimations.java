@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.Animations.AnimationJson;
 import pokecube.api.effects.EffectPacketInfo;
+import pokecube.api.effects.mutators.EffectMutator;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.effects.IAnimatedEffects;
 import pokecube.core.PokecubeCore;
@@ -46,6 +47,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     List<WrappedAnimation> components = Lists.newArrayList();
 
     private int applicationTick = 0;
+    private boolean anyComplex = false;
 
     public AnimationMultiAnimations(final MoveEntry move)
     {
@@ -81,6 +83,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             this.components.add(wrapped);
         }
         this.components.sort(Comparator.comparingInt(arg0 -> arg0.start));
+        this.checkComplex();
     }
 
     public AnimationMultiAnimations(List<IAnimatedEffects> effects)
@@ -95,6 +98,25 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             this.components.add(wrapped);
         }
         this.components.sort(Comparator.comparingInt(arg0 -> arg0.start));
+        this.checkComplex();
+    }
+
+    public void addMutator(EffectMutator mutator)
+    {
+        this.components.forEach(c -> {
+            if (c.wrapped instanceof MoveAnimationBase b) b.values.addMutator(mutator);
+        });
+    }
+
+    private void checkComplex()
+    {
+        this.anyComplex = this.components.stream().anyMatch(b -> b.wrapped.hasComplexRender());
+    }
+
+    @Override
+    public void tickMutators(EffectPacketInfo info)
+    {
+        this.components.forEach(c -> c.wrapped.tickMutators(info));
     }
 
     @Override
@@ -111,6 +133,28 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             toRun.wrapped.clientAnimation(mat, buffer, info, partialTick, packedLightIn);
         }
         info.currentTick = tick;
+    }
+
+    @Override
+    public void setDuration(int duration)
+    {
+        super.setDuration(duration);
+        int len = -1;
+        // Sync duration length down the chain as needed
+        // TODO later maybe instead scale by change from original duration?
+        for (var comp : this.components)
+        {
+            if (comp.start != 0) return;
+            if (len == -1) len = comp.wrapped.getDuration();
+            if (len != comp.wrapped.getDuration()) return;
+        }
+        for (var comp : this.components) comp.wrapped.setDuration(duration);
+    }
+
+    @Override
+    public boolean hasComplexRender()
+    {
+        return anyComplex;
     }
 
     @Override

@@ -1,9 +1,6 @@
 package pokecube.mobs;
 
-import java.util.Map;
 import java.util.Random;
-
-import com.google.common.collect.Maps;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -18,7 +15,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLLoader;
@@ -26,7 +22,6 @@ import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.InitDatabase;
@@ -64,11 +59,9 @@ public class PokecubeMobs
     public static final String MODID = "pokecube_mobs";
 
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT,
-            PokecubeMobs.MODID);;
+            PokecubeMobs.MODID);
 
-    Map<PokedexEntry, Integer> genMap = Maps.newHashMap();
-
-    public PokecubeMobs(IEventBus bus, ModContainer modContainer)
+    public PokecubeMobs(IEventBus bus)
     {
         ThutCore.FORGE_BUS.register(this);
         PokecubeAPI.POKEMOB_BUS.register(this);

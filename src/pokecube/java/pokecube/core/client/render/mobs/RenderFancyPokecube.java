@@ -268,14 +268,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             }
             return "idle";
         }
-
-        final IAnimationHolder holder = this.getAnimationHolder();
-        if (holder != null)
-        {
-            String result = holder.getAnimation(entityIn);
-            if (result.isEmpty()) result = IModelRenderer.DEFAULTPHASE;
-            return result;
-        }
         return IModelRenderer.DEFAULTPHASE;
     }
 

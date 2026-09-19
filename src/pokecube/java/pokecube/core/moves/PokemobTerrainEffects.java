@@ -16,7 +16,9 @@ import org.joml.Vector3f;
 import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.effects.ParticleEffects;
 import pokecube.api.effects.VectorPositionSource;
+import pokecube.api.effects.context.EntityContext;
 import pokecube.api.effects.context.MoveEntryContext;
+import pokecube.api.effects.context.PokemobContext;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
@@ -194,7 +196,12 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 Vector3f target = new Vector3f(level.random.nextFloat(), 0, level.random.nextFloat()).normalize();
                 var end = new VectorPositionSource(target.add(chunkMid));
                 renderEffect = new EffectPacketInfo(entry.getAnimation(), level, source, end, 1, 1);
-                renderEffect.setContext(new MoveEntryContext(entry));
+                renderEffect.addContext(new MoveEntryContext(entry));
+                if (mob != null)
+                {
+                    renderEffect.addContext(new PokemobContext(mob));
+                    renderEffect.addContext(new EntityContext(mob.getEntity()));
+                }
                 ParticleEffects.ADD_FOR_RENDER.accept(renderEffect);
                 this.level = level;
                 ThutCore.FORGE_BUS.register(this);

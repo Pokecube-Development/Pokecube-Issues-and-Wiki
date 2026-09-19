@@ -1,68 +1,39 @@
 package pokecube.api.effects;
 
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.effects.context.PokemobContext;
+import pokecube.api.effects.context.EffectContext;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
-import thut.api.maths.Vector3;
 
 import java.awt.Color;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class EvolutionEffect
 {
-
-    public static Function<IPokemob, EffectPacketInfo> EVO_EFFECT_FACTORY = pokemob -> {
-        var level = pokemob.getEntity().level();
-        var targ = new Vector3(pokemob.getEntity()).addTo(new Vector3(pokemob.getEntity().getLookAngle()));
-        var context = new PokemobContext(pokemob);
-        var animation = ParticleEffects.getEffect("pokecube.pokemob.evolution");
-        return new EffectPacketInfo(animation.apply(context), level,
-                EffectPacketInfo.TaggedEntityTracker.create(pokemob.getEntity(), ParticleEffects.EVO_ANCHORS),
-                new VectorPositionSource(targ.toJOML()), 1, 1).setContext(context);
-    };
-
-    public static EffectPacketInfo makeAndAddEffect(IPokemob pokemob, int duration)
-    {
-        var evo_effect = EVO_EFFECT_FACTORY.apply(pokemob);
-        if (evo_effect == null) return null;
-        evo_effect.animation.effect().setDuration(duration);
-        // Reset this to match new duration
-        evo_effect.removalTick = evo_effect.animation.getDuration();
-        evo_effect.endTick = evo_effect.removalTick;
-        ParticleEffects.ADD_FOR_RENDER.accept(evo_effect);
-        return evo_effect;
-    }
-
     public static record EvoContext(Color col1, Color col2, PokedexEntry entry, Supplier<Float> scale)
     {
         public static EvoContext fromMoveInfo(EffectPacketInfo info)
         {
-            if(info.processedContext instanceof EvoContext context) return context;
-            if(info.context==null) return null;
-            var _context = info.context.getContext(info.level);
-            if(_context instanceof IPokemob pokemob)
-            {
-                var entry = pokemob.getPokedexEntry();
-                int color1 = pokemob.getType1().colour;
-                int color2 = pokemob.getType2().colour;
-                if (pokemob.getType2() == PokeType.unknown) color2 = color1;
-                Color col1 = new Color(color1);
-                Color col2 = new Color(color2);
-                Supplier<Float> scale = () -> {
-                    float mobScale;
-                    if (pokemob.getEntity() instanceof PokemobHasParts parts) mobScale = parts.getScaleFast();
-                    else mobScale = pokemob.getEntity().getScale();
-                    var dims = entry.getModelSize();
-                    return 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
-                };
-                var context = new EvoContext(col1, col2, entry, scale);
-                info.processedContext = context;
-                return context;
-            }
-            return null;
+            if (info.processedContext instanceof EvoContext context) return context;
+            IPokemob pokemob = info.getContext(EffectContext.POKEMOB);
+            if (pokemob == null) return null;
+            var entry = pokemob.getPokedexEntry();
+            int color1 = pokemob.getType1().colour;
+            int color2 = pokemob.getType2().colour;
+            if (pokemob.getType2() == PokeType.unknown) color2 = color1;
+            Color col1 = new Color(color1);
+            Color col2 = new Color(color2);
+            Supplier<Float> scale = () -> {
+                float mobScale;
+                if (pokemob.getEntity() instanceof PokemobHasParts parts) mobScale = parts.getScaleFast();
+                else mobScale = pokemob.getEntity().getScale();
+                var dims = entry.getModelSize();
+                return 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+            };
+            var context = new EvoContext(col1, col2, entry, scale);
+            info.processedContext = context;
+            return context;
         }
     }
 }

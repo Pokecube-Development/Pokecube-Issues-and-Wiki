@@ -90,15 +90,15 @@ public class Pokecube extends Item implements IPokecube
     @OnlyIn(Dist.CLIENT)
     public static void displayInformation(final CompoundTag nbt, final List<Component> list)
     {
-        final boolean flag2 = nbt.getBoolean("Flames");
+        final boolean flag2 = nbt.getBoolean("flames");
 
         if (flag2) list.add(Component.translatable("item.pokecube.flames").withStyle(ChatFormatting.RED));
 
-        final boolean flag3 = nbt.getBoolean("Bubbles");
+        final boolean flag3 = nbt.getBoolean("bubbles");
 
         if (flag3) list.add(Component.translatable("item.pokecube.bubbles").withStyle(ChatFormatting.AQUA));
 
-        final boolean flag4 = nbt.getBoolean("Leaves");
+        final boolean flag4 = nbt.getBoolean("leaves");
 
         if (flag4) list.add(Component.translatable("item.pokecube.leaves").withStyle(ChatFormatting.GREEN));
 

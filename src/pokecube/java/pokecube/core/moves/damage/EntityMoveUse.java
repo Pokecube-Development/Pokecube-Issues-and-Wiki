@@ -23,7 +23,9 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.context.EntityContext;
 import pokecube.api.effects.context.MoveEntryContext;
+import pokecube.api.effects.context.PokemobContext;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -340,7 +342,10 @@ public class EntityMoveUse extends ThrowableProjectile
         {
             info = new EffectPacketInfo(animation, this.level(), this.getUser(), this.getTarget(),
                     this.getEnd().toJOML());
-            info.setContext(new MoveEntryContext(move));
+            info.addContext(new MoveEntryContext(move));
+            var userMob = PokemobCaps.getPokemobFor(this.getUser());
+            if (userMob != null) info.addContext(new PokemobContext(userMob));
+            if (this.getUser() != null) info.addContext(new EntityContext(this.getUser()));
             if (level().isClientSide()) ParticleEffects.ADD_FOR_RENDER.accept(info);
             else ParticleEffects.ADD_FOR_SERVER.accept(info);
             info.endTick = animation.getDuration();

@@ -14,7 +14,10 @@ import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.EventHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.AbilityManager;
-import pokecube.api.effects.EvolutionEffect;
+import pokecube.api.effects.EffectPacketInfo;
+import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.context.EntityContext;
+import pokecube.api.effects.context.PokemobContext;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -93,7 +96,6 @@ public class CaptureManager
         }
         else if (hitten != null)
         {
-            EvolutionEffect.makeAndAddEffect(hitten, PokecubeCore.getConfig().exitCubeDuration);
             if (capturePre.isCanceled())
             {
                 int n = cube.getTilt();
@@ -179,6 +181,16 @@ public class CaptureManager
         cube.setNotCapturing();
         cube.setReleased(living);
 
+        var effect_key = "pokecube.capture_failed";
+        var effectFunction = ParticleEffects.getEffect(effect_key);
+        var applied = effectFunction.get();
+        var effect = new EffectPacketInfo(applied, cube, ParticleEffects.EVO_ANCHORS).addContext(
+                new EntityContext(cube));
+        if (pokemob != null) effect.addContext(new PokemobContext(pokemob));
+        effect.onClientTick = effect.onClientTick.andThen(
+                info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+        ParticleEffects.ADD_FOR_RENDER.accept(effect);
+
         living.moveTo(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z, cube.getYRot(), 0.0F);
         if (pokemob != null)
         {
@@ -203,9 +215,20 @@ public class CaptureManager
         final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.level(), true);
         IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         final IOwnable ownable = ThutCaps.getOwnable(mob);
+
+        var effect_key = "pokecube.capture_succeed";
+        var effectFunction = ParticleEffects.getEffect(effect_key);
+        var applied = effectFunction.get();
+        var effect = new EffectPacketInfo(applied, cube, ParticleEffects.EVO_ANCHORS).addContext(
+                new EntityContext(cube));
+        if (pokemob != null) effect.addContext(new PokemobContext(pokemob));
+        effect.onClientTick = effect.onClientTick.andThen(
+                info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+        ParticleEffects.ADD_FOR_RENDER.accept(effect);
+
         if (mob == null || cube.shooter == null)
         {
-            if (mob == null) PokecubeAPI.LOGGER.error("Error with mob capture: {}", mob);
+            if (mob == null) PokecubeAPI.LOGGER.error("Error with mob capture: {}", cube);
             else cube.playSound(Sounds.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
             return false;
         }

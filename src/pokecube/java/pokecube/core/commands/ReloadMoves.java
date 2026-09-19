@@ -5,6 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import pokecube.api.effects.DefaultEffects;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MovesDatabases;
@@ -22,15 +23,16 @@ public class ReloadMoves
         PermNodes.registerBooleanNode(PokecubeCore.MODID, perm, DefaultPermissionLevel.OP,
                 "Is the player allowed to reload pokecube moves");
         command.then(Commands.literal("reload_moves").requires(Permissions.hasPerm(perm))
-                .executes((ctx) -> ReloadMoves.execute(ctx.getSource())));
+                .executes((ctx) -> ReloadMoves.execute()));
     }
 
-    public static int execute(final CommandSourceStack source) throws CommandSyntaxException
+    public static int execute() throws CommandSyntaxException
     {
         MoveEntry.reloading = true;
         MovesDatabases.preInitLoad();
-        MovesAdder.setupMoveAnimations();
         MovesDatabases.postInitMoves();
+        DefaultEffects.loadEffects();
+        MovesAdder.setupMoveAnimations();
         MoveEntry.reloading = false;
         return 0;
     }

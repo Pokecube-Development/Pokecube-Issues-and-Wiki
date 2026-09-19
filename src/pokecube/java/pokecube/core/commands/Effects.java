@@ -25,30 +25,32 @@ public class Effects
     private static final SuggestionProvider<CommandSourceStack> SUGGEST_EFFECT = (ctx,
             sb) -> net.minecraft.commands.SharedSuggestionProvider.suggest(ParticleEffects.EFFECT_REGISTRY.keySet(), sb);
 
-    public static int execute(final CommandSourceStack source, final ServerPlayer player, final String effect)
+    public static int execute(final ServerPlayer player, final String effect)
     {
         var function = ParticleEffects.getEffect(effect);
         var e = Tools.getPointedEntity(player, 10);
         if (e == null) return -1;
         // Pokemob effect, we will see if there is a pokemob in front of the player, and if so, apply it on that.
-        if (effect.contains(".pokemob."))
+        if (effect.startsWith("pokemob."))
         {
             var pokemob = PokemobCaps.getPokemobFor(e);
             if (pokemob == null) return -1;
             var context = new PokemobContext(pokemob);
-            var record = function.apply(context);
-            var info = new EffectPacketInfo(record, e, ParticleEffects.EVO_ANCHORS).setContext(context);
+            var record = function.get();
+            var info = new EffectPacketInfo(record, e, ParticleEffects.EVO_ANCHORS).addContext(context);
             PacketEffects.sendPacket(info); // use the packet here so it is run on the client's level
             return 0;
         }
         // Move effect, we will just place it in front of the player
-        else if (effect.contains(".move."))
+        else if (effect.startsWith("move."))
         {
-            var moveEntry = MoveEntry.get(effect.replaceFirst("pokecube.move.", ""));
+            var moveEntry = MoveEntry.get(effect.replaceFirst("move.", ""));
             var context = new MoveEntryContext(moveEntry);
-            var record = function.apply(context);
+            var record = function.get();
             var target = e.getEyePosition().toVector3f().add(e.getLookAngle().toVector3f().mul(5));
-            var info = new EffectPacketInfo(record, e.level(), e, null, target).setContext(context);
+            var info = new EffectPacketInfo(record, e.level(), e, null, target).addContext(context);
+            var pokemob = PokemobCaps.getPokemobFor(e);
+            if (pokemob != null) info.addContext(new PokemobContext(pokemob));
             PacketEffects.sendPacket(info); // use the packet here so it is run on the client's level
             return 0;
         }
@@ -58,7 +60,7 @@ public class Effects
     public static int execute(final CommandSourceStack source, final String effect) throws CommandSyntaxException
     {
         final ServerPlayer player = source.getPlayerOrException();
-        return Effects.execute(source, player, effect);
+        return Effects.execute(player, effect);
     }
 
     public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)

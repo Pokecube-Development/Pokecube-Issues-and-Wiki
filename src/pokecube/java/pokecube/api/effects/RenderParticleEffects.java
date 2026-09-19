@@ -25,6 +25,7 @@ public class RenderParticleEffects
     private static boolean tickMovePacketInfo(EffectPacketInfo info)
     {
         info.onClientTick.accept(info);
+        info.animation.effect().tickMutators(info);
         info.animation.effect().spawnClientEntities(info, info.currentTick + 1);
         info.currentTick++;
         boolean done = info.isFinished();
@@ -95,6 +96,7 @@ public class RenderParticleEffects
             y = Mth.lerp(f, prev.y, y);
             z = Mth.lerp(f, prev.z, z);
             stack.translate(x - camera.x, y - camera.y, z - camera.z);
+            info.animation.effect().tickMutators(info);
             info.animation.effect().clientAnimation(stack, buffers, info, delta, LightTexture.FULL_BLOCK);
             stack.popPose();
         });

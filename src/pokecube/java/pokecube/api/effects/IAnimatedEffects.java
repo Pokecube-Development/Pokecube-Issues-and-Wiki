@@ -63,8 +63,13 @@ public interface IAnimatedEffects
         return false;
     }
 
+    /**
+     * This is called before clientAnimation and spawnClientEntities. This is called after the
+     * EffectPacketInfo::onClientTick
+     */
+    default void tickMutators(EffectPacketInfo info) {}
+
     /** Initialise colours for the move. */
-    @OnlyIn(Dist.CLIENT)
     default void reallyInitRGBA()
     {}
     /**
@@ -79,7 +84,6 @@ public interface IAnimatedEffects
     /**
      * Used to spawn particle effects, etc.
      */
-    @OnlyIn(Dist.CLIENT)
     default void spawnClientEntities(final EffectPacketInfo info, float partialTicks)
     {}
 }

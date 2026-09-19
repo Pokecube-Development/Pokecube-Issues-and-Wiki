@@ -13,9 +13,8 @@ import net.minecraft.world.phys.Vec3;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.effects.EffectPacketInfo;
-import pokecube.api.effects.EvolutionEffect;
 import pokecube.api.effects.ParticleEffects;
-import pokecube.api.effects.PokemobTickParticles;
+import pokecube.api.effects.context.NBTContext;
 import pokecube.api.effects.context.PokemobContext;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -395,30 +394,33 @@ public class LogicMiscUpdate extends LogicBase
                 entity.removeEffect(e.getEffect());
             }
         }
-
-        var context = new PokemobContext(this.pokemob);
+        var pokemobContext = new PokemobContext(pokemob);
         // Particle stuff below here
         if (this.entity.tickCount % 20 == 0)
         {
             // Shadow mob effect
             if (this.pokemob.isShadow())
             {
-                var applied = PokemobTickParticles.SHADOW_EFFECT.apply(context);
-                if (applied != null)
-                {
-                    var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
-                    ParticleEffects.ADD_FOR_RENDER.accept(effect);
-                }
+                var effect_key = "pokemob.shadow";
+                var effectFunction = ParticleEffects.getEffect(effect_key);
+                var applied = effectFunction.get();
+                var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(
+                        pokemobContext);
+                effect.onClientTick = effect.onClientTick.andThen(
+                        info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+                ParticleEffects.ADD_FOR_RENDER.accept(effect);
             }
             // Holiday effect
             if (LogicMiscUpdate.holiday)
             {
-                var applied = PokemobTickParticles.HOLIDAY_EFFECT.apply(context);
-                if (applied != null)
-                {
-                    var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
-                    ParticleEffects.ADD_FOR_RENDER.accept(effect);
-                }
+                var effect_key = "pokemob.holiday";
+                var effectFunction = ParticleEffects.getEffect(effect_key);
+                var applied = effectFunction.get();
+                var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(
+                        pokemobContext);
+                effect.onClientTick = effect.onClientTick.andThen(
+                        info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+                ParticleEffects.ADD_FOR_RENDER.accept(effect);
             }
             // flavour effects
             boolean anyFlav = false;
@@ -432,28 +434,36 @@ public class LogicMiscUpdate extends LogicBase
             }
             if (anyFlav)
             {
-                var applied = PokemobTickParticles.FLAVOUR_EFFECT.apply(context);
-                if (applied != null)
-                {
-                    var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
-                    ParticleEffects.ADD_FOR_RENDER.accept(effect);
-                }
+                var effect_key = "pokemob.flavour";
+                var effectFunction = ParticleEffects.getEffect(effect_key);
+                var applied = effectFunction.get();
+                var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(
+                        pokemobContext);
+                effect.onClientTick = effect.onClientTick.andThen(
+                        info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+                ParticleEffects.ADD_FOR_RENDER.accept(effect);
             }
         }
         if (this.entity.tickCount % 10 == 0 && this.pokemob.getGeneralState(GeneralStates.MATING))
         {
-            var applied = PokemobTickParticles.MATE_EFFECT.apply(context);
-            if (applied != null)
-            {
-                var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
-                ParticleEffects.ADD_FOR_RENDER.accept(effect);
-            }
+            var effect_key = "pokemob.mating";
+            var effectFunction = ParticleEffects.getEffect(effect_key);
+            var applied = effectFunction.get();
+            var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(pokemobContext);
+            effect.onClientTick = effect.onClientTick.andThen(
+                    info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+            ParticleEffects.ADD_FOR_RENDER.accept(effect);
         }
 
         // Evolution effects
         if (evolving && evo_effect == null)
         {
-            evo_effect = EvolutionEffect.makeAndAddEffect(pokemob, PokecubeCore.getConfig().evolutionTicks);
+            var effect_key = "pokemob.evolution";
+            var effectFunction = ParticleEffects.getEffect(effect_key);
+            var applied = effectFunction.get();
+            evo_effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(pokemobContext);
+            evo_effect.onClientTick = evo_effect.onClientTick.andThen(
+                    info -> info.animation.effect().setDuration(PokecubeCore.getConfig().evolutionTicks));
             evo_effect.onClientEnd = evo_effect.onClientEnd.andThen(info -> {
                 if (info.isFinished()) this.evo_effect = null;
             });
@@ -461,39 +471,43 @@ public class LogicMiscUpdate extends LogicBase
         // Exiting cube and pokeseal effects
         if (exitingCube && cube_effect == null)
         {
-            cube_effect = EvolutionEffect.makeAndAddEffect(pokemob, PokecubeCore.getConfig().exitCubeDuration);
-            // Now add pokeseal effects, starting with "Shiny"
+            // First the regular exit cube effect
+            var effect_key = "pokecube.exit_cube";
+            var effectFunction = ParticleEffects.getEffect(effect_key);
+            var applied = effectFunction.get();
+            cube_effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(pokemobContext);
+            cube_effect.onClientTick = cube_effect.onClientTick.andThen(
+                    info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+            ParticleEffects.ADD_FOR_RENDER.accept(cube_effect);
+            // Now additional effects, starting with "Shiny"
             if (pokemob.isShiny())
             {
-                var function = RecipePokeseals.POKESEAL_EFFECTS.get("Shiny");
-                if (function != null)
-                {
-                    var applied = function.apply(new CompoundTag());
-                    if (applied != null)
-                    {
-                        var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS);
-                        ParticleEffects.ADD_FOR_RENDER.accept(effect);
-                    }
-                }
+                effect_key = "pokecube.shiny";
+                effectFunction = ParticleEffects.getEffect(effect_key);
+                applied = effectFunction.get();
+                var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(
+                        pokemobContext);
+                effect.onClientTick = effect.onClientTick.andThen(
+                        info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+                ParticleEffects.ADD_FOR_RENDER.accept(effect);
             }
-            // Then process the pokeseal data
             var seal = pokemob.getPokecube().get(PokemobCaps.POKESEAL_DATA);
+            var tag = seal != null ? seal.tag() : new CompoundTag();
+            // Then process the pokeseal data
             if (seal != null && !seal.tag().isEmpty())
             {
+                var context = new NBTContext(tag);
                 for (String key : seal.tag().getAllKeys())
                 {
-                    var tag = seal.tag().get(key);
-                    var function = RecipePokeseals.POKESEAL_EFFECTS.get(key);
-                    if (function != null)
-                    {
-                        var applied = function.apply(tag);
-                        if (applied != null)
-                        {
-                            var effect = new EffectPacketInfo(applied, entity,
-                                    ParticleEffects.EVO_ANCHORS);
-                            ParticleEffects.ADD_FOR_RENDER.accept(effect);
-                        }
-                    }
+                    effect_key = RecipePokeseals.POKESEAL_EFFECT_NAMES.get(key);
+                    if (effect_key == null) continue;
+                    effectFunction = ParticleEffects.getEffect(effect_key);
+                    applied = effectFunction.get();
+                    var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(context)
+                            .addContext(pokemobContext);
+                    effect.onClientTick = effect.onClientTick.andThen(
+                            info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+                    ParticleEffects.ADD_FOR_RENDER.accept(effect);
                 }
             }
         }

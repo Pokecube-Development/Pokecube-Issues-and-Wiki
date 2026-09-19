@@ -1,14 +1,18 @@
 package pokecube.core.effects;
 
 import com.google.gson.JsonObject;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.effects.EffectPacketInfo;
+import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.mutators.EffectMutator;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.effects.IAnimatedEffects;
 import thut.api.util.JsonUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public abstract class MoveAnimationBase implements IAnimatedEffects
@@ -31,6 +35,9 @@ public abstract class MoveAnimationBase implements IAnimatedEffects
         public float width = 1;
         public float angle = 0;
 
+        public String mutator = "";
+        public List<String> mutators = new ArrayList<>();
+
         public String rgba_string = null;
         public String reference = null;
 
@@ -47,6 +54,18 @@ public abstract class MoveAnimationBase implements IAnimatedEffects
         public String v_x;
         public String v_y;
         public String v_z;
+
+        public List<EffectMutator> _mutators = new ArrayList<>();
+
+        public void applyMutators(EffectPacketInfo info)
+        {
+            for (var m : _mutators) m.mutate(info);
+        }
+
+        public void addMutator(EffectMutator mutator)
+        {
+            if (!_mutators.contains(mutator)) _mutators.add(mutator);
+        }
     }
 
     public Values values = new Values();
@@ -72,6 +91,12 @@ public abstract class MoveAnimationBase implements IAnimatedEffects
     }
 
     @Override
+    public void tickMutators(EffectPacketInfo info)
+    {
+        this.values.applyMutators(info);
+    }
+
+    @Override
     public int getDuration()
     {
         return this.values.duration;
@@ -93,6 +118,18 @@ public abstract class MoveAnimationBase implements IAnimatedEffects
         }
         else values = new Values();
         loaded = true;
+        this.values._mutators.clear();
+        if (!values.mutator.isBlank())
+        {
+            var key = ResourceLocation.parse(values.mutator);
+            var mutator = ParticleEffects.MUTATOR_REGISTRY.get(key);
+            if (mutator != null) this.values._mutators.add(mutator);
+        }
+        this.values.mutators.forEach(name -> {
+            var key = ResourceLocation.parse(name);
+            var mutator = ParticleEffects.MUTATOR_REGISTRY.get(key);
+            if (mutator != null) this.values._mutators.add(mutator);
+        });
     }
 
     public IAnimatedEffects init(JsonObject preset)
@@ -101,7 +138,6 @@ public abstract class MoveAnimationBase implements IAnimatedEffects
         return this;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void initColour(float time, final MoveEntry move)
     {
         this.reallyInitRGBA();
@@ -126,7 +162,6 @@ public abstract class MoveAnimationBase implements IAnimatedEffects
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void reallyInitRGBA()
     {
         if (this.values.rgba_string == null) return;

@@ -10,8 +10,10 @@ import pokecube.api.data.moves.IMove;
 import pokecube.api.data.moves.LoadedMove;
 import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.data.moves.MoveProvider;
+import pokecube.api.effects.DefaultEffects;
 import pokecube.api.effects.IAnimatedEffects.EffectRecord;
 import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.mutators.EffectMutator;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveWorldEffect;
@@ -66,9 +68,12 @@ public class MovesAdder implements IMoveConstants
             {
                 if (PokecubeCore.getConfig().debug_moves)
                     PokecubeAPI.logInfo(move.name + ": animations: " + move.root_entry.animation.animations);
-                var key = "pokecube.move." + move.getName();
-                var effect = new EffectRecord(key, new AnimationMultiAnimations(move));
-                ParticleEffects.registerRecord(key, effectContext -> effect);
+                var key = "move." + move.getName();
+                var animation = new AnimationMultiAnimations(move);
+                var mutator = ParticleEffects.MUTATOR_REGISTRY.get(EffectMutator.MOVE);
+                if (mutator != null) animation.addMutator(mutator);
+                var effect = new EffectRecord(key, animation);
+                ParticleEffects.registerRecord(key, () -> effect);
                 move.setAnimation(effect);
                 continue;
             }
@@ -246,6 +251,7 @@ public class MovesAdder implements IMoveConstants
         MovesAdder.registerRemainder(MovesAdder.registerAutodetect());
         // Finally setup the animations for the moves Later we might sync these
         // from server to client, and run setup for animations again there.
+        DefaultEffects.loadEffects();
         MovesAdder.setupMoveAnimations();
     }
 

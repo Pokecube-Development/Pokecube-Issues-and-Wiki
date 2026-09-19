@@ -37,6 +37,10 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.effects.EffectPacketInfo;
+import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.context.EntityContext;
+import pokecube.api.effects.context.PokemobContext;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -603,6 +607,16 @@ public abstract class EntityPokecubeBase extends LivingEntity
             pokemob.getBossInfo().setVisible(false);
         }
         this.getEntityData().set(CAPTURING, true);
+
+        var effect_key = "pokecube.capture_attempt";
+        var effectFunction = ParticleEffects.getEffect(effect_key);
+        var applied = effectFunction.get();
+        var effect = new EffectPacketInfo(applied, this, ParticleEffects.EVO_ANCHORS).addContext(
+                new EntityContext(this));
+        if (pokemob != null) effect.addContext(new PokemobContext(pokemob));
+        effect.onClientTick = effect.onClientTick.andThen(
+                info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+        ParticleEffects.ADD_FOR_RENDER.accept(effect);
     }
 
     public boolean isCapturing()

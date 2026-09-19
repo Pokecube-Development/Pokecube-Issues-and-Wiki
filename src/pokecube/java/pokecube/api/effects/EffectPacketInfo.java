@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -20,12 +21,14 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 import pokecube.api.effects.context.EffectContext;
 import pokecube.api.effects.context.EntityContext;
-import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import thut.api.entity.multipart.IMultpart;
+import thut.api.maths.Vector3;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -38,9 +41,11 @@ public class EffectPacketInfo
     {
         return new EntityPositionSource(entity, entity.getBbHeight() / 2);
     }
+
     public static PositionSource getEntityCentrePlusLook(Entity entity)
     {
-        return new EntityPositionSource(entity, entity.getBbHeight() / 2);
+        var targ = new Vector3(entity).addTo(new Vector3(entity.getLookAngle()));
+        return new VectorPositionSource(targ.toJOML());
     }
 
     public static class TaggedEntityTracker implements PositionSource
@@ -170,11 +175,10 @@ public class EffectPacketInfo
         PositionSource.STREAM_CODEC.encode(buffer, info.target);
         buffer.writeFloat(info.sourceScale);
         buffer.writeFloat(info.targetScale);
-        if (info.context != null)
-        {
-            buffer.writeResourceLocation(info.context.getKey());
-            info.context.write(buffer);
-        }
+        info.contexts.values().forEach(v -> {
+            buffer.writeResourceLocation(v.getKey());
+            v.write(buffer);
+        });
     }
 
     public static EffectPacketInfo read(RegistryFriendlyByteBuf buffer, Level level)
@@ -186,19 +190,20 @@ public class EffectPacketInfo
         var target = PositionSource.STREAM_CODEC.decode(buffer);
         float sscale = buffer.readFloat();
         float tscale = buffer.readFloat();
-        EffectContext<?> context = null;
-        if (buffer.readableBytes() > 0)
+        List<EffectContext<?>> contexts = new ArrayList<>();
+        while (buffer.readableBytes() > 0)
         {
             ResourceLocation location = buffer.readResourceLocation();
             var codec = ParticleEffects.CONTEXT_REGISTRY.get(location);
             if (codec != null)
             {
-                context = codec.decode(buffer);
+                var context = codec.decode(buffer);
                 context.getContext(level);
+                contexts.add(context);
             }
         }
-        var info = new EffectPacketInfo(animation.apply(context), level, source, target, sscale, tscale);
-        if (context != null) info.setContext(context);
+        var info = new EffectPacketInfo(animation.get(), level, source, target, sscale, tscale);
+        contexts.forEach(info::addContext);
         return info;
     }
 
@@ -212,7 +217,7 @@ public class EffectPacketInfo
     public Consumer<EffectPacketInfo> onClientTick = (m)->{};
     public Consumer<EffectPacketInfo> onServerTick = (m)->{};
     public Consumer<EffectPacketInfo> onClientEnd = (m)->{};
-    public EffectContext<?> context;
+    public Map<ResourceLocation, EffectContext<?>> contexts = new Object2ObjectArrayMap<>();
 
     public Object processedContext = null;
     public int currentTick;
@@ -242,7 +247,7 @@ public class EffectPacketInfo
     {
         this(animation, source.level(), TaggedEntityTracker.create(source, locators), getEntityCentrePlusLook(source),
                 source.getBbWidth(), source.getBbWidth());
-        this.setContext(new EntityContext(source));
+        this.addContext(new EntityContext(source));
     }
 
     public EffectPacketInfo(IAnimatedEffects.EffectRecord animation, Level level, Entity source, Entity target,
@@ -252,14 +257,25 @@ public class EffectPacketInfo
                         ? getEntityCentre(target)
                         : targetPos != null ? new VectorPositionSource(targetPos) : null, source.getBbWidth(),
                 target != null ? target.getBbWidth() : 0.25f);
-        this.setContext(new EntityContext(source));
+        this.addContext(new EntityContext(source));
     }
 
-    public EffectPacketInfo setContext(EffectContext<?> context)
+    public EffectPacketInfo addContext(EffectContext<?> context)
     {
-        this.context = context;
-        if(context!=null) context.onAttach(this);
+        if (context != null)
+        {
+            context.onAttach(this);
+            this.contexts.put(context.getKey(), context);
+        }
         return this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getContext(ResourceLocation key)
+    {
+        var _context = contexts.get(key);
+        if (_context != null) return (T) _context.getContext(this.level);
+        return null;
     }
 
     public Vector3f getSource()
@@ -297,9 +313,7 @@ public class EffectPacketInfo
 
     public boolean isFinished()
     {
-        // Some manual overrides for entity and pokemob contexts
-        if (context.getContext() instanceof Entity e && !e.isAlive()) return true;
-        if (context.getContext() instanceof IPokemob e && e.getTrackedEntity().isAlive()) return true;
+        // TODO check if we have an entity or pokemob context, and terminate if they are dead?
         return currentTick >= removalTick;
     }
 

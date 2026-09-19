@@ -6,7 +6,12 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.effects.context.EffectContext;
 import pokecube.api.effects.context.EntityContext;
 import pokecube.api.effects.context.MoveEntryContext;
+import pokecube.api.effects.context.NBTContext;
 import pokecube.api.effects.context.PokemobContext;
+import pokecube.api.effects.mutators.DyeEffectMutator;
+import pokecube.api.effects.mutators.EffectMutator;
+import pokecube.api.effects.mutators.FlavourEffectMutator;
+import pokecube.api.effects.mutators.MoveEffectMutator;
 import pokecube.api.effects.network.PacketEffects;
 
 import java.util.ArrayList;
@@ -15,6 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ParticleEffects
 {
@@ -35,42 +41,38 @@ public class ParticleEffects
      */
     public static List<String> EVO_ANCHORS = new ArrayList<>();
 
-    public static Map<ResourceLocation, StreamCodec<ByteBuf,? extends EffectContext<?>>> CONTEXT_REGISTRY = new ConcurrentHashMap<>();
+    public static Map<ResourceLocation, StreamCodec<ByteBuf, ? extends EffectContext<?>>> CONTEXT_REGISTRY = new ConcurrentHashMap<>();
+    public static Map<ResourceLocation, EffectMutator> MUTATOR_REGISTRY = new ConcurrentHashMap<>();
 
-    public static ResourceLocation POKEMOB_CONTEXT = ResourceLocation.fromNamespaceAndPath("pokecube", "pokemob");
-    public static ResourceLocation ENTITY_CONTEXT = ResourceLocation.fromNamespaceAndPath("pokecube", "entity");
-    public static ResourceLocation MOVE_CONTEXT = ResourceLocation.fromNamespaceAndPath("pokecube", "move_entry");
-
-    public static Map<String, Function<EffectContext<?>, IAnimatedEffects.EffectRecord>> EFFECT_REGISTRY = new ConcurrentHashMap<>();
+    public static Map<String, Supplier<IAnimatedEffects.EffectRecord>> EFFECT_REGISTRY = new ConcurrentHashMap<>();
 
     static
     {
         // Put this in as a default.
         EVO_ANCHORS.add("body");
-        CONTEXT_REGISTRY.put(MOVE_CONTEXT, MoveEntryContext.STREAM_CODEC);
-        CONTEXT_REGISTRY.put(POKEMOB_CONTEXT, PokemobContext.STREAM_CODEC);
-        CONTEXT_REGISTRY.put(ENTITY_CONTEXT, EntityContext.STREAM_CODEC);
+        CONTEXT_REGISTRY.put(EffectContext.MOVE, MoveEntryContext.STREAM_CODEC);
+        CONTEXT_REGISTRY.put(EffectContext.POKEMOB, PokemobContext.STREAM_CODEC);
+        CONTEXT_REGISTRY.put(EffectContext.ENTITY, EntityContext.STREAM_CODEC);
+        CONTEXT_REGISTRY.put(EffectContext.NBT, NBTContext.STREAM_CODEC);
+
+        MUTATOR_REGISTRY.put(EffectMutator.MOVE, new MoveEffectMutator());
+        MUTATOR_REGISTRY.put(EffectMutator.FLAVOUR, new FlavourEffectMutator());
+        MUTATOR_REGISTRY.put(EffectMutator.DYE, new DyeEffectMutator());
     }
 
     public static void init()
     {
         VectorPositionSource.init();
         EffectPacketInfo.TaggedEntityTracker.init();
-        DefaultEffects.init();
     }
 
-    public static void registerRecord(String key)
-    {
-        EFFECT_REGISTRY.put(key,  (context) -> new IAnimatedEffects.EffectRecord(key));
-    }
-
-    public static void registerRecord(String key, Function<EffectContext<?>, IAnimatedEffects.EffectRecord> effect)
+    public static void registerRecord(String key, Supplier<IAnimatedEffects.EffectRecord> effect)
     {
         EFFECT_REGISTRY.put(key, effect);
     }
 
-    public static Function<EffectContext<?>, IAnimatedEffects.EffectRecord> getEffect(String key)
+    public static Supplier<IAnimatedEffects.EffectRecord> getEffect(String key)
     {
-        return EFFECT_REGISTRY.getOrDefault(key, (context) -> new IAnimatedEffects.EffectRecord(key));
+        return EFFECT_REGISTRY.getOrDefault(key, () -> new IAnimatedEffects.EffectRecord(key));
     }
 }

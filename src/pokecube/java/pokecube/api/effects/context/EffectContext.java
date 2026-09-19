@@ -7,6 +7,11 @@ import pokecube.api.effects.EffectPacketInfo;
 
 public interface EffectContext<T>
 {
+    public static ResourceLocation POKEMOB = ResourceLocation.fromNamespaceAndPath("pokecube", "pokemob");
+    public static ResourceLocation ENTITY = ResourceLocation.fromNamespaceAndPath("pokecube", "entity");
+    public static ResourceLocation MOVE = ResourceLocation.fromNamespaceAndPath("pokecube", "move_entry");
+    public static ResourceLocation NBT = ResourceLocation.fromNamespaceAndPath("pokecube", "nbt");
+
     T getContext(Level level);
 
     T getContext();

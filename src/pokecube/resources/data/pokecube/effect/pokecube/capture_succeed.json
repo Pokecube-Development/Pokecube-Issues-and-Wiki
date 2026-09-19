@@ -1,0 +1,20 @@
+{
+  "name": "capture_succeed",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 10,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "sparks",
+        "density": 1.5,
+        "reverse": true,
+        "lifetime": 10,
+        "width": 0.3,
+        "f_x": "guassian()",
+        "f_y": "(0.5-rand())",
+        "f_z": "guassian()"
+      }
+    }
+  ]
+}

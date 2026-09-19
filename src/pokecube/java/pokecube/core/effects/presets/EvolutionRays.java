@@ -15,8 +15,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.effects.EvolutionEffect;
-import pokecube.api.effects.IAnimatedEffects;
-import pokecube.api.effects.ParticleEffects;
 import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.MoveAnimationBase;
 
@@ -26,12 +24,6 @@ import java.util.Random;
 @AnimPreset(getPreset = "evo_rays")
 public class EvolutionRays extends MoveAnimationBase
 {
-    public static void init()
-    {
-        ParticleEffects.registerRecord("pokecube.pokemob.evolution",
-                context -> new IAnimatedEffects.EffectRecord("pokecube.pokemob.evolution", new EvolutionRays()));
-    }
-
     @OnlyIn(Dist.CLIENT)
     private static final RenderStateShard.TransparencyStateShard TRANSP = new RenderStateShard.TransparencyStateShard(
             "lightning_transparency", () ->
