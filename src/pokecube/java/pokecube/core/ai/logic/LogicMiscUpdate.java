@@ -46,7 +46,6 @@ import pokecube.core.utils.PokemobTracker.MobEntry;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.api.entity.IAnimated.MolangVars;
 import thut.api.entity.multipart.IBBPartMultipart;
 import thut.api.item.ItemList;
 
@@ -360,30 +359,16 @@ public class LogicMiscUpdate extends LogicBase
         // This is used server side as well, for hitbox positions.
         this.checkAnimationStates(entry);
 
+        if (holder != null)
+        {
+            // Update molang things for stuff that is slow to read.
+            holder.updateTickVariables(this.entity);
+        }
+
         // end of server side logic here.
         if (this.entity.level() instanceof ServerLevel)
         {
             return;
-        }
-
-        if (holder != null)
-        {
-            // Update molang things for stuff that is slow to read.
-            float health = this.pokemob.getHealth();
-            final float max = this.pokemob.getMaxHealth();
-            MolangVars molangs = holder.getMolangVars();
-
-            molangs.health = health;
-            molangs.max_health = max;
-
-            molangs.yaw_speed = entity.getYRot() - entity.yRotO;
-
-            molangs.on_fire_time = entity.getRemainingFireTicks();
-
-            molangs.is_in_water_or_rain = entity.isInWaterOrRain() ? 1 : 0;
-            molangs.is_on_ground = entity.onGround() ? 1 : 0;
-            molangs.is_in_water = entity.isInWater() ? 1 : 0;
-            molangs.is_on_fire = entity.isOnFire() ? 1 : 0;
         }
 
         var effects = new ArrayList<>(entity.getActiveEffects());
@@ -554,14 +539,7 @@ public class LogicMiscUpdate extends LogicBase
         {
             if (liveHolder == null)
                 liveHolder = this.entity instanceof IBBPartMultipart<?, ?> poke ? poke.getAnimationHolder() : holder;
-            var limbSwing = entity.walkAnimation.position();
-            var limbSwingAmount = entity.walkAnimation.speed();
-
-            float f = entity.yBodyRotO;
-            float f1 = entity.yHeadRotO;
-            float netHeadYaw = f1 - f;
-            liveHolder.initHeadInfoAndMolangs(entity, limbSwing, limbSwingAmount, entity.tickCount-1, netHeadYaw,
-                    entity.getXRot());
+            liveHolder.initFromEntity(this.entity);
         }
 
         if (onGround)

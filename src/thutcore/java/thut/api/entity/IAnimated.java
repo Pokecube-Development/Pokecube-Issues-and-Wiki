@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.world.entity.LivingEntity;
 import org.nfunk.jep.JEP;
 
 import net.minecraft.nbt.CompoundTag;
@@ -224,6 +225,43 @@ public interface IAnimated
         MolangVars getMolangVars();
 
         void initAnimations(Map<String, List<Animation>> map, String _default);
+
+        /**
+         * This wraps initHeadInfoAndMolangs with a computation of the various parameters for it. this is intended for
+         * use off the main render stack.
+         */
+        default void initFromEntity(LivingEntity entity)
+        {
+            var limbSwing = entity.walkAnimation.position();
+            var limbSwingAmount = entity.walkAnimation.speed();
+
+            float f = entity.yBodyRotO;
+            float f1 = entity.yHeadRotO;
+            float netHeadYaw = f1 - f;
+            this.initHeadInfoAndMolangs(entity, limbSwing, limbSwingAmount, entity.tickCount - 1, netHeadYaw,
+                    entity.getXRot());
+        }
+
+        /**
+         * Updates the variables which only chance once per tick, and are otherwise slow to read.
+         */
+        default void updateTickVariables(LivingEntity entity)
+        {
+            // Update molang things for stuff that is slow to read.
+            float health = entity.getHealth();
+            final float max = entity.getMaxHealth();
+            MolangVars molangs = this.getMolangVars();
+
+            molangs.health = health;
+            molangs.max_health = max;
+            molangs.yaw_speed = entity.getYRot() - entity.yRotO;
+            molangs.on_fire_time = entity.getRemainingFireTicks();
+
+            molangs.is_in_water_or_rain = entity.isInWaterOrRain() ? 1 : 0;
+            molangs.is_on_ground = entity.onGround() ? 1 : 0;
+            molangs.is_in_water = entity.isInWater() ? 1 : 0;
+            molangs.is_on_fire = entity.isOnFire() ? 1 : 0;
+        }
 
         default void initHeadInfoAndMolangs(Entity entityIn, final float limbSwing, final float limbSwingAmount,
                 final float ageInTicks, final float netHeadYaw, final float headPitch)

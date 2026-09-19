@@ -157,6 +157,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
 
         if (entry.bodyModel != null) //  && (width > 1 || height > 1.8)
         {
+            this.getAnimationHolder().initFromEntity(this);
+            this.getAnimationHolder().updateTickVariables(this);
             this.initFromBBModel();
         }
         else
