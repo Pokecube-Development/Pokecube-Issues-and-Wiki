@@ -7,6 +7,7 @@ import pokecube.api.data.moves.Moves;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.effects.AnimationMultiAnimations;
+import pokecube.core.effects.MoveAnimationBase;
 import pokecube.core.effects.MoveAnimationHelper;
 import thut.api.util.JsonUtil;
 import thut.lib.ResourceHelper;
@@ -15,6 +16,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class DefaultEffects
 {
@@ -48,22 +50,31 @@ public class DefaultEffects
         for(var entry: animsToLoad.entrySet()){
             var key = entry.getKey();
             var list = entry.getValue();
-            // TODO See if datapacks can replace this properly
-            var animRoot = list.getFirst();
-            List<IAnimatedEffects> anims = new ArrayList<>();
-            animRoot.animations.forEach(anim->{
-                final IAnimatedEffects animation = MoveAnimationHelper.getAnimationPreset(anim.preset, anim.preset_values);
-                if (animation == null)
-                {
-                    PokecubeAPI.LOGGER.warn("Warning, unknown animation for preset: {}", anim.preset);
-                    return;
-                }
-                anims.add(animation);
-            });
             var effect_key = key.replace(".json", "").replace("/", ".");
-            var effect = new IAnimatedEffects.EffectRecord(effect_key,
-                    anims.size() > 1 ? new AnimationMultiAnimations(anims) : anims.getFirst());
-            ParticleEffects.registerRecord(effect_key, () -> effect);
+            Supplier<IAnimatedEffects.EffectRecord> effect = () -> new IAnimatedEffects.EffectRecord(effect_key);
+            if (list.isEmpty())
+            {
+                PokecubeAPI.LOGGER.error("Empty effects animation file {}", key);
+            }
+            else
+            {
+                // TODO See if datapacks can replace this properly
+                var animRoot = list.getFirst();
+                List<IAnimatedEffects> anims = new ArrayList<>();
+                animRoot.animations.forEach(anim -> {
+                    final IAnimatedEffects animation = MoveAnimationHelper.getAnimationPreset(anim.preset,
+                            anim.preset_values);
+                    if (animation == null)
+                    {
+                        PokecubeAPI.LOGGER.warn("Warning, unknown animation for preset: {}", anim.preset);
+                        return;
+                    }
+                    anims.add(animation);
+                });
+                effect = () -> new IAnimatedEffects.EffectRecord(effect_key,
+                        anims.size() > 1 ? new AnimationMultiAnimations(anims) : anims.getFirst());
+            }
+            ParticleEffects.registerRecord(effect_key, effect);
         }
     }
 }

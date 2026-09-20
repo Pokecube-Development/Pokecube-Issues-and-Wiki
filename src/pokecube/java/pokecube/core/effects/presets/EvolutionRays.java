@@ -1,15 +1,9 @@
 package pokecube.core.effects.presets;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
@@ -24,24 +18,7 @@ import java.util.Random;
 @AnimPreset(getPreset = "evo_rays")
 public class EvolutionRays extends MoveAnimationBase
 {
-    @OnlyIn(Dist.CLIENT)
-    private static final RenderStateShard.TransparencyStateShard TRANSP = new RenderStateShard.TransparencyStateShard(
-            "lightning_transparency", () ->
-    {
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-    }, () -> {
-        RenderSystem.disableBlend();
-        RenderSystem.defaultBlendFunc();
-    });
-
     private static final float sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
-    @OnlyIn(Dist.CLIENT)
-    public static final RenderType EFFECT = RenderType.create("pokemob:evo_effect", DefaultVertexFormat.POSITION_COLOR,
-            VertexFormat.Mode.QUADS, 256, false, true,
-            RenderType.CompositeState.builder().setShaderState(RenderType.POSITION_COLOR_SHADER)
-                    .setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false))
-                    .setTransparencyState(EvolutionRays.TRANSP).createCompositeState(false));
 
 
     @OnlyIn(Dist.CLIENT)
@@ -100,7 +77,7 @@ public class EvolutionRays extends MoveAnimationBase
         float f7 = 0.0F;
         if (f5 > 0.8F) f7 = (f5 - 0.8F) / 0.2F;
 
-        var builder = source.getBuffer(EvolutionRays.EFFECT);
+        var builder = source.getBuffer(ClientSide.EVO_RAY_EFFECT);
         mat.pushPose();
         mat.translate(0, scaleShift, 0);
         for (int i = 0; i < (f5 + f5 * f5) / 2.0F * 100.0F; ++i)
@@ -129,7 +106,7 @@ public class EvolutionRays extends MoveAnimationBase
 
         }
         mat.popPose();
-        source.endBatch(EvolutionRays.EFFECT);
+        source.endBatch(ClientSide.EVO_RAY_EFFECT);
     }
 
     @Override
