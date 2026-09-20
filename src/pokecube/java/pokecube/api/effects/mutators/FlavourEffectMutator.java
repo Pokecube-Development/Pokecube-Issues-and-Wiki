@@ -4,7 +4,6 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.effects.EffectPacketInfo;
 import pokecube.api.effects.context.EffectContext;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.MoveEntry;
 import pokecube.core.effects.MoveAnimationBase;
 
 public class FlavourEffectMutator implements EffectMutator
