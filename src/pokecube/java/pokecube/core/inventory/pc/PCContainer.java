@@ -84,8 +84,11 @@ public class PCContainer extends BaseContainer
 
     protected void bindInventories()
     {
-        this.bindPCInventory();
-        this.bindPlayerInventory(this.invPlayer, 55);
+        synchronized (this.slots)
+        {
+            this.bindPCInventory();
+            this.bindPlayerInventory(this.invPlayer, 55);
+        }
     }
 
     protected void bindPCInventory()
@@ -193,7 +196,10 @@ public class PCContainer extends BaseContainer
             }
             return;
         }
-        super.clicked(slotId, dragType, clickTypeIn, player);
+        synchronized (this.slots)
+        {
+            super.clicked(slotId, dragType, clickTypeIn, player);
+        }
     }
 
     public void toggleAuto()
