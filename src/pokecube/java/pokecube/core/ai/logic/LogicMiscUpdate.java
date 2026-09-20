@@ -350,9 +350,12 @@ public class LogicMiscUpdate extends LogicBase
             if (behaviour != null) behaviour.onUpdate(this.pokemob);
         }
 
-        for (int i = 0; i < 5; i++) this.flavourAmounts[i] = this.pokemob.getFlavourAmount(i);
-        for (int i = 0; i < this.flavourAmounts.length; i++)
-            if (this.flavourAmounts[i] > 0) this.pokemob.setFlavourAmount(i, this.flavourAmounts[i] - 1);
+        if (this.entity.tickCount % 20 == 0)
+        {
+            for (int i = 0; i < 5; i++) this.flavourAmounts[i] = this.pokemob.getFlavourAmount(i);
+            for (int i = 0; i < this.flavourAmounts.length; i++)
+                if (this.flavourAmounts[i] > 0) this.pokemob.setFlavourAmount(i, this.flavourAmounts[i] - 1);
+        }
 
         // Ensure our pose matches what we are doing
         this.checkPose();
