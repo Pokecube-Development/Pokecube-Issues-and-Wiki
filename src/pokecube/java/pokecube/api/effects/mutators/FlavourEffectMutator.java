@@ -21,7 +21,7 @@ public class FlavourEffectMutator implements EffectMutator
             var flav = pokemob.getFlavourAmount(i);
             if (flav > 0)
             {
-                base.values.rgba = FLAVCOLOURS[flav];
+                base.values.rgba = FLAVCOLOURS[i];
                 base.values.density = 0.1f / flav;
             }
         }
