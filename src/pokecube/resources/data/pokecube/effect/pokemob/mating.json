@@ -7,7 +7,7 @@
       "starttick": 0,
       "preset_values": {
         "particle": "heart",
-        "density": 1.75,
+        "density": 1.1,
         "reverse": true,
         "lifetime": 10,
         "width": 0.3,

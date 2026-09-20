@@ -8,7 +8,7 @@
       "preset_values": {
         "particle": "powder",
         "mutator": "pokecube:flavour",
-        "density": 1.5,
+        "density": 1.01,
         "reverse": true,
         "lifetime": 10,
         "width": 0.3,
