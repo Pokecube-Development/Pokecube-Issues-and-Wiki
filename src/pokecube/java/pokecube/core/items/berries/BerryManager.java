@@ -98,14 +98,4 @@ public class BerryManager
     {
         return BerryManager.berryCrops.get(berry.type.index).get();
     }
-
-    public static Block getFruit(final ItemBerry berry)
-    {
-        return BerryManager.berryFruits.get(berry.type.index).get();
-    }
-
-    public static Block getPottedBerry(final ItemBerry berry)
-    {
-        return BerryManager.pottedBerries.get(berry.type.index).get();
-    }
 }
