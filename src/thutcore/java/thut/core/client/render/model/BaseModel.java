@@ -257,6 +257,18 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 this.partsList.sort(null);
             }
             IExtendedModelPart.sortMeshes(this.renderOrderMeshs);
+            // Now, also sort the materials
+            List<Material> mats = new ArrayList<>();
+            for (var mesh : this.renderOrderMeshs)
+            {
+                // This checks the "compare to" in the materials, which
+                // is 0 if they think they are otherwise identical.
+                // If more render issues occur later, check there.
+                if (mats.contains(mesh.material)) continue;
+                mats.add(mesh.material);
+            }
+            // And then replace them with the merged listing
+            for (var p : this.partsList) if (p.getParent() == null) p.updateMaterials(mats);
         }
     }
 

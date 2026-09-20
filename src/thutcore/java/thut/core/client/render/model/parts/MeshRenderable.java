@@ -153,9 +153,9 @@ public class MeshRenderable extends Mesh
     }
 
     @Override
-    public void setMaterial(Material material)
+    public void setMaterial(Material material, boolean overrideName)
     {
-        super.setMaterial(material);
+        super.setMaterial(material, overrideName);
         this.materialRenderable = (MaterialRenderable) material;
     }
 

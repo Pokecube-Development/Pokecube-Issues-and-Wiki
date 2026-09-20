@@ -250,9 +250,17 @@ public class Mesh implements Comparable<Mesh>
 
     public void setMaterial(final Material material)
     {
+        this.setMaterial(material, true);
+    }
+
+    public void setMaterial(final Material material, boolean overrideName)
+    {
         this.material = material;
-        this.name = material.name;
-        same_mat = true;
+        if (overrideName)
+        {
+            this.name = material.name;
+            same_mat = true;
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
