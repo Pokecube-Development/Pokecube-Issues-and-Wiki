@@ -394,8 +394,6 @@ public class LogicMiscUpdate extends LogicBase
                 var applied = effectFunction.get();
                 var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(
                         pokemobContext);
-                effect.onClientTick = effect.onClientTick.andThen(
-                        info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
                 ParticleEffects.ADD_FOR_RENDER.accept(effect);
             }
             // Holiday effect
@@ -406,8 +404,6 @@ public class LogicMiscUpdate extends LogicBase
                 var applied = effectFunction.get();
                 var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(
                         pokemobContext);
-                effect.onClientTick = effect.onClientTick.andThen(
-                        info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
                 ParticleEffects.ADD_FOR_RENDER.accept(effect);
             }
             // flavour effects
@@ -427,8 +423,6 @@ public class LogicMiscUpdate extends LogicBase
                 var applied = effectFunction.get();
                 var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(
                         pokemobContext);
-                effect.onClientTick = effect.onClientTick.andThen(
-                        info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
                 ParticleEffects.ADD_FOR_RENDER.accept(effect);
             }
         }
@@ -438,8 +432,6 @@ public class LogicMiscUpdate extends LogicBase
             var effectFunction = ParticleEffects.getEffect(effect_key);
             var applied = effectFunction.get();
             var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(pokemobContext);
-            effect.onClientTick = effect.onClientTick.andThen(
-                    info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
             ParticleEffects.ADD_FOR_RENDER.accept(effect);
         }
 
@@ -450,8 +442,9 @@ public class LogicMiscUpdate extends LogicBase
             var effectFunction = ParticleEffects.getEffect(effect_key);
             var applied = effectFunction.get();
             evo_effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(pokemobContext);
+            evo_effect.endTick = evo_effect.removalTick = PokecubeCore.getConfig().evolutionTicks;
             evo_effect.onClientTick = evo_effect.onClientTick.andThen(
-                    info -> info.animation.effect().setDuration(PokecubeCore.getConfig().evolutionTicks));
+                    info -> info.animation.effect().setDuration(evo_effect.endTick));
             evo_effect.onClientEnd = evo_effect.onClientEnd.andThen(info -> {
                 if (info.isFinished()) this.evo_effect = null;
             });
@@ -464,8 +457,9 @@ public class LogicMiscUpdate extends LogicBase
             var effectFunction = ParticleEffects.getEffect(effect_key);
             var applied = effectFunction.get();
             cube_effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(pokemobContext);
+            cube_effect.endTick = cube_effect.removalTick = PokecubeCore.getConfig().exitCubeDuration;
             cube_effect.onClientTick = cube_effect.onClientTick.andThen(
-                    info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+                    info -> info.animation.effect().setDuration(cube_effect.endTick));
             ParticleEffects.ADD_FOR_RENDER.accept(cube_effect);
             // Now additional effects, starting with "Shiny"
             if (pokemob.isShiny())
@@ -475,8 +469,6 @@ public class LogicMiscUpdate extends LogicBase
                 applied = effectFunction.get();
                 var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(
                         pokemobContext);
-                effect.onClientTick = effect.onClientTick.andThen(
-                        info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
                 ParticleEffects.ADD_FOR_RENDER.accept(effect);
             }
             var seal = pokemob.getPokecube().get(PokemobCaps.POKESEAL_DATA);
@@ -493,8 +485,6 @@ public class LogicMiscUpdate extends LogicBase
                     applied = effectFunction.get();
                     var effect = new EffectPacketInfo(applied, entity, ParticleEffects.EVO_ANCHORS).addContext(context)
                             .addContext(pokemobContext);
-                    effect.onClientTick = effect.onClientTick.andThen(
-                            info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
                     ParticleEffects.ADD_FOR_RENDER.accept(effect);
                 }
             }
