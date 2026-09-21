@@ -224,6 +224,11 @@ public class EffectPacketInfo
     public int endTick;
     public int removalTick;
 
+    /**
+     * Partial tick in relative frame times, only set for the render calls.
+     */
+    public float partialTick = 0;
+
     private int _lastTickCheck;
     public Vector3f lastTickSource;
     private Vector3f thisTickSource;

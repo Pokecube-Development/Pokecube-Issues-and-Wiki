@@ -3,7 +3,9 @@ package pokecube.api.effects;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.effects.context.EffectContext;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.PokeType;
+import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
 
 import java.awt.Color;
@@ -29,7 +31,15 @@ public class EvolutionEffect
                 if (pokemob.getEntity() instanceof PokemobHasParts parts) mobScale = parts.getScaleFast();
                 else mobScale = pokemob.getEntity().getScale();
                 var dims = entry.getModelSize();
-                return 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+                float s = 1.0f;
+                if (pokemob != null && pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
+                {
+                    s = Math.min(1,
+                            (pokemob.getEntity().tickCount + 1 + info.partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
+                    s = Math.max(0.01f, s);
+                }
+                mobScale *= 0.5f * dims.y;
+                return s * mobScale - mobScale / 2;
             };
             var context = new EvoContext(col1, col2, entry, scale);
             info.processedContext = context;

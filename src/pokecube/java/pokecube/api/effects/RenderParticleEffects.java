@@ -92,6 +92,7 @@ public class RenderParticleEffects
             float x = target.x, y = target.y, z = target.z;
             var camera = event.getCamera().getPosition();
             var f = event.getCamera().getPartialTickTime();
+            info.partialTick = f;
             x = Mth.lerp(f, prev.x, x);
             y = Mth.lerp(f, prev.y, y);
             z = Mth.lerp(f, prev.z, z);

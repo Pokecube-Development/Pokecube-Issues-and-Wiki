@@ -68,8 +68,7 @@ public class EvolutionRays extends MoveAnimationBase
 
         Color col1 = context.col1();
         Color col2 = context.col2();
-        float scale = context.scale().get();
-        float scaleShift = scale * context.entry().getModelSize().y / 2;
+        float scaleShift = context.scale().get();
 
         final float time = 40 * (info.currentTick + partialTick) / info.endTick;
         final float f5 = time / 200f;
@@ -88,8 +87,8 @@ public class EvolutionRays extends MoveAnimationBase
             mat.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
             mat.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
             mat.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F + f5 * 90.0F));
-            float f3 = (random.nextFloat() * 20.0F + 5.0F + f7 * 10.0F) * scale;
-            float f4 = (random.nextFloat() * 2.0F + 1.0F + f7 * 2.0F) * scale;
+            float f3 = (random.nextFloat() * 20.0F + 5.0F + f7 * 10.0F) * 0.5f;
+            float f4 = (random.nextFloat() * 2.0F + 1.0F + f7 * 2.0F) * 0.5f;
 
             final Matrix4f matrix4f = mat.last().pose();
             final int j = (int) (200 * (1.0F - f7));
