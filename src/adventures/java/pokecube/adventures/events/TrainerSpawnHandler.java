@@ -210,7 +210,8 @@ public class TrainerSpawnHandler
 
     public static void tick(final ServerLevel w)
     {
-        if (w.isClientSide) return;
+        if (w.isClientSide || PokecubeAdv.config.trainerSpawnRate <= 0
+                || w.getGameTime() % PokecubeAdv.config.trainerSpawnRate != 0) return;
         if (SpawnHandler.canNotSpawnInWorld(w)) return;
         final List<ServerPlayer> players = w.players();
         if (players.isEmpty()) return;

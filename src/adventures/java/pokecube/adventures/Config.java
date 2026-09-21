@@ -117,6 +117,8 @@ public class Config extends ConfigData
     public boolean trainersBattlePokemobs = true;
     @Configure(category = Config.TRAINER, comment = "If the trainer does not see its target for this many ticks, it will give up the battle. [Default: 100]")
     public int trainerDeAgressTicks = 100;
+    @Configure(category = Config.TRAINER, comment = "ticks between trainer spawn attempts, 0 or less to disable. [Default: 100]")
+    public int trainerSpawnRate = 100;
     @Configure(category = Config.TRAINER, comment = "Trainers will occasionally mate to produce more trainers. [Default: true]")
     public boolean trainersMate = true;
     @Configure(category = Config.TRAINER, comment = "Trainers that are non-aggressive (ie. on cooldown or bribed) will offer item trades. [Default: true]")
