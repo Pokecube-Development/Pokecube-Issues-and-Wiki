@@ -17,6 +17,7 @@ import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiManager.Occupancy;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
 import net.minecraft.world.entity.player.Player;
@@ -133,7 +134,7 @@ public class TypeTrainer extends NpcType
 
     public static Predicate<LivingEntity> validZombieTarget(Mob npc)
     {
-        return e -> e instanceof Zombie;
+        return e -> e instanceof Zombie && !(e instanceof ZombifiedPiglin);
     }
 
     public static BaseTask CAPTURE_MOBS = new CaptureMob(1);
