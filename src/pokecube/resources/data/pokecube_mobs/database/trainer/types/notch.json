@@ -5,7 +5,7 @@
   ],
   "spawns": [
     {
-      "preset": "end",
+      "and_preset": "end,in_air",
       "rate": "0.05"
     }
   ],

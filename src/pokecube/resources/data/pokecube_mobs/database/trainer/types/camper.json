@@ -16,7 +16,7 @@
   ],
   "spawns": [
     {
-      "preset": "all",
+      "and_preset": "all,in_air",
       "rate": "0.05"
     }
   ],

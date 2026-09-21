@@ -23,6 +23,7 @@
   "spawns": [
     {
       "or_preset": "lake_ground,river_ground,beach_ground,ocean_ground",
+      "and_preset": "in_air",
       "rate": "0.25"
     }
   ],

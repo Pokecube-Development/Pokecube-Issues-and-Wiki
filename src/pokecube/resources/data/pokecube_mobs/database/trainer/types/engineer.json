@@ -5,11 +5,11 @@
   ],
   "spawns": [
     {
-      "preset": "industrial",
+      "and_preset": "industrial,in_air",
       "rate": "0.05"
     },
     {
-      "preset": "villages",
+      "and_preset": "villages,in_air",
       "rate": "0.05"
     }
   ],

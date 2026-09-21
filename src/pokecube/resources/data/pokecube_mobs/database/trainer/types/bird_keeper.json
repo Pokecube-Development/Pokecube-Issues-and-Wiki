@@ -18,8 +18,12 @@
   ],
   "spawns": [
     {
-      "preset": "all",
+      "and_preset": "all,in_air",
       "rate": "0.05"
+    },
+    {
+      "preset": "all",
+      "rate": "0.001"
     }
   ],
   "gender": "Both"

@@ -5,7 +5,7 @@
   ],
   "spawns": [
     {
-      "and_preset": "caves,mountains",
+      "and_preset": "caves,mountains,in_air",
       "rate": "0.75"
     }
   ],

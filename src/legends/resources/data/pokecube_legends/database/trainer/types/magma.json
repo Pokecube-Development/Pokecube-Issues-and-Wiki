@@ -13,5 +13,11 @@
     "bagon",
     "shuppet"
   ],
+  "spawns": [
+    {
+      "and_preset": "all_not_caves,in_air",
+      "rate": "0.01"
+    }
+  ],
   "gender": "Both"
 }

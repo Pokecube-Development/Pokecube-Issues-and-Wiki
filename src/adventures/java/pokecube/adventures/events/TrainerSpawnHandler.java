@@ -7,6 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.MobSpawnType;
@@ -139,12 +140,15 @@ public class TrainerSpawnHandler
         type.initTrainerItems(entity);
     }
 
+    public static SpawnEvent.SpawnSurface TRAINER_SURFACE = new SpawnEvent.SpawnSurface(false,
+            fluid -> fluid.is(FluidTags.WATER));
+
     /** Given a player, find a random position near it. */
     public static Vector3 getRandomSpawningPointNearEntity(final ServerLevel level, final Entity player, int maxRange)
     {
         if (player == null) return null;
         Vector3 v = new Vector3(player);
-        Vector3 v1 = SpawnHandler.getRandomPointNear(level, v, maxRange, SpawnEvent.SpawnSurface.notAir());
+        Vector3 v1 = SpawnHandler.getRandomPointNear(level, v, maxRange, TRAINER_SURFACE);
         if (v1 != null)
         {
             v.set(v1).addTo(0, 1, 0);
@@ -186,9 +190,9 @@ public class TrainerSpawnHandler
             String _type = type == PokeType.unknown ? "unknown" : type.name;
             final Item item = BuiltInRegistries.ITEM.get(
                     ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "badge_" + _type));
-            if (item != null)
+            final ItemStack badge = new ItemStack(item);
+            if (!badge.isEmpty())
             {
-                final ItemStack badge = new ItemStack(item);
                 if (!rewardsCap.getRewards().isEmpty()) rewardsCap.getRewards().set(0, new Reward(badge));
                 else rewardsCap.getRewards().add(new Reward(badge));
             }

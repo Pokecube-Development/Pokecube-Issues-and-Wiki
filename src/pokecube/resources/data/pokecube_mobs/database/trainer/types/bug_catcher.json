@@ -6,7 +6,7 @@
   "spawns": [
     {
       "not_preset": "cold_areas",
-      "and_preset": "forests",
+      "and_preset": "forests,in_air",
       "rate": "0.05"
     }
   ],

@@ -31,7 +31,7 @@
   "spawns": [
     {
       "or_preset": "lakes,beaches,oceans,rivers",
-      "rate": "0.25"
+      "rate": "1.0"
     }
   ],
   "gender": "Both"
