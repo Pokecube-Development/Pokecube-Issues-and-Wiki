@@ -723,6 +723,8 @@ public class Config extends ConfigData
     @Configure(category = Config.genetics, comment = "Rate of pokeemob mutations.")
     public List<String> mutationRates = GeneticsManager.getMutationConfig();
 
+    @Configure(category = Config.healthbars, type = Type.SERVER, comment = "Display agro target without a sent out pokemob. [Default: false]")
+    public boolean displayAgroWithoutPokemob = false;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Display extra tooltips in the pokemob's gui. [Default: true]")
     public boolean pokemobGuiTooltips = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Display viewed info for looked at target. [Default: true]")

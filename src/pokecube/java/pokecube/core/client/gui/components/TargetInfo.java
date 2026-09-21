@@ -68,38 +68,35 @@ public class TargetInfo extends GuiEventComponent
         var viewer = renderManager.camera;
         var viewerID = viewer.getEntity().getUUID();
 
-        var nameBGSprite = ICON_MOVE_FRAMES[0];
         int n = 1, n2 = 1;
         LivingEntity target = null;
         boolean combatTarget = false, fullDetails = false;
+        var list = PacketSyncBattle.getEnemies();
+        list.removeIf(t -> (t == null || !t.isAlive() || t.isRemoved()));
+        if (!list.isEmpty())
         {
-            var list = PacketSyncBattle.getEnemies();
-            list.removeIf(t -> (t == null || !t.isAlive() || t.isRemoved()));
-            if (!list.isEmpty())
+            combatTarget = true;
+            n = list.size();
+            n2 = PacketBattleTargets.manualTargetIndex % n;
+            boolean fromList = PokecubeCore.getConfig().displayAgroWithoutPokemob || pokemob != null;
+            target = fromList ? list.get(n2) : null;
+            if (pokemob != null)
             {
-                combatTarget = true;
-                n = list.size();
-                n2 = PacketBattleTargets.manualTargetIndex % n;
-                target = list.get(n2);
-                if (pokemob != null)
+                var other = pokemob.getMoveStats().getTargetEnemy();
+                var dTick = PacketBattleTargets.recvEnemyTick;
+                // Check if we have been re-sent a target from server since last check.
+                if (dTick > 0)
                 {
-                    var other = pokemob.getMoveStats().getTargetEnemy();
-                    var dTick = PacketBattleTargets.recvEnemyTick;
-                    // Check if we have been re-sent a target from server since last check.
-                    if (dTick > 0)
-                    {
-                        PacketBattleTargets.recvEnemyTick = -1;
-                        if (list.contains(other)) target = other;
-                    }
-                    // Otherwise update server with our selection
-                    if (other != target)
-                    {
-                        PacketBattleTargets.setEnemy(pokemob, target);
-                    }
+                    PacketBattleTargets.recvEnemyTick = -1;
+                    if (list.contains(other)) target = other;
                 }
-                n2++;
-                nameBGSprite = ICON_MOVE_FRAMES[2];
+                // Otherwise update server with our selection
+                if (other != target)
+                {
+                    PacketBattleTargets.setEnemy(pokemob, target);
+                }
             }
+            n2++;
         }
         if (config.displayViewedInfo && target == null)
         {
@@ -116,6 +113,8 @@ public class TargetInfo extends GuiEventComponent
                     target = living;
                 }
             }
+            // Reset this incase we are not looking at a thing targetting us
+            combatTarget = list.contains(target);
         }
         // Return if no target, dead target, or same as our sent out mob
         if (target == null || !target.isAlive() || (pokemob != null && target == pokemob.getTrackedEntity()))
@@ -136,6 +135,7 @@ public class TargetInfo extends GuiEventComponent
             return;
         }
 
+        var nameBGSprite = combatTarget ? ICON_MOVE_FRAMES[2] : ICON_MOVE_FRAMES[0];
         lastViewedTarget = target;
 
         MutableComponent nameComp;
