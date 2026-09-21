@@ -141,7 +141,7 @@ public class TrainerSpawnHandler
     }
 
     public static SpawnEvent.SpawnSurface TRAINER_SURFACE = new SpawnEvent.SpawnSurface(false,
-            fluid -> fluid.is(FluidTags.WATER));
+            fluid -> fluid.is(FluidTags.WATER) || fluid.isEmpty());
 
     /** Given a player, find a random position near it. */
     public static Vector3 getRandomSpawningPointNearEntity(final ServerLevel level, final Entity player, int maxRange)
