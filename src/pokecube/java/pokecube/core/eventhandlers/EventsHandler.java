@@ -489,6 +489,8 @@ public class EventsHandler
 
         // Calling get here sets it up.
         if (!ItemList.is(NOGENESTAG, living)) ThutCaps.getGenetics(living);
+        // Ensure npcs have a texturable cap
+        if (living instanceof NpcMob) living.getData(IMobTexturable.Defaults.TYPE);
 
         if (living instanceof EntityPokemob)
         {
@@ -527,9 +529,6 @@ public class EventsHandler
             evt.setCanceled(true);
             return;
         }
-        // Forge workaround for this not being called server side!
-        if (!entity.isAddedToLevel()) entity.onAddedToLevel();
-        if (entity instanceof NpcMob) entity.getData(IMobTexturable.Defaults.TYPE);
         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (entity instanceof Creeper creeper)
         {
