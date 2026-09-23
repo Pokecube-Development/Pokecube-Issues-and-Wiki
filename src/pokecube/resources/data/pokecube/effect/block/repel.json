@@ -1,0 +1,20 @@
+{
+  "name": "capture_failed",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 10,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.01,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 10,
+        "v_x": "(rand()-0.5)*0.15",
+        "v_y": "(rand()+0.5)*0.05",
+        "v_z": "rand()*0.5"
+      }
+    }
+  ]
+}

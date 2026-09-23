@@ -1,9 +1,6 @@
 package pokecube.mobs.moves.world;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.HitResult;
 import pokecube.api.PokecubeAPI;
@@ -52,34 +49,10 @@ public class ActionTeleport implements IMoveWorldEffect
     {
         final TeleportEvent event = TeleportEvent.onUseTeleport(toTeleport, posX, posY, posZ);
         if (event.isCanceled()) return;
-
         posX = event.getTargetX();
         posY = event.getTargetY();
         posZ = event.getTargetZ();
-
-        final short particleCount = 128;
-        int num;
-
         toTeleport.teleportTo(posX, posY, posZ);
-
-        for (num = 0; num < particleCount; ++num)
-        {
-            final double var19 = num / (particleCount - 1.0D);
-            final float var21 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
-            final float var22 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
-            final float var23 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
-            final double var24 = posX + (toTeleport.getX() - posX) * var19
-                    + (toTeleport.getRandom().nextDouble() - 0.5D) * toTeleport.getBbWidth() * 2.0D;
-            final double var26 = posY + (toTeleport.getY() - posY) * var19
-                    + toTeleport.getRandom().nextDouble() * toTeleport.getBbHeight();
-            final double var28 = posZ + (toTeleport.getZ() - posZ) * var19
-                    + (toTeleport.getRandom().nextDouble() - 0.5D) * toTeleport.getBbWidth() * 2.0D;
-            toTeleport.level().addParticle(ParticleTypes.PORTAL, var24, var26, var28, var21, var22, var23);
-        }
-        toTeleport.level()
-                .playLocalSound(posX, posY, posZ, SoundEvents.ENDERMAN_TELEPORT, SoundSource.HOSTILE, 1.0F, 1.0F,
-                        false);
-        toTeleport.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
     }
 
     public ActionTeleport()

@@ -110,12 +110,15 @@ public class CartesianFunction extends MoveAnimationBase
         double d = dir.length();
         Vector3f lft = new Vector3f(1, 0, 0);
         Vector3f up = new Vector3f(0, 1, 0);
-        if (dir.lengthSquared() > 0 && !values.horizontal)
+        if (dir.lengthSquared() > 0)
         {
             dir.cross(up, lft);
             lft.normalize();
-            dir.cross(lft, up);
-            up.normalize();
+            if (!values.horizontal)
+            {
+                dir.cross(lft, up);
+                up.normalize();
+            }
             dir.normalize();
         }
         else dir.set(0, 0, 1);

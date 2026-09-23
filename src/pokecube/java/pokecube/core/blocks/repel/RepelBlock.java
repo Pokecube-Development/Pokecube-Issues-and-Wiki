@@ -5,8 +5,6 @@ import javax.annotation.Nullable;
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -23,8 +21,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import pokecube.api.effects.EffectPacketInfo;
+import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.VectorPositionSource;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 import pokecube.core.init.Sounds;
+import thut.api.maths.Vector3;
 
 public class RepelBlock extends InteractableHorizontalBlock implements EntityBlock
 {
@@ -95,15 +97,9 @@ public class RepelBlock extends InteractableHorizontalBlock implements EntityBlo
             if (worldReader instanceof Level world)
             {
                 world.playSound(null, pos, Sounds.REPEL_SPRAYS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-
-                if (worldReader.getBlockState(pos).getValue(FACING) == Direction.NORTH)
-                    addParticles(world, x + 0.5, y + 1.1, z - 0.1, 0.15D, 0.15D, -0.5D);
-                else if (worldReader.getBlockState(pos).getValue(FACING) == Direction.SOUTH)
-                    addParticles(world, x + 0.5, y + 1.1, z + 1.1, 0.15D, 0.15D, 0.5D);
-                else if (worldReader.getBlockState(pos).getValue(FACING) == Direction.EAST)
-                    addParticles(world, x + 1.1, y + 1.1, z + 0.5, 0.5D, 0.15D, 0.15D);
-                else if (worldReader.getBlockState(pos).getValue(FACING) == Direction.WEST)
-                    addParticles(world, x - 0.1, y + 1.1, z + 0.5, -0.5D, 0.15D, 0.15D);
+                Vector3 direction = new Vector3(world.getBlockState(pos).getValue(FACING));
+                addParticles(world, x + 0.5 + direction.x * 1.1, y + 1.1, z + 0.5 + direction.z * 1.1, direction.x,
+                        direction.y, direction.z);
             }
         }
     }
@@ -125,14 +121,9 @@ public class RepelBlock extends InteractableHorizontalBlock implements EntityBlo
 
         world.playSound(null, pos, Sounds.REPEL_SPRAYS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
-        if (world.getBlockState(pos).getValue(FACING) == Direction.NORTH)
-            addParticles(world, x + 0.5, y + 1.1, z - 0.1, 0.15D, 0.15D, -0.5D);
-        else if (world.getBlockState(pos).getValue(FACING) == Direction.SOUTH)
-            addParticles(world, x + 0.5, y + 1.1, z + 1.1, 0.15D, 0.15D, 0.5D);
-        else if (world.getBlockState(pos).getValue(FACING) == Direction.EAST)
-            addParticles(world, x + 1.1, y + 1.1, z + 0.5, 0.5D, 0.15D, 0.15D);
-        else if (world.getBlockState(pos).getValue(FACING) == Direction.WEST)
-            addParticles(world, x - 0.1, y + 1.1, z + 0.5, -0.5D, 0.15D, 0.15D);
+        Vector3 direction = new Vector3(world.getBlockState(pos).getValue(FACING));
+        addParticles(world, x + 0.5 + direction.x * 1.1, y + 1.1, z + 0.5 + direction.z * 1.1, direction.x,
+                direction.y, direction.z);
         super.setPlacedBy(world, pos, state, entity, stack);
     }
 
@@ -147,12 +138,15 @@ public class RepelBlock extends InteractableHorizontalBlock implements EntityBlo
     public static void addParticles(Level world, double x, double y, double z, double motionX, double motionY,
             double motionZ)
     {
-        RandomSource random = world.getRandom();
-
-        for (int i = 0; i < 50; ++i)
-        {
-            world.addParticle(ParticleTypes.CLOUD, x, y, z, (random.nextDouble() - 0.0D) * motionX,
-                    -random.nextDouble() * motionY, (random.nextDouble() - 0.0D) * motionZ);
-        }
+        if (!world.isClientSide()) return;
+        var effect_key = "block.repel";
+        var effectFunction = ParticleEffects.getEffect(effect_key);
+        var applied = effectFunction.get();
+        Vector3 here = new Vector3(x, y, z);
+        Vector3 there = here.add(motionX * 10, motionY * 10, motionZ * 10);
+        var source = new VectorPositionSource(here.toVec3d());
+        var target = new VectorPositionSource(there.toVec3d());
+        var effect = new EffectPacketInfo(applied, world, source, target, 1, 1);
+        ParticleEffects.ADD_FOR_RENDER.accept(effect);
     }
 }

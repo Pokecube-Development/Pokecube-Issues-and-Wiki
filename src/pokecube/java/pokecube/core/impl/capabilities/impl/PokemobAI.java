@@ -3,7 +3,6 @@ package pokecube.core.impl.capabilities.impl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
@@ -43,7 +42,6 @@ import pokecube.core.utils.PokecubeSerializer;
 import thut.api.ThutCaps;
 import thut.api.attachments.IOwnable;
 import thut.api.entity.ai.IAIRunnable;
-import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.genetics.DefaultGenetics;
 
@@ -153,24 +151,6 @@ public abstract class PokemobAI extends PokemobEvolves
 
         // Play the sound for the mob.
         this.getEntity().playAmbientSound();
-
-        // Do the shiny particle effect.
-        if (this.isShiny())
-        {
-            final Vector3 particleLoc = new Vector3();
-            for (int i = 0; i < 20; ++i)
-            {
-                particleLoc.set(this.getEntity().getX() + this.getEntity().getRandom().nextFloat() * this.getEntity()
-                                .getBbWidth() * 2.0F - this.getEntity().getBbWidth(),
-                        this.getEntity().getY() + 0.5D + this.getEntity().getRandom().nextFloat() * this.getEntity()
-                                .getBbHeight(),
-                        this.getEntity().getZ() + this.getEntity().getRandom().nextFloat() * this.getEntity()
-                                .getBbWidth() * 2.0F - this.getEntity().getBbWidth());
-                this.getEntity().level()
-                        .addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x, particleLoc.y, particleLoc.z, 0, 0,
-                                0);
-            }
-        }
 
         // Update our owner entity if needed
         if (this.getOwnerId() != null && this.getOwner() != null) this.setOwner(this.getOwner());
