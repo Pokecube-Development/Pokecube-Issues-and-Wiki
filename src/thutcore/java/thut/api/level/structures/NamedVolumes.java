@@ -190,11 +190,22 @@ public class NamedVolumes
     public static CompoundTag saveVolumeOrPart(HolderLookup.Provider registries, Object volume)
     {
         CompoundTag tag = new CompoundTag();
-        if(volume instanceof INamedVolume vol)
+        if (volume instanceof INamedVolume vol)
+        {
             tag.putString("key", vol.getKey());
+            if (vol instanceof INBTSerializable<?> ser)
+            {
+                tag.put("tag", ser.serializeNBT(registries));
+            }
+        }
         else if(volume instanceof INamedPart part)
+        {
             tag.putString("key", part.getKey());
-
+            if (part instanceof INBTSerializable<?> ser)
+            {
+                tag.put("tag", ser.serializeNBT(registries));
+            }
+        }
         return tag;
     }
 
