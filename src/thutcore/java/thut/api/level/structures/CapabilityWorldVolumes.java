@@ -191,11 +191,6 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
         this.level = level;
     }
 
-    public INamedVolume getUnique(String name)
-    {
-        return unique.getOrDefault(name, null);
-    }
-
     public void addVolume(INamedVolume volume, boolean unique)
     {
         if (!this.volumes.contains(volume))

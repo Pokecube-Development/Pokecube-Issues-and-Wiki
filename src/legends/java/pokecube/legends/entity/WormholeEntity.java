@@ -614,7 +614,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
             Entity entity = EntityTools.getCoreEntity(_entity);
 
             // These cannot go through a wormhole.
-            if (ItemList.is(WormholeSpawns.SPACE_ANCHORED, entity)) continue;
+            if (ItemList.is(WormholeSpawns.SPACE_ANCHORED, entity) || entity.isInvulnerable()) continue;
             // These could be ones teleported as riders of existing things
             if (entity.level() != this.level() || !entity.isAddedToLevel())
             {
