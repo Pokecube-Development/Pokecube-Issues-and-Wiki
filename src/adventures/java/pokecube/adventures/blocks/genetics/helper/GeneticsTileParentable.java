@@ -326,13 +326,13 @@ public abstract class GeneticsTileParentable<TYPE extends GeneticsTileParentable
     public void loadAdditional(final CompoundTag nbt, Provider provider)
     {
         if (nbt.contains("isDummy")) this.isDummy = nbt.getBoolean("isDummy");
-        super.loadAdditional(nbt, provider);
+        if (!this.isDummy) super.loadAdditional(nbt, provider);
     }
 
     @Override
     public void saveAdditional(CompoundTag nbt, Provider provider)
     {
         nbt.putBoolean("isDummy", this.isDummy);
-        super.saveAdditional(nbt, provider);
+        if (!this.isDummy) super.saveAdditional(nbt, provider);
     }
 }
