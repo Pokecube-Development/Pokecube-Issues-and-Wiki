@@ -2,6 +2,9 @@ package thut.bot.entity.ai.modules;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,6 +13,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
@@ -17,10 +21,13 @@ import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.phys.Vec3;
+import org.checkerframework.checker.units.qual.A;
+import thut.api.TickHandler;
 import thut.api.Tracker;
 import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
+import thut.api.world.WorldTickManager;
 import thut.bot.ThutBot;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
@@ -204,7 +211,6 @@ public class RouteMaker extends AbstractBot
             village = world.findNearestMapStructure(structure, testPoint, 1, false);
             if (village != null && village.getY() < world.getSeaLevel())
             {
-                world.getChunk(village);
                 village = new BlockPos(village.getX(),
                         world.getHeight(Types.WORLD_SURFACE, village.getX(), village.getZ()), village.getZ());
                 if (village.getY() < world.getSeaLevel())
@@ -319,6 +325,9 @@ public class RouteMaker extends AbstractBot
     public static final Pattern startPattern_num_speed = Pattern
             .compile(START + SPACE + RSRC + SPACE + INT + SPACE + INT);
 
+    private AtomicBoolean busy = new AtomicBoolean(false);
+    private Runnable loop;
+
     @Override
     public boolean init(String args)
     {
@@ -375,6 +384,7 @@ public class RouteMaker extends AbstractBot
     public void botTick(final ServerLevel level)
     {
         if (this.getMap() == null) return;
+        if (busy.get()) return;
 
         if (this.player.tickCount % 20 == 0)
         {
@@ -421,53 +431,82 @@ public class RouteMaker extends AbstractBot
                 BlockPos next = e1.distManhattan(player.getOnPos()) < e2.distManhattan(player.getOnPos()) ? e1 : e2;
                 BlockPos end = next == e1 ? e2 : e1;
 
-                Vec3 dir = new Vec3(end.getX() - next.getX(), 0, end.getZ() - next.getZ());
-                dir = dir.normalize();
+                Vec3 dir = new Vec3(end.getX() - next.getX(), 0, end.getZ() - next.getZ()).normalize();
                 double max_padding = 128;
 
                 road_maker.done = false;
                 road_maker.end = null;
                 road_maker.next = null;
                 road_maker.subbiome = "none";
+
+                AtomicInteger index = new AtomicInteger(0);
+
+                Runnable onComplete = () -> {
+                    var _traverse = this.getCurrentEdge();
+                    if (_traverse.index == 0)
+                    {
+                        int next_index = 1;
+                        if (getTag().contains("next_index")) next_index = getTag().getInt("next_index");
+                        _traverse.index = next_index;
+                        getTag().putInt("next_index", next_index + 1);
+                    }
+                    road_maker.subbiome = "route_" + _traverse.index;
+                    player.chat("Starting Road! " + road_maker.subbiome);
+                };
+
                 // First lets find the end, we go to the end part, then walk
                 // backwards until not in a structure.
-                int i = 0;
-                for (i = 0; i <= max_padding; i++)
-                {
+                loop = () -> {
+                    int i = index.get();
+                    if (i >= max_padding || !busy.get())
+                    {
+                        busy.set(false);
+                        onComplete.run();
+                        return;
+                    }
                     if (road_maker.end == null)
                     {
-                        BlockPos test_end = end.offset((int) (-i * dir.x), 0, (int) (-i * dir.z));
-                        player.level.getBlockState(test_end);
-                        test_end = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, test_end);
-                        if (StructureManager.getNear(level.dimension(), test_end, 8, false).isEmpty())
-                        {
-                            road_maker.end = new Vec3(test_end.getX(), test_end.getY(), test_end.getZ());
-                            if (road_maker.next != null) break;
-                        }
+                        BlockPos point = end.offset((int) (-i * dir.x), 0, (int) (-i * dir.z));
+                        Consumer<BlockPos> run = (test_end) -> {
+                            player.level.getBlockState(test_end);
+                            test_end = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, test_end);
+                            if (this.player.tickCount % 50 == 0) player.chat("Bot Checks Point. " + test_end);
+                            if (StructureManager.getNear(level.dimension(), test_end, 8, false).isEmpty())
+                            {
+                                road_maker.end = new Vec3(test_end.getX(), test_end.getY(), test_end.getZ());
+                                if (road_maker.next != null)
+                                {
+                                    busy.set(false);
+                                    onComplete.run();
+                                }
+                            }
+                        };
+                        queueCheckPoint(point, run);
                     }
                     if (road_maker.next == null)
                     {
-                        BlockPos text_next = next.offset((int) (i * dir.x), 0, (int) (i * dir.z));
-                        player.level.getBlockState(text_next);
-                        text_next = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, text_next);
-                        if (StructureManager.getNear(level.dimension(), text_next, 8, false).isEmpty())
-                        {
-                            road_maker.next = new Vec3(text_next.getX(), text_next.getY(), text_next.getZ());
-                            if (road_maker.end != null) break;
-                        }
+                        BlockPos point = next.offset((int) (i * dir.x), 0, (int) (i * dir.z));
+                        Consumer<BlockPos> run = (text_next) -> {
+                            player.level.getBlockState(text_next);
+                            text_next = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, text_next);
+                            if (this.player.tickCount % 50 == 0) player.chat("Bot Checks Point. " + text_next);
+                            if (StructureManager.getNear(level.dimension(), text_next, 8, false).isEmpty())
+                            {
+                                road_maker.next = new Vec3(text_next.getX(), text_next.getY(), text_next.getZ());
+                                if (road_maker.end != null)
+                                {
+                                    busy.set(false);
+                                    onComplete.run();
+                                }
+                            }
+                        };
+                        queueCheckPoint(point, run);
                     }
-                }
-
-                if (traverse.index == 0)
-                {
-                    int next_index = 1;
-                    if (getTag().contains("next_index")) next_index = getTag().getInt("next_index");
-                    traverse.index = next_index;
-                    getTag().putInt("next_index", next_index + 1);
-                }
-                road_maker.subbiome = "route_" + traverse.index;
-
-                player.chat("Starting Road!" + road_maker.subbiome);
+                    index.incrementAndGet();
+                    WorldTickManager.scheduleTask(level, () -> this.loop.run());
+                };
+                busy.set(true);
+                WorldTickManager.scheduleTask(level, () -> this.loop.run());
             }
             else
             {
@@ -483,5 +522,23 @@ public class RouteMaker extends AbstractBot
 
         if (this.mob.isInWater()) this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0.05, 0));
         else this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, -0.08, 0));
+    }
+
+    private void queueCheckPoint(BlockPos point, Consumer<BlockPos> run)
+    {
+        var bot = getBot();
+        bot.teleportTo(point.getX(), point.getY(), point.getZ());
+        WorldTickManager.scheduleTask(bot.level,
+                new WorldTickManager.DelayedTask(Tracker.instance().getTick() + 1, () -> checkPoint(point, run)));
+    }
+
+    private void checkPoint(BlockPos point, Consumer<BlockPos> run)
+    {
+        var bot = getBot();
+        if(!bot.level().isAreaLoaded(point, 8)) {
+            queueCheckPoint(point, run);
+            return;
+        }
+        run.accept(point);
     }
 }
