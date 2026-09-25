@@ -440,6 +440,7 @@ public final class SpawnHandler
             dx *= rng.nextBoolean() ? 1 : -1;
             dz *= rng.nextBoolean() ? 1 : -1;
             final Vector3 vec = pos.add(dx, 0, dz);
+            if (!world.isAreaLoaded(vec.getPos(), 16)) continue;
             final ChunkAccess chunk = world.getChunk(vec.getPos());
             if (!(chunk instanceof LevelChunk lchunk)) continue;
             final BlockPos blockpos = SpawnHandler.getRandomHeight(rng, lchunk, vec.intY(), dy);
