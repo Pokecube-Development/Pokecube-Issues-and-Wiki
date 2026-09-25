@@ -4,9 +4,11 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.TicketType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
@@ -143,20 +145,25 @@ public abstract class AbstractBot implements IBotAI
      */
     protected void teleBot(final BlockPos tpTo)
     {
+        var level = ((ServerLevel) this.player.level);
         // Collect and remove the spectators, prevent them from spectating while
         // this transfer is done.
         final List<ServerPlayer> readd = Lists.newArrayList();
-        for (final ServerPlayer player : ((ServerLevel) this.player.level).players())
+        for (final ServerPlayer player : level.players())
             if (player.getCamera() == this.player && player != this.player)
-        {
-            player.setCamera(player);
-            player.teleportTo(tpTo.getX(), tpTo.getY(), tpTo.getZ());
-            readd.add(player);
-        }
+            {
+                player.setCamera(player);
+                player.teleportTo(tpTo.getX(), tpTo.getY(), tpTo.getZ());
+                readd.add(player);
+            }
         // Move us to the nearest village to the target.
         this.player.teleportTo(tpTo.getX(), tpTo.getY(), tpTo.getZ());
 
-        if (ThutCore.conf.debug) ThutCore.LOGGER.info("Teleprted bot to " + tpTo);
+        ChunkPos chunkpos = new ChunkPos(tpTo);
+        level.getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 1, player.getId());
+        level.getChunkSource().move(player);
+
+        if (ThutCore.conf.debug) ThutCore.LOGGER.info("Teleprted bot to {}", tpTo);
 
         // Re-add the specators
         for (final ServerPlayer player : readd) player.setCamera(this.player);
@@ -170,7 +177,7 @@ public abstract class AbstractBot implements IBotAI
     protected void queueCheckPoint(BlockPos point, Consumer<BlockPos> run)
     {
         var bot = getBot();
-        bot.teleportTo(point.getX(), point.getY(), point.getZ());
+        teleBot(point);
         WorldTickManager.scheduleTask(bot.level,
                 new WorldTickManager.DelayedTask(Tracker.instance().getTick() + 1, () -> checkPoint(point, run)));
     }

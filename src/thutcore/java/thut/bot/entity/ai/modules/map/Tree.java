@@ -139,7 +139,10 @@ public class Tree implements INBTSerializable<CompoundTag>
             for (int i = 1; i < options.size() && j < targetEdges; i++)
             {
                 Node n1 = options.get(i);
-                if (n1 == n) throw new IllegalStateException();
+                if (n1 == n)
+                {
+                    throw new IllegalStateException();
+                }
 
                 // Target already has enough ends
                 if (n1.edges.size() > targetEdges)

@@ -112,6 +112,7 @@ public class RouteMaker extends AbstractBot
         }
         else if (getTag().getBoolean("made_map")) return this.map;
 
+        if (this.player.tickCount % 50 == 0) player.chat("Bot Searches for destinations.");
         // If no nodes yet, we start by populating the map with the nearby
         // towns.
         if (this.map.nodeCount < this.maxNodes)

@@ -2,6 +2,7 @@ package thut.bot.entity;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
+import io.netty.channel.Channel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.NbtUtils;
@@ -9,6 +10,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.DisconnectionDetails;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.PacketSendListener;
+import net.minecraft.network.ProtocolInfo;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.PlayerChatMessage;
@@ -18,6 +20,7 @@ import net.minecraft.network.protocol.common.ServerboundClientInformationPacket;
 import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.ServerboundKeepAlivePacket;
 import net.minecraft.network.protocol.common.ServerboundResourcePackPacket;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.protocol.game.ServerboundAcceptTeleportationPacket;
 import net.minecraft.network.protocol.game.ServerboundBlockEntityTagQueryPacket;
 import net.minecraft.network.protocol.game.ServerboundChangeDifficultyPacket;
@@ -509,6 +512,18 @@ public class BotPlayer extends ServerPlayer implements Npc
         {
             return false;
         }
+
+        @Override
+        public boolean hasChannel(CustomPacketPayload.Type<?> type)
+        {
+            return false;
+        }
+
+        @Override
+        public boolean hasChannel(CustomPacketPayload payload)
+        {
+            return false;
+        }
     }
 
     private static final class FakeConnection extends Connection
@@ -521,28 +536,40 @@ public class BotPlayer extends ServerPlayer implements Npc
         @Override
         public void send(Packet<?> packet)
         {
-
         }
 
         @Override
         public void tick()
         {
-
         }
 
         @Override
         protected void tickSecond()
         {
-
         }
 
         @Override
         public void disconnect(DisconnectionDetails disconnectionDetails)
         {
+        }
 
+        @Override
+        public <T extends PacketListener> void setupInboundProtocol(ProtocolInfo<T> protocolInfo, T packetInfo)
+        {
+        }
+
+        @Override
+        public void setupOutboundProtocol(ProtocolInfo<?> protocolInfo)
+        {
         }
 
         @Override
         public void setListenerForServerboundHandshake(PacketListener listener) {}
+
+        @Override
+        public Channel channel()
+        {
+            return super.channel();
+        }
     }
 }

@@ -23,7 +23,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.server.players.GameProfileCache;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.Entity;
@@ -348,44 +347,58 @@ public class ThutBot
     private static void placeNewPlayer(final MinecraftServer server, final Connection connection,
             final ServerPlayer player)
     {
-        final PlayerList list = server.getPlayerList();
-        final GameProfile gameprofile = player.getGameProfile();
-        final GameProfileCache gameprofilecache = server.getProfileCache();
-        final Optional<GameProfile> optional = gameprofilecache.get(gameprofile.getId());
-        final String s = optional.map(GameProfile::getName).orElse(gameprofile.getName());
-        gameprofilecache.add(gameprofile);
+        var list = server.getPlayerList();
+        GameProfile gameprofile = player.getGameProfile();
+        GameProfileCache gameprofilecache = server.getProfileCache();
+        String s;
+        if (gameprofilecache != null)
+        {
+            Optional<GameProfile> optional = gameprofilecache.get(gameprofile.getId());
+            s = optional.map(GameProfile::getName).orElse(gameprofile.getName());
+            gameprofilecache.add(gameprofile);
+        }
+        else
+        {
+            s = gameprofile.getName();
+        }
+
         Optional<CompoundTag> optional1 = list.load(player);
-        @SuppressWarnings("deprecation")
         ResourceKey<Level> resourcekey = optional1.<ResourceKey<Level>>flatMap(
-                tag -> DimensionType.parseLegacy(new Dynamic<>(NbtOps.INSTANCE, tag.get("Dimension")))
+                p_337568_ -> DimensionType.parseLegacy(new Dynamic<>(NbtOps.INSTANCE, p_337568_.get("Dimension")))
                         .resultOrPartial(LOGGER::error)).orElse(Level.OVERWORLD);
-        final ServerLevel serverlevel = server.getLevel(resourcekey);
+        ServerLevel serverlevel = server.getLevel(resourcekey);
         ServerLevel serverlevel1;
         if (serverlevel == null)
         {
-            ThutBot.LOGGER.warn("Unknown respawn dimension {}, defaulting to overworld", resourcekey);
+            LOGGER.warn("Unknown respawn dimension {}, defaulting to overworld", resourcekey);
             serverlevel1 = server.overworld();
         }
-        else serverlevel1 = serverlevel;
+        else
+        {
+            serverlevel1 = serverlevel;
+        }
 
         player.setServerLevel(serverlevel1);
-        String s1 = "local";
-        if (connection.getRemoteAddress() != null) s1 = connection.getRemoteAddress().toString();
-
-        ThutBot.LOGGER.info("{}[{}] logged in with entity id {} at ({}, {}, {})", player.getName().getString(), s1,
+        String s1 = connection.getLoggableAddress(server.logIPs());
+        LOGGER.info("{}[{}] logged in with entity id {} at ({}, {}, {})", player.getName().getString(), s1,
                 player.getId(), player.getX(), player.getY(), player.getZ());
         player.loadGameTypes(optional1.orElse(null));
-        final ServerGamePacketListenerImpl servergamepacketlistenerimpl = player.connection;
+
+        player.getStats().markAllDirty();
+        player.getRecipeBook().sendInitialRecipeBook(player);
         server.invalidateStatus();
         MutableComponent mutablecomponent;
         if (player.getGameProfile().getName().equalsIgnoreCase(s))
+        {
             mutablecomponent = Component.translatable("multiplayer.player.joined", player.getDisplayName());
+        }
         else
+        {
             mutablecomponent = Component.translatable("multiplayer.player.joined.renamed", player.getDisplayName(), s);
+        }
 
         list.broadcastSystemMessage(mutablecomponent.withStyle(ChatFormatting.YELLOW), false);
-        servergamepacketlistenerimpl.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(),
-                player.getXRot());
+        player.connection.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
 
         List<ServerPlayer> players = ObfuscationReflectionHelper.getPrivateValue(PlayerList.class, list, "players");
         Map<UUID, ServerPlayer> playerMap = ObfuscationReflectionHelper.getPrivateValue(PlayerList.class, list,
@@ -394,39 +407,55 @@ public class ThutBot
         playerMap.put(player.getUUID(), player);
 
         list.broadcastAll(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(player)));
-
-        serverlevel1.addNewPlayer(player);
-        serverlevel1.getChunkSource().move(player);
-        server.getCustomBossEvents().onPlayerConnect(player);
         list.sendLevelInfo(player, serverlevel1);
-
+        serverlevel1.addNewPlayer(player);
+        server.getCustomBossEvents().onPlayerConnect(player);
         if (optional1.isPresent() && optional1.get().contains("RootVehicle", 10))
         {
-            CompoundTag compoundtag1 = optional1.get().getCompound("RootVehicle");
-            final Entity entity1 = EntityType.loadEntityRecursive(compoundtag1.getCompound("Entity"), serverlevel1,
-                    (entity) -> !serverlevel1.addWithUUID(entity) ? null : entity);
-            if (entity1 != null)
+            CompoundTag compoundtag = optional1.get().getCompound("RootVehicle");
+            Entity entity = EntityType.loadEntityRecursive(compoundtag.getCompound("Entity"), serverlevel1,
+                    p_215603_ -> !serverlevel1.addWithUUID(p_215603_) ? null : p_215603_);
+            if (entity != null)
             {
                 UUID uuid;
-                if (compoundtag1.hasUUID("Attach")) uuid = compoundtag1.getUUID("Attach");
-                else uuid = null;
+                if (compoundtag.hasUUID("Attach"))
+                {
+                    uuid = compoundtag.getUUID("Attach");
+                }
+                else
+                {
+                    uuid = null;
+                }
 
-                if (entity1.getUUID().equals(uuid)) player.startRiding(entity1, true);
-                else for (final Entity entity : entity1.getIndirectPassengers())
-                    if (entity.getUUID().equals(uuid))
+                if (entity.getUUID().equals(uuid))
+                {
+                    player.startRiding(entity, true);
+                }
+                else
+                {
+                    for (Entity entity1 : entity.getIndirectPassengers())
                     {
-                        player.startRiding(entity, true);
-                        break;
+                        if (entity1.getUUID().equals(uuid))
+                        {
+                            player.startRiding(entity1, true);
+                            break;
+                        }
                     }
+                }
 
                 if (!player.isPassenger())
                 {
-                    ThutBot.LOGGER.warn("Couldn't reattach entity to player");
-                    entity1.discard();
+                    LOGGER.warn("Couldn't reattach entity to player");
+                    entity.discard();
 
-                    for (final Entity entity2 : entity1.getIndirectPassengers()) entity2.discard();
+                    for (Entity entity2 : entity.getIndirectPassengers())
+                    {
+                        entity2.discard();
+                    }
                 }
             }
         }
+        player.initInventoryMenu();
+        net.neoforged.neoforge.event.EventHooks.firePlayerLoggedIn(player);
     }
 }
