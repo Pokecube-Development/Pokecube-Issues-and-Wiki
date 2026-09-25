@@ -12,13 +12,16 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import pokecube.core.utils.EntityTools;
+import thut.api.Tracker;
 import thut.api.entity.ICopyMob;
+import thut.api.world.WorldTickManager;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.IBotAI;
 import thut.bot.entity.ai.helper.PathMob;
 import thut.core.common.ThutCore;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class AbstractBot implements IBotAI
 {
@@ -93,6 +96,12 @@ public abstract class AbstractBot implements IBotAI
         if (this.mob.isInWater()) this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, 0.05, 0));
         else this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0, -0.08, 0));
 
+        if (this.mob.getY() > level.getMaxBuildHeight() || this.mob.getY() < level.getMinBuildHeight())
+        {
+            this.player.chat("Mob was where? "+mob.position());
+            this.mob.setPos(this.mob.getX(), level.getSeaLevel(), this.mob.getY());
+        }
+
         ICopyMob.copyEntityTransforms(this.player, this.mob);
         ICopyMob.copyPositions(this.player, this.mob);
         ICopyMob.copyRotations(this.player, this.mob);
@@ -156,5 +165,24 @@ public abstract class AbstractBot implements IBotAI
         EntityTools.copyPositions(this.mob, this.player);
         EntityTools.copyRotations(this.mob, this.player);
         EntityTools.copyEntityTransforms(this.mob, this.player);
+    }
+
+    protected void queueCheckPoint(BlockPos point, Consumer<BlockPos> run)
+    {
+        var bot = getBot();
+        bot.teleportTo(point.getX(), point.getY(), point.getZ());
+        WorldTickManager.scheduleTask(bot.level,
+                new WorldTickManager.DelayedTask(Tracker.instance().getTick() + 1, () -> checkPoint(point, run)));
+    }
+
+    protected void checkPoint(BlockPos point, Consumer<BlockPos> run)
+    {
+        var bot = getBot();
+        if (!bot.level().isAreaLoaded(point, 8))
+        {
+            queueCheckPoint(point, run);
+            return;
+        }
+        run.accept(point);
     }
 }

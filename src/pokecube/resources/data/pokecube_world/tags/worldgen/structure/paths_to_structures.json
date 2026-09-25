@@ -1,13 +1,14 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:village",
-    {"id": "pokecube_legends:town_ultraspace", "required": false},
-    {"id": "pokecube_legends:village_ultraspace", "required": false}
+    "#pokecube_world:town",
+    {"id": "pokecube_legends:town_ultraspace", "required": false}
   ],
   "remove": [
     "pokecube:town_deep",
     "pokecube:town_high_sky",
+    "pokecube:town_sky",
+    "pokecube:town_cave",
     {"id": "pokecube_legends:town_ocean", "required": false}
   ]
 }

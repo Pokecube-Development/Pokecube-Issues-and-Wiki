@@ -1,17 +1,19 @@
 package thut.bot.entity.ai.modules;
 
 import java.util.BitSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.neoforged.neoforge.common.Tags;
 import org.joml.Vector3f;
 
@@ -21,7 +23,6 @@ import com.google.common.collect.Maps;
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -33,7 +34,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
@@ -232,6 +232,11 @@ public class RoadBuilder extends AbstractBot
     public void botTick(ServerLevel level)
     {
         if (this.done) return;
+        if (busy.get())
+        {
+            if (this.player.tickCount % 50 == 0) player.chat("Bot Waits for Processing in RoadBuilder.");
+            return;
+        }
 
         if (end == null || next == null)
         {
@@ -245,7 +250,8 @@ public class RoadBuilder extends AbstractBot
 
             this.end = new Vec3(end.getX(), end.getY(), end.getZ());
             this.next = new Vec3(next.getX(), next.getY(), next.getZ());
-            initPath();
+            initPath(0);
+            return;
         }
         if (end.distanceToSqr(next) < 4)
         {
@@ -270,7 +276,7 @@ public class RoadBuilder extends AbstractBot
         if (mob.getNavigation().isDone())
         {
             tryPath(next);
-            validatePath(next, 9);
+            validatePath();
         }
     }
 
@@ -285,6 +291,8 @@ public class RoadBuilder extends AbstractBot
             + INT + SPACE + INT + SPACE
 
             + INT + SPACE + INT + SPACE + INT);
+
+    public final AtomicBoolean busy = new AtomicBoolean(false);
 
     @Override
     public boolean init(String args)
@@ -301,11 +309,9 @@ public class RoadBuilder extends AbstractBot
             z = Integer.parseInt(match.group(11));
             y = player.level.getHeight(Types.WORLD_SURFACE, x, z);
             end = new Vec3(x, y, z);
-            initPath();
+            initPath(0);
 
             this.tpTicks = Integer.parseInt(match.group(13));
-
-
             return true;
         }
         match = build_route.matcher(args);
@@ -320,7 +326,7 @@ public class RoadBuilder extends AbstractBot
             z = Integer.parseInt(match.group(11));
             y = player.level.getHeight(Types.WORLD_SURFACE, x, z);
             end = new Vec3(x, y, z);
-            initPath();
+            initPath(0);
 
             return true;
         }
@@ -339,7 +345,7 @@ public class RoadBuilder extends AbstractBot
         return done;
     }
 
-    private void initPath()
+    private void initPath(int depth)
     {
         this.path_index = 0;
         this.path_nodes.clear();
@@ -351,149 +357,153 @@ public class RoadBuilder extends AbstractBot
             this.done = true;
             return;
         }
+        busy.set(true);
+        var executor = Executors.newVirtualThreadPerTaskExecutor();
+        executor.submit(() -> {
+            int num_segs = (int) Math.ceil(dr / expectedLength);
+            int length = (int) Math.ceil(dr / num_segs);
 
-        int num_segs = (int) Math.ceil(dr / expectedLength);
-        int length = (int) Math.ceil(dr / num_segs);
+            Vec3 dir = this.end.subtract(this.next).normalize();
 
-        Vec3 dir = this.end.subtract(this.next).normalize();
+            Vec3 next = this.next;
+            List<BlockPos> path_opts = Lists.newArrayList();
+            BlockPos next_pos = BlockPos.containing(next).atY(0);
+            path_opts.add(next_pos);
+            BlockPos end_pos = BlockPos.containing(end).atY(0);
+            boolean done = false;
+            int n = 0;
 
-        Vec3 next = this.next;
-        List<BlockPos> path_opts = Lists.newArrayList();
-        BlockPos next_pos = BlockPos.containing(next).atY(0);
-        path_opts.add(next_pos);
-        BlockPos end_pos = BlockPos.containing(end).atY(0);
-        boolean done = false;
-        int n = 0;
-
-        // Find a random set of points to decide to use for the road.
-        while (!done && n++ < 1e5)
-        {
-            final double dx = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
-            final double dz = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
-            Vec3 next_next = next.add(dir.x * length + dx, 0, dir.z * length + dz);
-            BlockPos next_next_pos = BlockPos.containing(next_next).atY(0);
-            path_opts.add(next_next_pos);
-            next = next_next;
-            next_pos = next_next_pos;
-            dir = this.end.subtract(next).normalize();
-            if (Math.sqrt(next_pos.distSqr(end_pos)) < expectedLength)
+            // Find a random set of points to decide to use for the road.
+            while (!done && n++ < 1e5)
             {
-                path_opts.add(end_pos);
-                done = true;
-                break;
-            }
-        }
-
-        // Now ensure they are a reasonable y distance apart. The ends must be
-        // fixed.
-        int[] ys = new int[path_opts.size()];
-        int i = 0;
-        BitSet fixedPoints = new BitSet();
-        fixedPoints.flip(0);
-        fixedPoints.flip(ys.length - 1);
-
-        for (var v : path_opts)
-        {
-            int y = this.player.level.getMinBuildHeight();
-            int cx = SectionPos.blockToSectionCoord(v.getX());
-            int cz = SectionPos.blockToSectionCoord(v.getZ());
-            if (!this.player.level.hasChunk(cx, cz))
-            {
-                ChunkAccess chunk = this.player.level.getChunk(cx, cz, ChunkStatus.SURFACE);
-                y = chunk.getHeight(Types.OCEAN_FLOOR_WG, v.getX(), v.getZ());
-            }
-            else
-            {
-                y = this.player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, v).getY();
-            }
-            if (y < this.player.level.getSeaLevel() - 2) y = this.player.level.getSeaLevel() + 2;
-            y = Math.max(y, this.player.level.getSeaLevel());
-            BlockPos pos = v.atY(y);
-            if (!StructureManager.getNear(player.level.dimension(), pos, 5, false).isEmpty())
-            {
-                fixedPoints.set(i);
-            }
-            ys[i++] = y;
-        }
-
-        n = 0;
-        int m = 0;
-        int dy = 1;
-        while (dy > 0 && n++ < 1e5)
-        {
-            dy = 0;
-            // Repeatedly relax the system untill all slopes are "acceptable"
-            for (i = 1; i < ys.length - 1; i++)
-            {
-                // fixed points do not get relaxed, so skip them for the check.
-                if (fixedPoints.get(i)) continue;
-
-                BlockPos p0 = path_opts.get(i).atY(ys[i]);
-                BlockPos pb = path_opts.get(i - 1).atY(ys[i - 1]);
-                BlockPos pa = path_opts.get(i + 1).atY(ys[i + 1]);
-
-                double dx = (pa.getX() - p0.getX());
-                double dz = (pa.getZ() - p0.getZ());
-
-                double dh_a = Math.sqrt(dx * dx + dz * dz);
-                double dy_a = Math.abs(p0.getY() - pa.getY());
-
-                if (dy_a / dh_a > 0.4)
+                final double dx = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
+                final double dz = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
+                Vec3 next_next = next.add(dir.x * length + dx, 0, dir.z * length + dz);
+                BlockPos next_next_pos = BlockPos.containing(next_next).atY(0);
+                path_opts.add(next_next_pos);
+                next = next_next;
+                next_pos = next_next_pos;
+                dir = this.end.subtract(next).normalize();
+                if (Math.sqrt(next_pos.distSqr(end_pos)) < expectedLength)
                 {
-                    int new_y0 = (p0.getY() + pa.getY()) / 2;
-                    dy += Math.abs(new_y0 - ys[i]);
-                    ys[i] = new_y0;
-                    p0 = p0.atY(new_y0);
-                    m++;
-                }
-
-                dx = (pb.getX() - p0.getX());
-                dz = (pb.getZ() - p0.getZ());
-
-                double dh_b = Math.sqrt(dx * dx + dz * dz);
-                double dy_b = Math.abs(p0.getY() - pb.getY());
-
-                if (dy_b / dh_b > 0.4)
-                {
-                    int new_y0 = (p0.getY() + pb.getY()) / 2;
-                    dy += Math.abs(new_y0 - ys[i]);
-                    ys[i] = new_y0;
-                    m++;
+                    path_opts.add(end_pos);
+                    break;
                 }
             }
-        }
 
-        int max_dr = 0;
-        int max_dy = 0;
-        for (i = 0; i < ys.length - 1; i++)
-        {
-            dy = Math.abs(ys[i] - ys[i + 1]);
-            max_dy = Math.max(max_dy, dy);
-            BlockPos p0 = path_opts.get(i);
-            BlockPos pa = path_opts.get(i + 1);
-            double dr_2 = Math.sqrt(p0.distSqr(pa));
-            max_dr = (int) Math.max(max_dr, dr_2);
-        }
-        System.out.println("took " + n + " relaxation steps (" + m + ")");
-        System.out.println("max dy: " + max_dy + " max_dr: " + max_dr);
-        System.out.println("size: " + ys.length);
+            // Now ensure they are a reasonable y distance apart. The ends must be
+            // fixed.
+            int[] ys = new int[path_opts.size()];
+            BitSet fixedPoints = new BitSet();
+            fixedPoints.flip(0);
+            fixedPoints.flip(ys.length - 1);
 
-        if (max_dr > 60 || max_dy > 30)
-        {
-            this.path_index = 0;
-            this.path_nodes.clear();
-            initPath();
-            return;
-        }
+            AtomicBoolean ready = new AtomicBoolean();
+            AtomicInteger integer = new AtomicInteger(0);
+            for (var v : path_opts)
+            {
+                ready.set(false);
+                Consumer<BlockPos> run = (_v) -> {
+                    int i = integer.get();
+                    int y;
+                    y = this.player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, _v).getY();
+                    if (y < this.player.level.getSeaLevel() - 2) y = this.player.level.getSeaLevel() + 2;
+                    y = Math.max(y, this.player.level.getSeaLevel());
+                    BlockPos pos = _v.atY(y);
+                    if (!StructureManager.getNear(player.level.dimension(), pos, 5, false).isEmpty())
+                    {
+                        fixedPoints.set(i);
+                    }
+                    ys[i++] = y;
+                    integer.set(i);
+                    ready.set(true);
+                };
+                queueCheckPoint(v, run);
+                // Block while waiting here
+                while (!ready.get());
+            }
 
-        // Update the positions accordingly.
-        for (i = 0; i < ys.length; i++)
-        {
-            path_nodes.add(path_opts.get(i).atY(ys[i]));
-        }
+            n = 0;
+            int m = 0;
+            int dy = 1;
+            while (dy > 0 && n++ < 1e5)
+            {
+                dy = 0;
+                // Repeatedly relax the system untill all slopes are "acceptable"
+                for (int i = 1; i < ys.length - 1; i++)
+                {
+                    // fixed points do not get relaxed, so skip them for the check.
+                    if (fixedPoints.get(i)) continue;
+
+                    BlockPos p0 = path_opts.get(i).atY(ys[i]);
+                    BlockPos pb = path_opts.get(i - 1).atY(ys[i - 1]);
+                    BlockPos pa = path_opts.get(i + 1).atY(ys[i + 1]);
+
+                    double dx = (pa.getX() - p0.getX());
+                    double dz = (pa.getZ() - p0.getZ());
+
+                    double dh_a = Math.sqrt(dx * dx + dz * dz);
+                    double dy_a = Math.abs(p0.getY() - pa.getY());
+
+                    if (dy_a / dh_a > 0.4)
+                    {
+                        int new_y0 = (p0.getY() + pa.getY()) / 2;
+                        dy += Math.abs(new_y0 - ys[i]);
+                        ys[i] = new_y0;
+                        p0 = p0.atY(new_y0);
+                        m++;
+                    }
+
+                    dx = (pb.getX() - p0.getX());
+                    dz = (pb.getZ() - p0.getZ());
+
+                    double dh_b = Math.sqrt(dx * dx + dz * dz);
+                    double dy_b = Math.abs(p0.getY() - pb.getY());
+
+                    if (dy_b / dh_b > 0.4)
+                    {
+                        int new_y0 = (p0.getY() + pb.getY()) / 2;
+                        dy += Math.abs(new_y0 - ys[i]);
+                        ys[i] = new_y0;
+                        m++;
+                    }
+                }
+            }
+
+            int max_dr = 0;
+            int max_dy = 0;
+            for (int i = 0; i < ys.length - 1; i++)
+            {
+                dy = Math.abs(ys[i] - ys[i + 1]);
+                max_dy = Math.max(max_dy, dy);
+                BlockPos p0 = path_opts.get(i);
+                BlockPos pa = path_opts.get(i + 1);
+                double dr_2 = Math.sqrt(p0.distSqr(pa));
+                max_dr = (int) Math.max(max_dr, dr_2);
+            }
+            System.out.println("took " + n + " relaxation steps (" + m + ")");
+            System.out.println("max dy: " + max_dy + " max_dr: " + max_dr);
+            System.out.println("size: " + ys.length);
+
+            if (max_dr > 60 || max_dy > 30)
+            {
+                this.path_index = 0;
+                this.path_nodes.clear();
+                if (depth < 4) initPath(depth + 1);
+                else busy.set(false);
+                return;
+            }
+
+            // Update the positions accordingly.
+            for (int i = 0; i < ys.length; i++)
+            {
+                path_nodes.add(path_opts.get(i).atY(ys[i]));
+            }
+            busy.set(false);
+        });
     }
 
-    private void validatePath(Vec3 targ, final double rr)
+    private void validatePath()
     {
         final PathNavigation navi = this.mob.getNavigation();
 
@@ -525,7 +535,7 @@ public class RoadBuilder extends AbstractBot
             this.done = true;
             return;
         }
-        if (this.path_nodes.isEmpty()) this.initPath();
+        if (this.path_nodes.isEmpty()) this.initPath(0);
         System.out.println((path_index + 1) + "/" + this.path_nodes.size());
         int next_index = path_index;
         if (path_index >= path_nodes.size())
@@ -534,7 +544,7 @@ public class RoadBuilder extends AbstractBot
             path_nodes.clear();
             done = true;
         }
-        else if (next_index < this.path_nodes.size())
+        else
         {
             Vec3 prev = next;
             BlockPos next_pos = path_nodes.get(next_index);
@@ -562,7 +572,7 @@ public class RoadBuilder extends AbstractBot
     {
         if (dist > 100)
         {
-            ThutCore.LOGGER.error("Road segment too long! " + start + " " + dir + " " + dist + "" + this.path_index);
+            ThutCore.LOGGER.error("Road segment too long! {} {} {}{}", start, dir, dist, this.path_index);
             return;
         }
 
@@ -573,10 +583,9 @@ public class RoadBuilder extends AbstractBot
 
         final Vector3f up = new Vector3f(0, 1, 0);
         final Vector3f dr = new Vector3f((float) dir.x, (float) dir.y, (float) dir.z);
-        final Vector3f r_h = up;
         // This is horizontal direction to the path.
-        r_h.cross(dr);
-        final Vec3 dir_h = new Vec3(r_h);
+        up.cross(dr);
+        final Vec3 dir_h = new Vec3(up);
 
         List<BlockPos> toAffect = Lists.newArrayList();
 
@@ -644,10 +653,8 @@ public class RoadBuilder extends AbstractBot
 
         List<Direction> nextDir = Lists.newArrayList();
 
-        Iterator<Direction> iter = Direction.Plane.HORIZONTAL.iterator();
-        while (iter.hasNext())
+        for (Direction direction : Direction.Plane.HORIZONTAL)
         {
-            Direction direction = iter.next();
             Vec3 d = new Vec3(direction.getStepX(), direction.getStepY(), direction.getStepZ());
             double dot = d.dot(dir);
             if ((dir.y > 0 && dot < 0)) nextDir.add(direction);

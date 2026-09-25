@@ -61,7 +61,7 @@ public class ForgeEventHandlers
         if (ItemList.is(ForgeEventHandlers.WHILTELISTED, state)) return false;
         if (newState != null && ItemList.is(ForgeEventHandlers.WHILTELISTED, newState)) return false;
         if (player != null && player.isCreative()) return false;
-        final Set<INamedVolume> set = StructureManager.getFor(world.dimension(), pos, false);
+        final Set<INamedVolume> set = StructureManager.getFor(world, pos, false);
         for (final INamedVolume info : set)
         {
             String name = info.getName();

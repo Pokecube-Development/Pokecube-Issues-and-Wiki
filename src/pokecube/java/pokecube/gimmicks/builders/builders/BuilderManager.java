@@ -359,7 +359,7 @@ public class BuilderManager
         var level = context.level();
         var pos = context.origin();
         if (book.getItem() != Items.WRITABLE_BOOK) return false;
-        var structs = StructureManager.getFor(level.dimension(), pos, false);
+        var structs = StructureManager.getFor(level, pos, false);
         for (var s : structs)
         {
             INamedPart inside = null;

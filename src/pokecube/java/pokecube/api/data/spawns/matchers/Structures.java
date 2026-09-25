@@ -34,8 +34,8 @@ public class Structures extends BaseMatcher
     public MatchResult _matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
     {
         Set<INamedVolume> set = checker.namedStructures;
-        if (set == null) set = checker.namedStructures = StructureManager.getFor(((Level) checker.world).dimension(),
-                checker.pos, false);
+        if (set == null)
+            set = checker.namedStructures = StructureManager.getFor(((Level) checker.world), checker.pos, false);
         for (var j : this._validStructures) for (var i : set) if (i.is(j)) return MatchResult.SUCCEED;
         return MatchResult.FAIL;
     }

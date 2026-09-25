@@ -56,7 +56,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         ChunkAccess chunk = segment.chunk;
         if (caveAdjusted)
         {
-            final Set<INamedVolume> set = StructureManager.getFor(rworld.dimension(), v.getPos(), true);
+            final Set<INamedVolume> set = StructureManager.getFor(rworld, v.getPos(), true);
             for (var info : set)
             {
                 if (info.notAsSubbiome()) continue;

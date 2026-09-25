@@ -115,7 +115,7 @@ public class ItemPokedex extends Item
             // datapacks/configs.
             if (PokecubeCore.getConfig().debug_misc)
             {
-                final Set<INamedVolume> infos = StructureManager.getFor(level.dimension(), pos, false);
+                final Set<INamedVolume> infos = StructureManager.getFor(level, pos, false);
                 for (final INamedVolume i : infos)
                 {
                     thut.lib.ChatHelper.sendSystemMessage(player, Component.literal(i.getName()));

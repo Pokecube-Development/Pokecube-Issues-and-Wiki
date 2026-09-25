@@ -473,7 +473,7 @@ public class EventsHandler
         }
         if (isStructureDebug)
         {
-            final Set<INamedVolume> set = StructureManager.getFor(level.dimension(), v.getPos(), true);
+            final Set<INamedVolume> set = StructureManager.getFor(level, v.getPos(), true);
             if (set.isEmpty())
                 thut.lib.ChatHelper.sendSystemMessage(player, Component.literal("No structures for this location"));
             else for (INamedVolume structure : set)

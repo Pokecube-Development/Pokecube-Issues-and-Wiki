@@ -15,8 +15,7 @@ public interface StructureMatcher extends MatchChecker
     {
         if (!matcher._validStructures.isEmpty())
         {
-            final Set<INamedVolume> set = StructureManager.getFor(((Level) checker.world).dimension(),
-                    checker.pos, false);
+            final Set<INamedVolume> set = StructureManager.getFor(((Level) checker.world), checker.pos, false);
             for (var i : set) if (matcher._validStructures.contains(i.getName())) return MatchResult.SUCCEED;
             return MatchResult.FAIL;
         }

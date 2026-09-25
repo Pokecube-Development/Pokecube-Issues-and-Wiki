@@ -10,7 +10,6 @@ import thut.bot.entity.ai.BotAI;
 @BotAI(key = "pokecube:village_routes", mod = "pokecube")
 public class VillageRouteMaker extends RouteMaker
 {
-    public static final Pattern startPattern = Pattern.compile(START);
     public static final Pattern startPattern_num = Pattern.compile(START + SPACE + INT);
     public static final Pattern startPattern_num_speed = Pattern.compile(START + SPACE + INT + SPACE + INT);
 

@@ -85,9 +85,30 @@ public class StructureManager
         return matches;
     }
 
-    public static Set<INamedVolume> getFor(final ResourceKey<Level> dim, final BlockPos loc, boolean forSubbiome)
+    public static Set<INamedVolume> getFor(Level dim, final BlockPos loc, boolean forSubbiome)
     {
-        final GlobalChunkPos pos = new GlobalChunkPos(dim, new ChunkPos(loc));
+        final GlobalChunkPos pos = new GlobalChunkPos(dim.dimension(), new ChunkPos(loc));
+        if (!map_by_pos.containsKey(pos) && dim instanceof ServerLevel level)
+        {
+            // Check if it is loaded, and if so, init structures
+            if (level.isAreaLoaded(loc, 32))
+            {
+                var chunk = level.getChunkAt(loc);
+                var reg = level.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
+                var starts = level.structureManager().startsForStructure(chunk.getPos(), s -> true);
+                starts.forEach(start -> {
+                    var structure = start.getStructure();
+                    var name = reg.getKey(structure).toString();
+                    final NamedStructureWrapper info = new NamedStructureWrapper(level, name, structure, start);
+                    if (!info.start.isValid()) return;
+                    addStructure(level.dimension(), info);
+                });
+            }
+            else
+            {
+                return Collections.emptySet();
+            }
+        }
         final Set<INamedVolume> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
         if (forPos.isEmpty()) return forPos;
         final Set<INamedVolume> matches = Sets.newHashSet();
@@ -117,24 +138,6 @@ public class StructureManager
             for (int z = origin.z - dr; z <= origin.z + dr; z++)
                 matches.addAll(StructureManager.getNearInt(dim, loc, new ChunkPos(x, z), distance, forSubbiome));
         return matches;
-    }
-
-    @SubscribeEvent
-    public static void onChunkLoad(final ChunkEvent.Load evt)
-    {
-        // The world is null when it is loaded off thread during worldgen!
-        if (!(evt.getLevel() instanceof ServerLevel level) || level.isClientSide()) return;
-        final ResourceKey<Level> dim = level.dimension();
-        var reg = level.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
-        var chunk = evt.getChunk();
-        var starts = level.structureManager().startsForStructure(chunk.getPos(), s -> true);
-        starts.forEach(start -> {
-            var structure = start.getStructure();
-            var name = reg.getKey(structure).toString();
-            final NamedStructureWrapper info = new NamedStructureWrapper(level, name, structure, start);
-            if (!info.start.isValid()) return;
-            addStructure(dim, info);
-        });
     }
 
     @SubscribeEvent
