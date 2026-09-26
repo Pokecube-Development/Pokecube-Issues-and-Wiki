@@ -349,11 +349,6 @@ public class RoadBuilder extends AbstractBot
 
     public boolean isBusy()
     {
-        if (pathCheck != null && busy.get())
-        {
-            var test = pathCheck.state();
-            System.out.println(test);
-        }
         if (!busy.get()) pathCheck = null;
         return busy.get();
     }
