@@ -375,7 +375,7 @@ public class RouteMaker extends AbstractBot
     public void botTick(final ServerLevel level)
     {
         if (this.getMap() == null) return;
-        if (road_maker.busy.get())
+        if (road_maker.isBusy())
         {
             if (this.player.tickCount % 50 == 0) player.chat("Bot Waits for Processing in RoadBuilder.");
             return;
@@ -468,7 +468,7 @@ public class RouteMaker extends AbstractBot
                     }
                     if (road_maker.end == null)
                     {
-                        BlockPos point = end.offset((int) (-i * dir.x), 0, (int) (-i * dir.z));
+                        BlockPos point = end.offset((int) (-i * dir.x), player.level.getSeaLevel(), (int) (-i * dir.z));
                         Consumer<BlockPos> run = (test_end) -> {
                             if(!busy.get()) return;
                             player.level.getBlockState(test_end);
@@ -487,7 +487,7 @@ public class RouteMaker extends AbstractBot
                     }
                     if (road_maker.next == null)
                     {
-                        BlockPos point = next.offset((int) (i * dir.x), 0, (int) (i * dir.z));
+                        BlockPos point = next.offset((int) (i * dir.x), player.level.getSeaLevel(), (int) (i * dir.z));
                         Consumer<BlockPos> run = (text_next) -> {
                             if(!busy.get()) return;
                             player.level.getBlockState(text_next);

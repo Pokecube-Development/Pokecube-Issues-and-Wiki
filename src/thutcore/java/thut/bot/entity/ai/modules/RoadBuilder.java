@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -292,7 +293,8 @@ public class RoadBuilder extends AbstractBot
 
             + INT + SPACE + INT + SPACE + INT);
 
-    public final AtomicBoolean busy = new AtomicBoolean(false);
+    private final AtomicBoolean busy = new AtomicBoolean(false);
+    private Future<?> pathCheck = null;
 
     @Override
     public boolean init(String args)
@@ -345,6 +347,17 @@ public class RoadBuilder extends AbstractBot
         return done;
     }
 
+    public boolean isBusy()
+    {
+        if (pathCheck != null && busy.get())
+        {
+            var test = pathCheck.state();
+            System.out.println(test);
+        }
+        if (!busy.get()) pathCheck = null;
+        return busy.get();
+    }
+
     private void initPath(int depth)
     {
         this.path_index = 0;
@@ -359,7 +372,7 @@ public class RoadBuilder extends AbstractBot
         }
         busy.set(true);
         var executor = Executors.newVirtualThreadPerTaskExecutor();
-        executor.submit(() -> {
+        pathCheck = executor.submit(() -> {
             int num_segs = (int) Math.ceil(dr / expectedLength);
             int length = (int) Math.ceil(dr / num_segs);
 

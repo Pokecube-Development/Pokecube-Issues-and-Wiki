@@ -75,6 +75,11 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.level.ChunkPos;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.world.chunk.LoadingValidationCallback;
+import net.neoforged.neoforge.common.world.chunk.RegisterTicketControllersEvent;
+import net.neoforged.neoforge.common.world.chunk.TicketController;
 import net.neoforged.neoforge.event.ServerChatEvent;
 import org.jetbrains.annotations.Nullable;
 import thut.api.Tracker;
@@ -88,14 +93,31 @@ import thut.core.common.network.EntityUpdate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@EventBusSubscriber(modid = "thutcore")
 public class BotPlayer extends ServerPlayer implements Npc
 {
+
+    public static final LoadingValidationCallback TICKET_VALIDATOR = (level, helper) -> {
+        for (UUID uuid : helper.getEntityTickets().keySet().stream().toList())
+        {
+            helper.removeAllTickets(uuid);
+        }
+    };
+    public static final TicketController TICKET_CONTROLLER = new TicketController(ResourceLocation.fromNamespaceAndPath("thutcore","bots"), TICKET_VALIDATOR);
+
+    @SubscribeEvent
+    public static void onRegisterTicketControllersEvent(RegisterTicketControllersEvent event)
+    {
+        event.register(TICKET_CONTROLLER);
+    }
 
     public static final String PERMBOTORDER = "thutbot.perm.orderbot";
 
@@ -106,6 +128,7 @@ public class BotPlayer extends ServerPlayer implements Npc
     private final BotEntry entry;
 
     private final List<Pair<Long, String>> chat_queue = new ArrayList<>();
+    private List<ChunkPos> forced = new ArrayList<>();
 
     public BotPlayer(final ServerLevel world, final GameProfile profile)
     {
@@ -126,6 +149,7 @@ public class BotPlayer extends ServerPlayer implements Npc
         {
             BlockPos pos = NbtUtils.readBlockPos(this.getPersistentData(), "_last_pos_").get();
             this.setPos(pos.getX(), pos.getY(), pos.getZ());
+            prepareToLoad(this.getOnPos());
         }
     }
 
@@ -179,9 +203,14 @@ public class BotPlayer extends ServerPlayer implements Npc
             this.move(MoverType.SELF, this.getDeltaMovement());
         }
 
+        // Update forced chunks
+        {
+            ChunkPos pos = this.chunkPosition();
+            prepareToLoad(pos);
+        }
+
         if (cpos != this.chunkPosition())
         {
-            level.getChunkSource().move(this);
             this.getPersistentData().put("_last_pos_", NbtUtils.writeBlockPos(getOnPos()));
         }
 
@@ -199,6 +228,29 @@ public class BotPlayer extends ServerPlayer implements Npc
                 ThutBot.LOGGER.error(e);
             }
         }
+    }
+
+    public void prepareToLoad(ChunkPos pos)
+    {
+        int loadR = 1;
+        Set<ChunkPos> added = new HashSet<>();
+        for (int i = -loadR; i <= loadR; i++)
+            for (int j = -loadR; j <= loadR; j++)
+            {
+                ChunkPos e = new ChunkPos(pos.x + i, pos.z + j);
+                TICKET_CONTROLLER.forceChunk(this.serverLevel(), this, e.x, e.z, true, false);
+                added.add(e);
+            }
+        forced.forEach(e -> {
+            if (!added.contains(e)) TICKET_CONTROLLER.forceChunk(this.serverLevel(), this, e.x, e.z, false, false);
+        });
+        forced = new ArrayList<>(added);
+    }
+
+    public void prepareToLoad(BlockPos blockpos)
+    {
+        var pos = new ChunkPos(blockpos);
+        prepareToLoad(pos);
     }
 
     public void onChat(ServerChatEvent event)
@@ -395,7 +447,7 @@ public class BotPlayer extends ServerPlayer implements Npc
         public void teleport(double x, double y, double z, float yaw, float pitch)
         {
             this.player.setPos(x, y, z);
-            player.setYHeadRot(yaw);
+            this.player.setYHeadRot(yaw);
         }
 
         @Override
@@ -483,7 +535,7 @@ public class BotPlayer extends ServerPlayer implements Npc
         public void teleport(double x, double y, double z, float yaw, float pitch, Set<RelativeMovement> relativeSet)
         {
             this.player.setPos(x, y, z);
-            player.setYHeadRot(yaw);
+            this.player.setYHeadRot(yaw);
         }
 
         @Override
