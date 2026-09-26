@@ -286,12 +286,12 @@ public class RouteMaker extends AbstractBot
         final ServerLevel world = (ServerLevel) this.player.level;
         int size = 32;
         final Set<INamedVolume> near = StructureManager.getNear(world.dimension(), next, 0, false);
-        infos:
-        for (final INamedVolume i : near) if (i.is(target.toString()))
-        {
-            size = Math.max(i.getTotalBounds().getXSpan(), i.getTotalBounds().getZSpan());
-            break infos;
-        }
+        for (final INamedVolume i : near)
+            if (i.is(target.toString()))
+            {
+                size = Math.max(i.getTotalBounds().getXSpan(), i.getTotalBounds().getZSpan());
+                break;
+            }
         final Node n1 = new Node();
         n1.setCenter(next, size);
 
@@ -472,7 +472,7 @@ public class RouteMaker extends AbstractBot
                         Consumer<BlockPos> run = (test_end) -> {
                             if(!busy.get()) return;
                             player.level.getBlockState(test_end);
-                            test_end = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, test_end);
+                            test_end = player.level.getHeightmapPos(Types.OCEAN_FLOOR, test_end);
                             if (this.player.tickCount % 50 == 0) player.chat("Bot Checks Point. " + test_end);
                             if (StructureManager.getNear(level.dimension(), test_end, 8, false).isEmpty())
                             {
@@ -491,7 +491,7 @@ public class RouteMaker extends AbstractBot
                         Consumer<BlockPos> run = (text_next) -> {
                             if(!busy.get()) return;
                             player.level.getBlockState(text_next);
-                            text_next = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, text_next);
+                            text_next = player.level.getHeightmapPos(Types.OCEAN_FLOOR, text_next);
                             if (this.player.tickCount % 50 == 0) player.chat("Bot Checks Point. " + text_next);
                             if (StructureManager.getNear(level.dimension(), text_next, 8, false).isEmpty())
                             {

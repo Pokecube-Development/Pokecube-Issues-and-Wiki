@@ -3,6 +3,7 @@ package thut.bot.entity.ai.modules;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -15,6 +16,7 @@ import java.util.regex.Pattern;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.util.RandomSource;
 import net.neoforged.neoforge.common.Tags;
 import org.joml.Vector3f;
 
@@ -58,23 +60,23 @@ public class RoadBuilder extends AbstractBot
         public PathStateProvider()
         {}
 
-        public BlockState getReplacement(BlockPos p)
+        public BlockState getReplacement(BlockPos p, RandomSource RNG)
         {
             ServerLevel level = (ServerLevel) RoadBuilder.this.player.level();
 
             final FluidState fluid = level.getFluidState(p);
             final BlockState b = level.getBlockState(p);
             // Over sea level water, we place planks
-            if (fluid.is(FluidTags.WATER) || b.is(BlockTags.ICE)) return pathsBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsBridge.size()));
+            if (fluid.is(FluidTags.WATER) || b.is(BlockTags.ICE)) return pathsBridge.get(RNG.nextInt(pathsBridge.size()));
             // Lave is replaced with cobble
-            else if (fluid.is(FluidTags.LAVA)) return pathsLavaBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsLavaBridge.size()));
+            else if (fluid.is(FluidTags.LAVA)) return pathsLavaBridge.get(RNG.nextInt(pathsLavaBridge.size()));
             // Desert biomes place sandstone
             else if ((level.getBiome(p).is(BiomeTags.IS_BADLANDS) || level.getBiome(p).is(Tags.Biomes.IS_DESERT)) && !(b.isAir() || shouldClear(b, p)))
-                return pathsSandstone.get(RoadBuilder.this.player.getRandom().nextInt(pathsSandstone.size()));
+                return pathsSandstone.get(RNG.nextInt(pathsSandstone.size()));
             // air with planks
-            else if (b.isAir() || shouldClear(b, p)) return pathsBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsBridge.size()));
+            else if (b.isAir() || shouldClear(b, p)) return pathsBridge.get(RNG.nextInt(pathsBridge.size()));
             else if (blocks.contains(b.getBlock())) return null;
-            else if (replaceable(b, p)) return paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size()));
+            else if (replaceable(b, p)) return paths.get(RNG.nextInt(paths.size()));
             return null;
         }
 
@@ -370,24 +372,30 @@ public class RoadBuilder extends AbstractBot
         pathCheck = executor.submit(() -> {
             int num_segs = (int) Math.ceil(dr / expectedLength);
             int length = (int) Math.ceil(dr / num_segs);
+            int y0 = 0;
 
             Vec3 dir = this.end.subtract(this.next).normalize();
 
             Vec3 next = this.next;
             List<BlockPos> path_opts = Lists.newArrayList();
-            BlockPos next_pos = BlockPos.containing(next).atY(0);
+            BlockPos next_pos = BlockPos.containing(next).atY(y0);
             path_opts.add(next_pos);
-            BlockPos end_pos = BlockPos.containing(end).atY(0);
+            BlockPos end_pos = BlockPos.containing(end).atY(y0);
             boolean done = false;
             int n = 0;
+
+            @SuppressWarnings("deprecation")
+            RandomSource RNG = RandomSource.create(
+                    this.player.serverLevel().getSeed() ^ Mth.getSeed(BlockPos.containing(next)));
+            RNG.consumeCount(depth * 10);
 
             // Find a random set of points to decide to use for the road.
             while (!done && n++ < 1e5)
             {
-                final double dx = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
-                final double dz = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
-                Vec3 next_next = next.add(dir.x * length + dx, 0, dir.z * length + dz);
-                BlockPos next_next_pos = BlockPos.containing(next_next).atY(0);
+                final double dx = (RNG.nextDouble() - 0.5) * lengthVariation;
+                final double dz = (RNG.nextDouble() - 0.5) * lengthVariation;
+                Vec3 next_next = next.add(dir.x * length + dx, y0, dir.z * length + dz);
+                BlockPos next_next_pos = BlockPos.containing(next_next).atY(y0);
                 path_opts.add(next_next_pos);
                 next = next_next;
                 next_pos = next_next_pos;
@@ -414,7 +422,7 @@ public class RoadBuilder extends AbstractBot
                 Consumer<BlockPos> run = (_v) -> {
                     int i = integer.get();
                     int y;
-                    y = this.player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, _v).getY();
+                    y = this.player.level.getHeightmapPos(Types.OCEAN_FLOOR, _v).getY();
                     if (y < this.player.level.getSeaLevel() - 2) y = this.player.level.getSeaLevel() + 2;
                     y = Math.max(y, this.player.level.getSeaLevel());
                     BlockPos pos = _v.atY(y);
@@ -426,9 +434,9 @@ public class RoadBuilder extends AbstractBot
                     integer.set(i);
                     ready.set(true);
                 };
-                queueCheckPoint(v, run);
+                queueCheckPoint(v.atY(player.level().getSeaLevel()), run);
                 // Block while waiting here
-                while (!ready.get());
+                while (!ready.get()) ;
             }
 
             n = 0;
@@ -587,7 +595,7 @@ public class RoadBuilder extends AbstractBot
         final ServerLevel level = (ServerLevel) this.player.level;
 
         BlockPos pos;
-        Vec3 vec = start;
+        Vec3 vec;
 
         final Vector3f up = new Vector3f(0, 1, 0);
         final Vector3f dr = new Vector3f((float) dir.x, (float) dir.y, (float) dir.z);
@@ -607,7 +615,10 @@ public class RoadBuilder extends AbstractBot
 
         for (int i = 0; i < 7; i++) layers.add(Lists.newArrayList());
 
-        boolean makeSign = this.player.getRandom().nextDouble() < 0.5;
+        @SuppressWarnings("deprecation")
+        RandomSource RNG = RandomSource.create(level.getSeed() ^ Mth.getSeed(BlockPos.containing(start)));
+
+        boolean makeSign = RNG.nextDouble() < 0.5;
 
         for (double i = -1; i <= dist + 1; i += 0.25)
         {
@@ -615,7 +626,6 @@ public class RoadBuilder extends AbstractBot
             // Make torches every 10 blocks or so.
             boolean makeTorch = ((int) i) % 20 == 0 && (i - ((int) i)) < 0.25;
 
-            h_loop:
             for (int dh = -3; dh <= 3; dh++)
             {
                 vec = start.add(dir.scale(i).add(dir_h.scale(dh)));
@@ -628,9 +638,9 @@ public class RoadBuilder extends AbstractBot
                 // check if we need this edge at all
                 if (Math.abs(dh) == 3)
                 {
-                    boolean doEdge = level.getHeight(Types.OCEAN_FLOOR_WG, pos.getX(), pos.getZ()) < pos.getY() - 1;
+                    boolean doEdge = level.getHeight(Types.OCEAN_FLOOR, pos.getX(), pos.getZ()) < pos.getY() - 1;
                     if (doEdge) railings.add(pos.above());
-                    else continue h_loop;
+                    else continue;
                 }
                 for (int y = -1; y <= 4; y++)
                 {
@@ -679,18 +689,14 @@ public class RoadBuilder extends AbstractBot
                 BlockPos here = toEdit.get(j);
                 BlockState state = level.getBlockState(here);
                 FluidState fluid = level.getFluidState(here);
-                BlockState replacement = pathProvider.getReplacement(here);
+                BlockState replacement = pathProvider.getReplacement(here, RNG);
                 boolean remove = y > 0 && pathProvider.shouldClear(state, here);
                 boolean editable = remove || replacement != null;
 
                 if (y == 0) for (Direction d : nextDir)
                 {
                     BlockPos p = here.offset(d.getStepX(), d.getStepY(), d.getStepZ());
-                    if (!y_cache.containsKey(p))
-                    {
-                        continue;
-                    }
-                    else
+                    if (y_cache.containsKey(p))
                     {
                         Integer k = y_cache.get(p);
                         if (k != y)
@@ -715,21 +721,21 @@ public class RoadBuilder extends AbstractBot
         for (BlockPos p : toFix.keySet())
         {
             List<BlockState> list = toFix.get(p);
-            this.setBlock(level, p.below(), list.get(player.getRandom().nextInt(list.size())), 2);
+            this.setBlock(level, p.below(), list.get(RNG.nextInt(list.size())), 2);
         }
 
         // Next build cobblestone railings if needed
         for (BlockPos p : railings)
         {
             // TODO: Fix disconnected railings
-            this.setBlock(level, p.below(), fences.get(RoadBuilder.this.player.getRandom().nextInt(fences.size())), 3);
+            this.setBlock(level, p.below(), fences.get(RNG.nextInt(fences.size())), 3);
         }
 
         // Then place the torches
         for (BlockPos p : torches)
         {
-            this.setBlock(level, p.below(2), paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size())), 3);
-            this.setBlock(level, p.below(), walls.get(RoadBuilder.this.player.getRandom().nextInt(walls.size())), 3);
+            this.setBlock(level, p.below(2), paths.get(RNG.nextInt(paths.size())), 3);
+            this.setBlock(level, p.below(), walls.get(RNG.nextInt(walls.size())), 3);
             this.setBlock(level, p, Blocks.TORCH.defaultBlockState(), 3);
         }
 
