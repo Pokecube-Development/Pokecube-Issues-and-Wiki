@@ -54,6 +54,7 @@ import pokecube.adventures.inventory.trainer.ContainerTrainer;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.adventures.utils.TradeEntryLoader;
+import pokecube.adventures.utils.TrainerEntryLoader;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -95,6 +96,7 @@ import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.sources.PokemobDamageSource;
 import pokecube.core.moves.damage.sources.TerrainDamageSource;
+import thut.api.data.DataHelpers;
 import thut.api.inventory.npc.NpcContainer;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -556,12 +558,12 @@ public class TrainerEventHandler
     public static void initTrainers(final FMLLoadCompleteEvent event)
     {
         DBLoader.load();
-        TypeTrainer.postInitTrainers();
         TradeEntryLoader.makeEntries();
     }
 
     public static void onTagsUpdated(TagsUpdatedEvent event)
     {
+        TypeTrainer.postInitTrainers();
         TradeEntryLoader.postStartLoadTrades();
     }
 

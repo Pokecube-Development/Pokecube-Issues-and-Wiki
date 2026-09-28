@@ -322,7 +322,7 @@ public class StringTag<T> implements IResourceData
         }
         catch (final Exception e)
         {
-            ThutCore.LOGGER.error("Error reading tag " + tagLoc, e);
+            ThutCore.LOGGER.error("Error reading tag {}", tagLoc, e);
         }
         return false;
     }

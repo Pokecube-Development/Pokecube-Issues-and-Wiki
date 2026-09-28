@@ -161,23 +161,7 @@ public class TrainerEntryLoader
             {
                 type.held = Tools.getStack(entry.held);
             }
-            if (entry.pokemon == null) type.pokelist = new String[] {};
-            else
-            {
-                var list = new ArrayList<String>();
-                for (var _entry : entry.pokemon)
-                {
-                    if (_entry.startsWith("#"))
-                    {
-                        _entry = _entry.substring(1);
-                        if (!_entry.contains(":")) _entry = "pokecube:" + _entry;
-                        var tag = Tags.POKEMOB.getValues(_entry);
-                        tag.forEach(v -> list.add(v.name));
-                    }
-                    else list.add(_entry);
-                }
-                type.pokelist = list.toArray(new String[0]);
-            }
+            type.pokelist = entry.pokemon;
         }
     }
 }

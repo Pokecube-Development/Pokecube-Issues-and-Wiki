@@ -55,6 +55,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.database.Database;
+import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -471,8 +472,21 @@ public class TypeTrainer extends NpcType
         for (final TypeTrainer t : TypeTrainer.typeMap.values())
         {
             t.pokemon.clear();
-            if (t.pokelist != null && t.pokelist.length != 0)
-                if (!t.pokelist[0].startsWith("-")) for (final String s : t.pokelist)
+            if (t.pokelist != null && !t.pokelist.isEmpty())
+            {
+                var list = new ArrayList<String>();
+                for (var _entry : t.pokelist)
+                {
+                    if (_entry.startsWith("#"))
+                    {
+                        _entry = _entry.substring(1);
+                        if (!_entry.contains(":")) _entry = "pokecube:" + _entry;
+                        var tag = Tags.POKEMOB.getValues(_entry);
+                        tag.forEach(v -> list.add(v.name));
+                    }
+                    else list.add(_entry);
+                }
+                if (!list.getFirst().startsWith("-")) for (final String s : t.pokelist)
                 {
                     final PokedexEntry e = Database.getEntry(s);
                     if (e != null && !t.pokemon.contains(e)) t.pokemon.add(e);
@@ -480,7 +494,7 @@ public class TypeTrainer extends NpcType
                 }
                 else
                 {
-                    final String[] types = t.pokelist[0].replace("-", "").split(":");
+                    final String[] types = list.getFirst().replace("-", "").split(":");
                     if (types[0].equalsIgnoreCase("all"))
                     {
                         for (final PokedexEntry s : Database.spawnables) if (!s.isLegendary()) t.pokemon.add(s);
@@ -492,8 +506,9 @@ public class TypeTrainer extends NpcType
                             if (s.isType(pokeType) && !s.isLegendary()) t.pokemon.add(s);
                     }
                 }
-            // Remove large pokemobs from their list.
-            t.pokemon.removeIf(e -> (e.getLength() > 8 || e.getHeight() > 8 || e.getWidth() > 8));
+                // Remove large pokemobs from their list.
+                t.pokemon.removeIf(e -> (e.getLength() > 8 || e.getHeight() > 8 || e.getWidth() > 8));
+            }
         }
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Trainer Types: " + TypeTrainer.typeMap);
     }
@@ -516,8 +531,8 @@ public class TypeTrainer extends NpcType
     public String drops = "";
     public ItemStack held = ItemStack.EMPTY;
 
-    // Temporary array used to load in the allowed mobs.
-    public String[] pokelist;
+    // Temporary list used to load in the allowed mobs.
+    public List<String> pokelist;
 
     private TypeTrainer(NpcType wrapped)
     {
