@@ -31,6 +31,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.EntityPokemob;
+import pokecube.core.utils.EntityTools;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.attachments.Energy;
@@ -40,8 +41,12 @@ import thut.api.data.HolderProvider;
 import thut.api.maths.Vector3;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -120,8 +125,14 @@ public class EnergyHandler
         List<Entity> l = tile.mobs;
         if (tile.updateTime == -1 || tile.updateTime < tile.getLevel().getGameTime())
         {
-            l = tile.mobs = tile.getLevel().getEntitiesOfClass(Entity.class, box);
+            l = tile.getLevel().getEntitiesOfClass(Entity.class, box);
+            l.replaceAll(EntityTools::getCoreEntity);
+            Set<Entity> unique = new HashSet<>(l);
+            tile.mobs = new ArrayList<>(unique);
+            var pos = box.getCenter();
+            tile.mobs.sort(Comparator.comparingDouble(e -> e.distanceToSqr(pos)));
             tile.updateTime = tile.getLevel().getGameTime() + PokecubeAdv.config.siphonUpdateRate;
+            l = tile.mobs;
         }
         int ret = 0;
         for (final Entity entity : l)
