@@ -190,6 +190,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements IBBPartMu
         {
             if (containing == null) containing = part.getBoundingBox();
             else containing = containing.minmax(part.getBoundingBox());
+            part.onAddedToLevel();
         }
         if (containing != null)
         {

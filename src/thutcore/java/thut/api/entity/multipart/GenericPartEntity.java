@@ -243,6 +243,12 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
     }
 
     @Override
+    public boolean isAlive()
+    {
+        return this.getParent().isAlive();
+    }
+
+    @Override
     public ItemStack getPickedResult(HitResult target)
     {
         return this.getParent().getPickedResult(target);
