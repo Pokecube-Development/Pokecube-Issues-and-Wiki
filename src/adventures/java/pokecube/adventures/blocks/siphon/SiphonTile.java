@@ -20,6 +20,7 @@ import net.neoforged.neoforge.energy.EnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
 import thut.api.attachments.Energy;
+import thut.api.attachments.Linkable;
 import thut.api.attachments.Linkable.ILinkStorage;
 import thut.api.block.ITickTile;
 import thut.api.entity.teleporting.TeleDest;
@@ -98,6 +99,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
     {
         super(tileEntityTypeIn, pos, state);
         energy = (EnergyStore) Energy.get(this);
+        this.getData(Linkable.TYPES[0]);
     }
 
     @Override

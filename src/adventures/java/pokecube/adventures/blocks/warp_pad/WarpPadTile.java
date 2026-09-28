@@ -25,6 +25,7 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
 import thut.api.Tracker;
+import thut.api.attachments.Linkable;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
@@ -93,7 +94,6 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
         };
     }
 
-    public static double MAXRANGE = 64;
     public static int COOLDOWN = 20;
 
     public static void warp(final Entity entityIn, final TeleDest dest, final boolean sound)
@@ -112,6 +112,7 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
     public WarpPadTile(final BlockEntityType<?> tileEntityTypeIn, final BlockPos pos, final BlockState state)
     {
         super(tileEntityTypeIn, pos, state);
+        this.getData(Linkable.TYPES[0]);
     }
 
     public TeleDest getDest()
@@ -125,8 +126,8 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
     public void onWalkedOn(final Entity entityIn)
     {
         // TODO possible error log when things fail for reasons?
-        if (WarpPadTile.invalidSources.contains(entityIn.level().dimension()) || entityIn.level().isClientSide)
-            return;
+        if (entityIn.level().isClientSide || WarpPadTile.invalidSources.contains(entityIn.level().dimension())
+                || WarpPadTile.invalidDests.contains(getDest().loc.dimension())) return;
 
         final TeleDest dest = this.getDest();
         final BlockPos link = dest.loc.pos();
@@ -139,7 +140,7 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
         {
             final Vector3 here = new Vector3().set(this);
             GlobalPos posHere = GlobalPos.of(level.dimension(), here.getPos());
-            double cost = METRIC.apply(new WarpDetails(level, posHere, dest));
+            int cost = METRIC.apply(new WarpDetails(level, posHere, dest)).intValue();
             if (!this.noEnergyNeed && this.energy < cost)
             {
                 level.playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5,

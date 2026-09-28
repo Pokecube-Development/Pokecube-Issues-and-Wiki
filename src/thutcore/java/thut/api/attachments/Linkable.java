@@ -249,7 +249,7 @@ public class Linkable
         // Only run for items
         if (event.getItemStack().isEmpty()) return;
         // Check if stack is a linkstore
-        ILinkStorage storage = null;
+        ILinkStorage storage;
         var holder = event.getItemStack().get(LINK_STORE);
         if (holder == null) return;
         if (holder.link() == null)
