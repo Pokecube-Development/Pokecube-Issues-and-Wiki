@@ -5,9 +5,9 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -60,13 +60,10 @@ public class BlockEventHandler
             // Assume that we right clicked the top of the block.
             pos = GlobalPos.of(pos.dimension(), pos.pos().above());
             this.tile.getDest().setPos(pos);
-            if (!user.level().isClientSide)
+            if (user instanceof ServerPlayer player)
             {
-                if (user instanceof Player player)
-                {
-                    player.displayClientMessage(Component.translatableEscape("block.pokecube_adventures.warp_pad.link",
+                player.displayClientMessage(Component.translatableEscape("block.pokecube_adventures.warp_pad.link",
                             tile.getDest().getInfoName()), true);
-                }
             }
             // Centre us properly.
             return true;
