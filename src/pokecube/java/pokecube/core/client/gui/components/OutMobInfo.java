@@ -78,9 +78,10 @@ public class OutMobInfo extends GuiEventComponent
             evt.getMat().pushPose();
             evt.getMat().translate(this.pos.x0, this.pos.y0, 0);
 
-            RenderSystem.enableBlend();
             // Render Box behind Mob
+            RenderSystem.enableBlend();
             graphics.blitSprite(ICON_MOB_FRAME, 1, 0, -2, 42, 42);
+            RenderSystem.disableBlend();
 
             // If gui is upwards, translate accordingly
             if (!PokecubeCore.getConfig().guiDown)
@@ -95,6 +96,7 @@ public class OutMobInfo extends GuiEventComponent
             ratio = Math.max(0, Math.min(1, ratio));
             width = (int) (89 * ratio);
             // Background first
+            RenderSystem.enableBlend();
             graphics.blitSprite(ICON_HEALTH_EXP[0], hpOffsetX, hpOffsetY, 89, 7);
             // Then filled bar
             graphics.blitSprite(ICON_HEALTH_EXP[1], hpOffsetX, hpOffsetY, width, 7);
@@ -111,6 +113,7 @@ public class OutMobInfo extends GuiEventComponent
             width = (int) (89 * ratio);
             graphics.blitSprite(ICON_HEALTH_EXP[2], xpOffsetX, xpOffsetY, 89, 4);
             graphics.blitSprite(ICON_HEALTH_EXP[3], xpOffsetX, xpOffsetY, width, 4);
+            RenderSystem.disableBlend();
 
             // Render Hunger before status (Status will render over it)
             int maxT = PokecubeCore.getConfig().pokemobLifeSpan;
@@ -178,19 +181,19 @@ public class OutMobInfo extends GuiEventComponent
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Draw number of pokemon
-            RenderSystem.enableBlend();
             var info = GuiDisplayPokecubeInfo.instance();
             int n = info.getPokemobsToDisplay().size();
             int n2 = info.indexPokemob + 1;
             String txt = n == 1 ? n + "" : n2 + "/" + n;
             int num = gui.getFont().width(txt);
 
+            RenderSystem.enableBlend();
             graphics.blitSprite(ICON_NUMBER_FRAME, nameOffsetX + 89, nameOffsetY, -1, num + 4, 15);
+            RenderSystem.disableBlend();
             graphics.drawString(gui.getFont(), txt, nameOffsetX + 91, nameOffsetY + 4,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Moves
-            RenderSystem.enableBlend();
             for (moveCount = 0; moveCount < 4; moveCount++) if (pokemob.getMove(moveCount) == null) break;
             int h = 0;
             if (dir == -1) h -= 14 + 12 * (moveCount - 1) - (4 - moveCount) * 2;
@@ -203,7 +206,9 @@ public class OutMobInfo extends GuiEventComponent
                     // Select background plate colour
                     plate = ICON_MOVE_FRAMES[disabled ? 2 : currentMoveIndex == moveIndex ? 2 : 0];
                     // Draw background plate
+                    RenderSystem.enableBlend();
                     graphics.blitSprite(plate, movesOffsetX, movesOffsetY + 13 * moveIndex + h, -2, 89, 13);
+                    RenderSystem.disableBlend();
 
                     // Render colour overlays.
                     if (currentMoveIndex == moveIndex && !disabled)
@@ -218,7 +223,9 @@ public class OutMobInfo extends GuiEventComponent
                         timer = Math.max(0, Math.min(timer, 1));
                         width = (int) (89 * timer);
                         plate = ICON_MOVE_FRAMES[1];
+                        RenderSystem.enableBlend();
                         graphics.blitSprite(plate, movesOffsetX, movesOffsetY + 13 * moveIndex + h, -1, width, 13);
+                        RenderSystem.disableBlend();
                     }
                     // Finally draw the name
                     graphics.drawString(gui.getFont(), MovesUtils.getMoveName(move.getName(), pokemob).getString(),
@@ -229,7 +236,6 @@ public class OutMobInfo extends GuiEventComponent
             // Render Mob
             int mobOffsetX = 0;
             int mobOffsetY = 0;
-            RenderSystem.enableBlend();
             // Render Mob
 
             LivingEntity mob = pokemob.getEntity();
@@ -265,6 +271,7 @@ public class OutMobInfo extends GuiEventComponent
                 mobOffsetY = 80;
                 RenderSystem.enableBlend();
                 graphics.blitSprite(ICON_MOB_FRAME, mobOffsetX, mobOffsetY, -2, 42, 42);
+                RenderSystem.disableBlend();
 
                 mob = ally;
 

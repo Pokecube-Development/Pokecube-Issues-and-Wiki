@@ -151,9 +151,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
             guiGraphics.blitSprite(SCROLLER_SPRITE, l, k + scrollBarDy, 6, i1);
             RenderSystem.disableBlend();
         }
-
         this.renderDecorations(guiGraphics, mouseX, mouseY);
-        RenderSystem.disableBlend();
     }
 
     @Override

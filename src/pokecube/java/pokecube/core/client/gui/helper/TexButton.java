@@ -110,12 +110,11 @@ public class TexButton extends Button
             int i = button.getTextureY();
             if (!button.isActive())
             {
-                i = 0;
                 graphics.blit(Resources.SLOT_ICON_CUBE, button.getX(), button.getY(),
-                        button.uOffset, button.vOffset + i * button.vSize,
+                        button.uOffset, button.vOffset,
                         button.width / 2, button.height);
                 graphics.blit(Resources.SLOT_ICON_CUBE,  button.getX() + button.width / 2, button.getY(),
-                        button.uEnd.apply(button.width), button.vOffset + i * button.vSize,
+                        button.uEnd.apply(button.width), button.vOffset,
                         button.width / 2, button.height);
             } else {
                 graphics.blit(Resources.SLOT_ICON_CUBE, button.getX(), button.getY(),
@@ -126,6 +125,8 @@ public class TexButton extends Button
                         button.width / 2, button.height);
             }
             //@formatter:on
+            RenderSystem.disableBlend();
+            RenderSystem.disableDepthTest();
         }
     }
 
@@ -154,6 +155,8 @@ public class TexButton extends Button
             final int i = button.getTextureY();
             graphics.blit(button.texture, button.getX(), button.getY(), this.u, this.v + i * this.h,
                     this.w, this.h);
+            RenderSystem.disableBlend();
+            RenderSystem.disableDepthTest();
         }
     }
 

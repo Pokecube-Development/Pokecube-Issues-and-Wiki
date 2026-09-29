@@ -137,6 +137,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.enableBlend();
             graphics.blitSprite(UNSELECTED_TOP_TABS[Mth.clamp(i, 0, UNSELECTED_TOP_TABS.length)], r.x0, r.y0, r.w, r.h);
+            RenderSystem.disableBlend();
             if (t.icon != null) graphics.blitSprite(t.icon, r.x0, r.y0+4, 24, 24);
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
@@ -147,6 +148,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         Tab t = modules.get(moduleIndex);
         Rectangle r = this.tabs.get(moduleIndex);
         graphics.blitSprite(SELECTED_TOP_TABS[Mth.clamp(moduleIndex, 0, SELECTED_TOP_TABS.length)], r.x0, r.y0, r.w, r.h);
+        RenderSystem.disableBlend();
         if (t.icon != null) graphics.blitSprite(t.icon, r.x0, r.y0+4, 24, 24);
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         modules.get(moduleIndex).renderBg(graphics, tick, mx, my);

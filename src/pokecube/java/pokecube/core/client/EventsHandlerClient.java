@@ -282,7 +282,6 @@ public class EventsHandlerClient
             double x = Mth.lerp(f, entity.xOld, entity.getX());
             double y = Mth.lerp(f, entity.yOld, entity.getY());
             double z = Mth.lerp(f, entity.zOld, entity.getZ());
-            RenderSystem.enableBlend();
             float dh = 2 + Mth.sin((f + entity.tickCount) / 10);
             gfx.pose().translate(x - camera.x, y - camera.y, z - camera.z);
             gfx.pose().mulPose(event.getCamera().rotation());

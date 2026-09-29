@@ -53,9 +53,10 @@ public class TeleportInfo extends GuiEventComponent
         final int xOffset = 0;
         final int yOffset = 0;
         final int dir = GuiTeleport.direction;
-        RenderSystem.enableBlend();
         ResourceLocation plate = ICON_MOVE_FRAMES[0];
+        RenderSystem.enableBlend();
         graphics.blitSprite(plate, xOffset + w, yOffset + h, -2, 89, 13);
+        RenderSystem.disableBlend();
         graphics.drawString(gui.getFont(), I18n.get("gui.pokemob.teleport"), 2 + xOffset + w, 2 + yOffset + h,
                 GuiTeleport.lightGrey);
 
@@ -68,6 +69,7 @@ public class TeleportInfo extends GuiEventComponent
             if (dir == -1) shift -= 25;
             RenderSystem.enableBlend();
             graphics.blitSprite(plate, xOffset + w, shift, -2, 89, 13);
+            RenderSystem.disableBlend();
             graphics.drawString(gui.getFont(), name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
         }
         event.getMat().popPose();

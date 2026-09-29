@@ -4,18 +4,15 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Mob;
 import pokecube.core.client.gui.helper.Rectangle;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.pokemob.PokemobContainer;
-import pokecube.core.utils.Resources;
 
 public abstract class Tab
 {
@@ -114,7 +111,6 @@ public abstract class Tab
         if (this.menu.pokemob != null)
         {
             var target = this.menu.pokemob.getEntity();
-            RenderSystem.enableBlend();
             // Render Mob
 
             float f = 30;

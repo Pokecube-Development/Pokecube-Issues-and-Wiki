@@ -148,8 +148,6 @@ public class TargetInfo extends GuiEventComponent
         // Now translate us to the box itself
         evt.getMat().translate(18, 0, 0);
 
-        RenderSystem.enableBlend();
-
         boolean obfuscated = false, isOwner = false, fullColour = false;
         UUID owner = null;
         if (pokemob != null)
@@ -162,7 +160,12 @@ public class TargetInfo extends GuiEventComponent
         }
 
         // Render Box behind Mob
-        if (combatTarget || fullDetails) graphics.blitSprite(ICON_MOB_FRAME, 1, 0, -2, 42, 42);
+        if (combatTarget || fullDetails)
+        {
+            RenderSystem.enableBlend();
+            graphics.blitSprite(ICON_MOB_FRAME, 1, 0, -2, 42, 42);
+            RenderSystem.disableBlend();
+        }
 
         // Render HP
         float total = target.getMaxHealth();
@@ -170,6 +173,7 @@ public class TargetInfo extends GuiEventComponent
         float ratio = Math.max(0, Math.min(target.getHealth() / total, 1));
         final int width = (int) (89 * ratio);
         // Background first
+        RenderSystem.enableBlend();
         graphics.blitSprite(ICON_HEALTH_EXP[0], hpOffsetX, hpOffsetY, 89, 7);
         // Then filled bar
         graphics.blitSprite(ICON_HEALTH_EXP[1], hpOffsetX, hpOffsetY, width, 7);
@@ -187,6 +191,7 @@ public class TargetInfo extends GuiEventComponent
 
         // Bar behind the name
         graphics.blitSprite(nameBGSprite, nameOffsetX, nameOffsetY, 89, 13);
+        RenderSystem.disableBlend();
 
         float mobScale = 0.8f / target.getBbHeight();
         float scale2 = 0.5f / target.getBbWidth();
@@ -279,10 +284,7 @@ public class TargetInfo extends GuiEventComponent
 
         if(combatTarget || fullDetails)
         {
-
-            RenderSystem.enableBlend();
             // Render Mob
-
             float f = 30;
             float yBodyRot = target.yBodyRot;
             float yBodyRotO = target.yBodyRotO;
