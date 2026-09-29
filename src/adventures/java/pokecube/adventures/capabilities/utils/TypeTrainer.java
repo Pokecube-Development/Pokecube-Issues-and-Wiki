@@ -486,6 +486,8 @@ public class TypeTrainer extends NpcType
                     }
                     else list.add(_entry);
                 }
+                // this can be the case on LAN servers
+                if (list.isEmpty()) continue;
                 if (!list.getFirst().startsWith("-")) for (final String s : t.pokelist)
                 {
                     final PokedexEntry e = Database.getEntry(s);
