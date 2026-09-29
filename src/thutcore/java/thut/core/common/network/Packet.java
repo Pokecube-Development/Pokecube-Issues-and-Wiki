@@ -61,8 +61,6 @@ public abstract class Packet
 
     /**
      * Write to the buffer.
-     * 
-     * @param buffer
      */
     public abstract void write(FriendlyByteBuf buffer);
 

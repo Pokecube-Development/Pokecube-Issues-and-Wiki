@@ -79,7 +79,7 @@ public final class PacketAssembly<T extends NBTPacket>
 
     public void sendToServer(final CompoundTag packet)
     {
-        sendTo(packet, p -> handler.sendToServer(p));
+        sendTo(packet, handler::sendToServer);
     }
 
     public void sendTo(final CompoundTag packet, Consumer<T> processor)
@@ -94,16 +94,15 @@ public final class PacketAssembly<T extends NBTPacket>
         }
     }
 
-    protected CompoundTag onRead(final CompoundTag tag)
+    CompoundTag onRead(final CompoundTag tag)
     {
         if (tag == null)
         {
-            ThutCore.LOGGER.error("Error with bad packet! Tag:" + tag, new IllegalStateException());
+            ThutCore.LOGGER.error("Error with bad packet!", new IllegalStateException());
             return null;
         }
         final UUID id = tag.getUUID("id");
-        final CompoundTag made = this.assemblePacket(id, tag);
-        return made;
+        return this.assemblePacket(id, tag);
     }
 
     private List<CompoundTag> splitPacket(final UUID id, final CompoundTag tags)
@@ -165,7 +164,7 @@ public final class PacketAssembly<T extends NBTPacket>
         }
         else if (tmp.length != size)
         {
-            ThutCore.LOGGER.error("Unexpected change in ThutCore packet byte length: " + size + " > " + tmp.length);
+            ThutCore.LOGGER.error("Unexpected change in ThutCore packet byte length: {} > {}", size, tmp.length);
             this.clearBuffer(id);
             return null;
         }
@@ -204,7 +203,7 @@ public final class PacketAssembly<T extends NBTPacket>
         else synchronized (this.buffer)
         {
             if (this.buffer.containsKey(id)) throw new IllegalStateException(
-                    "Attepted to start more than one ThutCore packet assembly for UUID " + id.toString());
+                    "Attepted to start more than one ThutCore packet assembly for UUID " + id);
 
             this.buffer.put(id, value);
         }
