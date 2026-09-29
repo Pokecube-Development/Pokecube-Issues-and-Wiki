@@ -124,13 +124,6 @@ public class NamedVolumes
     public static INamedPart loadPart(HolderLookup.Provider registries, CompoundTag comp)
     {
         var key = comp.getString("key");
-        // LEGACY Support TODO remove this.
-        if (key.isEmpty())
-        {
-            var part = new CapabilityWorldVolumes.Building();
-            part.deserializeNBT(registries, comp);
-            return part;
-        }
         var data = comp.getCompound("tag");
         if (NamedVolumes.PART_FACTORY_REGISTRY.containsKey(key))
         {
@@ -157,13 +150,6 @@ public class NamedVolumes
     public static INamedVolume loadVolume(HolderLookup.Provider registries, CompoundTag comp)
     {
         var key = comp.getString("key");
-        // LEGACY Support TODO remove this.
-        if(key.isEmpty())
-        {
-            var struct = new CapabilityWorldVolumes.Structure();
-            struct.deserializeNBT(registries, comp);
-            return struct;
-        }
         var data = comp.getCompound("tag");
         if(NamedVolumes.VOLUMES_FACTORY_REGISTRY.containsKey(key))
         {

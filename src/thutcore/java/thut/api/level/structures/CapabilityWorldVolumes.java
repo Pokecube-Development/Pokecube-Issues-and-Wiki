@@ -238,9 +238,6 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
     public void deserializeNBT(HolderLookup.Provider registries, CompoundTag nbt)
     {
         ListTag list = nbt.getList("volumes", Tag.TAG_COMPOUND);;
-        //LEGACY Support TODO remove this,
-        if(nbt.contains("structures") && !nbt.contains("volumes"))
-            list =  nbt.getList("structures", Tag.TAG_COMPOUND);
         this.volumes.clear();
         this.unique.clear();
         list.forEach(tag -> {
