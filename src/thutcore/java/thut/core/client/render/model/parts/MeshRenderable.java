@@ -127,6 +127,7 @@ public class MeshRenderable extends Mesh
             var vertexMode = GL_FORMAT == TRIANGLE_FMT ? Mode.TRIANGLES : Mode.QUADS;
             // Find buffer to render to, this is presently most expensive part here...
             buffer = this.materialRenderable.preRender(buffer, vertexMode);
+            if (buffer == null) return; // First pass this can be null in some cases.
 
             // Update colouring as needed
             int red = this.rgbabro[0];

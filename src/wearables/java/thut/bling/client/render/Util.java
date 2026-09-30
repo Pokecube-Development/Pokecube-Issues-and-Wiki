@@ -7,16 +7,11 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
@@ -25,6 +20,7 @@ import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import thut.api.ModelHolder;
+import thut.api.Tracker;
 import thut.bling.ThutBling;
 import thut.bling.data.GemData;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -37,35 +33,6 @@ import thut.wearables.EnumWearable;
 
 public class Util
 {
-
-    // This is just a dummy texture for getting a fake initial renderer when we
-    // have a json model
-    public final static ResourceLocation DUMMY = ResourceLocation.fromNamespaceAndPath(ThutBling.MODID,
-            "textures/hologram.png");
-
-    public static RenderType getType(final ResourceLocation loc, final boolean alpha)
-    {
-        final String id = loc + (alpha ? "alpha" : "none");
-
-        final RenderType.CompositeState.CompositeStateBuilder builder = RenderType.CompositeState.builder();
-        // No blur, No MipMap
-        builder.setTextureState(new RenderStateShard.TextureStateShard(loc, false, false));
-
-        builder.setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY);
-
-        builder.setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER);
-
-        // These are needed in general for world lighting
-        builder.setLightmapState(RenderStateShard.LIGHTMAP);
-        builder.setOverlayState(RenderStateShard.OVERLAY);
-
-        builder.setCullState(RenderStateShard.NO_CULL);
-
-        final RenderType.CompositeState rendertype$state = builder.createCompositeState(true);
-        return RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, false,
-                rendertype$state);
-    }
-
     public static Map<String, IModel> customModels = Maps.newHashMap();
     public static Map<String, ResourceLocation[]> customTextures = Maps.newHashMap();
 
@@ -111,17 +78,6 @@ public class Util
             else return textures;
         }
         return null;
-    }
-
-    public static VertexConsumer makeBuilder(final MultiBufferSource buff, final ResourceLocation loc)
-    {
-        return buff.getBuffer(Util.getType(loc, true));
-    }
-
-    public static VertexConsumer makeBuilder(final MultiBufferSource buff, final ResourceLocation loc,
-            final boolean alpha)
-    {
-        return buff.getBuffer(Util.getType(loc, alpha));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -181,11 +137,11 @@ public class Util
                     part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), alpha, brightness, overlay);
                     part.setRGBABrO(notColurable, 255, 255, 255, alpha, brightness, overlay);
                 }
-                renderable.render(mat, Util.makeBuilder(buff, Util.DUMMY));
+                renderable.render(mat, null);
             }
-            catch (Exception e)
+            catch (Exception ignored)
             {
-                e.printStackTrace();
+                // NO-OP to not lag render thread
             }
         }
     }
@@ -246,7 +202,7 @@ public class Util
             }
             else part.setRGBABrO(255, 255, 255, alpha, brightness, overlay);
         }
-        renderable.render(mat, Util.makeBuilder(buff, Util.DUMMY));
+        renderable.render(mat, null);
 
         for (var entry : toReset.entrySet())
         {
@@ -255,8 +211,15 @@ public class Util
         for (var material : toClear) material.tex = null;
     }
 
+    private static long updated = -1;
+
     public static boolean shouldReloadModel()
     {
-        return Screen.hasAltDown() && Screen.hasControlDown() && Screen.hasShiftDown();
+        boolean reload = Screen.hasAltDown() && Screen.hasControlDown() && Screen.hasShiftDown();
+        if (!reload) return false;
+        long tick = Tracker.instance().getTick();
+        if (tick - updated < 100) return false;
+        updated = tick;
+        return true;
     }
 }
