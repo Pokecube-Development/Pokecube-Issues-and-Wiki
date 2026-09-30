@@ -556,8 +556,7 @@ public class MovesUtils implements IMoveConstants
         final ExplosionCustom var11 = new ExplosionCustom((ServerLevel) entity.level(), entity, x, y, z,
                 power).setMaxRadius(PokecubeCore.getConfig().blastRadius);
         final IPokemob poke = PokemobCaps.getPokemobFor(entity);
-        if (poke != null) if (poke.getOwner() instanceof Player) var11.owner = (Player) poke.getOwner();
-        else var11.owner = null;
+        if (poke != null && poke.getOwner() instanceof Player player) var11.setOwner(player);
         return var11;
     }
 

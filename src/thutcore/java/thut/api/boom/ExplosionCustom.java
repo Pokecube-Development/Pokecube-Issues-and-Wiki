@@ -26,6 +26,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.event.level.ExplosionEvent;
 import net.neoforged.neoforge.event.level.LevelEvent.Unload;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
@@ -39,6 +40,20 @@ import thut.lib.RegHelper;
 
 public class ExplosionCustom extends Explosion
 {
+    public Player getOwner()
+    {
+        if (_owner == null)
+        {
+            _owner = FakePlayerFactory.getMinecraft(this.level);
+        }
+        return _owner;
+    }
+
+    public void setOwner(Player _owner)
+    {
+        this._owner = _owner;
+    }
+
     public static class BlastResult
     {
         public final Object2FloatOpenHashMap<BlockPos> destroyedBlocks;
@@ -202,7 +217,7 @@ public class ExplosionCustom extends Explosion
     {
     };
 
-    public Player owner = null;
+    private Player _owner = null;
 
     List<Entity> targets = new ArrayList<>();
 
@@ -263,7 +278,7 @@ public class ExplosionCustom extends Explosion
     {
         final boolean ret = !ItemList.is(EXPLOSION_BLOCKING, state);
         if (!ret) return false;
-        return BreakTestEvent.testBreak(this.level, location.getPos(), state, this.owner);
+        return BreakTestEvent.testBreak(this.level, location.getPos(), state, this.getOwner());
     }
 
     boolean madeSound = false;
@@ -320,7 +335,7 @@ public class ExplosionCustom extends Explosion
             final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, hitLocation, blast * factor);
             boo.setMaxRadius(this.radius);
             boo.breaker = this.breaker;
-            boo.owner = this.owner;
+            boo.setOwner(this.getOwner());
             boo.doExplosion();
             return;
         }
@@ -358,7 +373,7 @@ public class ExplosionCustom extends Explosion
                 final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, source, strength * factor);
                 boo.setMaxRadius(this.radius);
                 boo.breaker = this.breaker;
-                boo.owner = this.owner;
+                boo.setOwner(this.getOwner());
                 this.subBooms.add(boo);
                 hasSubBooms = true;
             }
@@ -370,7 +385,7 @@ public class ExplosionCustom extends Explosion
                     remainingEnergy * factor);
             boo.setMaxRadius(this.radius);
             boo.breaker = this.breaker;
-            boo.owner = this.owner;
+            boo.setOwner(this.getOwner());
             this.subBooms.add(boo);
             hasSubBooms = true;
         }

@@ -5,13 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.UUID;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.appender.FileAppender;
-
-import com.mojang.authlib.GameProfile;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -23,14 +20,8 @@ public abstract class PokecubeMod
 {
     public final static String ID = "pokecube";
 
-    private static final HashMap<Level, FakePlayer> fakePlayers = new HashMap<>();
-
-    public static final UUID fakeUUID = new UUID(1234, 4321);
-
-    private static FakePlayer makeNewFakePlayer(final ServerLevel world)
-    {
-        return FakePlayerFactory.get(world, new GameProfile(PokecubeMod.fakeUUID, "[Pokecube]DispenserPlayer"));
-    }
+    // Copied from FakePlayerFactory.MINECRAFT
+    public static final UUID fakeUUID = UUID.fromString("41C82C87-7AfB-4024-BA57-13D2C99CAE77");
 
     public static FakePlayer getFakePlayer(final Level world)
     {
@@ -40,10 +31,7 @@ public abstract class PokecubeMod
 
     public static FakePlayer getFakePlayer(final ServerLevel world)
     {
-        final FakePlayer player = PokecubeMod.fakePlayers.getOrDefault(world, PokecubeMod.makeNewFakePlayer(world));
-        PokecubeMod.fakePlayers.put(world, player);
-        player.setServerLevel(world);
-        return player;
+        return FakePlayerFactory.getMinecraft(world);
     }
 
     public static void setLogger(final Logger logger_in)
