@@ -802,9 +802,9 @@ public interface IPokemob
         if (genes != oldGenes)
         {
             genes.copyMissingFrom(oldGenes);
-            genes.addChangeListener(this);
             this.getEntity().setData(DefaultGenetics.TYPE, genes);
         }
+        if (!genes.getChangeListeners().contains(this)) genes.addChangeListener(this);
         // Mark as changed if this was called, regardless of whether we actually changed it.
         this.onGenesChanged();
         this.getMoveStats().reset();

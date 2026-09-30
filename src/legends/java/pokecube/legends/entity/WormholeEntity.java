@@ -507,12 +507,12 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
 
         // Check if destination hole exists, if so, we will average our energy with theirs.
         var other = this.getExitEntity();
-        if(other != null && other.energy != null)
+        if (other != null && other.energy != null)
         {
             other.energy = this.energy;
             Energy.set(other, this.energy);
             // Once per second update the wormholes
-            if(Tracker.instance().getTick()%20==this.getRandom().nextInt(20))
+            if (Tracker.instance().getTick() % 20 == this.getRandom().nextInt(20) && !this.stable)
                 EntityUpdate.sendEntityUpdate(other);
         }
 

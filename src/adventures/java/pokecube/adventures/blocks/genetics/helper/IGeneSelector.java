@@ -43,7 +43,7 @@ public interface IGeneSelector
         }
         catch (final Exception e)
         {
-            PokecubeAPI.LOGGER.warn("Error merging genes " + geneSource.getKey() + " " + this.arrIndex(), e);
+            PokecubeAPI.LOGGER.warn("Error merging genes {} {}", geneSource.getKey(), this.arrIndex(), e);
         }
         return new Alleles(geneSource, geneDest);
     }

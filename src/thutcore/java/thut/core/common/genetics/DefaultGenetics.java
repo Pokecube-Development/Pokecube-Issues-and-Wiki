@@ -160,7 +160,7 @@ public class DefaultGenetics implements IMobGenetics
         for (int i = 0; i < list.size(); i++)
         {
             final CompoundTag tag = list.getCompound(i);
-            final Alleles<?, ?> alleles = new Alleles<>();
+            final Alleles<?, ?> alleles = new Alleles<>(this);
             final ResourceLocation key = ResourceLocation.parse(tag.getString("K"));
             try
             {
