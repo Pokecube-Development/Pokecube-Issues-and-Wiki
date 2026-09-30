@@ -21,6 +21,7 @@ import net.minecraft.world.item.component.WritableBookContent;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
@@ -33,8 +34,11 @@ import pokecube.api.PokecubeAPI;
 import pokecube.gimmicks.builders.BuilderTasks;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
+import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.world.StructureTemplateTools;
 import thut.api.world.StructureTemplateTools.PlaceContext;
+import thut.crafts.ThutCrafts;
+import thut.crafts.entity.EntityCraft;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -101,6 +105,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
 
     private boolean done = false;
     private boolean creative = false;
+    public boolean displayOnly = false;
 
     private final Supplier<StructureTemplate> keyProvider;
     private StructureTemplate _template;
@@ -118,6 +123,7 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     private ServerLevel level;
     private Rotation rotation;
     private Mirror mirror;
+    private EntityCraft display;
 
     /**
      * Map of y-coordinate -> list of blocks to place/remove
@@ -337,7 +343,55 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
     @Override
     public void update(ServerLevel level)
     {
-        checkBlueprint(level);
+        if (this.display == null) checkBlueprint(level);
+        if (this.displayOnly)
+        {
+            // Reset if it went missing
+            if (this.display != null && this.display.isRemoved()) this.display = null;
+            if (this.display == null && !this.placeOrder.isEmpty())
+            {
+                BlockPos min = null;
+                BlockPos max = null;
+                // First compute min/max to get a size
+                for (var info : this.placeOrder)
+                {
+                    var pos = info.pos();
+                    min = min == null ? pos : BlockPos.min(pos, min);
+                    max = max == null ? pos : BlockPos.max(pos, max);
+                }
+                // Now make it into the array
+                int xMin = min.getX();
+                int zMin = min.getZ();
+                int xMax = max.getX();
+                int zMax = max.getZ();
+                int yMin = min.getY();
+                int yMax = max.getY();
+                BlockState[][][] blocks = new BlockState[xMax - xMin + 1][yMax - yMin + 1][zMax - zMin + 1];
+                for (var info : this.placeOrder)
+                {
+                    int i = info.pos().getX();
+                    int j = info.pos().getY();
+                    int k = info.pos().getZ();
+                    var state = StructureTemplateTools.getPlacer(info.state()).getState(info, this.getPlacement());
+                    blocks[i - xMin][j - yMin][k - zMin] = state;
+                }
+                // Ignore displaying these for now.
+                BlockEntity[][][] tiles = new BlockEntity[xMax - xMin + 1][yMax - yMin + 1][zMax - zMin + 1];
+                this.display = IBlockEntity.BlockEntityFormer.makeBlockEntity(level, min, max,
+                        ThutCrafts.CRAFTTYPE.get(), blocks, tiles, false);
+                if (this.display != null)
+                {
+                    // timeout after 3s of display
+                    this.display.maxAge = 60;
+                }
+                else
+                {
+                    PokecubeAPI.LOGGER.error("Error with builder for template {}", this._template);
+                    this.displayOnly = false;
+                }
+            }
+            else if(this.display != null) this.display.tickCount = 0;
+        }
     }
 
     /**

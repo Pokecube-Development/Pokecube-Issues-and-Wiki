@@ -1,6 +1,5 @@
 package thut.api.entity.blockentity;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
@@ -39,7 +38,6 @@ public class BlockEntityUpdater
 
     final IBlockEntity blockEntity;
     final Entity theEntity;
-    List<AABB> blockBoxes = Lists.newArrayList();
     Set<BlockEntity> erroredSet = Sets.newHashSet();
     VoxelShape totalShape = Shapes.empty();
 
@@ -80,9 +78,6 @@ public class BlockEntityUpdater
 
         this.totalShape = Shapes.empty();
 
-        final double dx = xMin;
-        final double dz = zMin;
-
         for (int i = 0; i < sizeX; i++)
             for (int j = 0; j < sizeY; j++)
                 for (int k = 0; k < sizeZ; k++)
@@ -94,7 +89,8 @@ public class BlockEntityUpdater
                     VoxelShape shape;
                     if (state == null || (shape = state.getShape(world, pos)) == null) continue;
                     if (shape.isEmpty()) continue;
-                    shape = shape.move(mob.getX() + i - dx, mob.getY() + j + min.getY(), mob.getZ() + k - dz);
+                    shape = shape.move(mob.getX() + i - (double) xMin, mob.getY() + j + min.getY(),
+                            mob.getZ() + k - (double) zMin);
                     this.totalShape = Shapes.join(this.totalShape, shape, BooleanOp.OR);
                 }
         return this.totalShape;
@@ -139,18 +135,12 @@ public class BlockEntityUpdater
 
     private static double getIntersect(final Axis axis, final AABB boxA, final AABB boxB, final AABB boxC)
     {
-        switch (axis)
+        return switch (axis)
         {
-        case X:
-            return BlockEntityUpdater.getIntersect(boxA.minX, boxB.minX, boxC.minX, boxA.maxX, boxB.maxX, boxC.maxX);
-        case Y:
-            return BlockEntityUpdater.getIntersect(boxA.minY, boxB.minY, boxC.minY, boxA.maxY, boxB.maxY, boxC.maxY);
-        case Z:
-            return BlockEntityUpdater.getIntersect(boxA.minZ, boxB.minZ, boxC.minZ, boxA.maxZ, boxB.maxZ, boxC.maxZ);
-        default:
-            break;
-        }
-        return 0;
+            case X -> BlockEntityUpdater.getIntersect(boxA.minX, boxB.minX, boxC.minX, boxA.maxX, boxB.maxX, boxC.maxX);
+            case Y -> BlockEntityUpdater.getIntersect(boxA.minY, boxB.minY, boxC.minY, boxA.maxY, boxB.maxY, boxC.maxY);
+            case Z -> BlockEntityUpdater.getIntersect(boxA.minZ, boxB.minZ, boxC.minZ, boxA.maxZ, boxB.maxZ, boxC.maxZ);
+        };
     }
 
     /**

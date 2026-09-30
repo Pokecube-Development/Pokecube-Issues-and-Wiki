@@ -2,7 +2,6 @@ package thut.api.entity.blockentity.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
@@ -36,16 +35,6 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
 {
     private static BakedModel crate_model;
 
-    static final Tesselator t = new Tesselator(2097152);
-
-    float pitch = 0.0f;
-    float yaw = 0.0f;
-    long time = 0;
-    boolean up = true;
-//    BufferBuilder b = RenderBlockEntity.t.getBuilder();
-
-    ResourceLocation texture;
-
     public RenderBlockEntity(final Context manager)
     {
         super(manager);
@@ -60,17 +49,16 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             mat.pushPose();
 
             final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-            final IBlockEntity blockEntity = entity;
 
             var v = entity.getV();
             if (v.y() > 0) mat.translate(v.x(), v.y(), v.z());
 
-            final int xMin = Mth.floor(blockEntity.getMin().getX());
-            final int xMax = Mth.floor(blockEntity.getMax().getX());
-            final int zMin = Mth.floor(blockEntity.getMin().getZ());
-            final int zMax = Mth.floor(blockEntity.getMax().getZ());
-            final int yMin = Mth.floor(blockEntity.getMin().getY());
-            final int yMax = Mth.floor(blockEntity.getMax().getY());
+            final int xMin = Mth.floor(entity.getMin().getX());
+            final int xMax = Mth.floor(entity.getMax().getX());
+            final int zMin = Mth.floor(entity.getMin().getZ());
+            final int zMax = Mth.floor(entity.getMax().getZ());
+            final int yMin = Mth.floor(entity.getMin().getY());
+            final int yMax = Mth.floor(entity.getMax().getY());
 
             mat.translate(xMin, 0, zMin);
 
@@ -88,27 +76,27 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             for (int i = xMin; i <= xMax; i++) for (int j = yMin; j <= yMax; j++) for (int k = zMin; k <= zMax; k++)
             {
                 pos.set(i - xMin, j - yMin, k - zMin);
-                if (!blockEntity.shouldHide(pos))
+                if (!entity.shouldHide(pos))
                 {
                     mat.pushPose();
                     mat.translate(pos.getX(), pos.getY(), pos.getZ());
-                    this.drawTileAt(pos, blockEntity, partialTicks, mat, bufferIn, packedLightIn);
-                    this.drawBlockAt(pos, blockEntity, mat, bufferIn, packedLightIn);
+                    this.drawTileAt(pos, entity, partialTicks, mat, bufferIn, packedLightIn);
+                    this.drawBlockAt(pos, entity, mat, bufferIn);
                     mat.popPose();
                 }
-                else this.drawCrateAt(pos, blockEntity, mat, bufferIn, packedLightIn);
+                else this.drawCrateAt(pos, entity, mat, bufferIn, packedLightIn);
             }
             mat.popPose();
 
         }
-        catch (final Exception e)
+        catch (final Exception ignored)
         {
-            e.printStackTrace();
+            // NO-OP as otherwise lags render thread
         }
     }
 
     private void drawBlockAt(final BlockPos pos, final IBlockEntity entity, final PoseStack mat,
-            final MultiBufferSource bufferIn, final int packedLightIn)
+            final MultiBufferSource bufferIn)
     {
         if (entity.getBlocks() == null) return;
         BlockState state = entity.getBlocks()[pos.getX()][pos.getY()][pos.getZ()];
@@ -117,10 +105,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         if (state == null) state = Blocks.AIR.defaultBlockState();
         if (!state.is(Blocks.AIR) || !state.is(Blocks.CAVE_AIR))
         {
-            final BlockState actualstate = state;// .getBlock().getStateAtViewpoint(state,
-                                                 // entity.getFakeWorld(), pos);
-            this.renderBakedBlockModel(entity, actualstate, entity.getFakeWorld(), realpos, pos, mat, bufferIn,
-                    packedLightIn);
+            this.renderBakedBlockModel(state, entity.getFakeWorld(), realpos, mat, bufferIn);
         }
     }
 
@@ -164,16 +149,14 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         return InventoryMenu.BLOCK_ATLAS;
     }
 
-    private void renderBakedBlockModel(final IBlockEntity entity, final BlockState state, final BlockGetter world,
-            final BlockPos real_pos, final BlockPos relPos, final PoseStack mat, final MultiBufferSource bufferIn,
-            final int packedLightIn)
+    private void renderBakedBlockModel(final BlockState state, final BlockGetter world,
+            final BlockPos real_pos, final PoseStack mat, final MultiBufferSource bufferIn)
     {
-        BlockPos rpos = real_pos;
         BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
         var model = dispatcher.getBlockModel(state);
-        for (var renderType : model.getRenderTypes(state, RandomSource.create(state.getSeed(rpos)), ModelData.EMPTY))
-            dispatcher.getModelRenderer().tesselateBlock((BlockAndTintGetter) world, model, state, rpos, mat,
-                    bufferIn.getBuffer(renderType), true, RandomSource.create(), state.getSeed(rpos),
+        for (var renderType : model.getRenderTypes(state, RandomSource.create(state.getSeed(real_pos)), ModelData.EMPTY))
+            dispatcher.getModelRenderer().tesselateBlock((BlockAndTintGetter) world, model, state, real_pos, mat,
+                    bufferIn.getBuffer(renderType), true, RandomSource.create(), state.getSeed(real_pos),
                     OverlayTexture.NO_OVERLAY, ModelData.EMPTY, renderType);
     }
 }

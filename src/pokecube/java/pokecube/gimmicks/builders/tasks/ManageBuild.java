@@ -25,6 +25,7 @@ import pokecube.gimmicks.builders.builders.BuilderManager;
 import pokecube.gimmicks.builders.builders.BuilderManager.BuildContext;
 import pokecube.gimmicks.builders.builders.BuilderManager.BuilderClearer;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder.BoMRecord;
+import pokecube.gimmicks.builders.builders.StructureBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class ManageBuild extends UtilBehaviour implements INBTSerializable<Compo
 
     boolean hasInstructions = false;
     boolean loadedBuild = false;
+    Boolean manualCreative = null;
     ItemStack last = ItemStack.EMPTY;
     BuilderClearer build;
     int timer = 0;
@@ -79,6 +81,13 @@ public class ManageBuild extends UtilBehaviour implements INBTSerializable<Compo
     public void setBuilder(BuilderClearer builder, ServerLevel level, IPokemob pokemob, StoreItems storage,
             List<IPokemob> pokemobs)
     {
+        // Check if the builder is a display-only
+        if (builder != null && builder.builder() instanceof StructureBuilder struct && struct.displayOnly)
+        {
+            // Nothing to do here, was handled in update
+            return;
+        }
+
         var pair = storage.getInventory(level, storage.storageLoc, Direction.UP);
         if (pair == null) return;
 
@@ -120,11 +129,14 @@ public class ManageBuild extends UtilBehaviour implements INBTSerializable<Compo
         var builder = build.builder();
         var clearer = build.clearer();
 
-        boolean creative =
-                pokemob.getOwner() instanceof ServerPlayer player && (player.isCreative() || player.isSpectator());
+        boolean creative = manualCreative != null
+                ? manualCreative
+                : pokemob.getOwner() instanceof ServerPlayer player && (player.isCreative() || player.isSpectator());
+        if (creative) manualCreative = true;
         // Initialise the level, this ensures that it loads properly from nbt if
         // saved. This also calls an initial init for all of the builders
-        if (builder != null && builder.getLevel() == null)
+        // For structure builders, this handles the display.
+        if (builder != null && (builder.getLevel() == null || builder instanceof StructureBuilder s && s.displayOnly))
         {
             builder.setCreative(creative);
             builder.update(level);
@@ -153,6 +165,7 @@ public class ManageBuild extends UtilBehaviour implements INBTSerializable<Compo
         if (storeLoc.distManhattan(entity.getOnPos()) > 3)
         {
             // Path to it if too far.
+            pokemob.setLogicState(LogicStates.SITTING, false);
             setWalkTo(entity, storeLoc, 1, 1);
         }
         else
@@ -268,6 +281,7 @@ public class ManageBuild extends UtilBehaviour implements INBTSerializable<Compo
         {
             nbt.put("builder", BuilderManager.save(build));
         }
+        if (manualCreative != null) nbt.putBoolean("creative", manualCreative);
         return nbt;
     }
 
@@ -280,6 +294,11 @@ public class ManageBuild extends UtilBehaviour implements INBTSerializable<Compo
             hasInstructions = this.build != null;
             loadedBuild = this.build != null;
         }
+        if (nbt.getBoolean("creative"))
+        {
+            manualCreative = nbt.getBoolean("creative");
+        }
+        else manualCreative = null;
     }
 
 }

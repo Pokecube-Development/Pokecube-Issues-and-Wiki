@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class BlockEntityInteractHandler
+public class BlockEntityInteractHandler
 {
     final IBlockEntity blockEntity;
     final Entity theEntity;
@@ -24,19 +24,17 @@ public abstract class BlockEntityInteractHandler
         this.theEntity = (Entity) entity;
     }
 
-    public BlockHitResult getLastTrace()
-    {
-        return this.trace;
-    }
-
     public InteractionResult applyPlayerInteraction(final Player player, final Vec3 vec, final ItemStack stack,
             final InteractionHand hand)
     {
         return processInitialInteract(player, stack, hand);
     }
 
-    public abstract InteractionResult interactInternal(Player player, BlockPos pos, @Nullable ItemStack stack,
-            InteractionHand hand);
+    public InteractionResult interactInternal(Player player, BlockPos pos, @Nullable ItemStack stack,
+            InteractionHand hand)
+    {
+        return InteractionResult.PASS;
+    }
 
     public InteractionResult processInitialInteract(final Player player, @Nullable final ItemStack stack,
             final InteractionHand hand)

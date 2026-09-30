@@ -6,10 +6,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -18,10 +16,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.lib.RegHelper;
 
@@ -86,46 +80,32 @@ public interface IBlockEntity
         public static <T extends Entity> T makeBlockEntity(final Level world, BlockPos min, BlockPos max,
                 final EntityType<T> type)
         {
-            final T ret = type.create(world);
             // This enforces that min is the lower corner, and max is the upper.
             final AABB box = AABB.encapsulatingFullBlocks(min, max);
             min = new BlockPos((int) box.minX, (int) box.minY, (int) box.minZ);
             // The encapsulatingFullBlocks adds 1 internally, so we remove it here.
             max = new BlockPos((int) box.maxX - 1, (int) box.maxY - 1, (int) box.maxZ - 1);
-            final IBlockEntity entity = (IBlockEntity) ret;
-
-            ret.setPos(min.getX(), min.getY(), min.getZ());
             final BlockState[][][] blocks = BlockEntityFormer.checkBlocks(world, min, max);
             if (blocks == null) return null;
-            entity.setBlocks(blocks);
-            entity.setTiles(BlockEntityFormer.checkTiles(world, min, max));
-            entity.setMin(min.subtract(min));
-            entity.setMax(max.subtract(min));
-            BlockEntityFormer.removeBlocks(world, min, max);
-            world.addFreshEntity(ret);
-            return ret;
+            BlockEntity[][][] tiles = BlockEntityFormer.checkTiles(world, min, max);
+            return makeBlockEntity(world, min, max, type, blocks, tiles, true);
         }
 
-        public static HitResult rayTraceInternal(final Vec3 start, final Vec3 end, final IBlockEntity toTrace)
+        public static <T extends Entity> T makeBlockEntity(Level world, BlockPos min, BlockPos max, EntityType<T> type,
+                BlockState[][][] blocks, BlockEntity[][][] tiles, boolean real)
         {
-            Vec3 diff = end.subtract(start);
-            final double l = diff.length();
-            diff = diff.normalize();
-            final IBlockEntityWorld world = toTrace.getFakeWorld();
-            final MutableBlockPos pos = new MutableBlockPos(0, 0, 0);
-            for (double i = 0; i < l; i += 0.1)
-            {
-                final Vec3 spot = start.add(diff.multiply(i, i, i));
-                pos.set(Mth.floor(spot.x), Mth.floor(spot.y), Mth.floor(spot.z));
-                final BlockState state = world.getBlock(pos);
-                if (state != null && !world.isEmptyBlock(pos))
-                {
-                    final VoxelShape shape = state.getCollisionShape(world, pos);
-                    final BlockHitResult hit = shape.clip(start, end, pos);
-                    if (hit != null) return hit;
-                }
-            }
-            return BlockHitResult.miss(end, Direction.DOWN, new BlockPos((int) end.x, (int) end.y, (int) end.z));
+            if (blocks == null) return null;
+            final T ret = type.create(world);
+            final IBlockEntity entity = (IBlockEntity) ret;
+            ret.setPos(min.getX(), min.getY(), min.getZ());
+            entity.setBlocks(blocks);
+            entity.setTiles(tiles);
+            entity.setMin(min.subtract(min));
+            entity.setMax(max.subtract(min));
+            entity.setReal(real);
+            if (real) BlockEntityFormer.removeBlocks(world, min, max);
+            world.addFreshEntity(ret);
+            return ret;
         }
 
         public static void removeBlocks(final Level world, final BlockPos min, final BlockPos max)
@@ -172,6 +152,7 @@ public interface IBlockEntity
 
         public static void RevertEntity(final IBlockEntity toRevert)
         {
+            if (!toRevert.isReal()) return;
             final int xMin = toRevert.getMin().getX();
             final int zMin = toRevert.getMin().getZ();
             final int yMin = toRevert.getMin().getY();
@@ -301,4 +282,7 @@ public interface IBlockEntity
         return tile != null && !BlockEntityUpdater.isWhitelisted(tile);
     }
 
+    boolean isReal();
+
+    void setReal(boolean real);
 }

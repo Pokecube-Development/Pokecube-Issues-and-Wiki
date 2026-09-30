@@ -76,9 +76,9 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
 
     EntityDimensions size;
 
-    public EntityCraft(final EntityType<EntityCraft> type, final Level par1World)
+    public EntityCraft(final EntityType<EntityCraft> type, final Level level)
     {
-        super(type, par1World);
+        super(type, level);
         this.dataSync.setRegisterTag("seats");
         // Define the seats
         for (int i = 0; i < SEAT.length; i++)
@@ -188,17 +188,11 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             Vector3 dest = new Vector3(destX, destY, destZ);
             switch (block.getValue(StairBlock.FACING))
             {
-            case DOWN:
-                break;
             case EAST:
                 dest = dest.rotateAboutAngles(0, -Math.PI / 2, new Vector3(), new Vector3());
                 break;
-            case NORTH:
-                break;
             case SOUTH:
                 dest = dest.rotateAboutAngles(0, Math.PI, new Vector3(), new Vector3());
-                break;
-            case UP:
                 break;
             case WEST:
                 dest = dest.rotateAboutAngles(0, Math.PI / 2, new Vector3(), new Vector3());
@@ -242,10 +236,8 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         }
         catch (Exception e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            ThutCore.LOGGER.error(e);
         }
-        System.out.println(n);
     }
 
     @Override
@@ -438,7 +430,6 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         this.energy = energy;
     }
 
-    /** @return the destinationFloor */
     public void setMainSeat(final int seat)
     {
         this.entityData.set(EntityCraft.MAINSEATDW, seat);

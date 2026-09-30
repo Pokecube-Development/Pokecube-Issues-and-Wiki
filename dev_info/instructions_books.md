@@ -34,6 +34,7 @@ The instructions are a list of not-blank lines, including the key line, but not 
     -   `m` - Mirror - one of `NONE`, `LEFT_RIGHT`, `FRONT_BACK`
     -   `d` - Depth - used with `jigsaw` for the max recursion depth for building jigsaws
     -   `no_clear` - if present, will not attempt to clear out blocks
+    -   `display` - if present, and if type is `building`, will add a rendered entity in world
 
 #### save build argument
 

@@ -107,7 +107,6 @@ public class DoBuild extends UtilBehaviour
             builder.update(level);
             builder.provideBoM(this.BoM, true);
             hasInstructions = true;
-            builder.setCreative(pokemob.getOwner() instanceof ServerPlayer player && player.isCreative());
             if (!builder.validBuilder()) reset(entity);
         }
     }
@@ -339,6 +338,7 @@ public class DoBuild extends UtilBehaviour
         diff = Math.max(diff, entity.getBbWidth());
         if (entity.getOnPos().distSqr(storeLoc) > diff)
         {
+            pokemob.setLogicState(LogicStates.SITTING, false);
             this.setWalkTo(entity, storeLoc, 1, 0);
             if (pathTimeout < 0) pathTimeout = 150;
         }
@@ -378,6 +378,7 @@ public class DoBuild extends UtilBehaviour
                 if (storeLoc.distManhattan(entity.getOnPos()) > 3)
                 {
                     // Path to it if too far.
+                    pokemob.setLogicState(LogicStates.SITTING, false);
                     setWalkTo(entity, storeLoc, 1, 1);
                 }
                 else
@@ -423,6 +424,7 @@ public class DoBuild extends UtilBehaviour
         diff = Math.max(diff, entity.getBbWidth());
         if (entity.getOnPos().distSqr(pos) > diff)
         {
+            pokemob.setLogicState(LogicStates.SITTING, false);
             this.setWalkTo(entity, pos, 1, 0);
             if (pathTimeout < 0) pathTimeout = 150;
         }

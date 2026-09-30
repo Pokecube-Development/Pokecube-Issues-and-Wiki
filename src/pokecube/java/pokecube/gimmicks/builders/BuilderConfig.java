@@ -11,6 +11,7 @@ import java.util.List;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.loading.FMLPaths;
+import pokecube.api.PokecubeAPI;
 import thut.api.util.JsonUtil;
 import thut.lib.RegHelper;
 
@@ -39,7 +40,7 @@ public class BuilderConfig
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
         }
         saveConfig(config);
@@ -65,7 +66,7 @@ public class BuilderConfig
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
     }
 
@@ -75,8 +76,8 @@ public class BuilderConfig
 
     List<String> known_ids = new ArrayList<>();
 
-    private List<ResourceLocation> _whitelist = new ArrayList<>();
-    private List<ResourceLocation> _blacklist = new ArrayList<>();
+    private final List<ResourceLocation> _whitelist = new ArrayList<>();
+    private final List<ResourceLocation> _blacklist = new ArrayList<>();
 
     public BuilderConfig()
     {
@@ -99,7 +100,7 @@ public class BuilderConfig
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
         });
 
@@ -110,7 +111,7 @@ public class BuilderConfig
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
         });
     }

@@ -69,12 +69,7 @@ public class BuilderManager
      * for the build.
      */
     public static record BuildContext(ServerLevel level, BlockPos origin, @Nullable ServerPlayer player)
-    {
-        public BuildContext(ServerLevel level, BlockPos origin)
-        {
-            this(level, origin, null);
-        }
-    }
+    {}
 
     /**
      * Map of saveKey - generator for the BuilderClearer. The saveKey is looked up based on the instructions, as the
@@ -95,7 +90,6 @@ public class BuilderManager
     /**
      * Attempts to save the builder
      *
-     * @param build
      * @return nbt containing the saved builder, or empty nbt if no saver.
      */
     @Nonnull
@@ -113,7 +107,6 @@ public class BuilderManager
     /**
      * Attemps to load a builder
      *
-     * @param nbt
      * @return either the loaded builder or null
      */
     @Nullable
@@ -164,10 +157,10 @@ public class BuilderManager
             var level = bcontext.level();
             var origin = bcontext.origin();
 
-            ResourceLocation toMake = null;
+            ResourceLocation toMake;
             BlockPos shift = new BlockPos(0, 0, 0);
 
-            String type = lines.get(0).replace("build:", "").strip();
+            String type = lines.getFirst().replace("build:", "").strip();
             boolean loadSaved = false;
 
             if (type.equals("save"))
@@ -199,6 +192,7 @@ public class BuilderManager
             String mirror = "NONE";
             String _origin = "";
             int jigsawDepth = 4;
+            boolean displayOnly = false;
             boolean noClear = false;
 
             for (int i = 2; i < lines.size(); i++)
@@ -210,6 +204,7 @@ public class BuilderManager
                 if (line.startsWith("d:")) jigsawDepth = Integer.parseInt(line.replace("d:", "").strip());
                 if (line.startsWith("o:")) _origin = line.replace("o:", "").strip();
                 if (line.startsWith("no_clear")) noClear = true;
+                if (line.startsWith("display")) displayOnly = true;
             }
 
             Rotation rot = Rotation.NONE;
@@ -246,6 +241,7 @@ public class BuilderManager
                 if (type.equals("building") || type.equals("saved"))
                 {
                     var builder = new StructureBuilder(origin.offset(shift), rot, mir);
+                    builder.displayOnly = displayOnly;
                     builder.toMake = toMake;
                     if (noClear) return new BuilderClearer(builder, null, "builder");
                     return new BuilderClearer(builder, builder, "builder");
@@ -292,7 +288,7 @@ public class BuilderManager
         var level = bcontext.level();
         var origin = bcontext.origin();
 
-        ResourceLocation toMake = null;
+        ResourceLocation toMake;
         BlockPos size = new BlockPos(0, 0, 0);
 
         String type = lines.get(0).replace("build:", "").strip();
@@ -379,7 +375,6 @@ public class BuilderManager
                 String msg = "build:building\n";
 
                 var contx = StructurePieceSerializationContext.fromLevel(level);
-                ;
                 var pooled_tag = pooled.createTag(contx);
                 var element_tag = pooled_tag.getCompound("pool_element");
                 msg += element_tag.getString("location") + "\n";

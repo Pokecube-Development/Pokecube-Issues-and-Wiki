@@ -26,7 +26,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import org.joml.Vector3f;
@@ -60,13 +59,6 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
                     EntityDimensions.scalable(1, 1), 0.0f, 64, 1, FeatureFlagSet.of());
         }
 
-        //        TODO custom client factory?
-        //        @Override
-        //        public T customClientSpawn(final SpawnEntity packet, final Level world)
-        //        {
-        //            return this.create(world);
-        //        }
-
         @Override
         public boolean isBlockDangerous(BlockState p_20631_)
         {
@@ -82,7 +74,8 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
 
     private IBlockEntityWorld fake_world;
 
-    private final boolean shouldRevert = true;
+    public boolean isReal = true;
+    public int maxAge = Integer.MAX_VALUE;
 
     protected float speedUp = 0.5f;
     protected float speedDown = -0.5f;
@@ -95,7 +88,6 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
 
     public UUID owner;
 
-    public List<AABB> blockBoxes = Lists.newArrayList();
     public BlockState[][][] blocks = null;
     public BlockEntity[][][] tiles = null;
 
@@ -162,6 +154,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     /** Applies the given player interaction to this Entity. */
     public InteractionResult interactAtFromTile(final Player player, final Vec3 vec, final InteractionHand hand)
     {
+        if (!this.isReal) return InteractionResult.PASS;
         if (this.interacter == null) this.interacter = this.createInteractHandler();
         try
         {
@@ -169,13 +162,14 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
         }
         catch (final Exception e)
         {
-            ThutCore.LOGGER.error("Error handling interactions for " + this, e);
+            ThutCore.LOGGER.error("Error handling interactions for {}", this, e);
             return super.interactAt(player, vec, hand);
         }
     }
 
+    /** Called when the entity is attacked. */
     @Override
-    /** Called when the entity is attacked. */ public boolean hurt(final DamageSource source, final float amount)
+    public boolean hurt(final DamageSource source, final float amount)
     {
         return false;
     }
@@ -220,7 +214,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
 
     abstract protected boolean checkAccelerationConditions();
 
-    public void checkCollision()
+    protected void checkCollision()
     {
         BlockPos.betweenClosedStream(this.getBoundingBox()).forEach(p -> {
             final Level world = this.level();
@@ -255,7 +249,6 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
         {
             var entity = entry.getKey();
             var entityV = entity.getDeltaMovement();
-            var pos = entry.getValue().relativePos;
             var eBounds = entity.getBoundingBox()
                     .inflate(Math.abs(entityV.x()), Math.abs(entityV.y()), Math.abs(entityV.z()));
             boolean stillHit = eBounds.intersects(usBounds);
@@ -298,9 +291,6 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
         // Remove stale entries
         stale.forEach(recentCollides::remove);
     }
-
-    public void onEntityCollision(final Entity entityIn)
-    {}
 
     abstract protected BlockEntityInteractHandler createInteractHandler();
 
@@ -414,12 +404,10 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
         return this.blocks;
     }
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
-    public boolean getCanSpawnHere()
+    @Override
+    public boolean isReal()
     {
-        return false;
+        return isReal;
     }
 
     @Override
@@ -479,6 +467,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     @Override
     public InteractionResult interact(final Player player, final InteractionHand hand)
     {
+        if(!this.isReal) return InteractionResult.PASS;
         if (this.interacter == null) this.interacter = this.createInteractHandler();
         return this.interacter.processInitialInteract(player, player.getItemInHand(hand), hand);
     }
@@ -494,6 +483,8 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
             if (bounds.contains("orix"))
                 this.originalPos = new BlockPos(bounds.getInt("orix"), bounds.getInt("oriy"), bounds.getInt("oriz"));
         }
+        if (nbt.contains("real")) this.isReal = nbt.getBoolean("real");
+        if (!this.isReal) this.maxAge = nbt.getInt("maxAge");
         this.readBlocks(nbt);
         this.getUpdater().resetShape();
     }
@@ -528,7 +519,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
                         }
                         catch (final Exception e)
                         {
-                            e.printStackTrace();
+                            ThutCore.LOGGER.error(e);
                         }
                     }
             // Call these in this order so any appropriate changes can be made.
@@ -540,8 +531,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     @Override
     public void refreshDimensions()
     {
-        // if (this.collider != null)
-        // this.setBoundingBox(this.collider.getBoundingBox());
+        // NO-OP here.
     }
 
     @Override
@@ -554,7 +544,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     @Override
     public void remove(final RemovalReason reason)
     {
-        if (!this.level().isClientSide && this.isAlive() && this.shouldRevert)
+        if (!this.level().isClientSide && this.isAlive() && this.isReal)
             IBlockEntity.BlockEntityFormer.RevertEntity(this);
         super.remove(reason);
     }
@@ -603,13 +593,16 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
         if (!this.isAddedToLevel()) this.onAddedToLevel();
         this.setBoundingBox(this.getUpdater().getBoundingBox());
         this.setRot(0, 0);
-        this.preColliderTick();
-        this.getUpdater().onUpdate();
-        this.doMotion();
-        this.checkCollision();
-
-        // Now manually sync stuff as this is not a LivingEntity.
-        if (this.isServerWorld()) SyncData.sync(this, dataSync, this.getId(), false);
+        if (this.isReal)
+        {
+            this.preColliderTick();
+            this.getUpdater().onUpdate();
+            this.doMotion();
+            this.checkCollision();
+            // Now manually sync stuff as this is not a LivingEntity.
+            if (this.isServerWorld()) SyncData.sync(this, dataSync, this.getId(), false);
+        }
+        else if (this.tickCount > this.maxAge) this.discard();
     }
 
     @Override
@@ -626,13 +619,15 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
         vector.putDouble("oriy", this.getOriginalPos().getY());
         vector.putDouble("oriz", this.getOriginalPos().getZ());
         nbt.put("bounds", vector);
+        nbt.putBoolean("real", this.isReal);
+        if (!this.isReal) nbt.putInt("maxAge", this.maxAge);
         try
         {
             this.writeBlocks(nbt);
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            ThutCore.LOGGER.error(e);
         }
     }
 
@@ -664,7 +659,7 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
                         }
                         catch (final Exception e)
                         {
-                            e.printStackTrace();
+                            ThutCore.LOGGER.error(e);
                         }
                     }
             nbt.put("Blocks", blocksTag);
@@ -715,5 +710,11 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     public Component getCustomName()
     {
         return Component.literal("%s at %s".formatted(this.getClass(), this.position()));
+    }
+
+    @Override
+    public void setReal(boolean real)
+    {
+        isReal = real;
     }
 }

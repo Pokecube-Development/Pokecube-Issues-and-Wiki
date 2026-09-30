@@ -77,18 +77,27 @@ public class StructureTemplateTools
             return ItemStack.EMPTY;
         }
 
-        default void placeBlock(StructureBlockInfo info, PlaceContext context)
+        default BlockState getState(StructureBlockInfo info, PlaceContext context)
         {
-            var pos = info.pos();
-            var tag = info.nbt();
             var settings = context.settings();
-            var level = context.level();
-
             // We do not use the "recommended" rotate function, as that is
             // for blocks already in world. Using it prevents pistons from
             // rotating properly!
             @SuppressWarnings("deprecation")
             var state = info.state().mirror(settings.getMirror()).rotate(settings.getRotation());
+            return state;
+        }
+
+        default void placeBlock(StructureBlockInfo info, PlaceContext context)
+        {
+            var pos = info.pos();
+            var tag = info.nbt();
+            var level = context.level();
+
+            // We do not use the "recommended" rotate function, as that is
+            // for blocks already in world. Using it prevents pistons from
+            // rotating properly!
+            var state = getState(info, context);
 
             level.setBlockAndUpdate(pos, state);
 
