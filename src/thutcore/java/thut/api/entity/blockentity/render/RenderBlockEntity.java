@@ -47,6 +47,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
     public void render(final T entity, final float entityYaw, final float partialTicks, final PoseStack mat,
             final MultiBufferSource bufferIn, final int packedLightIn)
     {
+        if (entity.getBlocks() == null || entity.getTiles() == null) return;
         try
         {
             mat.pushPose();
@@ -107,7 +108,6 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
     private void drawBlockAt(final BlockPos pos, final T entity, final PoseStack mat,
             final MultiBufferSource bufferIn, VertexConsumer fakeBuilder)
     {
-        if (entity.getBlocks() == null) return;
         BlockState state = entity.getBlocks()[pos.getX()][pos.getY()][pos.getZ()];
         final BlockPos mobPos = entity.getMin();
         final BlockPos realpos = pos.offset(mobPos).offset(entity.blockPosition());
