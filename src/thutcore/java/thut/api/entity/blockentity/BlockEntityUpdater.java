@@ -77,6 +77,11 @@ public class BlockEntityUpdater
         final int zMin = this.blockEntity.getMin().getZ();
 
         this.totalShape = Shapes.empty();
+        if(!this.blockEntity.isReal())
+        {
+            this.totalShape = Shapes.create(((Entity) this.blockEntity).getBoundingBox());
+            return totalShape;
+        }
 
         for (int i = 0; i < sizeX; i++)
             for (int j = 0; j < sizeY; j++)

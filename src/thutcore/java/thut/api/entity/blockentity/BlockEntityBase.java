@@ -39,6 +39,7 @@ import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
+import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.SyncData;
 import thut.core.common.world.mobs.data.types.Data_Vec3;
 import thut.crafts.ThutCrafts;
@@ -689,15 +690,23 @@ public abstract class BlockEntityBase extends Entity implements IBlockEntity, IE
     @Override
     public void writeSpawnData(final RegistryFriendlyByteBuf data)
     {
-        final CompoundTag tag = new CompoundTag();
+        CompoundTag tag = new CompoundTag();
         this.addAdditionalSaveData(tag);
-        data.writeNbt(tag);
+        if (tag.sizeInBytes() < 4096) data.writeNbt(tag);
+        else
+        {
+            tag = new CompoundTag();
+            tag.putBoolean("invalid", true);
+            data.writeNbt(tag);
+            EntityUpdate.sendEntityUpdate(this);
+        }
     }
 
     @Override
     public void readSpawnData(RegistryFriendlyByteBuf data)
     {
-        this.readAdditionalSaveData(data.readNbt());
+        CompoundTag tag = data.readNbt();
+        if (!tag.getBoolean("invalid")) this.readAdditionalSaveData(tag);
     }
 
     @Override

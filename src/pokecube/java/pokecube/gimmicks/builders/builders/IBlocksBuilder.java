@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
@@ -78,16 +79,11 @@ public interface IBlocksBuilder
 
     /**
      * Adds a {@link BoMRecord} to provide feedback to.
-     * 
-     * @param BoM
      */
     void addBoMRecord(BoMRecord BoM);
 
     /**
      * Provides feedback to the given {@link BoMRecord}
-     * 
-     * @param record
-     * @param onlyNeeded
      */
     void provideBoM(BoMRecord record, boolean onlyNeeded);
 
@@ -95,8 +91,6 @@ public interface IBlocksBuilder
      * checks status of the given {@link BoMRecord}. If the "Needed Items" of
      * the {@link BoMRecord} had their required number replaced with "-", then
      * that item should be ignored for placement.
-     * 
-     * @param record
      */
     void checkBoM(BoMRecord record);
 
@@ -109,8 +103,6 @@ public interface IBlocksBuilder
     /**
      * Updates the instructions, etc. Also sets the return value for
      * {@link #getLevel()}.
-     * 
-     * @param level
      */
     void update(ServerLevel level);
 
@@ -157,15 +149,11 @@ public interface IBlocksBuilder
      * checks for {@link #getNextPlacement(IItemHandlerModifiable)}, and is
      * intended for use if multiple callers are working together, but with
      * delays on building.
-     * 
-     * @param pos
      */
     void markPendingBuild(BlockPos pos);
 
     /**
      * Unmarks the value as set in {@link #markPendingBuild(BlockPos)}
-     * 
-     * @param pos
      */
     void markBuilt(BlockPos pos);
 

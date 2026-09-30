@@ -359,6 +359,8 @@ public class StructureBuilder implements INBTSerializable<CompoundTag>, IBlocksB
                     min = min == null ? pos : BlockPos.min(pos, min);
                     max = max == null ? pos : BlockPos.max(pos, max);
                 }
+                // Don't try placing the entity if it isn't loaded
+                if (!level.isAreaLoaded(min, 32)) return;
                 // Now make it into the array
                 int xMin = min.getX();
                 int zMin = min.getZ();
