@@ -108,9 +108,16 @@ public class SyncData extends Packet
         final Level world = player.level();
         final Entity mob = EntityProvider.provider.getEntity(world, id);
         if (mob == null) return;
-        final DataSync sync = SyncHandler.getData(mob);
-        if (type == 0) sync.update(this.data);
-        else sync.init(this.data);
+        try
+        {
+            final DataSync sync = SyncHandler.getData(mob);
+            if (type == 0) sync.update(this.data);
+            else sync.init(this.data);
+        }
+        catch (Exception e)
+        {
+            ThutCore.LOGGER.error("Error syncing data for {}", mob, e);
+        }
     }
 
     private final static Type<Packet> TYPE = new Type<>(ResourceLocation.parse("thutcore:data_sync"));
