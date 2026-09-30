@@ -97,12 +97,12 @@ public interface IBlockEntity
             if (blocks == null) return null;
             final T ret = type.create(world);
             final IBlockEntity entity = (IBlockEntity) ret;
+            entity.setReal(real);
             ret.setPos(min.getX(), min.getY(), min.getZ());
             entity.setBlocks(blocks);
             entity.setTiles(tiles);
             entity.setMin(min.subtract(min));
             entity.setMax(max.subtract(min));
-            entity.setReal(real);
             if (real) BlockEntityFormer.removeBlocks(world, min, max);
             world.addFreshEntity(ret);
             return ret;

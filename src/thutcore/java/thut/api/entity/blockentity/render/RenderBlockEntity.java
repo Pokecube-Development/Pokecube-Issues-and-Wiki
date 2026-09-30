@@ -1,11 +1,17 @@
 package thut.api.entity.blockentity.render;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
@@ -16,10 +22,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -72,20 +75,26 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
                 // TODO: Fix this
                 // mat.mulPose(new Quaternionf(0, yaw, pitch, true));
             }
-
-            for (int i = xMin; i <= xMax; i++) for (int j = yMin; j <= yMax; j++) for (int k = zMin; k <= zMax; k++)
+            VertexConsumer fakeBuilder = null;
+            if (!entity.isReal())
             {
-                pos.set(i - xMin, j - yMin, k - zMin);
-                if (!entity.shouldHide(pos))
-                {
-                    mat.pushPose();
-                    mat.translate(pos.getX(), pos.getY(), pos.getZ());
-                    this.drawTileAt(pos, entity, partialTicks, mat, bufferIn, packedLightIn);
-                    this.drawBlockAt(pos, entity, mat, bufferIn);
-                    mat.popPose();
-                }
-                else this.drawCrateAt(pos, entity, mat, bufferIn, packedLightIn);
+                fakeBuilder = bufferIn.getBuffer(TRANSLUCENT);
             }
+            for (int i = xMin; i <= xMax; i++)
+                for (int j = yMin; j <= yMax; j++)
+                    for (int k = zMin; k <= zMax; k++)
+                    {
+                        pos.set(i - xMin, j - yMin, k - zMin);
+                        if (!entity.shouldHide(pos))
+                        {
+                            mat.pushPose();
+                            mat.translate(pos.getX(), pos.getY(), pos.getZ());
+                            this.drawTileAt(pos, entity, partialTicks, mat, bufferIn, packedLightIn);
+                            this.drawBlockAt(pos, entity, mat, bufferIn, fakeBuilder);
+                            mat.popPose();
+                        }
+                        else this.drawCrateAt(pos, entity, mat, bufferIn, packedLightIn);
+                    }
             mat.popPose();
 
         }
@@ -95,17 +104,17 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         }
     }
 
-    private void drawBlockAt(final BlockPos pos, final IBlockEntity entity, final PoseStack mat,
-            final MultiBufferSource bufferIn)
+    private void drawBlockAt(final BlockPos pos, final T entity, final PoseStack mat,
+            final MultiBufferSource bufferIn, VertexConsumer fakeBuilder)
     {
         if (entity.getBlocks() == null) return;
         BlockState state = entity.getBlocks()[pos.getX()][pos.getY()][pos.getZ()];
         final BlockPos mobPos = entity.getMin();
-        final BlockPos realpos = pos.offset(mobPos).offset(((Entity) entity).blockPosition());
+        final BlockPos realpos = pos.offset(mobPos).offset(entity.blockPosition());
         if (state == null) state = Blocks.AIR.defaultBlockState();
         if (!state.is(Blocks.AIR) || !state.is(Blocks.CAVE_AIR))
         {
-            this.renderBakedBlockModel(state, entity.getFakeWorld(), realpos, mat, bufferIn);
+            this.renderBakedBlockModel(entity, state, realpos, mat, bufferIn, fakeBuilder);
         }
     }
 
@@ -149,14 +158,53 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         return InventoryMenu.BLOCK_ATLAS;
     }
 
-    private void renderBakedBlockModel(final BlockState state, final BlockGetter world,
-            final BlockPos real_pos, final PoseStack mat, final MultiBufferSource bufferIn)
+    public static final RenderStateShard.TransparencyStateShard TRANSLUCENT_TRANSPARENCY = new RenderStateShard.TransparencyStateShard(
+            "fake_block_transparency",
+            () -> {
+                RenderSystem.enableBlend();
+                RenderSystem.blendFuncSeparate(
+                        GlStateManager.SourceFactor.SRC_ALPHA,
+                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                        GlStateManager.SourceFactor.ONE,
+                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
+                );
+                RenderSystem.setShaderColor(1f, 1f, 1f, 0.5f);
+            },
+            () -> {
+                RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+                RenderSystem.disableBlend();
+                RenderSystem.defaultBlendFunc();
+            }
+    );
+
+    public static final RenderType TRANSLUCENT = RenderType.create("fake_entity", DefaultVertexFormat.BLOCK,
+            VertexFormat.Mode.QUADS, 786432, true, true,
+            RenderType.CompositeState.builder()
+                    .setLightmapState(RenderType.LIGHTMAP)
+                    .setShaderState(RenderType.RENDERTYPE_TRANSLUCENT_SHADER)
+                    .setTextureState(RenderType.BLOCK_SHEET_MIPPED)
+                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                    .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                    .createCompositeState(true));
+
+    private void renderBakedBlockModel(T entity, final BlockState state,
+            final BlockPos real_pos, final PoseStack mat, final MultiBufferSource bufferIn, final VertexConsumer fakeBuilder)
     {
         BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
         var model = dispatcher.getBlockModel(state);
+        if (!entity.isReal())
+        {
+            dispatcher.getModelRenderer().tesselateBlock(entity.getFakeWorld(), model, state, real_pos, mat,
+                    fakeBuilder, true, RandomSource.create(), state.getSeed(real_pos),
+                    OverlayTexture.NO_OVERLAY, ModelData.EMPTY, TRANSLUCENT);
+            return;
+        }
+
         for (var renderType : model.getRenderTypes(state, RandomSource.create(state.getSeed(real_pos)), ModelData.EMPTY))
-            dispatcher.getModelRenderer().tesselateBlock((BlockAndTintGetter) world, model, state, real_pos, mat,
+        {
+            dispatcher.getModelRenderer().tesselateBlock(entity.getFakeWorld(), model, state, real_pos, mat,
                     bufferIn.getBuffer(renderType), true, RandomSource.create(), state.getSeed(real_pos),
                     OverlayTexture.NO_OVERLAY, ModelData.EMPTY, renderType);
+        }
     }
 }
