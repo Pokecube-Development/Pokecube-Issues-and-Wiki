@@ -727,28 +727,28 @@ public class Battle
         boolean changed;
 
         int numBefore = this.side1.size() + this.side2.size();
-
         // check if we have any stale mobs, this checks if they have revived
         // somehow using a timer. The function calls are before || so that both
         // sets get checked, and not optimised out.
         changed = checkStale();
-
-        s1.forEach(e -> {
+        for (var e : s1)
+        {
             int tick = this.aliveTracker.getInt(e) - 1;
             if (tick < 0)
             {
                 stale.add(e);
             }
             else this.aliveTracker.put(e, tick);
-        });
-        s2.forEach(e -> {
+        }
+        for (var e : s2)
+        {
             int tick = this.aliveTracker.getInt(e) - 1;
             if (tick < 0)
             {
                 stale.add(e);
             }
             else this.aliveTracker.put(e, tick);
-        });
+        }
         this.hadPlayer |= !this.involved_players.isEmpty();
 
         // Remove anything that is stale from the battle.
@@ -763,12 +763,13 @@ public class Battle
 
         int numAfter = this.side1.size()+this.side2.size();
 
-        if(Math.abs(numAfter-numBefore) > 3 && numAfter > 1){
+        if (Math.abs(numAfter - numBefore) > 3 && numAfter > 1)
+        {
             // Recalculate centre
-            centre.set(0,0,0);
-            for(var a: this.side1.values()) centre.addTo(a.getX(), a.getY(), a.getZ());
-            for(var a: this.side2.values()) centre.addTo(a.getX(), a.getY(), a.getZ());
-            centre.scalarMultBy(1.0/numAfter);
+            centre.set(0, 0, 0);
+            for (var a : this.side1.values()) centre.addTo(a.getX(), a.getY(), a.getZ());
+            for (var a : this.side2.values()) centre.addTo(a.getX(), a.getY(), a.getZ());
+            centre.scalarMultBy(1.0 / numAfter);
         }
         // Send updates once per second otherwise.
         if (changed || numAfter != numBefore || Tracker.instance().getTick() % 20 == 0)

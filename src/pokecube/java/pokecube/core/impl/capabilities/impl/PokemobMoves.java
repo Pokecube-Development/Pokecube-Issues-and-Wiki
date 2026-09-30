@@ -192,14 +192,15 @@ public abstract class PokemobMoves extends PokemobStats
         LivingEntity target = this.getMoveStats().getTargetEnemy();
         LivingEntity trackedEntity = this.getTrackedEntity();
         LivingEntity oldTarget = target;
+        // Count as no owner in these cases.
+        if (this.getGeneralState(GeneralStates.STAYING) || !this.isRoutineEnabled(AIRoutine.AGRESSIVE)) owner = null;
         // Only process battle stuff server side.
         battle_check:
         if (!trackedEntity.level().isClientSide())
         {
             Battle b = Battle.getBattle(trackedEntity);
 
-            if (owner != null && !this.getGeneralState(GeneralStates.STAYING) && this.isRoutineEnabled(
-                    AIRoutine.AGRESSIVE))
+            if (owner != null)
             {
                 Battle b2 = Battle.getBattle(owner);
                 if (b2 != b)
@@ -228,7 +229,6 @@ public abstract class PokemobMoves extends PokemobStats
                 // Use this.getEntity here for the brain's target
                 target = this.getEntity().getTarget();
                 if (target != null) Battle.createOrAddToBattle(trackedEntity, target);
-
                 b = Battle.getBattle(trackedEntity);
             }
             this.setBattle(b);
@@ -243,9 +243,7 @@ public abstract class PokemobMoves extends PokemobStats
 
             // Battle case
 
-            // Handle the enemies lists first, as if there are none, we can end
-            // early.
-
+            // Handle the enemies lists first, as if there are none, we can end early.
             List<LivingEntity> mobs = Lists.newArrayList(b.getEnemies(trackedEntity));
 
             // Ensure that the mobs are valid targets.
