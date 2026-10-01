@@ -3,7 +3,6 @@ package thut.bot.entity.ai.modules;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -41,7 +40,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.item.ItemList;
-import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
 import thut.core.common.terrain.TerrainManager;
@@ -631,7 +629,7 @@ public class RoadBuilder extends AbstractBot
                 pos = BlockPos.containing(vec);
 
                 // If too close to a structure, skip point
-                final Set<INamedVolume> inside = StructureManager.getNear(level.dimension(), pos, 2, false);
+                var inside = StructureManager.getNear(level.dimension(), pos, 2, false);
                 if (!inside.isEmpty()) continue;
 
                 // check if we need this edge at all

@@ -12,6 +12,7 @@ import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import thut.api.util.RegHelper;
 
@@ -22,6 +23,19 @@ import java.util.function.Supplier;
 
 public class NamedVolumes
 {
+    public static double computeVolume(AABB box)
+    {
+        return box.getXsize() * box.getYsize() * box.getZsize();
+    }
+
+    public static long computeVolume(BoundingBox box)
+    {
+        int dx = box.getXSpan();
+        int dy = box.getYSpan();
+        int dz = box.getZSpan();
+        return (long) dx * dy * dz;
+    }
+
     public static interface INamedPart
     {
         /**
@@ -42,7 +56,7 @@ public class NamedVolumes
 
         default Object getWrapped()
         {
-            return null;
+            return this;
         }
     }
 
@@ -67,42 +81,42 @@ public class NamedVolumes
 
         BoundingBox getTotalBounds();
 
-        /**
-         * @return If this is a local volume, it will apply a subbiome
-         */
-        default boolean notAsSubbiome()
+        default boolean affectsMobSpawning()
         {
             return false;
         }
 
-        default boolean isIn(final BlockPos pos, boolean forTerrain)
+        default boolean isIn(final BlockPos pos)
         {
-            if (forTerrain && this.notAsSubbiome()) return false;
             if (this.getParts().isEmpty()) return false;
             if (!this.getTotalBounds().isInside(pos)) return false;
             synchronized (this.getParts())
             {
-                for (var p1 : this.getParts()) if (insideBox(p1.getBounds(), pos, forTerrain)) return true;
+                for (var p1 : this.getParts()) if (insideBox(p1.getBounds(), pos)) return true;
             }
             return false;
         }
 
-        default boolean isNear(final BlockPos pos, final int distance, boolean forTerrain)
+        default boolean isNear(final BlockPos pos, final int distance)
         {
-            if (forTerrain && this.notAsSubbiome()) return false;
             if (this.getParts().isEmpty()) return false;
             if (!inflate(this.getTotalBounds(), distance).isInside(pos)) return false;
             synchronized (this.getParts())
             {
                 for (var p1 : this.getParts())
-                    if (insideBox(inflate(p1.getBounds(), distance), pos, forTerrain)) return true;
+                    if (insideBox(inflate(p1.getBounds(), distance), pos)) return true;
             }
             return false;
         }
 
+        default long computeVolume()
+        {
+            return NamedVolumes.computeVolume(this.getTotalBounds());
+        }
+
         default Object getWrapped()
         {
-            return null;
+            return this;
         }
     }
 
@@ -112,9 +126,8 @@ public class NamedVolumes
                 other.maxZ()).inflatedBy(amt);
     }
 
-    private static boolean insideBox(final BoundingBox b, BlockPos pos, boolean forTerrain)
+    private static boolean insideBox(final BoundingBox b, BlockPos pos)
     {
-        // TODO decide if we want to do something special for terrain checks?
         return b.isInside(pos);
     }
 

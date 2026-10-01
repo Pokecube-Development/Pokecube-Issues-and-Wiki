@@ -9,7 +9,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import thut.api.ThutCaps;
-import thut.api.level.structures.CapabilityWorldVolumes;
+import thut.api.level.structures.WorldStructureVolumes;
 import thut.api.level.structures.StructureManager;
 import thut.api.util.PermNodes;
 import thut.core.init.CommonInit;
@@ -52,13 +52,15 @@ public class StructureStickApplier implements ICustomStickHandler
 
         if (key.equals("delete"))
         {
-            StructureManager.remove(level.dimension(), box, s -> s.is(structure));
+            var structs = StructureManager.getColliding(level.dimension(), box);
+            structs.removeIf(s->!s.is(structure));
+            structs.forEach(volume->StructureManager.removeVolume(volume, level));
             final String message = "msg.structmake.removed";
             thut.lib.ChatHelper.sendSystemMessage(player, Component.translatableEscape(message, structure, building));
         }
         else
         {
-            CapabilityWorldVolumes structs = ThutCaps.getWorldStructures(level);
+            WorldStructureVolumes structs = ThutCaps.getWorldStructures(level);
             if (structs != null)
             {
                 structs.addBuilding(structure, building, box);

@@ -2,7 +2,6 @@ package thut.core.init;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import net.neoforged.neoforge.client.event.*;
 import org.joml.Matrix4f;
@@ -48,7 +47,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.ThutCaps;
 import thut.api.TickHandler;
 import thut.api.entity.ICopyMob;
-import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
 import thut.core.common.terrain.TerrainManager;
@@ -131,9 +129,9 @@ public class ClientInit
         Level level = Minecraft.getInstance().level;
 
         var regi = level.registryAccess().registry(RegHelper.STRUCTURE_REGISTRY);
-        Set<INamedVolume> structures = StructureManager.getNear(level.dimension(), v.getPos(), 5, true);
         if (regi.isPresent())
         {
+            var structures = StructureManager.getNear(level.dimension(), v.getPos(), 5, true);
             for (var info : structures)
             {
                 Object o = info.getWrapped();

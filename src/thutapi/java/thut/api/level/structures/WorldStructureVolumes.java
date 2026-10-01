@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -25,7 +24,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import thut.api.level.structures.NamedVolumes.INamedPart;
 import thut.api.level.structures.NamedVolumes.INamedVolume;
 
-public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
+public class WorldStructureVolumes implements INBTSerializable<CompoundTag>
 {
     public static class Building implements INamedPart, INBTSerializable<CompoundTag>
     {
@@ -186,7 +185,7 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
     private final Map<String, INamedVolume> unique = new HashMap<>();
     private final ServerLevel level;
 
-    public CapabilityWorldVolumes(ServerLevel level)
+    public WorldStructureVolumes(ServerLevel level)
     {
         this.level = level;
     }
@@ -195,10 +194,10 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
     {
         if (!this.volumes.contains(volume))
         {
-            if(unique && this.unique.containsKey(volume.getName())) return;
+            if (unique && this.unique.containsKey(volume.getName())) return;
             this.unique.put(volume.getName(), volume);
             this.volumes.add(volume);
-            StructureManager.addStructure(level.dimension(), volume);
+            StructureManager.addVolume(volume, level);
         }
     }
 
@@ -206,7 +205,7 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
     {
         if (building == null) building = "unk_part";
         Building b = new Building(building, bounds);
-        Set<INamedVolume> intersects = StructureManager.getColliding(level.dimension(), bounds);
+        var intersects = StructureManager.getColliding(level.dimension(), bounds);
         Structure s = null;
         if (!intersects.isEmpty())
         {
@@ -252,24 +251,24 @@ public class CapabilityWorldVolumes implements INBTSerializable<CompoundTag>
         });
     }
 
-    public static CapabilityWorldVolumes makeProvider(final IAttachmentHolder in)
+    public static WorldStructureVolumes makeProvider(final IAttachmentHolder in)
     {
         if (!(in instanceof ServerLevel level)) return null;
-        return new CapabilityWorldVolumes(level);
+        return new WorldStructureVolumes(level);
     }
 
-    public static CapabilityWorldVolumes get(final IAttachmentHolder in)
+    public static WorldStructureVolumes get(final IAttachmentHolder in)
     {
         return in.getData(TYPE_SAVE.get());
     }
 
     public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:world_structures");
 
-    public static Supplier<AttachmentType<CapabilityWorldVolumes>> TYPE_SAVE;
+    public static Supplier<AttachmentType<WorldStructureVolumes>> TYPE_SAVE;
 
     public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
     {
-        Function<IAttachmentHolder, CapabilityWorldVolumes> func_a = CapabilityWorldVolumes::makeProvider;
+        Function<IAttachmentHolder, WorldStructureVolumes> func_a = WorldStructureVolumes::makeProvider;
         var attach_a = AttachmentType.serializable(func_a).build();
         TYPE_SAVE = registry.register(LOCSAVEABLE.getPath(), () -> attach_a);
     }

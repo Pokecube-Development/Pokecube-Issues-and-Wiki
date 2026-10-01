@@ -1,10 +1,10 @@
-package thut.api.level.terrain;
-
-import java.util.Objects;
+package thut.api.level.structures;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+
+import java.util.Objects;
 
 public class GlobalChunkPos
 {

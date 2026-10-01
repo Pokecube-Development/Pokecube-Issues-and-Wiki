@@ -33,7 +33,6 @@ import thut.api.util.PermNodes.StringSetPermCache;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
 
 public class ForgeEventHandlers
@@ -61,7 +60,7 @@ public class ForgeEventHandlers
         if (ItemList.is(ForgeEventHandlers.WHILTELISTED, state)) return false;
         if (newState != null && ItemList.is(ForgeEventHandlers.WHILTELISTED, newState)) return false;
         if (player != null && player.isCreative()) return false;
-        final Set<INamedVolume> set = StructureManager.getFor(world, pos, false);
+        var set = StructureManager.getFor(world, pos, false);
         for (final INamedVolume info : set)
         {
             String name = info.getName();

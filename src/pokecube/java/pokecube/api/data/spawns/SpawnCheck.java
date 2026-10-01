@@ -23,8 +23,8 @@ import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class SpawnCheck
 {
@@ -99,7 +99,7 @@ public class SpawnCheck
     public final Holder<Level> dimension;
     // These are only looked up if needed, but then cached for further uses of
     // the spawnCheck
-    public Set<INamedVolume> namedStructures = null;
+    public List<INamedVolume> namedStructures = null;
     /**
      * RNG seed for shuffling, etc. If this is zero,
      */

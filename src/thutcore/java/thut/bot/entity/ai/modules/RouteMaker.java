@@ -1,7 +1,6 @@
 package thut.bot.entity.ai.modules;
 
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -286,7 +285,7 @@ public class RouteMaker extends AbstractBot
     {
         final ServerLevel world = (ServerLevel) this.player.level;
         int size = 32;
-        final Set<INamedVolume> near = StructureManager.getNear(world.dimension(), next, 0, false);
+        var near = StructureManager.getNear(world.dimension(), next, 0, false);
         for (final INamedVolume i : near)
             if (i.is(target.toString()))
             {

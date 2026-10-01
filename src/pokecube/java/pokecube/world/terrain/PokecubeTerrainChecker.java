@@ -17,7 +17,6 @@ import net.minecraft.world.level.material.FluidState;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.GenericJigsawStructure;
-import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainChecker;
@@ -26,8 +25,6 @@ import thut.api.level.terrain.TerrainSegment.ISubBiomeChecker;
 import thut.api.maths.Vector3;
 import thut.core.common.handlers.ConfigHandler;
 import thut.api.util.RegHelper;
-
-import java.util.Set;
 
 public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeChecker
 {
@@ -56,10 +53,10 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         ChunkAccess chunk = segment.chunk;
         if (caveAdjusted)
         {
-            final Set<INamedVolume> set = StructureManager.getFor(rworld, v.getPos(), true);
+            var set = StructureManager.getFor(rworld, v.getPos(), true);
             for (var info : set)
             {
-                if (info.notAsSubbiome()) continue;
+                if (!info.affectsMobSpawning()) continue;
                 String subbiome = null;
                 var obj = info.getWrapped();
                 // first manually check structures to see if they define a

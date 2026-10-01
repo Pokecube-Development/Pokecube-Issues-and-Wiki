@@ -49,8 +49,6 @@ import thut.core.common.commands.CommandTools;
 import thut.api.data.PlayerDataHandler;
 import thut.core.common.network.TerrainUpdate;
 
-import java.util.Set;
-
 /** @author Manchou */
 @EventBusSubscriber(modid = PokecubeCore.MODID)
 public class ItemPokedex extends Item
@@ -115,7 +113,7 @@ public class ItemPokedex extends Item
             // datapacks/configs.
             if (PokecubeCore.getConfig().debug_misc)
             {
-                final Set<INamedVolume> infos = StructureManager.getFor(level, pos, false);
+                var infos = StructureManager.getFor(level, pos, false);
                 for (final INamedVolume i : infos)
                 {
                     thut.lib.ChatHelper.sendSystemMessage(player, Component.literal(i.getName()));

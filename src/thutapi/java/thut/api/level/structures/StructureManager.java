@@ -1,7 +1,5 @@
 package thut.api.level.structures;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceKey;
@@ -9,88 +7,65 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
-import thut.api.ThutAPI;
 import thut.api.level.structures.NamedVolumes.INamedVolume;
-import thut.api.level.structures.NamedVolumes.NamedStructureWrapper;
 import thut.api.level.terrain.GlobalChunkPos;
 import thut.api.util.RegHelper;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class StructureManager
 {
+    private static final ReentrantLock SET_ADD_LOCK = new ReentrantLock();
     /**
      * This is a cache of loaded chunks, it is used to prevent thread lock contention when trying to look up a chunk, as
      * it seems that world.chunkExists returning true does not mean that you can just go and ask for the chunk...
      */
-    public static Map<GlobalChunkPos, Set<INamedVolume>> map_by_pos = Maps.newHashMap();
+    private static final Map<GlobalChunkPos, Map<GlobalChunkPos, Set<INamedVolume>>> map_by_rpos = new ConcurrentHashMap<>();
 
-    public static void addStructure(ResourceKey<Level> dim, INamedVolume volume)
+    public static List<INamedVolume> getColliding(ResourceKey<Level> dim, INamedVolume volume)
     {
-        // Only allow ones marked as use for subbiomes
-        if (volume.notAsSubbiome()) return;
-        final BoundingBox b = volume.getTotalBounds();
-        if (b.getXSpan() > 2560 || b.getZSpan() > 2560)
-        {
-            ThutAPI.LOGGER.warn("Warning, too big box for {}: {}", volume.getName(), b);
-            return;
-        }
-        for (int x = b.minX() >> 4; x <= b.maxX() >> 4; x++)
-            for (int z = b.minZ() >> 4; z <= b.maxZ() >> 4; z++)
-            {
-                final ChunkPos p = new ChunkPos(x, z);
-                final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
-                final Set<INamedVolume> set = StructureManager.getOrMake(pos);
-                set.add(volume);
-            }
+        return getColliding(dim, volume.getTotalBounds());
     }
 
-    public static Set<INamedVolume> getOrMake(final GlobalChunkPos pos)
+    public static List<INamedVolume> getColliding(ResourceKey<Level> dim, BoundingBox ourB)
     {
-        return StructureManager.map_by_pos.computeIfAbsent(pos, k -> Sets.newHashSet());
+        var here = forVolume(ourB, dim);
+        var opts = new HashSet<INamedVolume>();
+        AABB aabbUs = AABB.of(ourB);
+        here.forEach(p -> opts.addAll(getFor(dim, p.pos)));
+        var ret = opts.stream().filter(b -> {
+            var otherB = b.getTotalBounds();
+            AABB otherBB = AABB.of(otherB);
+            if (!aabbUs.intersects(otherBB)) return false;
+            var aabbI = aabbUs.intersect(otherBB);
+            return NamedVolumes.computeVolume(aabbI) != 0;
+        });
+        return new ArrayList<>(ret.toList());
     }
 
-    public static void remove(ResourceKey<Level> dim, BoundingBox b, Predicate<INamedVolume> structure)
+    public static List<INamedVolume> getFor(Level dim, final BlockPos loc)
     {
-        for (int x = b.minX() >> 4; x <= b.maxX() >> 4; x++)
-            for (int z = b.minZ() >> 4; z <= b.maxZ() >> 4; z++)
-            {
-                final ChunkPos p = new ChunkPos(x, z);
-                final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
-                final Set<INamedVolume> forPos = StructureManager.map_by_pos.getOrDefault(pos,
-                        Collections.emptySet());
-                if (!forPos.isEmpty()) forPos.removeIf(structure);
-            }
+        return getFor(dim.dimension(), loc);
     }
 
-    public static Set<INamedVolume> getColliding(ResourceKey<Level> dim, BoundingBox b)
-    {
-        final Set<INamedVolume> matches = Sets.newHashSet();
-        for (int x = b.minX() >> 4; x <= b.maxX() >> 4; x++)
-            for (int z = b.minZ() >> 4; z <= b.maxZ() >> 4; z++)
-            {
-                final ChunkPos p = new ChunkPos(x, z);
-                final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
-                final Set<INamedVolume> forPos = StructureManager.map_by_pos.getOrDefault(pos,
-                        Collections.emptySet());
-                forPos.forEach(structure -> {
-                    if (b.intersects(structure.getTotalBounds())) matches.add(structure);
-                });
-            }
-        return matches;
-    }
-
-    public static Set<INamedVolume> getFor(Level dim, final BlockPos loc, boolean forSubbiome)
+    public static List<INamedVolume> getFor(Level dim, final BlockPos loc, boolean forTerrain)
     {
         final GlobalChunkPos pos = new GlobalChunkPos(dim.dimension(), new ChunkPos(loc));
-        if (!map_by_pos.containsKey(pos) && dim instanceof ServerLevel level)
+        var rPos = new GlobalChunkPos(pos.world, new ChunkPos(pos.pos.getRegionX(), pos.pos.getRegionZ()));
+        var rMap = StructureManager.map_by_rpos.get(rPos);
+        if ((rMap == null || !rMap.containsKey(pos)) && dim instanceof ServerLevel level)
         {
-            // Check if it is loaded, and if so, init structures
             if (level.isAreaLoaded(loc, 32))
             {
                 var chunk = level.getChunkAt(loc);
@@ -99,45 +74,120 @@ public class StructureManager
                 starts.forEach(start -> {
                     var structure = start.getStructure();
                     var name = reg.getKey(structure).toString();
-                    final NamedStructureWrapper info = new NamedStructureWrapper(level, name, structure, start);
+                    final NamedVolumes.NamedStructureWrapper info = new NamedVolumes.NamedStructureWrapper(level, name,
+                            structure, start);
                     if (!info.start.isValid()) return;
-                    addStructure(level.dimension(), info);
+                    addVolume(info, level);
                 });
             }
             else
             {
-                return Collections.emptySet();
+                return Collections.emptyList();
             }
         }
-        final Set<INamedVolume> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
-        if (forPos.isEmpty()) return forPos;
-        final Set<INamedVolume> matches = Sets.newHashSet();
-        for (final INamedVolume i : forPos) if (i.isIn(loc, forSubbiome)) matches.add(i);
-        return matches;
+        return getFor(pos.world, loc, forTerrain);
     }
 
-    private static Set<INamedVolume> getNearInt(final ResourceKey<Level> dim, final BlockPos loc, final ChunkPos pos,
-            final int distance, boolean forSubbiome)
+    public static List<INamedVolume> getFor(ResourceKey<Level>  dim, final BlockPos loc)
     {
-        final GlobalChunkPos gpos = new GlobalChunkPos(dim, pos);
-        final Set<INamedVolume> forPos = StructureManager.map_by_pos.getOrDefault(gpos, Collections.emptySet());
-        if (forPos.isEmpty()) return forPos;
-        final Set<INamedVolume> matches = Sets.newHashSet();
-        for (final INamedVolume i : forPos) if (i.isNear(loc, distance, forSubbiome)) matches.add(i);
-        return matches;
+        return getFor(dim, loc, false);
     }
 
-    public static Set<INamedVolume> getNear(final ResourceKey<Level> dim, final BlockPos loc, final int distance,
+    public static List<INamedVolume> getFor(final ResourceKey<Level> dim, final BlockPos loc, boolean forTerrain)
+    {
+        List<INamedVolume> forPos = getFor(dim, new ChunkPos(loc));
+        forPos.removeIf(v -> v == null || (forTerrain && !v.affectsMobSpawning()) || !v.isIn(loc));
+        return forPos;
+    }
+
+    public static List<INamedVolume> getFor(final ResourceKey<Level> dim, final ChunkPos loc)
+    {
+        final GlobalChunkPos pos = new GlobalChunkPos(dim, loc);
+        var rPos = new GlobalChunkPos(pos.world, new ChunkPos(pos.pos.getRegionX(), pos.pos.getRegionZ()));
+        final Set<INamedVolume> forPos = StructureManager.map_by_rpos.getOrDefault(rPos, Collections.emptyMap())
+                .getOrDefault(pos, Collections.emptySet());
+        List<INamedVolume> list;
+        SET_ADD_LOCK.lock();
+        list = new ArrayList<>(forPos);
+        SET_ADD_LOCK.unlock();
+        return list;
+    }
+
+    public static List<GlobalChunkPos> forVolume(INamedVolume volume, ResourceKey<Level> level)
+    {
+        List<GlobalChunkPos> list = new ArrayList<>();
+        var bounds = volume.getTotalBounds();
+        bounds.intersectingChunks().forEach(pos -> {
+            list.add(new GlobalChunkPos(level, pos));
+        });
+        return list;
+    }
+
+    public static List<GlobalChunkPos> forVolume(BoundingBox bounds, ResourceKey<Level> level)
+    {
+        List<GlobalChunkPos> list = new ArrayList<>();
+        bounds.intersectingChunks().forEach(pos -> {
+            list.add(new GlobalChunkPos(level, pos));
+        });
+        return list;
+    }
+
+    public static void addVolume(INamedVolume volume, Level level)
+    {
+        List<GlobalChunkPos> list = StructureManager.forVolume(volume, level.dimension());
+        list.forEach(pos -> {
+            var rPos = new GlobalChunkPos(pos.world, new ChunkPos(pos.pos.getRegionX(), pos.pos.getRegionZ()));
+            var map = map_by_rpos.computeIfAbsent(rPos, k -> new ConcurrentHashMap<>());
+            var set = map.computeIfAbsent(pos, k -> new HashSet<>());
+            SET_ADD_LOCK.lock();
+            set.add(volume);
+            SET_ADD_LOCK.unlock();
+        });
+    }
+
+    public static void removeVolume(INamedVolume volume, Level level)
+    {
+        List<GlobalChunkPos> list = forVolume(volume, level.dimension());
+        list.forEach(pos-> {
+            var rPos = new GlobalChunkPos(pos.world, new ChunkPos(pos.pos.getRegionX(), pos.pos.getRegionZ()));
+            if (map_by_rpos.containsKey(rPos))
+            {
+                var map = map_by_rpos.get(rPos);
+                if(map.containsKey(pos))
+                {
+                    var set = map.get(pos);
+                    SET_ADD_LOCK.lock();
+                    set.remove(volume);
+                    if (set.isEmpty()) map.remove(pos);
+                    SET_ADD_LOCK.unlock();
+                }
+                if(map.isEmpty()) map_by_rpos.remove(rPos);
+            }
+        });
+    }
+
+    public static List<INamedVolume> getNear(final ResourceKey<Level> dim, final BlockPos loc, final int distance,
             boolean forSubbiome)
     {
-        final Set<INamedVolume> matches = Sets.newHashSet();
+        final Set<INamedVolume> matches = new HashSet<>();
         final ChunkPos origin = new ChunkPos(loc);
         int dr = SectionPos.blockToSectionCoord(distance);
         dr = Math.max(dr, 1);
         for (int x = origin.x - dr; x <= origin.x + dr; x++)
             for (int z = origin.z - dr; z <= origin.z + dr; z++)
-                matches.addAll(StructureManager.getNearInt(dim, loc, new ChunkPos(x, z), distance, forSubbiome));
-        return matches;
+            {
+                ChunkPos pos = new ChunkPos(x, z);
+                var forChunk = getFor(dim, pos);
+                forChunk.removeIf(b -> (forSubbiome && !b.affectsMobSpawning()) || !(b.isNear(loc, distance)));
+                matches.addAll(forChunk);
+            }
+        return new ArrayList<>(matches);
+    }
+
+    public static boolean hasVolumes(ResourceKey<Level> dimension, int regionX, int regionZ)
+    {
+        final GlobalChunkPos gpos = new GlobalChunkPos(dimension, new ChunkPos(regionX, regionZ));
+        return map_by_rpos.containsKey(gpos);
     }
 
     @SubscribeEvent
@@ -146,11 +196,12 @@ public class StructureManager
         if (!(evt.getLevel() instanceof Level level) || level.isClientSide()) return;
         final ResourceKey<Level> dim = level.dimension();
         final GlobalChunkPos pos = new GlobalChunkPos(dim, evt.getChunk().getPos());
-        StructureManager.map_by_pos.remove(pos);
+        var rPos = new GlobalChunkPos(pos.world, new ChunkPos(pos.pos.getRegionX(), pos.pos.getRegionZ()));
+        map_by_rpos.getOrDefault(rPos, new HashMap<>()).remove(pos);
     }
 
     public static void clear()
     {
-        StructureManager.map_by_pos.clear();
+        map_by_rpos.clear();
     }
 }
