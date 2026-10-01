@@ -11,6 +11,9 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import thut.api.attachments.LocationTracker;
+import thut.api.attachments.Ownable;
+import thut.api.entity.event.BreakTestEvent;
 import thut.api.world.WorldTickManager;
 
 import java.util.ArrayList;
@@ -50,15 +53,39 @@ public class ThutAPI
         return trim;
     }
 
-    public static void initAPI()
-    {
-        Tracker.init();
-        registerTickManager();
-    }
+    private static boolean alreadySetup = false;
+    private static boolean alreadyworldticks = false;
+    private static boolean alreadylocationTrack = false;
+    private static boolean alreadyownables = false;
+    private static boolean alreadyexplosions = false;
 
-    public static void registerTickManager()
+    public static void initAPI(boolean worldticks, boolean locationTrack, boolean ownables, boolean explosions)
     {
-        NeoForge.EVENT_BUS.register(WorldTickManager.class);
+        if(!alreadySetup)
+        {
+            Tracker.init();
+            alreadySetup = true;
+        }
+        if (worldticks && !alreadyworldticks)
+        {
+            alreadyworldticks = true;
+            NeoForge.EVENT_BUS.register(WorldTickManager.class);
+        }
+        if (locationTrack && !alreadylocationTrack)
+        {
+            alreadylocationTrack = true;
+            NeoForge.EVENT_BUS.register(LocationTracker.class);
+        }
+        if (ownables && !alreadyownables)
+        {
+            alreadyownables = true;
+            NeoForge.EVENT_BUS.register(Ownable.class);
+        }
+        if (explosions && !alreadyexplosions)
+        {
+            alreadyexplosions = true;
+            BreakTestEvent.init();
+        }
     }
 
     public static Random newRandom()

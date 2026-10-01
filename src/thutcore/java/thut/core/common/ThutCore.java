@@ -38,6 +38,8 @@ import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.attachments.CopyMob;
 import thut.api.attachments.Linkable;
+import thut.api.attachments.LocationTracker;
+import thut.api.attachments.Ownable;
 import thut.api.entity.event.BreakTestEvent;
 import thut.api.entity.genetics.DefaultGenetics;
 import thut.api.entity.multipart.MultiSync;
@@ -253,14 +255,13 @@ public class ThutCore
 
     private void initAPI()
     {
-        ThutAPI.initAPI();
+        ThutAPI.initAPI(true, true, true, true);
         MultiSync.SYNC = PartSync::sendUpdate;
 
         SyncAttachments.SYNCED.add(CopyMob.LOC);
         SyncAttachments.SYNCED.add(CopyMob.ANIM);
         SyncAttachments.SYNCED.add(DefaultGenetics.KEY);
 
-        BreakTestEvent.init();
         CapabilityTerrainAffected.init(mob->TerrainManager.getInstance().getTerrainForEntity(mob));
     }
 

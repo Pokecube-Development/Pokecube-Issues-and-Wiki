@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -35,7 +34,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-@EventBusSubscriber
 public class Ownable
 {
     public static interface IOwnableSerializable extends IOwnable, INBTSerializable<CompoundTag>

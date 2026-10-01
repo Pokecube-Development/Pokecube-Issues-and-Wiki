@@ -1,4 +1,4 @@
-package thut.api;
+package thut.core.common.blockentity;
 
 import java.util.Map;
 import java.util.UUID;

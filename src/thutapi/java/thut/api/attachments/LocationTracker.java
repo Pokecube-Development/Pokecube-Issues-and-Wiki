@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -18,7 +17,6 @@ import thut.api.maths.Vector3;
 
 import java.util.function.Supplier;
 
-@EventBusSubscriber
 public class LocationTracker
 {
     public static interface ITrackedLocation extends INBTSerializable<CompoundTag>
