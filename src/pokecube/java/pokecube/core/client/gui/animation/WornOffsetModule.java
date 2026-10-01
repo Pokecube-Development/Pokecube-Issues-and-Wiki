@@ -23,12 +23,12 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.helper.ListEditBox;
 import pokecube.core.client.render.mobs.RenderPokemob;
+import thut.api.entity.animation.AnimationXML;
 import thut.api.entity.animation.IAnimationChanger.WornOffsets;
 import thut.bling.BlingItem;
 import thut.core.client.render.animation.AnimationChanger;
-import thut.core.client.render.animation.AnimationLoader;
-import thut.core.client.render.model.parts.Mesh;
-import thut.lib.RegHelper;
+import thut.api.model.Mesh;
+import thut.api.util.RegHelper;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
@@ -165,7 +165,7 @@ public class WornOffsetModule extends AnimModule
                     Float.parseFloat(dZ.getValue()));
             var w_angles = new Vector3f(Float.parseFloat(rX.getValue()), Float.parseFloat(rY.getValue()),
                     Float.parseFloat(rZ.getValue()));
-            var w_scale = AnimationLoader.getVector3(this.scaleS.getValue(), null);
+            var w_scale = AnimationXML.getVector3(this.scaleS.getValue(), null);
             WornOffsets replace = new WornOffsets(part, w_offset, w_scale, w_angles);
             changer.wornOffsets.put(key, replace);
         }
@@ -315,7 +315,7 @@ public class WornOffsetModule extends AnimModule
             String rZ = trim.apply(this.rZ.getValue());
 
             String scale = scaleS.getValue();
-            var v = AnimationLoader.getVector3(scale, new Vector3f());
+            var v = AnimationXML.getVector3(scale, new Vector3f());
             if (v.x == v.y && v.y == v.z) scale = trim.apply(String.format(Locale.ROOT, "%.3f", v.x));
             else
             {

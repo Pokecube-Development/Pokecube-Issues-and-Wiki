@@ -22,16 +22,20 @@ import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector4;
+import thut.api.model.IExtendedModelPart;
+import thut.api.model.IModel;
+import thut.api.model.IModelCustom;
+import thut.api.model.IModelRenderer;
 import thut.core.client.render.animation.AnimationChanger;
 import thut.core.client.render.animation.AnimationHelper;
-import thut.core.client.render.model.parts.Material;
-import thut.core.client.render.model.parts.MaterialRenderable;
-import thut.core.client.render.model.parts.Mesh;
-import thut.core.client.render.model.parts.Part;
-import thut.core.client.render.texturing.IPartTexturer;
-import thut.core.client.render.texturing.IRetexturableModel;
+import thut.api.model.Material;
+import thut.api.model.render.MaterialRenderable;
+import thut.api.model.Mesh;
+import thut.api.model.Part;
+import thut.api.model.texture.IPartTexturer;
+import thut.api.model.texture.IRetexturableModel;
 import thut.core.common.ThutCore;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 public abstract class BaseModel implements IModelCustom, IModel, IRetexturableModel
 {

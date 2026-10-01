@@ -12,7 +12,7 @@ import thut.api.entity.EntityProvider;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
-import thut.core.common.world.mobs.data.DataSync_Impl;
+import thut.api.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.SyncHandler;
 
 import java.util.ArrayList;

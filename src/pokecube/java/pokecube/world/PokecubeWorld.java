@@ -15,7 +15,7 @@ import pokecube.world.gen.features.trees.foliage.FoliagePlacerTypes;
 import pokecube.world.gen.features.trees.trunks.TrunkPlacerTypes;
 import pokecube.world.gen.structures.PokecubeStructures;
 import pokecube.world.gen.structures.processors.PokecubeStructureProcessors;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class PokecubeWorld
 {

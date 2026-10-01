@@ -29,7 +29,7 @@ import thut.api.attachments.Linkable;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class WarpPadTile extends InteractableTile implements IEnergyStorage
 {

@@ -17,9 +17,9 @@ import pokecube.adventures.client.gui.trainer.editor.pages.util.ListPage;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.api.entity.trainers.IHasRewards;
 import pokecube.api.entity.trainers.IHasRewards.Reward;
-import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
+import thut.api.ThutAPI;
 
 import java.util.function.Predicate;
 
@@ -83,7 +83,7 @@ public class Rewards extends ListPage<RewardOption>
             if (index < this.rewards.getRewards().size())
             {
                 final Reward r = this.rewards.getRewards().get(index);
-                this.reward.setValue(r.stack.save(PokecubeCore.proxy.getRegistries()) + "");
+                this.reward.setValue(r.stack.save(ThutAPI.getRegistries()) + "");
                 this.chance.setValue(r.chance + "");
             }
 
@@ -182,7 +182,7 @@ public class Rewards extends ListPage<RewardOption>
                 final NbtTagArgument arg = NbtTagArgument.nbtTag();
                 final CompoundTag tag = (CompoundTag) arg.parse(new StringReader(this.reward.getValue()));
                 final float chance = Float.parseFloat(this.chance.getValue());
-                final Reward r = new Reward(ItemStack.parseOptional(PokecubeCore.proxy.getRegistries(), tag), chance);
+                final Reward r = new Reward(ItemStack.parseOptional(ThutAPI.getRegistries(), tag), chance);
                 if (this.index == this.rewards.getRewards().size())
                 {
                     this.rewards.getRewards().add(r);
@@ -196,7 +196,7 @@ public class Rewards extends ListPage<RewardOption>
                 Minecraft.getInstance().player.displayClientMessage(Component.literal("Errored format for reward!"),
                         true);
             }
-            final Tag tag = this.rewards.serializeNBT(PokecubeCore.proxy.getRegistries());
+            final Tag tag = this.rewards.serializeNBT(ThutAPI.getRegistries());
             final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             final CompoundTag nbt = message.getTag();
             nbt.put("__rewards__", tag);

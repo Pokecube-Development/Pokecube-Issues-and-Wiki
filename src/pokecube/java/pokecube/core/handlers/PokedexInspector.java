@@ -20,7 +20,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import thut.core.common.ThutCore;
-import thut.core.common.handlers.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler;
 
 public class PokedexInspector
 {

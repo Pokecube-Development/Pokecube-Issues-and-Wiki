@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.loading.FMLPaths;
 import pokecube.api.PokecubeAPI;
 import thut.api.util.JsonUtil;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class BuilderConfig
 {

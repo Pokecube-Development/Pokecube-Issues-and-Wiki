@@ -27,7 +27,7 @@ import pokecube.world.gen.structures.GenericJigsawStructure.AvoidanceSettings.Av
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
 import pokecube.world.utils.GeneralUtils;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.ArrayList;
 import java.util.List;

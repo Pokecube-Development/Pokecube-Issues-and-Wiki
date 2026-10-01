@@ -20,7 +20,7 @@ import pokecube.adventures.blocks.genetics.helper.SelectorImpl;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeExtract;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
-import pokecube.core.PokecubeCore;
+import thut.api.ThutAPI;
 import thut.api.item.ItemList;
 
 public class ExtractorTile extends BaseGeneticsTile
@@ -55,7 +55,7 @@ public class ExtractorTile extends BaseGeneticsTile
     @Override
     public boolean canPlaceItem(final int index, final ItemStack stack)
     {
-        var access = this.getLevel() != null ? this.getLevel().registryAccess() : PokecubeCore.proxy.getRegistries();
+        var access = this.getLevel() != null ? this.getLevel().registryAccess() : ThutAPI.getRegistries();
         switch (index)
         {
         case 0:// DNA Container

@@ -41,7 +41,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.core.common.genetics.DefaultGenetics;
+import thut.api.entity.genetics.DefaultGenetics;
 
 import java.util.ArrayList;
 import java.util.Collections;

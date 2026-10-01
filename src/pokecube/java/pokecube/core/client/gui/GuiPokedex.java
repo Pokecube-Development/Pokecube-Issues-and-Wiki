@@ -40,7 +40,7 @@ import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Resources;
-import thut.core.common.handlers.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler;
 
 public class GuiPokedex extends Screen
 {

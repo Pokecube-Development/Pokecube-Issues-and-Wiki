@@ -9,6 +9,7 @@ import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.effects.StatusEffects;
+import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -22,7 +23,7 @@ public class Synchronize extends Ability
     @Override
     public void destroy(IPokemob mob)
     {
-        if (ThutCore.proxy.isClientSide()) return;
+        if (ThutAPI.isClientSide()) return;
         ThutCore.FORGE_BUS.unregister(this);
     }
 
@@ -37,7 +38,7 @@ public class Synchronize extends Ability
     @Override
     public Ability init(Object... args)
     {
-        if (ThutCore.proxy.isClientSide()) return this;
+        if (ThutAPI.isClientSide()) return this;
         for (int i = 0; i < 1; i++)
             if (args != null && args.length > i)
             {

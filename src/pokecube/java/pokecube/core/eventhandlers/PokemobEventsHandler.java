@@ -53,6 +53,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.EntityInte
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.joml.Vector3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.ai.IInhabitor;
@@ -106,14 +107,14 @@ import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 import thut.api.world.WorldTickManager;
 import thut.api.world.WorldTickManager.DelayedTask;
 import thut.core.common.ThutCore;
-import thut.core.common.genetics.DefaultGenetics;
+import thut.api.entity.genetics.DefaultGenetics;
 import thut.core.common.network.SyncAttachments;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.Collection;
 import java.util.List;
@@ -701,7 +702,7 @@ public class PokemobEventsHandler
     private static void onServerTick(final ServerTickEvent.Post event)
     {
         if (!PokecubeCore.getConfig().doLoadBalancing) return;
-        final MinecraftServer server = ThutCore.proxy.getServer();
+        final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         final double meanTickTime = PokemobEventsHandler.mean(server.getTickTimesNanos()) * 1.0E-6D;
         final double maxTick = PokecubeCore.getConfig().loadBalanceThreshold;
         if (meanTickTime > maxTick)

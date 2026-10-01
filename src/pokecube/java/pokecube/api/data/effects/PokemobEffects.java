@@ -19,7 +19,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.IMergeable;
 import pokecube.core.database.resources.PackFinder;
 import thut.api.util.JsonUtil;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 public class PokemobEffects implements IMergeable<PokemobEffects>
 {

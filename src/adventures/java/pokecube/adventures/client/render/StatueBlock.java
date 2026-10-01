@@ -20,7 +20,7 @@ import pokecube.core.client.render.mobs.overlays.Status.StatusTexturer;
 import thut.api.attachments.CopyMob;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.core.client.render.animation.AnimationHelper;
-import thut.core.client.render.texturing.IPartTexturer;
+import thut.api.model.texture.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
 
 public class StatueBlock implements BlockEntityRenderer<StatueEntity>

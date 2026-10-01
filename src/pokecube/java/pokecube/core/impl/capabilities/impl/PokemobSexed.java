@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -23,6 +24,7 @@ import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.utils.PokemobTracker;
+import thut.api.ThutAPI;
 import thut.api.entity.IBreedingMob;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -142,8 +144,8 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     @Override
     public void mateWith(final IBreedingMob male)
     {
-        if (ThutCore.proxy.isClientSide()) return;
-        final MinecraftServer server = ThutCore.proxy.getServer();
+        if (ThutAPI.isClientSide()) return;
+        final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         server.tell(new TickTask(0, () -> this.mate(male)));
     }
 

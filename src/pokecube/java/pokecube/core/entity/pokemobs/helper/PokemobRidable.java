@@ -27,8 +27,8 @@ import org.joml.Vector3f;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
 import thut.api.entity.IMultiplePassengerEntity;
-import thut.core.common.world.mobs.data.DataSync_Impl;
-import thut.core.common.world.mobs.data.types.Data_Seat;
+import thut.api.world.mobs.data.DataSync_Impl;
+import thut.api.world.mobs.data.types.Data_Seat;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;

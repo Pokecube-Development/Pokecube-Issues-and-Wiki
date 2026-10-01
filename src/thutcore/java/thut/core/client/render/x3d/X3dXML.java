@@ -11,10 +11,10 @@ import com.google.common.collect.Sets;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import thut.core.common.ThutCore;
-import thut.core.xml.bind.Factory;
-import thut.core.xml.bind.annotation.XmlAttribute;
-import thut.core.xml.bind.annotation.XmlElement;
-import thut.core.xml.bind.annotation.XmlRootElement;
+import thut.api.xml.bind.Factory;
+import thut.api.xml.bind.annotation.XmlAttribute;
+import thut.api.xml.bind.annotation.XmlElement;
+import thut.api.xml.bind.annotation.XmlRootElement;
 
 public class X3dXML
 {

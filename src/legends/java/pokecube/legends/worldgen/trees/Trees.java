@@ -41,7 +41,7 @@ import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.trees.treedecorators.LeavesStringOfPearlsDecorator;
 import pokecube.legends.worldgen.trees.treedecorators.TrunkStringOfPearlsDecorator;
 import pokecube.world.gen.features.trees.trunks.StraightTrunkPlacerNoDirt;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.Optional;
 import java.util.OptionalInt;

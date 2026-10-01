@@ -17,7 +17,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import pokecube.api.PokecubeAPI;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.ArrayList;
 import java.util.List;

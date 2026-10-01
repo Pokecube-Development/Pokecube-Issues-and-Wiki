@@ -20,7 +20,7 @@ import pokecube.legends.entity.WormholeEntity;
 import pokecube.legends.spawns.WormholeSpawns;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import static thut.core.common.config.Config.registerRange;
 import static thut.core.common.config.Config.registerStringValidator;

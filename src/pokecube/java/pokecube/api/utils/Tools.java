@@ -38,6 +38,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.EntityTools;
+import thut.api.ThutAPI;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -439,7 +440,7 @@ public class Tools
                 obj.remove("n");
             }
 
-            var access = world != null ? world.registryAccess() : PokecubeCore.proxy.getRegistries();
+            var access = world != null ? world.registryAccess() : ThutAPI.getRegistries();
             ItemStack stack = ItemStack.parseOptional(access,
                     (CompoundTag) JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, values));
             if (stack.isEmpty()) throw new IllegalArgumentException();

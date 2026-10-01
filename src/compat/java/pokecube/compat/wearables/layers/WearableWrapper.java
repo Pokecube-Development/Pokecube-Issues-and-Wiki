@@ -26,10 +26,10 @@ import pokecube.core.client.render.mobs.overlays.Status;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.entity.animation.IAnimationChanger.WornOffsets;
-import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.model.IModelRenderer;
-import thut.core.client.render.model.parts.Part;
-import thut.core.client.render.texturing.IRetexturableModel;
+import thut.api.model.IExtendedModelPart;
+import thut.api.model.IModelRenderer;
+import thut.api.model.Part;
+import thut.api.model.texture.IRetexturableModel;
 import thut.core.client.render.wrappers.ModelWrapper;
 
 import thut.wearables.EnumWearable;

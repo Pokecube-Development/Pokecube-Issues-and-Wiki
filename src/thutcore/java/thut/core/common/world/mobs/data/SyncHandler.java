@@ -9,6 +9,7 @@ import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.ICopyMob;
 import thut.api.world.mobs.data.DataSync;
+import thut.api.world.mobs.data.DataSync_Impl;
 import thut.core.common.network.SyncData;
 
 public class SyncHandler

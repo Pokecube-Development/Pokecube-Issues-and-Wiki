@@ -10,8 +10,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.nbtedit.NBTEdit;
-import thut.core.common.handlers.PlayerDataHandler;
-import thut.core.common.handlers.PlayerDataHandler.PlayerData;
+import thut.api.data.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler.PlayerData;
 
 /** Created by Jay113355 on 6/28/2016. */
 public class PacketHandler

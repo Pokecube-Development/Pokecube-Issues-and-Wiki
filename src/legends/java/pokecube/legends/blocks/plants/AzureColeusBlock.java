@@ -14,7 +14,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.Reference;
 import pokecube.legends.blocks.FlowerBase;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class AzureColeusBlock extends FlowerBase
 {

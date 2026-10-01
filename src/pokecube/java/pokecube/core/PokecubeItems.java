@@ -80,7 +80,7 @@ import thut.api.attachments.Ownable;
 import thut.api.data.HolderProvider;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class PokecubeItems extends ItemList
 {

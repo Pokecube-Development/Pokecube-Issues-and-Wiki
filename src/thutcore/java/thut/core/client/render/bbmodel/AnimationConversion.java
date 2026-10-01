@@ -13,7 +13,7 @@ import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.bbmodel.BBModelTemplate.BBAnimation.BBDataPoint;
 import thut.core.client.render.bbmodel.BBModelTemplate.BBAnimation.BBKeyFrame;
-import thut.core.client.render.model.parts.Part;
+import thut.api.model.Part;
 import thut.core.common.ThutCore;
 
 public class AnimationConversion

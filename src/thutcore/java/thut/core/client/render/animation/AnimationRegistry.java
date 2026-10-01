@@ -8,7 +8,7 @@ import com.google.common.collect.Maps;
 
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animation.IPartRenamer;
-import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.api.entity.animation.AnimationXML.Phase;
 import thut.core.client.render.animation.prefab.AdvancedFlapAnimation;
 import thut.core.client.render.animation.prefab.BasicFlapAnimation;
 import thut.core.client.render.animation.prefab.BiWalkAnimation;

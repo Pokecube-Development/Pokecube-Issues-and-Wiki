@@ -30,13 +30,13 @@ import thut.api.entity.animation.IAnimationChanger;
 import thut.bling.client.render.Util;
 import thut.core.client.render.animation.AnimationChanger;
 import thut.core.client.render.animation.AnimationLoader;
-import thut.core.client.render.model.IModel;
-import thut.core.client.render.model.IModelRenderer;
+import thut.api.model.IModel;
+import thut.api.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
-import thut.core.client.render.texturing.IPartTexturer;
+import thut.api.model.texture.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
-import thut.lib.AxisAngles;
-import thut.lib.ResourceHelper;
+import thut.api.util.AxisAngles;
+import thut.api.util.ResourceHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

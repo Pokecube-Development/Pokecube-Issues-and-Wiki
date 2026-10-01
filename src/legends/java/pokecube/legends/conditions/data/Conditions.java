@@ -37,7 +37,7 @@ import pokecube.legends.spawns.LegendarySpawn;
 import pokecube.mobs.moves.world.ActionTeleport;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

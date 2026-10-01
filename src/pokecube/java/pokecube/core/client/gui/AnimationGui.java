@@ -48,7 +48,7 @@ import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.List;
 import java.util.Locale;

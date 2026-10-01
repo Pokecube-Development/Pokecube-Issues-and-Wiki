@@ -28,7 +28,7 @@ import pokecube.core.utils.EntityTools;
 import thut.api.ThutCaps;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.RootTask;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 
 import java.util.ArrayList;

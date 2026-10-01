@@ -34,7 +34,7 @@ import pokecube.core.utils.Permissions;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.ThutCore;
-import thut.core.common.handlers.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler;
 
 public class Restore
 {

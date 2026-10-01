@@ -62,7 +62,7 @@ import thut.api.data.HolderProvider;
 import thut.api.inventory.InvHelper;
 import thut.api.item.ItemList;
 import thut.core.common.config.Config;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;

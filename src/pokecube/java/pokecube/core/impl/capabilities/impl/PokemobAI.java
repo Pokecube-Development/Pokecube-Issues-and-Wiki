@@ -39,11 +39,11 @@ import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.PokecubeSerializer;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.attachments.IOwnable;
 import thut.api.entity.ai.IAIRunnable;
-import thut.core.common.ThutCore;
-import thut.core.common.genetics.DefaultGenetics;
+import thut.api.entity.genetics.DefaultGenetics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -269,7 +269,7 @@ public abstract class PokemobAI extends PokemobEvolves
         // If the mob was constructed without a world somehow (during init for
         // JEI, etc), do not bother with AI stuff.
         entity.level();
-        if (ThutCore.proxy.isClientSide())
+        if (ThutAPI.isClientSide())
         {
             PokecubeAPI.POKEMOB_BUS.post(new InitAIEvent.Post(this));
             return;
@@ -320,7 +320,7 @@ public abstract class PokemobAI extends PokemobEvolves
     {
         // If the mob was constructed without a world somehow (during init for
         // JEI, etc), do not bother with AI stuff.
-        if (ThutCore.proxy.isClientSide()) return;
+        if (ThutAPI.isClientSide()) return;
 
         // Set the pathing priorities for various blocks
         if (entity.fireImmune())

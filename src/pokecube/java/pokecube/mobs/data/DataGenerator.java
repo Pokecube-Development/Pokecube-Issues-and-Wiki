@@ -30,8 +30,8 @@ import pokecube.core.init.ItemGenerator;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.items.vitamins.ItemVitamin;
-import thut.lib.RegHelper;
-import thut.lib.ResourceHelper;;
+import thut.api.util.RegHelper;
+import thut.api.util.ResourceHelper;;
 
 public class DataGenerator
 {

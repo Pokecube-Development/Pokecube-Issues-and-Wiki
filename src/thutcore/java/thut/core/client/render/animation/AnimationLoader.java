@@ -10,25 +10,26 @@ import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationLoadEvent;
+import thut.api.entity.animation.AnimationXML;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.entity.animation.IAnimationChanger.WornOffsets;
-import thut.core.client.render.animation.AnimationXML.CustomTex;
-import thut.core.client.render.animation.AnimationXML.Mat;
-import thut.core.client.render.animation.AnimationXML.Merge;
-import thut.core.client.render.animation.AnimationXML.ModelMetadata;
-import thut.core.client.render.animation.AnimationXML.Phase;
-import thut.core.client.render.animation.AnimationXML.TexPart;
-import thut.core.client.render.animation.AnimationXML.Worn;
-import thut.core.client.render.animation.AnimationXML.XMLFile;
-import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.model.IModel;
-import thut.core.client.render.model.IModelRenderer;
-import thut.core.client.render.model.parts.Material;
-import thut.core.client.render.model.parts.Part;
-import thut.core.client.render.texturing.IPartTexturer;
+import thut.api.entity.animation.AnimationXML.CustomTex;
+import thut.api.entity.animation.AnimationXML.Mat;
+import thut.api.entity.animation.AnimationXML.Merge;
+import thut.api.entity.animation.AnimationXML.ModelMetadata;
+import thut.api.entity.animation.AnimationXML.Phase;
+import thut.api.entity.animation.AnimationXML.TexPart;
+import thut.api.entity.animation.AnimationXML.Worn;
+import thut.api.entity.animation.AnimationXML.XMLFile;
+import thut.api.model.IExtendedModelPart;
+import thut.api.model.IModel;
+import thut.api.model.IModelRenderer;
+import thut.api.model.Material;
+import thut.api.model.Part;
+import thut.api.model.texture.IPartTexturer;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.common.ThutCore;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,19 +51,6 @@ public class AnimationLoader
         if (key == null) return;
         final String[] names = key.split(":");
         for (final String s : names) toAddTo.add(ThutCore.trim(s));
-    }
-
-    public static Vector3f getVector3(final String shift, final Vector3f default_)
-    {
-        if (shift == null || shift.isEmpty()) return default_;
-        final Vector3f vect = default_ == null ? new Vector3f() : new Vector3f(default_);
-        String[] r;
-        r = shift.split(",");
-        if (r.length == 1)
-            vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()));
-        else if (r.length == 3)
-            vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()));
-        return vect;
     }
 
     public static Vector3f getRotation(final String rotation, final Vector3f default_)
@@ -166,8 +154,8 @@ public class AnimationLoader
                     final String name = ThutCore.trim(phase.name);
                     if (name.equals("global"))
                     {
-                        offset = AnimationLoader.getVector3(phase.values.get(new QName("offset")), offset);
-                        scale = AnimationLoader.getVector3(phase.values.get(new QName("scale")), scale);
+                        offset = AnimationXML.getVector3(phase.values.get(new QName("offset")), offset);
+                        scale = AnimationXML.getVector3(phase.values.get(new QName("scale")), scale);
                         rotation = AnimationLoader.getRotation(phase.values.get(new QName("rotation")), rotation);
                     }
                     else if (name.equals("textures")) texPhases.add(phase);
@@ -226,8 +214,8 @@ public class AnimationLoader
             {
                 var partNames = attachment.part.split(":");
                 var attachmentNames = attachment.name.split(":");
-                var _location = AnimationLoader.getVector3(attachment.location, new Vector3f());
-                var _rotation = AnimationLoader.getVector3(attachment.rotation, new Vector3f());
+                var _location = AnimationXML.getVector3(attachment.location, new Vector3f());
+                var _rotation = AnimationXML.getVector3(attachment.rotation, new Vector3f());
                 for (var partName : partNames)
                 {
                     if (model.getParts().get(partName) instanceof Part part)
@@ -262,9 +250,9 @@ public class AnimationLoader
             // Handle worn offsets.
             for (final Worn worn : file.model.worn)
             {
-                var w_offset = AnimationLoader.getVector3(worn.offset, null);
-                var w_angles = AnimationLoader.getVector3(worn.angles, null);
-                var w_scale = AnimationLoader.getVector3(worn.scale, null);
+                var w_offset = AnimationXML.getVector3(worn.offset, null);
+                var w_angles = AnimationXML.getVector3(worn.angles, null);
+                var w_scale = AnimationXML.getVector3(worn.scale, null);
                 final String w_parent = worn.parent;
                 final String w_ident = worn.id;
                 wornOffsets.put(w_ident, new WornOffsets(w_parent, w_offset, w_scale, w_angles));

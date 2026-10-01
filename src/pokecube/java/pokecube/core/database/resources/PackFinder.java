@@ -23,7 +23,7 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;

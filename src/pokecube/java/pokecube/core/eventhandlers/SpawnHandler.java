@@ -67,13 +67,13 @@ import thut.api.Tracker;
 import thut.api.boom.ExplosionCustom;
 import thut.api.boom.ExplosionCustom.DefaultBreaker;
 import thut.api.level.terrain.BiomeType;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import javax.annotation.Nullable;
 import java.util.Collections;

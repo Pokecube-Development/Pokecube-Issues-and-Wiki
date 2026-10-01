@@ -20,7 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.Reference;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class SmallContaminatedDripleafBlock extends SmallDripleafBlock
         implements BonemealableBlock, SimpleWaterloggedBlock

@@ -12,7 +12,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.api.entity.animation.CapabilityAnimation;
 import thut.bling.ThutBling;
 import thut.bling.client.render.Ankle;
 import thut.bling.client.render.Back;
@@ -26,9 +25,9 @@ import thut.bling.client.render.Waist;
 import thut.bling.client.render.Wrist;
 import thut.bling.data.GemData;
 import thut.core.client.render.animation.AnimationHelper;
-import thut.core.client.render.model.IModel;
-import thut.core.client.render.model.IModelCustom;
-import thut.lib.RegHelper;
+import thut.api.model.IModel;
+import thut.api.model.IModelCustom;
+import thut.api.util.RegHelper;
 import thut.wearables.EnumWearable;
 
 public abstract class BlingRenderBase

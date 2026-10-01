@@ -21,7 +21,7 @@ import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.Tools;
 import thut.api.util.JsonUtil;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.Locale;
 import java.util.Optional;

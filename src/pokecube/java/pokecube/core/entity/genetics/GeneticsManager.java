@@ -27,7 +27,7 @@ import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.ThutCore;
-import thut.core.common.genetics.DefaultGenetics;
+import thut.api.entity.genetics.DefaultGenetics;
 
 import javax.annotation.Nullable;
 import java.util.List;

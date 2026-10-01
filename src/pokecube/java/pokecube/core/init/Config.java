@@ -39,7 +39,7 @@ import thut.api.maths.Interpolator1d;
 import thut.api.util.JsonUtil;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;

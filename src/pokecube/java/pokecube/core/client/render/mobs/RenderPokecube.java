@@ -30,7 +30,7 @@ import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.bling.client.render.Util;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.HashMap;
 

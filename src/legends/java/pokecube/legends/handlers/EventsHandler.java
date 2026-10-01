@@ -14,7 +14,7 @@ import pokecube.legends.blocks.properties.Strippables;
 import pokecube.legends.blocks.properties.Tillables;
 import pokecube.legends.init.ItemInit;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class EventsHandler
 {

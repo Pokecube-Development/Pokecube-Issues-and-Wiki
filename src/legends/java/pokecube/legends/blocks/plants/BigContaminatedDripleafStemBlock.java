@@ -27,7 +27,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.Reference;
 import pokecube.legends.init.PlantsInit;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
         implements BonemealableBlock, SimpleWaterloggedBlock

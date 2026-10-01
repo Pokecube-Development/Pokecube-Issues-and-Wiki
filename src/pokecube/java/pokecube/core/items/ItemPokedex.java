@@ -46,7 +46,7 @@ import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
-import thut.core.common.handlers.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler;
 import thut.core.common.network.TerrainUpdate;
 
 import java.util.Set;

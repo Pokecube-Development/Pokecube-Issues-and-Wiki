@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.common.util.INBTSerializable;
-import thut.core.common.handlers.PlayerDataHandler.PlayerData;
+import thut.api.data.PlayerDataHandler.PlayerData;
 
 import java.util.HashSet;
 import java.util.Map;

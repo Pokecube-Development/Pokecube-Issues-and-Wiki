@@ -17,7 +17,7 @@ import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.legends.blocks.customblocks.PortalWarp;
 import pokecube.legends.init.BlockInit;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 

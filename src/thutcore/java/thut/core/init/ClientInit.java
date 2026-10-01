@@ -51,16 +51,16 @@ import thut.api.entity.ICopyMob;
 import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.core.client.gui.NpcScreen;
-import thut.core.client.render.model.parts.Mesh;
+import thut.api.model.Mesh;
 import thut.core.client.render.particle.ParticleFactories;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 @EventBusSubscriber(value = Dist.CLIENT)
 public class ClientInit

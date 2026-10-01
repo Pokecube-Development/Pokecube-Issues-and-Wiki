@@ -1,0 +1,288 @@
+package thut.api.model;
+
+import com.google.common.collect.Sets;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.maths.Vector4;
+import thut.api.entity.animation.AnimationXML.Mat;
+import thut.api.model.texture.IPartTexturer;
+import thut.api.model.texture.IRetexturableModel.Holder;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
+
+public interface IExtendedModelPart extends IModelCustom, Comparable<IExtendedModelPart>
+{
+
+    public static interface IPartRenderAdder
+    {
+        boolean shouldAddTo(IExtendedModelPart part);
+
+        void onRender(PoseStack mat, IExtendedModelPart part);
+    }
+
+    public static void sort(final List<IExtendedModelPart> order, final Map<String, IExtendedModelPart> parts)
+    {
+        order.clear();
+        order.addAll(parts.values());
+        order.sort((o1, o2) -> {
+            boolean transp1 = false;
+            boolean transp2 = false;
+            for (final Material m : o1.getMaterials())
+            {
+                if (m == null)
+                {
+                    continue;
+                }
+                transp1 = m.transluscent || m.alpha < 1;
+                if (transp1) break;
+            }
+            for (final Material m : o2.getMaterials())
+            {
+                if (m == null)
+                {
+                    continue;
+                }
+                transp2 = m.transluscent || m.alpha < 1;
+                if (transp2) break;
+            }
+            if (transp1 != transp2) return transp1 ? 1 : -1;
+            return o1.getName().compareTo(o2.getName());
+        });
+    }
+
+    public static void sortMeshes(final List<Mesh> meshes)
+    {
+        meshes.sort(null);
+    }
+
+    void addPartRenderAdder(IPartRenderAdder adder);
+
+    /**
+     * This can occur during render thread, mostly for adding layers
+     */
+    void addChild(IExtendedModelPart child);
+
+    void applyTexture(MultiBufferSource bufferIn, ResourceLocation tex, IPartTexturer texer);
+
+    void markAsAnimated();
+
+    boolean isAnimated();
+
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
+    default void tryCombineChildren(){}
+
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
+    default void preProcess()
+    {
+        var parent = this.getParent();
+        var child = this;
+        child.getRecursiveChildNames().addAll(this.getSubParts().keySet());
+        String name = child.getName();
+        while (parent != null)
+        {
+            this.getParentNames().add(parent.getName());
+            parent.getRecursiveChildNames().add(name);
+            parent.getRecursiveChildNames().addAll(child.getRecursiveChildNames());
+            child = parent;
+            name = child.getName();
+            parent = parent.getParent();
+            this.setDepth(this.getDepth() + 1);
+        }
+        for (final IExtendedModelPart o : this.getSubParts().values()) o.preProcess();
+    }
+
+    default Entity convertToGlobal(PoseStack mat, Vector3f fill)
+    {
+        var holderSup = this.getAnimationHolder();
+        if (holderSup == null || holderSup.get() == null) return null;
+        if (holderSup.get().getContext() == null) return null;
+        if (!(holderSup.get().getContext().getContext() instanceof Entity e)) return null;
+
+        PoseStack mat2 = new PoseStack();
+        mat2.last().pose().set(mat.last().pose());
+        this.preRender(mat2);
+
+        Vector4f test = new Vector4f(0, 0, 0, 1);
+        test.mul(mat2.last().pose());
+
+        // Distance left/right
+        double dx = test.x();
+        // Distance up/down, this one is inverted it seems
+        double dy = test.y();
+        // Distance centered
+        double dz = test.z();
+
+        var camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+
+        var pos = camera.getPosition();
+        // And subtract from camera location.
+        fill.set((float) (dx + pos.x()), (float) (dy + pos.y()), (float) (dz + pos.z()));
+
+        return e;
+    }
+
+    List<Mesh> getRenderMeshes();
+
+    /**
+     * This applies transforms to mat, running back up the parent tree.
+     */
+    default void preRender(PoseStack mat)
+    {
+
+    }
+
+    /**
+     * This removes transforms from mat, running back up the parent tree.
+     */
+    default void postRender(PoseStack mat)
+    {
+
+    }
+
+    String getName();
+
+    IExtendedModelPart getParent();
+
+    /**
+     * Depth in the render tree
+     */
+    int getDepth();
+
+    void setDepth(int n);
+
+    @Override
+    default int compareTo(@NotNull IExtendedModelPart o)
+    {
+        return this.getDepth() - o.getDepth();
+    }
+
+    <T extends IExtendedModelPart> Map<String, T> getSubParts();
+
+    List<IExtendedModelPart> getPartsList();
+
+    String getType();
+
+    /**
+     * Returns the part to the pre-rendered state
+     */
+    void resetToInit();
+
+    /**
+     * Applies required transformations to get the part ready to render.
+     */
+    void transformForRender();
+
+    /**
+     * @return the transformed location for our rendering.
+     */
+    PoseInfo getRenderPose();
+
+    default void setHeadPart(final boolean isHead)
+    {
+
+    }
+
+    default boolean isHeadPart()
+    {
+        return false;
+    }
+
+    default void setHidden(final boolean hidden)
+    {
+
+    }
+
+    default boolean isHidden()
+    {
+        return false;
+    }
+
+    default void setDisabled(final boolean disabled)
+    {
+
+    }
+
+    default boolean isDisabled()
+    {
+        return false;
+    }
+
+    default boolean is2D()
+    {
+        return false;
+    }
+
+    /**
+     * This occurs outside the main render loop,
+     * synchronized and slow blocks are "fine".
+     */
+    default void updateMaterial(final Mat mat, final Material material)
+    {
+    }
+
+    default Set<String> getParentNames()
+    {
+        return Sets.newHashSet();
+    }
+
+    default Set<String> getRecursiveChildNames()
+    {
+        return Sets.newHashSet();
+    }
+
+    default void setAnimAngles(float rx, float ry, float rz)
+    {}
+
+    default void setDefaultAngles(float rx, float ry, float rz)
+    {}
+
+    Holder<IAnimationHolder> getAnimationHolder();
+
+    void setAnimationHolder(Holder<IAnimationHolder> input);
+
+    void setParent(IExtendedModelPart parent);
+
+    void setPostRotations(Vector4 rotations);
+
+    void setPreRotations(Vector4 rotations);
+
+    void setPreScale(Vector3f scale);
+
+    default void setBaseTranslationsAndScale(Vector3f translation, Vector3f scale){}
+
+    /**
+     * Multiplies render scaling factor by scale,
+     * this should get automatically reset after the render call.
+     */
+    void mulPostScale(Vector3f scale);
+
+    void setPreTranslations(Vector3f translations);
+
+    void setColorScales(float r, float g, float b, float a);
+
+    void setRGBABrO(@Nullable Predicate<Material> material, int r, int g, int b, int a, int br, int o);
+
+    default void setRGBABrO(int r, int g, int b, int a, int br, int o)
+    {
+        setRGBABrO(m -> true, r, g, b, a, br, o);
+    }
+
+    default void setColourOverridden(){}
+}

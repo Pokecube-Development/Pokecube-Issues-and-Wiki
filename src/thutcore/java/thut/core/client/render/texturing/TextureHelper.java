@@ -16,20 +16,21 @@ import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import pokecube.api.PokecubeAPI;
 import thut.api.ThutCaps;
 import thut.api.entity.IMobTexturable;
-import thut.core.client.render.animation.AnimationXML.ColourTex;
-import thut.core.client.render.animation.AnimationXML.CustomTex;
-import thut.core.client.render.animation.AnimationXML.Phase;
-import thut.core.client.render.animation.AnimationXML.RNGFixed;
-import thut.core.client.render.animation.AnimationXML.TexAnim;
-import thut.core.client.render.animation.AnimationXML.TexCustom;
-import thut.core.client.render.animation.AnimationXML.TexForm;
-import thut.core.client.render.animation.AnimationXML.TexPart;
+import thut.api.entity.animation.AnimationXML.ColourTex;
+import thut.api.entity.animation.AnimationXML.CustomTex;
+import thut.api.entity.animation.AnimationXML.Phase;
+import thut.api.entity.animation.AnimationXML.RNGFixed;
+import thut.api.entity.animation.AnimationXML.TexAnim;
+import thut.api.entity.animation.AnimationXML.TexCustom;
+import thut.api.entity.animation.AnimationXML.TexForm;
+import thut.api.entity.animation.AnimationXML.TexPart;
+import thut.api.model.texture.IPartTexturer;
 import thut.core.client.render.texturing.states.Colour;
 import thut.core.client.render.texturing.states.RandomFixed;
 import thut.core.client.render.texturing.states.RandomState;
 import thut.core.client.render.texturing.states.Sequence;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class TextureHelper implements IPartTexturer
 {
@@ -387,16 +388,18 @@ public class TextureHelper implements IPartTexturer
     }
 
     @Override
-    public boolean shiftUVs(final String part, final double[] toFill)
+    public void shiftUVs(final String part, final double[] toFill)
     {
         toFill[0] = toFill[1] = 0;
-        if (this.mob == null) return false;
+        if (this.mob == null) return;
         final Set<RandomFixed> offsets = this.fixedOffsets.getOrDefault(part, Collections.emptySet());
         for (final RandomFixed state : offsets) state.applyState(toFill, this.mob);
-        if (!offsets.isEmpty()) return true;
+        if (!offsets.isEmpty()) return;
         TexState state;
-        if ((state = this.texStates.get(part)) != null) return state.applyState(toFill, this.mob);
-        return false;
+        if ((state = this.texStates.get(part)) != null)
+        {
+            state.applyState(toFill, this.mob);
+        }
     }
 
     @Override

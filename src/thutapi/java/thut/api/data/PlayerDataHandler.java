@@ -1,0 +1,297 @@
+package thut.api.data;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
+import io.netty.buffer.ByteBuf;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtAccounter;
+import net.minecraft.nbt.NbtIo;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import thut.api.ThutAPI;
+
+public class PlayerDataHandler
+{
+    private static interface IPlayerData
+    {
+        String dataFileName();
+
+        String getIdentifier();
+
+        void readFromNBT(Provider provider, CompoundTag tag);
+
+        void readSync(ByteBuf data);
+
+        boolean shouldSync();
+
+        void writeSync(ByteBuf data);
+
+        void writeToNBT(Provider provider, CompoundTag tag);
+
+        default void onPlayerTick(final PlayerTickEvent event)
+        {
+
+        }
+
+        default void onPlayerUpdate(final EntityTickEvent.Pre event)
+        {
+
+        }
+
+        default boolean canTick()
+        {
+            return false;
+        }
+    }
+
+    public static abstract class PlayerData implements IPlayerData
+    {
+        @Override
+        public void readSync(final ByteBuf data)
+        {}
+
+        @Override
+        public void writeSync(final ByteBuf data)
+        {}
+    }
+
+    public static class PlayerDataManager
+    {
+        public Map<Class<? extends PlayerData>, PlayerData> data = Maps.newHashMap();
+        Map<String, PlayerData> idMap = Maps.newHashMap();
+        final String uuid;
+
+        public PlayerDataManager(final String uuid)
+        {
+            this.uuid = uuid;
+            for (final Class<? extends PlayerData> type : PlayerDataHandler.dataMap) try
+            {
+                final PlayerData toAdd = type.getConstructor().newInstance();
+                this.data.put(type, toAdd);
+                this.idMap.put(toAdd.getIdentifier(), toAdd);
+            }
+            catch (final Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        public <T extends PlayerData> T getData(final Class<T> type)
+        {
+            return (T) this.data.get(type);
+        }
+
+        public PlayerData getData(final String dataType)
+        {
+            return this.idMap.get(dataType);
+        }
+    }
+
+    private static final Set<Class<? extends PlayerData>> dataMap = Sets.newHashSet();
+    private static final Set<String> dataIds = Sets.newHashSet();
+    private static PlayerDataHandler INSTANCESERVER;
+    private static PlayerDataHandler INSTANCECLIENT;
+
+    public static void clear()
+    {
+        if (PlayerDataHandler.INSTANCECLIENT != null) NeoForge.EVENT_BUS.unregister(PlayerDataHandler.INSTANCECLIENT);
+        if (PlayerDataHandler.INSTANCESERVER != null) NeoForge.EVENT_BUS.unregister(PlayerDataHandler.INSTANCESERVER);
+        PlayerDataHandler.INSTANCECLIENT = PlayerDataHandler.INSTANCESERVER = null;
+    }
+
+    public static Set<String> getDataIDs()
+    {
+        if (PlayerDataHandler.dataIds.size() != PlayerDataHandler.dataMap.size())
+            for (final Class<? extends PlayerData> type : PlayerDataHandler.dataMap)
+        {
+            PlayerData toAdd;
+            try
+            {
+                toAdd = type.getConstructor().newInstance();
+                PlayerDataHandler.dataIds.add(toAdd.getIdentifier());
+            }
+            catch (final Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return PlayerDataHandler.dataIds;
+    }
+
+    public static PlayerDataHandler getInstance()
+    {
+        if (ThutAPI.isClientSide()) return PlayerDataHandler.INSTANCECLIENT != null
+                ? PlayerDataHandler.INSTANCECLIENT
+                : (PlayerDataHandler.INSTANCECLIENT = new PlayerDataHandler());
+        return PlayerDataHandler.INSTANCESERVER != null
+                ? PlayerDataHandler.INSTANCESERVER
+                : (PlayerDataHandler.INSTANCESERVER = new PlayerDataHandler());
+    }
+
+    public static void register(final Class<? extends PlayerData> data)
+    {
+        PlayerDataHandler.dataMap.add(data);
+    }
+
+    public static void saveCustomData(final Player player)
+    {
+        PlayerDataHandler.saveCustomData(player.registryAccess(), player.getStringUUID());
+    }
+
+    public static void saveCustomData(Provider provider, final String cachedUniqueIdString)
+    {
+        PlayerDataHandler.getInstance().save(provider, cachedUniqueIdString, "misc");
+    }
+
+    private final Map<String, PlayerDataManager> data = Maps.newHashMap();
+
+    public PlayerDataHandler()
+    {
+        NeoForge.EVENT_BUS.register(this);
+    }
+
+    @SubscribeEvent
+    public void cleanupOfflineData(final LevelEvent.Save event)
+    {
+        // Whenever overworld saves, check player list for any that are not
+        // online, and remove them. This is done here, and not on logoff, as
+        // something may have requested the manager for an offline player, which
+        // would have loaded it.
+        final Set<String> toUnload = Sets.newHashSet();
+        final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        for (final String uuid : this.data.keySet())
+        {
+            final ServerPlayer player = server.getPlayerList().getPlayer(UUID.fromString(uuid));
+            if (player == null) toUnload.add(uuid);
+        }
+        for (final String s : toUnload)
+        {
+            this.save(server.registryAccess(), s);
+            this.data.remove(s);
+        }
+    }
+
+    public PlayerDataManager getPlayerData(final Player player)
+    {
+        return this.getPlayerData(player.registryAccess(), player.getStringUUID());
+    }
+
+    public PlayerDataManager getPlayerData(Provider provider, final String uuid)
+    {
+        PlayerDataManager manager = this.data.get(uuid);
+        if (manager == null) manager = this.load(provider, uuid);
+        return manager;
+    }
+
+    public PlayerDataManager getPlayerData(Provider provider, final UUID uniqueID)
+    {
+        return this.getPlayerData(provider, uniqueID.toString());
+    }
+
+    public PlayerDataManager load(Provider provider, final String uuid)
+    {
+        final PlayerDataManager manager = new PlayerDataManager(uuid);
+        if (this == PlayerDataHandler.INSTANCESERVER) for (final PlayerData data : manager.data.values())
+        {
+            final String fileName = data.dataFileName();
+            File file = null;
+            try
+            {
+                file = PlayerDataFiles.getFileForUUID(uuid, fileName);
+            }
+            catch (final Exception e)
+            {
+
+            }
+            if (file != null && file.exists()) try
+            {
+                final FileInputStream fileinputstream = new FileInputStream(file);
+                final CompoundTag CompoundNBT = NbtIo.readCompressed(fileinputstream, NbtAccounter.create(104857600L));
+                fileinputstream.close();
+                data.readFromNBT(provider, CompoundNBT.getCompound("Data"));
+            }
+            catch (final Exception e)
+            {
+                ThutAPI.LOGGER.error("Warning, Data for {} [} was corrupted while trying to load!", uuid, fileName, e);
+            }
+        }
+        this.data.put(uuid, manager);
+        return manager;
+    }
+
+    public void save(Provider provider, final String uuid)
+    {
+        final PlayerDataManager manager = this.data.get(uuid);
+        if (manager != null && this == PlayerDataHandler.INSTANCESERVER)
+            for (final PlayerData data : manager.data.values())
+        {
+            final String fileName = data.dataFileName();
+            final File file = PlayerDataFiles.getFileForUUID(uuid, fileName);
+            if (file != null)
+            {
+                final CompoundTag CompoundNBT = new CompoundTag();
+                data.writeToNBT(provider, CompoundNBT);
+                final CompoundTag CompoundNBT1 = new CompoundTag();
+                CompoundNBT1.put("Data", CompoundNBT);
+                try
+                {
+                    final FileOutputStream fileoutputstream = new FileOutputStream(file);
+                    NbtIo.writeCompressed(CompoundNBT1, fileoutputstream);
+                    fileoutputstream.close();
+                }
+                catch (final Exception e)
+                {
+                    ThutAPI.LOGGER.error("Warning, Data for {} [} was corrupted while trying to save!", uuid, fileName,
+                            e);
+                }
+            }
+        }
+    }
+
+    public void save(Provider provider, final String uuid, final String dataType)
+    {
+        final PlayerDataManager manager = this.data.get(uuid);
+        if (manager != null && this == PlayerDataHandler.INSTANCESERVER)
+            for (final PlayerData data : manager.data.values())
+        {
+            if (!data.getIdentifier().equals(dataType)) continue;
+            final String fileName = data.dataFileName();
+            final File file = PlayerDataFiles.getFileForUUID(uuid, fileName);
+            if (file != null)
+            {
+                final CompoundTag CompoundNBT = new CompoundTag();
+                data.writeToNBT(provider, CompoundNBT);
+                final CompoundTag CompoundNBT1 = new CompoundTag();
+                CompoundNBT1.put("Data", CompoundNBT);
+                try
+                {
+                    final FileOutputStream fileoutputstream = new FileOutputStream(file);
+                    NbtIo.writeCompressed(CompoundNBT1, fileoutputstream);
+                    fileoutputstream.close();
+                }
+                catch (final Exception e)
+                {
+                    ThutAPI.LOGGER.error("Warning, Data for {} [} was corrupted while trying to save!", uuid, fileName,
+                            e);
+                }
+            }
+        }
+    }
+}

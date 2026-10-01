@@ -28,13 +28,13 @@ import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.ItemBase
 import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.ThutAPI;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.core.common.genetics.DefaultGenetics;
+import thut.api.entity.genetics.DefaultGenetics;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +50,7 @@ public class RecipeExtract extends PoweredRecipe
         {
             CompoundTag tag = new CompoundTag();
             tag.putString("id", gene.getKey().toString());
-            tag.put("gene", gene.save(PokecubeCore.proxy.getRegistries()));
+            tag.put("gene", gene.save(ThutAPI.getRegistries()));
             tag.putInt("weight", weight);
             return tag;
         }
@@ -62,7 +62,7 @@ public class RecipeExtract extends PoweredRecipe
             if (!tag.contains("weight")) weight = 1;
             try
             {
-                var gene = GeneRegistry.load(PokecubeCore.proxy.getRegistries(), tag.getCompound("gene"), id);
+                var gene = GeneRegistry.load(ThutAPI.getRegistries(), tag.getCompound("gene"), id);
                 return new WeightedGene(gene, weight);
             }
             catch (Exception e)

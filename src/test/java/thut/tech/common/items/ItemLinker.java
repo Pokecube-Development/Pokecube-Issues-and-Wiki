@@ -13,7 +13,7 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import thut.api.entity.blockentity.block.TempTile;
+import thut.core.common.blockentity.block.TempTile;
 import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
 import thut.tech.common.entity.EntityLift;

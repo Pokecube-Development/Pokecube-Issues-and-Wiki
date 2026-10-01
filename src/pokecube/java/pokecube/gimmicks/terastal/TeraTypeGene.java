@@ -15,6 +15,7 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.entity.genetics.GeneticsManager;
+import thut.api.ThutAPI;
 import thut.api.entity.genetics.Gene;
 import thut.bling.ThutBling;
 import thut.bling.data.GemData;
@@ -46,7 +47,7 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
     {
         if (SILLY_HATS.isEmpty())
         {
-            var provider = PokecubeCore.proxy.getRegistries();
+            var provider = ThutAPI.getRegistries();
             for (PokeType type : PokeType.values())
             {
                 ItemStack HAT = PokecubeItems.getStack(ResourceLocation.parse("thut_bling:bling_hat"));

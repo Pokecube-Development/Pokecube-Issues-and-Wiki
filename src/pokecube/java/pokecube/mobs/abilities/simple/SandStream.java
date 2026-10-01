@@ -8,9 +8,8 @@ import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.Tracker;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
-import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TerrainUpdate;
 

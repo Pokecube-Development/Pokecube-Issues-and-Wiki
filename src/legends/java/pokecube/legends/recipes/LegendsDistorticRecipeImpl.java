@@ -16,7 +16,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class LegendsDistorticRecipeImpl implements Recipe<CraftingInput>
 {

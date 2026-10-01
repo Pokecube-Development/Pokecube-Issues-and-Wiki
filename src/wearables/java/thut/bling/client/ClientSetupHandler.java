@@ -26,7 +26,7 @@ import thut.bling.bag.large.LargeContainer;
 import thut.bling.client.gui.LargeEnderBag;
 import thut.bling.client.gui.SmallBag;
 import thut.bling.client.render.Util;
-import thut.core.client.render.model.IModel;
+import thut.api.model.IModel;
 import thut.wearables.EnumWearable;
 
 @EventBusSubscriber(modid = ThutBling.MODID, value = Dist.CLIENT)

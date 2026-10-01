@@ -9,13 +9,13 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.network.packets.PacketDataSync;
-import thut.core.common.handlers.PlayerDataHandler;
+import thut.api.ThutAPI;
+import thut.api.data.PlayerDataHandler;
 
 /** @author Thutmose */
 public class StatsCollector
@@ -76,7 +76,7 @@ public class StatsCollector
 
     private static Provider access()
     {
-        return PokecubeCore.proxy.getRegistries();
+        return ThutAPI.getRegistries();
     }
 
     public static int getCaptured(final PokedexEntry dbe, final Player player)

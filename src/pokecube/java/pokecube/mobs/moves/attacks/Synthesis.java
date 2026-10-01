@@ -5,7 +5,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.HealProvider;
 import pokecube.core.moves.PokemobTerrainEffects;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 
 @MoveProvider(name = "synthesis")

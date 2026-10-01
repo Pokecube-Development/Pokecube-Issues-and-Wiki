@@ -17,6 +17,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
 import net.neoforged.neoforge.common.util.TriState;
+import thut.api.level.structures.NamedVolumes;
 
 import javax.annotation.Nullable;
 
@@ -38,12 +39,12 @@ public class StructureEvent extends Event
     {
         private final BoundingBox bounds;
         private final StructurePlaceSettings settings;
-        private final String structure;
+        private final NamedVolumes.INamedPart structure;
         private String structureOverride;
         private final LevelAccessor world;
         private final WorldGenLevel worldGen;
 
-        public BuildStructure(final BoundingBox bounds, final WorldGenLevel world, final String name,
+        public BuildStructure(final BoundingBox bounds, final WorldGenLevel world, final NamedVolumes.INamedPart name,
                 final StructurePlaceSettings settings)
         {
             this.structure = name;
@@ -68,7 +69,7 @@ public class StructureEvent extends Event
             return this.settings;
         }
 
-        public String getStructure()
+        public NamedVolumes.INamedPart getStructure()
         {
             return this.structure;
         }

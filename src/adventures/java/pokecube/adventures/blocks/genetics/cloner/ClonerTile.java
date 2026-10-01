@@ -18,7 +18,7 @@ import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.GeneticsTileParentable;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
-import pokecube.core.PokecubeCore;
+import thut.api.ThutAPI;
 import thut.api.item.ItemList;
 
 public class ClonerTile extends GeneticsTileParentable<ClonerTile>
@@ -59,7 +59,7 @@ public class ClonerTile extends GeneticsTileParentable<ClonerTile>
     @Override
     public boolean canPlaceItem(final int index, final ItemStack stack)
     {
-        var access = this.getLevel() != null ? this.getLevel().registryAccess() : PokecubeCore.proxy.getRegistries();
+        var access = this.getLevel() != null ? this.getLevel().registryAccess() : ThutAPI.getRegistries();
         return switch (index)
         {
             case 0 ->// DNA Container

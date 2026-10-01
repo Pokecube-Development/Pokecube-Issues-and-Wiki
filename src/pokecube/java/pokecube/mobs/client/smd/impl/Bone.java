@@ -1,11 +1,10 @@
 package pokecube.mobs.client.smd.impl;
 
 import org.joml.Matrix4f;
-import thut.core.client.render.model.IModelCustom;
+import thut.api.model.IModelCustom;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /** Bone, has associated Vertices for stretching. */

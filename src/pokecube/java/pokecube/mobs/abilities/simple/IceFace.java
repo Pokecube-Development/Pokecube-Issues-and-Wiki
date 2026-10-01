@@ -9,7 +9,7 @@ import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.Database;
 import pokecube.core.moves.PokemobTerrainEffects;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 
 @AbilityProvider(name = "ice-face")

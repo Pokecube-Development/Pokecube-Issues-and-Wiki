@@ -26,6 +26,7 @@ import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.ThutAPI;
 
 import java.util.function.Predicate;
 
@@ -387,7 +388,7 @@ public class Pokemob extends Page
                 final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
                 message.getTag().putInt("I", this.parent.entity.getId());
                 message.getTag().putInt("__trainers__", this.index);
-                message.getTag().put("__pokemob__", stack.save(PokecubeCore.proxy.getRegistries(), tag));
+                message.getTag().put("__pokemob__", stack.save(ThutAPI.getRegistries(), tag));
                 message.getTag().putBoolean("__reopen__", newMob);
                 PacketTrainer.ASSEMBLER.sendToServer(message.getTag());
 

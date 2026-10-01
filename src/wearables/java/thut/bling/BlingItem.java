@@ -34,7 +34,7 @@ import thut.api.item.ItemList;
 import thut.bling.client.ClientSetupHandler;
 import thut.bling.network.PacketBag;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 

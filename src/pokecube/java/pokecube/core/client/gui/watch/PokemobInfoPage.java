@@ -44,7 +44,7 @@ import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.core.common.handlers.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler;
 
 public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 {

@@ -1,0 +1,47 @@
+package thut.api.model.texture;
+
+import java.io.IOException;
+
+import com.mojang.blaze3d.platform.NativeImage;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.SimpleTexture;
+import net.minecraft.resources.ResourceLocation;
+import thut.api.ThutAPI;
+
+public class BaseTexture extends SimpleTexture
+{
+    private static final float[] DEFAULT_SCALE =
+    { 1, 1 };
+    private static final float[] DEFAULT_OFFSET =
+    { 0, 0 };
+
+    public BaseTexture(ResourceLocation location)
+    {
+        super(location);
+    }
+
+    public NativeImage getImage()
+    {
+        try
+        {
+            var manager = Minecraft.getInstance().getResourceManager();
+            return this.getTextureImage(manager).getImage();
+        }
+        catch (IOException e)
+        {
+            ThutAPI.LOGGER.error(e);
+        }
+        return null;
+    }
+
+    public float[] getTexScale()
+    {
+        return DEFAULT_SCALE;
+    }
+
+    public float[] getTexOffset()
+    {
+        return DEFAULT_OFFSET;
+    }
+}

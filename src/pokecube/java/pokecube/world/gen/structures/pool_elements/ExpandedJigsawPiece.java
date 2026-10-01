@@ -66,66 +66,48 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
 {
     public static MapCodec<ExpandedJigsawPiece> makeCodec()
     {
-        return RecordCodecBuilder.mapCodec((instance) -> {
-            return instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
-                    StructurePoolElement.projectionCodec(), overrideLiquidSettingsCodec(),
-                    Ints.CODEC.fieldOf("int_config").orElse(Ints.DEFAULT).forGetter(s -> s.int_config),
-                    Bools.CODEC.fieldOf("bool_config").orElse(Bools.DEFAULT).forGetter(s -> s.bool_config),
-                    Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
-                    Codec.STRING.fieldOf("name").orElse("none").forGetter(s -> s.biome_type),
-                    Codec.STRING.fieldOf("flags").orElse("").forGetter(s -> s.flags),
-                    Codec.STRING.fieldOf("needed_flags").orElse("").forGetter(s -> s.needed_flags),
-                    Codec.STRING.fieldOf("no_connect_flags").orElse("").forGetter(s -> s.no_connect_flags),
-                    ResourceLocation.CODEC.listOf().fieldOf("extra_pools").orElse(new ArrayList<>())
-                            .forGetter(s -> s.extra_pools)).apply(instance, ExpandedJigsawPiece::new);
-        });
+        return RecordCodecBuilder.mapCodec(
+                (instance) -> instance.group(SinglePoolElement.templateCodec(), SinglePoolElement.processorsCodec(),
+                        StructurePoolElement.projectionCodec(), overrideLiquidSettingsCodec(),
+                        Ints.CODEC.fieldOf("int_config").orElse(Ints.DEFAULT).forGetter(s -> s.int_config),
+                        Bools.CODEC.fieldOf("bool_config").orElse(Bools.DEFAULT).forGetter(s -> s.bool_config),
+                        Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
+                        Codec.STRING.fieldOf("name").orElse("none").forGetter(s -> s.biome_type),
+                        Codec.STRING.fieldOf("flags").orElse("").forGetter(s -> s.flags),
+                        Codec.STRING.fieldOf("needed_flags").orElse("").forGetter(s -> s.needed_flags),
+                        Codec.STRING.fieldOf("no_connect_flags").orElse("").forGetter(s -> s.no_connect_flags),
+                        ResourceLocation.CODEC.listOf().fieldOf("extra_pools").orElse(new ArrayList<>())
+                                .forGetter(s -> s.extra_pools)).apply(instance, ExpandedJigsawPiece::new));
     }
 
-    public static class Ints
+    public record Ints(int y_offset, int space_below, int extra_child_depth, int h_clearance, int v_clearance,
+            int priority)
     {
         public static final Ints DEFAULT = new Ints(-1, 10, 0, -1, -1, 100);
 
-        public static final Codec<Ints> CODEC = RecordCodecBuilder.create((instance) -> {
-            return instance.group(Codec.INT.fieldOf("y_offset").orElse(-1).forGetter(s -> s.y_offset),
-                    Codec.INT.fieldOf("space_below").orElse(10).forGetter(s -> s.space_below),
-                    Codec.INT.fieldOf("extra_child_depth").orElse(0).forGetter(s -> s.extra_child_depth),
-                    Codec.INT.fieldOf("h_clearance").orElse(-1).forGetter(s -> s.h_clearance),
-                    Codec.INT.fieldOf("v_clearance").orElse(-1).forGetter(s -> s.v_clearance),
-                    Codec.INT.fieldOf("priority").orElse(100).forGetter(s -> s.priority)).apply(instance, Ints::new);
-        });
+        public static final Codec<Ints> CODEC = RecordCodecBuilder.create(
+                (instance) -> instance.group(Codec.INT.fieldOf("y_offset").orElse(-1).forGetter(s -> s.y_offset),
+                                Codec.INT.fieldOf("space_below").orElse(10).forGetter(s -> s.space_below),
+                                Codec.INT.fieldOf("extra_child_depth").orElse(0).forGetter(s -> s.extra_child_depth),
+                                Codec.INT.fieldOf("h_clearance").orElse(-1).forGetter(s -> s.h_clearance),
+                                Codec.INT.fieldOf("v_clearance").orElse(-1).forGetter(s -> s.v_clearance),
+                                Codec.INT.fieldOf("priority").orElse(100).forGetter(s -> s.priority))
+                        .apply(instance, Ints::new));
 
-        public final int y_offset;
-        public final int space_below;
-        public final int extra_child_depth;
-        public final int h_clearance;
-        public final int v_clearance;
-        public final int priority;
-
-        public Ints(int y_offset, int space_below, int extra_child_depth, int h_clearance, int v_clearance,
-                int priority)
-        {
-            this.h_clearance = h_clearance;
-            this.v_clearance = v_clearance;
-            this.y_offset = y_offset;
-            this.space_below = space_below;
-            this.extra_child_depth = extra_child_depth;
-            this.priority = priority;
-        }
     }
 
     public static class Bools
     {
         public static final Bools DEFAULT = new Bools(false, false, true, false, false, false);
 
-        public static final Codec<Bools> CODEC = RecordCodecBuilder.create((instance) -> {
-            return instance.group(Codec.BOOL.fieldOf("ignore_air").orElse(false).forGetter(s -> s.ignore_air),
-                            Codec.BOOL.fieldOf("water_terrain_match").orElse(false).forGetter(s -> s.water_terrain_match),
-                            Codec.BOOL.fieldOf("markers_to_air").orElse(true).forGetter(s -> s.markers_to_air),
-                            Codec.BOOL.fieldOf("only_once").orElse(false).forGetter(s -> s.only_once),
-                            Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise),
-                            Codec.BOOL.fieldOf("rigid_override").orElse(false).forGetter(s -> s.rigid_override))
-                    .apply(instance, Bools::new);
-        });
+        public static final Codec<Bools> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+                        Codec.BOOL.fieldOf("ignore_air").orElse(false).forGetter(s -> s.ignore_air),
+                        Codec.BOOL.fieldOf("water_terrain_match").orElse(false).forGetter(s -> s.water_terrain_match),
+                        Codec.BOOL.fieldOf("markers_to_air").orElse(true).forGetter(s -> s.markers_to_air),
+                        Codec.BOOL.fieldOf("only_once").orElse(false).forGetter(s -> s.only_once),
+                        Codec.BOOL.fieldOf("no_affect_noise").orElse(false).forGetter(s -> s.no_affect_noise),
+                        Codec.BOOL.fieldOf("rigid_override").orElse(false).forGetter(s -> s.rigid_override))
+                .apply(instance, Bools::new));
 
         public final boolean ignore_air;
         public final boolean water_terrain_match;
@@ -157,6 +139,8 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
     public final Ints int_config;
     public final Bools bool_config;
 
+    private String part_name = null;
+
     public final List<String> _flags;
     public final Set<String> _no_connect_flags;
     public final String[] _needed_flags;
@@ -166,8 +150,6 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
     public BlockPos profPos;
     public boolean placedSpawn = false;
     public Projection _projection;
-
-    boolean maskCheck;
 
     public ExpandedJigsawPiece(final Either<ResourceLocation, StructureTemplate> template,
             final Holder<StructureProcessorList> processors, StructureTemplatePool.Projection behaviour,
@@ -249,8 +231,8 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
     }
 
     public void checkWaterlogging(final WorldGenLevel level, StructureTemplate template,
-            StructurePlaceSettings placementsettings, final BlockPos pos1, final BlockPos pos2, final Rotation rotation,
-            final BoundingBox box, final RandomSource rng, Map<BlockPos, BlockState> unWaterlog)
+            StructurePlaceSettings placementsettings, final BlockPos pos1, final BlockPos pos2, final BoundingBox box,
+            Map<BlockPos, BlockState> unWaterlog)
     {
         List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(template.palettes, pos1)
                 .blocks();
@@ -286,7 +268,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
             boolean checkWaterlog = this.processors.value().list().contains(NoWaterlogProcessor.PROCESSOR);
             if (checkWaterlog)
             {
-                checkWaterlogging(level, template, placementsettings, pos1, pos2, rotation, box, rng, unWaterlog);
+                checkWaterlogging(level, template, placementsettings, pos1, pos2, box, unWaterlog);
             }
             placed = template.placeInWorld(level, pos1, pos2, placementsettings, rng, placeFlags);
             if (checkWaterlog && placed)
@@ -317,8 +299,8 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
                 if (!"none".equals(this.biome_type))
                 {
                     final BoundingBox realBox = this.getBoundingBox(templates, pos1, rotation);
-                    final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(realBox, level,
-                            this.name, placementsettings);
+                    final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(realBox, level, this,
+                            placementsettings);
                     event.setBiomeType(this.biome_type);
                     ThutCore.FORGE_BUS.post(event);
                 }
@@ -372,7 +354,9 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
     {
         if (worldIn instanceof WorldGenRegion accessor && template instanceof ITemplateExtended extended)
         {
-            this.world = accessor.getLevel();
+            @SuppressWarnings("deprecation")
+            var level = accessor.getLevel();
+            this.world = level;
             if (extended.$hasAddedEntity(info)) return;
 
             String function = info.nbt() != null ? info.nbt().getString("metadata") : "";
@@ -439,7 +423,11 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
     @Override
     public String getName()
     {
-        return this.name;
+        if (part_name == null)
+        {
+            part_name = this.flags + "::" + this.name + "::" + this;
+        }
+        return this.part_name;
     }
 
     @Override

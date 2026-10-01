@@ -10,7 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import thut.api.entity.teleporting.TeleDest;
-import thut.core.common.handlers.PlayerDataHandler.PlayerData;
+import thut.api.data.PlayerDataHandler.PlayerData;
 
 /**
  * Data which needs to be synced to clients about the player, this is teleport

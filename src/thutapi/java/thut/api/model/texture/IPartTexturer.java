@@ -1,0 +1,92 @@
+package thut.api.model.texture;
+
+import net.minecraft.resources.ResourceLocation;
+import thut.api.entity.animation.AnimationXML.CustomTex;
+import thut.api.entity.animation.AnimationXML.Phase;
+import thut.api.model.IModel;
+
+public interface IPartTexturer
+{
+    default void reset()
+    {
+    }
+
+    /**
+     * Adds mapping for a custom state's texture
+     *
+     * @param part
+     *            - Part or Material name
+     * @param state
+     *            - State to be mapped, either AI state, or an integer.
+     * @param tex
+     *            - Texture being mapped.
+     */
+    default void addCustomMapping(final String part, final String state, final String tex)
+    {
+
+    }
+
+    /**
+     * Adds a mapping of part texture.
+     *
+     * @param part
+     *            - The part or material to be textured
+     * @param tex
+     *            - The name of the texture.
+     */
+    default void addMapping(final String part, final String tex)
+    {
+
+    }
+
+    /**
+     * Called to load animations, etc in from the CustomTex object
+     */
+    void init(CustomTex tex);
+
+    /**
+     * Used for extra processing if needed on the model itself,
+     * such as marking specific parts as animated
+     */
+    default void init(IModel model){}
+
+    default void applyTexturePhase(final Phase phase)
+    {
+        // Do nothing by default
+    }
+
+    default boolean isHidden(final String part)
+    {
+        return false;
+    }
+
+    /**
+     * Applies the texture for the part.<br>
+     * This method will bind the texture to render engine for the part.
+     */
+    ResourceLocation getTexture(String part, ResourceLocation default_);
+
+    /**
+     * Binds the object under consideration.
+     */
+    default void bindObject(final Object thing)
+    {
+
+    }
+
+    /**
+     * Is there a mapping already for this part - used for material specific
+     * textures.
+     */
+    boolean hasMapping(String part);
+
+    default void modifiyRGBA(final String part, final int[] rgbaIn)
+    {
+
+    }
+
+    /**
+     * Shifts the UVs for the texture animation
+     */
+    void shiftUVs(String part, double[] toFill);
+}

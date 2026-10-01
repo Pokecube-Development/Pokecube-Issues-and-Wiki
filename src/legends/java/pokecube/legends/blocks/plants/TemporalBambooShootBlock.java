@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.properties.BambooLeaves;
 import pokecube.legends.Reference;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.PlantsInit;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class TemporalBambooShootBlock extends BambooSaplingBlock implements BonemealableBlock
 {

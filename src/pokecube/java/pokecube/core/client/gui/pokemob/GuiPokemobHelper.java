@@ -23,7 +23,7 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.genes.SizeGene;
 import thut.api.ThutCaps;
 import thut.api.util.JsonUtil;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

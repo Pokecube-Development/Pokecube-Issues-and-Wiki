@@ -24,7 +24,7 @@ import pokecube.core.database.tags.Tags;
 import pokecube.core.init.Sounds;
 import pokecube.core.moves.implementations.MovesAdder;
 import thut.api.util.JsonUtil;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 public class MovesDatabases
 {

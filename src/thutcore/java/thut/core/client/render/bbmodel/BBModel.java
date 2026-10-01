@@ -8,13 +8,13 @@ import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
 import thut.api.util.JsonUtil;
-import thut.core.client.render.animation.AnimationXML;
-import thut.core.client.render.animation.AnimationXML.Mat;
+import thut.api.entity.animation.AnimationXML;
+import thut.api.entity.animation.AnimationXML.Mat;
 import thut.core.client.render.bbmodel.BBModelTemplate.JsonGroup;
 import thut.core.client.render.model.BaseModel;
-import thut.core.client.render.model.IModelRenderer;
+import thut.api.model.IModelRenderer;
 import thut.core.common.ThutCore;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

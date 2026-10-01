@@ -10,8 +10,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import thut.core.client.render.model.IModel;
-import thut.core.client.render.model.parts.Material;
+import thut.api.model.IModel;
+import thut.api.model.Material;
 
 public class Waist
 {

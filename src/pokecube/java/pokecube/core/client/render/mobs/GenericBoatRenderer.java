@@ -19,7 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.entity.boats.GenericBoat.BoatType;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
 {

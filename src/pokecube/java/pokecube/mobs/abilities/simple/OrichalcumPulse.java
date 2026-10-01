@@ -12,7 +12,7 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import thut.api.Tracker;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
 import thut.core.common.network.TerrainUpdate;

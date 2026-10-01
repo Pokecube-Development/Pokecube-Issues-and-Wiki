@@ -13,6 +13,8 @@ import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import thut.api.ThutAPI;
 import thut.api.inventory.big.Manager;
 import thut.core.common.ThutCore;
 
@@ -22,7 +24,7 @@ public class SmallManager extends Manager<SmallInventory>
 
     public static File getFileForUUID(final String uuid, final String fileName)
     {
-        final MinecraftServer server = ThutCore.proxy.getServer();
+        final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         Path path = server.getWorldPath(new LevelResource("thut_bling"));
         // This is to the uuid specific folder
         path = path.resolve(uuid);
@@ -54,7 +56,7 @@ public class SmallManager extends Manager<SmallInventory>
     @Override
     protected void save(HolderLookup.Provider access, final UUID uuid)
     {
-        if (ThutCore.proxy.isClientSide()) return;
+        if (ThutAPI.isClientSide()) return;
         final SmallInventory save = this.get(access, uuid, false);
         if (save == null || !save.dirty) return;
         try
@@ -84,7 +86,7 @@ public class SmallManager extends Manager<SmallInventory>
     @Override
     protected void load(HolderLookup.Provider access, final UUID uuid)
     {
-        if (ThutCore.proxy.isClientSide()) return;
+        if (ThutAPI.isClientSide()) return;
         try
         {
             final File file = SmallManager.getFileForUUID(uuid.toString(), this.fileName());

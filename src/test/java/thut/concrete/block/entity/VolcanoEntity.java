@@ -33,7 +33,7 @@ import thut.api.boom.ExplosionCustom.BlockBreaker;
 import thut.api.maths.Vector3;
 import thut.concrete.Concrete;
 import thut.concrete.block.VolcanoBlock;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class VolcanoEntity extends BlockEntity implements ITickTile {
 	public static abstract class Part implements INBTSerializable<CompoundTag> {

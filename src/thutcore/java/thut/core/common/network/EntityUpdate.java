@@ -20,7 +20,7 @@ import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 import thut.core.common.network.nbtpacket.NBTPacket;
 import thut.core.common.network.nbtpacket.PacketAssembly;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class EntityUpdate extends NBTPacket
 {

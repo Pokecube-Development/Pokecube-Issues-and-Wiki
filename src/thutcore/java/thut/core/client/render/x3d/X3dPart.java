@@ -1,6 +1,6 @@
 package thut.core.client.render.x3d;
 
-import thut.core.client.render.model.parts.Part;
+import thut.api.model.Part;
 
 public class X3dPart extends Part
 {

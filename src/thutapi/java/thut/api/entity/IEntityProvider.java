@@ -1,0 +1,20 @@
+package thut.api.entity;
+
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+
+public interface IEntityProvider
+{
+    Entity getEntity(Level world, int id, boolean targetCopyMob);
+
+    default Entity getEntity(Level world, int id)
+    {
+        return getEntity(world, id, true);
+    }
+
+    default Entity getTrackable(Entity input)
+    {
+        var entity = getEntity(input.level(), input.getId(), false);
+        return entity != null ? entity : input;
+    }
+}

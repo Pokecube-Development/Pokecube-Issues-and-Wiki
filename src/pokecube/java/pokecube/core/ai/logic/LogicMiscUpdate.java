@@ -46,7 +46,7 @@ import pokecube.core.utils.PokemobTracker.MobEntry;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.api.entity.multipart.IBBPartMultipart;
+import thut.core.common.mobs.IBBPartMultipart;
 import thut.api.item.ItemList;
 
 import java.util.ArrayList;

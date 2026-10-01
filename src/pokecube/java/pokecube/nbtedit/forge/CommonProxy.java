@@ -12,9 +12,8 @@ import net.minecraft.world.entity.player.Player;
 import pokecube.nbtedit.NBTEdit;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
-import thut.core.common.Proxy;
 
-public class CommonProxy implements Proxy
+public class CommonProxy
 {
     static
     {

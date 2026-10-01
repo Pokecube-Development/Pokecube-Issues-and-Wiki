@@ -50,8 +50,8 @@ import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
-import thut.core.common.genetics.DefaultGenetics;
-import thut.lib.RegHelper;
+import thut.api.entity.genetics.DefaultGenetics;
+import thut.api.util.RegHelper;
 
 import java.util.List;
 import java.util.function.Predicate;

@@ -11,6 +11,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
+import thut.api.ThutAPI;
 import thut.bling.ThutBling;
 import thut.lib.TCodecs;
 
@@ -189,7 +190,7 @@ public class MegaCapability implements IMegaCapability
         if (isBling)
         {
             var gem = stack.get(ThutBling.BLING_GEM_DATA);
-            final ItemStack stack2 = ItemStack.parseOptional(PokecubeCore.proxy.getRegistries(), gem.gemTag());
+            final ItemStack stack2 = ItemStack.parseOptional(ThutAPI.getRegistries(), gem.gemTag());
             if (!stack2.isEmpty()) return MegaCapability.getForStack(stack2);
         }
         return Database.missingno;

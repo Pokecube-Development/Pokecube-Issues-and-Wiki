@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainSegment;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class ConfigTerrainBuilder
 {

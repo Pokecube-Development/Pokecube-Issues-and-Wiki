@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
 import pokecube.legends.Reference;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class FeaturesInit
 {

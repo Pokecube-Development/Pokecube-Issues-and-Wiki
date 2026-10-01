@@ -1,0 +1,288 @@
+package thut.api.entity.blockentity;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockPos.MutableBlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import thut.api.entity.blockentity.world.IBlockEntityWorld;
+import thut.api.util.RegHelper;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+
+public interface IBlockEntity
+{
+    class BlockEntityFormer
+    {
+        public static BlockState[][][] checkBlocks(final Level world, final BlockPos min, final BlockPos max)
+        {
+            final int xMin = min.getX();
+            final int zMin = min.getZ();
+            final int xMax = max.getX();
+            final int zMax = max.getZ();
+            final int yMin = min.getY();
+            final int yMax = max.getY();
+            final BlockState[][][] ret = new BlockState[xMax - xMin + 1][yMax - yMin + 1][zMax - zMin + 1];
+            boolean valid = false;
+            MutableBlockPos temp = new MutableBlockPos();
+            for (int i = xMin; i <= xMax; i++)
+                for (int j = yMin; j <= yMax; j++)
+                    for (int k = zMin; k <= zMax; k++)
+                    {
+                        temp.set(i, j, k);
+                        final BlockState state = world.getBlockState(temp);
+                        if (IBlockEntity.BLOCKBLACKLIST.contains(RegHelper.getKey(state.getBlock()))) return null;
+                        valid = valid || !state.isAir();
+                        ret[i - xMin][j - yMin][k - zMin] = state;
+                    }
+            return valid ? ret : null;
+        }
+
+        public static BlockEntity[][][] checkTiles(final Level world, final BlockPos min, final BlockPos max)
+        {
+            final int xMin = min.getX();
+            final int zMin = min.getZ();
+            final int xMax = max.getX();
+            final int zMax = max.getZ();
+            final int yMin = min.getY();
+            final int yMax = max.getY();
+            MutableBlockPos temp = new MutableBlockPos();
+            final BlockEntity[][][] ret = new BlockEntity[xMax - xMin + 1][yMax - yMin + 1][zMax - zMin + 1];
+            for (int i = xMin; i <= xMax; i++)
+                for (int j = yMin; j <= yMax; j++)
+                    for (int k = zMin; k <= zMax; k++)
+                    {
+                        temp.set(i, j, k);
+                        final BlockEntity old = world.getBlockEntity(temp);
+                        if (old != null)
+                        {
+                            CompoundTag tag = old.saveWithFullMetadata(world.registryAccess());
+                            ret[i - xMin][j - yMin][k - zMin] = BlockEntity.loadStatic(temp, world.getBlockState(temp),
+                                    tag, world.registryAccess());
+                        }
+                    }
+            return ret;
+        }
+
+        public static <T extends Entity> T makeBlockEntity(final Level world, BlockPos min, BlockPos max,
+                final EntityType<T> type)
+        {
+            // This enforces that min is the lower corner, and max is the upper.
+            final AABB box = AABB.encapsulatingFullBlocks(min, max);
+            min = new BlockPos((int) box.minX, (int) box.minY, (int) box.minZ);
+            // The encapsulatingFullBlocks adds 1 internally, so we remove it here.
+            max = new BlockPos((int) box.maxX - 1, (int) box.maxY - 1, (int) box.maxZ - 1);
+            final BlockState[][][] blocks = BlockEntityFormer.checkBlocks(world, min, max);
+            if (blocks == null) return null;
+            BlockEntity[][][] tiles = BlockEntityFormer.checkTiles(world, min, max);
+            return makeBlockEntity(world, min, max, type, blocks, tiles, true);
+        }
+
+        public static <T extends Entity> T makeBlockEntity(Level world, BlockPos min, BlockPos max, EntityType<T> type,
+                BlockState[][][] blocks, BlockEntity[][][] tiles, boolean real)
+        {
+            if (blocks == null) return null;
+            final T ret = type.create(world);
+            final IBlockEntity entity = (IBlockEntity) ret;
+            entity.setReal(real);
+            ret.setPos(min.getX(), min.getY(), min.getZ());
+            entity.setBlocks(blocks);
+            entity.setTiles(tiles);
+            entity.setMin(min.subtract(min));
+            entity.setMax(max.subtract(min));
+            if (real) BlockEntityFormer.removeBlocks(world, min, max);
+            world.addFreshEntity(ret);
+            return ret;
+        }
+
+        public static void removeBlocks(final Level world, final BlockPos min, final BlockPos max)
+        {
+            final int xMin = min.getX();
+            final int zMin = min.getZ();
+            final int xMax = max.getX();
+            final int zMax = max.getZ();
+            final int yMin = min.getY();
+            final int yMax = max.getY();
+            MutableBlockPos temp = new MutableBlockPos();
+            for (int i = xMin; i <= xMax; i++)
+                for (int j = yMin; j <= yMax; j++)
+                    for (int k = zMin; k <= zMax; k++)
+                    {
+                        temp.set(i, j, k);
+                        final BlockEntity tile = world.getBlockEntity(temp);
+                        ITileRemover tileHandler = null;
+                        if (tile != null)
+                        {
+                            tileHandler = IBlockEntity.getRemover(tile);
+                            tileHandler.preBlockRemoval(tile);
+                        }
+                    }
+            for (int i = xMin; i <= xMax; i++)
+                for (int j = yMin; j <= yMax; j++)
+                    for (int k = zMin; k <= zMax; k++)
+                    {
+                        temp.set(i, j, k);
+                        final BlockEntity tile = world.getBlockEntity(temp);
+                        ITileRemover tileHandler = null;
+                        if (tile != null) tileHandler = IBlockEntity.getRemover(tile);
+                        world.setBlock(temp, Blocks.AIR.defaultBlockState(), 2 + 16 + 32 + 64);
+                        if (tileHandler != null) tileHandler.postBlockRemoval(tile);
+                    }
+            for (int i = xMin; i <= xMax; i++)
+                for (int j = yMin; j <= yMax; j++)
+                    for (int k = zMin; k <= zMax; k++)
+                    {
+                        temp.set(i, j, k);
+                        world.setBlock(temp, Blocks.AIR.defaultBlockState(), 3);
+                    }
+        }
+
+        public static void RevertEntity(final IBlockEntity toRevert)
+        {
+            if (!toRevert.isReal()) return;
+            final int xMin = toRevert.getMin().getX();
+            final int zMin = toRevert.getMin().getZ();
+            final int yMin = toRevert.getMin().getY();
+            if (toRevert.getBlocks() == null) return;
+            final int sizeX = toRevert.getBlocks().length;
+            final int sizeY = toRevert.getBlocks()[0].length;
+            final int sizeZ = toRevert.getBlocks()[0][0].length;
+            final Entity entity = (Entity) toRevert;
+            for (int i = 0; i < sizeX; i++)
+                for (int j = 0; j < sizeY; j++)
+                    for (int k = 0; k < sizeZ; k++)
+                    {
+                        // TODO Apply transformation onto this pos based on
+                        // whether the entity is rotated, and then also call the
+                        // block's rotate method as well before placing the
+                        // BlockState.
+                        final BlockPos pos = new BlockPos((int) (i + xMin + entity.getX()),
+                                (int) (j + yMin + entity.getY()), (int) (k + zMin + entity.getZ()));
+                        final BlockState state = toRevert.getFakeWorld().getBlock(pos);
+                        final BlockEntity tile = toRevert.getFakeWorld().getTile(pos);
+                        if (state != null)
+                        {
+                            if (!entity.level().isEmptyBlock(pos)) entity.level().destroyBlock(pos, true);
+                            entity.level().setBlockAndUpdate(pos, state);
+                            if (tile != null)
+                            {
+                                final BlockEntity newTile = entity.level().getBlockEntity(pos);
+                                if (newTile != null)
+                                    newTile.loadWithComponents(tile.saveWithFullMetadata(entity.registryAccess()),
+                                            entity.registryAccess());
+                            }
+                        }
+                    }
+            final List<Entity> possibleInside = entity.level().getEntities(entity, entity.getBoundingBox());
+            for (final Entity e : possibleInside) e.setPos(e.getX(), e.getY() + 0.25, e.getZ());
+        }
+    }
+
+    interface ITileRemover
+    {
+        default int getPriority()
+        {
+            return 0;
+        }
+
+        void postBlockRemoval(BlockEntity tileIn);
+
+        void preBlockRemoval(BlockEntity tileIn);
+    }
+
+    Set<ResourceLocation> BLOCKBLACKLIST = Sets.newHashSet();
+    Set<String> TEBLACKLIST = Sets.newHashSet();
+
+    BiMap<Class<?>, ITileRemover> CUSTOMREMOVERS = HashBiMap.create();
+
+    List<ITileRemover> SORTEDREMOVERS = Lists.newArrayList();
+
+    ITileRemover DEFAULTREMOVER = new ITileRemover()
+    {
+
+        @Override
+        public void postBlockRemoval(final BlockEntity tileIn)
+        {}
+
+        @Override
+        public void preBlockRemoval(final BlockEntity tileIn)
+        {
+            tileIn.setRemoved();
+        }
+    };
+
+    static void addRemover(final ITileRemover remover, final Class<?> clas)
+    {
+        IBlockEntity.CUSTOMREMOVERS.put(clas, remover);
+        IBlockEntity.SORTEDREMOVERS.add(remover);
+        IBlockEntity.SORTEDREMOVERS.sort(Comparator.comparingInt(ITileRemover::getPriority));
+    }
+
+    static ITileRemover getRemover(final BlockEntity tile)
+    {
+        final ITileRemover ret = IBlockEntity.CUSTOMREMOVERS.get(tile.getClass());
+        if (ret != null) return ret;
+        for (final ITileRemover temp : IBlockEntity.SORTEDREMOVERS)
+        {
+            final Class<?> key = IBlockEntity.CUSTOMREMOVERS.inverse().get(temp);
+            if (key.isInstance(tile)) return temp;
+        }
+        return IBlockEntity.DEFAULTREMOVER;
+    }
+
+    BlockState[][][] getBlocks();
+
+    IBlockEntityWorld getFakeWorld();
+
+    BlockEntityInteractHandler getInteractor();
+
+    BlockEntityUpdater getUpdater();
+
+    BlockPos getMax();
+
+    BlockPos getMin();
+
+    default BlockPos getSize()
+    {
+        return this.getMax().subtract(this.getMin());
+    }
+
+    BlockPos getOriginalPos();
+
+    BlockEntity[][][] getTiles();
+
+    void setBlocks(BlockState[][][] blocks);
+
+    void setFakeWorld(IBlockEntityWorld world);
+
+    void setMax(BlockPos pos);
+
+    void setMin(BlockPos pos);
+
+    void setSize(EntityDimensions size);
+
+    void setTiles(BlockEntity[][][] tiles);
+
+    default boolean shouldHide(final BlockPos pos)
+    {
+        final BlockEntity tile = this.getFakeWorld().getTile(pos);
+        return tile != null && !BlockEntityUpdater.isWhitelisted(tile);
+    }
+
+    boolean isReal();
+
+    void setReal(boolean real);
+}

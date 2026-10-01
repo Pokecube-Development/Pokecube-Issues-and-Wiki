@@ -16,9 +16,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import thut.core.client.render.json.JsonTemplate.JsonBlock;
 import thut.core.client.render.json.JsonTemplate.JsonFace;
-import thut.core.client.render.model.parts.Material;
-import thut.core.client.render.model.parts.Mesh;
-import thut.core.client.render.model.parts.Part;
+import thut.api.model.Material;
+import thut.api.model.Mesh;
+import thut.api.model.Part;
 import thut.core.common.ThutCore;
 
 public class JsonPart extends Part

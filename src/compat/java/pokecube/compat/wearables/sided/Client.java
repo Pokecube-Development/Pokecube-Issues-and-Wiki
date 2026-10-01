@@ -20,7 +20,7 @@ import thut.bling.client.render.Finger;
 import thut.bling.client.render.Hat;
 import thut.bling.client.render.Waist;
 import thut.bling.client.render.Wrist;
-import thut.core.client.render.model.parts.Material;
+import thut.api.model.Material;
 import thut.wearables.EnumWearable;
 
 import java.util.Map;

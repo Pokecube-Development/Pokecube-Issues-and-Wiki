@@ -17,9 +17,9 @@ import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.actions.Action;
 import pokecube.api.entity.trainers.actions.IAction;
 import pokecube.api.entity.trainers.actions.MessageState;
-import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
+import thut.api.ThutAPI;
 
 public class Messages extends ListPage<MessageOption>
 {
@@ -131,7 +131,7 @@ public class Messages extends ListPage<MessageOption>
             this.messages.setAction(state, newAction);
             this.messages.setMessage(state, msg);
 
-            final Tag tag = this.messages.serializeNBT(PokecubeCore.proxy.getRegistries());
+            final Tag tag = this.messages.serializeNBT(ThutAPI.getRegistries());
             final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             final CompoundTag nbt = message.getTag();
             nbt.put("__messages__", tag);

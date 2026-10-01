@@ -20,6 +20,7 @@ import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.phys.Vec3;
+import thut.api.ThutAPI;
 import thut.api.Tracker;
 import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
@@ -33,7 +34,7 @@ import thut.bot.entity.ai.modules.map.Node;
 import thut.bot.entity.ai.modules.map.Part;
 import thut.bot.entity.ai.modules.map.Tree;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 @BotAI(key = "thutbot:routes")
 public class RouteMaker extends AbstractBot
@@ -78,7 +79,7 @@ public class RouteMaker extends AbstractBot
                 for (final Edge e : n.edges) e.setEnds(e.node1.getCenter(), e.node2.getCenter());
             }
         }
-        getTag().put("tree_map", this.getMap().serializeNBT(ThutCore.proxy.getRegistries()));
+        getTag().put("tree_map", this.getMap().serializeNBT(ThutAPI.getRegistries()));
     }
 
     private void endTarget()
@@ -98,7 +99,7 @@ public class RouteMaker extends AbstractBot
             e.dig_done = Tracker.instance().getTick();
             this.setCurrentEdge(null);
         }
-        getTag().put("tree_map", this.getMap().serializeNBT(ThutCore.proxy.getRegistries()));
+        getTag().put("tree_map", this.getMap().serializeNBT(ThutAPI.getRegistries()));
     }
 
     private Tree getMap()
@@ -107,7 +108,7 @@ public class RouteMaker extends AbstractBot
         {
             final CompoundTag tag = getTag().getCompound("tree_map");
             this.map = new Tree();
-            this.map.deserializeNBT(ThutCore.proxy.getRegistries(), tag);
+            this.map.deserializeNBT(ThutAPI.getRegistries(), tag);
             if (this.map.nodeCount >= this.maxNodes) return this.map;
         }
         else if (getTag().getBoolean("made_map")) return this.map;
@@ -307,7 +308,7 @@ public class RouteMaker extends AbstractBot
             if (dist == 0) return;
         }
         this.map.add(n1);
-        final CompoundTag tag = this.map.serializeNBT(ThutCore.proxy.getRegistries());
+        final CompoundTag tag = this.map.serializeNBT(ThutAPI.getRegistries());
         getTag().put("tree_map", tag);
     }
 
@@ -388,7 +389,7 @@ public class RouteMaker extends AbstractBot
 
         if (this.player.tickCount % 20 == 0)
         {
-            final CompoundTag tag = this.getMap().serializeNBT(ThutCore.proxy.getRegistries());
+            final CompoundTag tag = this.getMap().serializeNBT(level.registryAccess());
             getTag().put("tree_map", tag);
         }
 

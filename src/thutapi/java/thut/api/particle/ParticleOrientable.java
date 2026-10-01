@@ -1,0 +1,50 @@
+package thut.api.particle;
+
+import net.minecraft.client.Camera;
+import net.minecraft.network.FriendlyByteBuf;
+import org.joml.Quaternionf;
+
+public class ParticleOrientable extends ParticleBase
+{
+    public Quaternionf orientation;
+
+    public ParticleOrientable(final int x, final int y)
+    {
+        super(x, y);
+        this.billboard = false;
+        this.orientation = new Quaternionf(0,0,0,1);
+    }
+
+    @Override
+    public ParticleBase read(final FriendlyByteBuf buffer)
+    {
+        super.read(buffer);
+        this.orientation = new Quaternionf(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
+        return this;
+    }
+
+    @Override
+    public Quaternionf getQuat(Camera renderInfo, float partialTicks)
+    {
+        Quaternionf quaternion;
+        quaternion = new Quaternionf(renderInfo.rotation());
+        quaternion.mul(this.orientation);
+        return quaternion;
+    }
+
+    public void setOrientation(final Quaternionf orientation)
+    {
+        this.orientation = orientation;
+    }
+
+    @Override
+    public void writeToNetwork(final FriendlyByteBuf buffer)
+    {
+        super.writeToNetwork(buffer);
+        buffer.writeFloat(this.orientation.x);
+        buffer.writeFloat(this.orientation.y);
+        buffer.writeFloat(this.orientation.z);
+        buffer.writeFloat(this.orientation.w);
+    }
+
+}

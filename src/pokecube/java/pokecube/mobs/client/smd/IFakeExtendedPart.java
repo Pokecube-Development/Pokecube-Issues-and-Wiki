@@ -2,7 +2,7 @@ package pokecube.mobs.client.smd;
 
 import org.joml.Vector3f;
 import thut.api.maths.Vector4;
-import thut.core.client.render.model.IExtendedModelPart;
+import thut.api.model.IExtendedModelPart;
 
 /**
  * This is an IExtendedModelPart which defaults most stuff to null or

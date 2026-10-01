@@ -24,9 +24,8 @@ public class RegistryObjects
 
     static
     {
-        NPC_MENU = ThutCore.RegistryEvents.MENUS.register("npc",
+        NpcContainer.MENU = NPC_MENU = ThutCore.RegistryEvents.MENUS.register("npc",
                 () -> new MenuType<>((IContainerFactory<NpcContainer>) NpcContainer::new, FeatureFlagSet.of()));
-
         AURORA = ThutCore.RegistryEvents.PARTICLES.register("aurora", () -> ThutParticles.AURORA);
         LEAF = ThutCore.RegistryEvents.PARTICLES.register("leaf", () -> ThutParticles.LEAF);
         MISC = ThutCore.RegistryEvents.PARTICLES.register("misc", () -> ThutParticles.MISC);

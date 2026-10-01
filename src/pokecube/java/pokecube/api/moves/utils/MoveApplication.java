@@ -32,7 +32,7 @@ import pokecube.core.moves.damage.sources.PokemobDamageSource;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.EntityProvider;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 
 import javax.annotation.Nonnull;

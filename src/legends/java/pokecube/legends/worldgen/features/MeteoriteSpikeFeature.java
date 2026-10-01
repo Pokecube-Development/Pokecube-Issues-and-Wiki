@@ -17,7 +17,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.neoforged.neoforge.common.Tags;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
 {

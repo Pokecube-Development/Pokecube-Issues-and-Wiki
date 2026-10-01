@@ -32,7 +32,7 @@ import pokecube.core.utils.PokecubeSerializer;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.List;
 import java.util.UUID;

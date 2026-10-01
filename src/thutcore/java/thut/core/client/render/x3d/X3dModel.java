@@ -20,14 +20,14 @@ import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
 import thut.api.maths.Vector4;
 import thut.core.client.render.model.BaseModel;
-import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.model.parts.Material;
-import thut.core.client.render.model.parts.Mesh;
+import thut.api.model.IExtendedModelPart;
+import thut.api.model.Material;
+import thut.api.model.Mesh;
 import thut.core.client.render.x3d.X3dXML.Appearance;
 import thut.core.client.render.x3d.X3dXML.IndexedTriangleSet;
 import thut.core.client.render.x3d.X3dXML.Transform;
 import thut.core.common.ThutCore;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 public class X3dModel extends BaseModel
 {

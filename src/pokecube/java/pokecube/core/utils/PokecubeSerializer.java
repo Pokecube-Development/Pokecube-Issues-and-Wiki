@@ -20,6 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -30,8 +31,9 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.ThutAPI;
 import thut.core.common.ThutCore;
-import thut.core.common.handlers.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -202,7 +204,7 @@ public class PokecubeSerializer
 
     public static File getSafeFile()
     {
-        final MinecraftServer server = ThutCore.proxy.getServer();
+        final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         Path path = server.getWorldPath(new LevelResource(PokecubeSerializer.POKECUBE));
         // The directory the file is in
         final File dir = path.toFile();
@@ -344,7 +346,7 @@ public class PokecubeSerializer
         {
             PokecubeAPI.LOGGER.error("Error setting has starter state for {}", player, e);
         }
-        if (ThutCore.proxy.isServerSide())
+        if (ThutAPI.isServerSide())
             PlayerDataHandler.getInstance().save(player.registryAccess(), player.getStringUUID());
     }
 

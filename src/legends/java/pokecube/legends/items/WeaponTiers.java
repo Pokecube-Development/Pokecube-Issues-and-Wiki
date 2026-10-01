@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.SimpleTier;
 import pokecube.legends.Reference;
 import pokecube.legends.init.ItemInit;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class WeaponTiers
 {

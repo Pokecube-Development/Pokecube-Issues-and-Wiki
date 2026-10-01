@@ -8,7 +8,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.mobs.moves.world.ActionNaturePower;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 
 import java.util.HashMap;

@@ -18,7 +18,7 @@ import pokecube.adventures.utils.EnergyHandler;
 import thut.api.util.JsonUtil;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import static thut.core.common.config.Config.registerStringValidator;
 import static thut.core.common.config.Config.VALID_RESOURCE;

@@ -1,0 +1,32 @@
+package thut.api.model.texture;
+
+import java.util.function.Supplier;
+
+import thut.api.entity.animation.IAnimationChanger;
+
+public interface IRetexturableModel
+{
+    public static class Holder<T> implements Supplier<T>
+    {
+        T value = null;
+
+        @Override
+        public T get()
+        {
+            return value;
+        }
+
+        public void set(T value)
+        {
+            this.value = value;
+        }
+    }
+
+    Holder<IAnimationChanger> getAnimationChangeHolder();
+
+    void setChangers(Holder<IAnimationChanger> animations, Holder<IPartTexturer> textures);
+
+    Holder<IPartTexturer> getTexturerChanger();
+
+    void setTransientTexturerChanger(Holder<IPartTexturer> input);
+}

@@ -30,10 +30,10 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.api.utils.PokeType;
-import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.moves.MovesUtils;
+import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.lib.TCodecs;
@@ -331,7 +331,7 @@ public class MoveRecipe implements Recipe<MoveRecipe.WorldCraftInventory>
                 Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
             }
 
-            ItemStack.STREAM_CODEC.encode(buffer, recipe.getResultItem(PokecubeCore.proxy.getRegistries()));
+            ItemStack.STREAM_CODEC.encode(buffer, recipe.getResultItem(ThutAPI.getRegistries()));
         }
     }
 }

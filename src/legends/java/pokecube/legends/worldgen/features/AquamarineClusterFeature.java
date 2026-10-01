@@ -26,7 +26,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.DripstoneCluste
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.utils.AquamarineUtils;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class AquamarineClusterFeature extends Feature<DripstoneClusterConfiguration>
 {

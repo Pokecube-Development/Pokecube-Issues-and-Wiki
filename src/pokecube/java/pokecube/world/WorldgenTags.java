@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class WorldgenTags
 {

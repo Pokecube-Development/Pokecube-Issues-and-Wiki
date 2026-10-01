@@ -80,7 +80,7 @@ import pokecube.legends.worldgen.trees.Trees;
 import thut.api.attachments.CopyMob;
 import thut.api.block.flowing.FlowingBlock;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 @Mod(value = Reference.ID)
 public class PokecubeLegends

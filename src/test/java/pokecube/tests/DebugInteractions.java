@@ -30,7 +30,7 @@ import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.List;
 import java.util.Map;

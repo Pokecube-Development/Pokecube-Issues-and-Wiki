@@ -66,7 +66,7 @@ import thut.concrete.recipe.PaintBrushRecipe;
 import thut.core.common.ThutCore;
 import thut.core.common.config.Config;
 import thut.core.init.ThutCreativeTabs;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 @Mod(value = Concrete.MODID)
 public class Concrete

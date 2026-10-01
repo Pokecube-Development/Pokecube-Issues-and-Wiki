@@ -12,10 +12,10 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.utils.Resources;
-import thut.core.client.render.animation.AnimationXML.CustomTex;
-import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.texturing.IPartTexturer;
-import thut.core.client.render.texturing.IRetexturableModel;
+import thut.api.entity.animation.AnimationXML.CustomTex;
+import thut.api.model.IExtendedModelPart;
+import thut.api.model.texture.IPartTexturer;
+import thut.api.model.texture.IRetexturableModel;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.client.render.wrappers.ModelWrapper;
 
@@ -95,12 +95,11 @@ public class Status
         }
 
         @Override
-        public boolean shiftUVs(final String part, final double[] toFill)
+        public void shiftUVs(final String part, final double[] toFill)
         {
-            if (!animated) return false;
+            if (!animated) return;
             toFill[0] += this.time;
             toFill[1] += this.time;
-            return true;
         }
 
         @Override

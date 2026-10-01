@@ -1,0 +1,123 @@
+package thut.api.level.terrain;
+
+import net.minecraft.core.SectionPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import thut.api.ThutCaps;
+import thut.api.level.terrain.TerrainSegment.ITerrainEffect;
+
+import java.util.Collection;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+public class CapabilityTerrainAffected
+{
+    public static Function<Entity, TerrainSegment> TERRAIN_LOOKUP = e->null;
+
+    public static class DefaultAffected implements ITerrainAffected
+    {
+        private LivingEntity theMob;
+        private TerrainSegment terrain;
+        private Collection<ITerrainEffect> effects;
+
+        @Override
+        public void attach(final LivingEntity mob)
+        {
+            this.theMob = mob;
+        }
+
+        @Override
+        public LivingEntity getAttached()
+        {
+            return this.theMob;
+        }
+
+        public void onTerrainEntry(final TerrainSegment entered)
+        {
+            if (entered == this.terrain || this.theMob == null) return;
+            this.terrain = entered;
+            this.effects = this.terrain.getEffects();
+
+            for (final ITerrainEffect effect : this.effects)
+            {
+                final TerrainEffectEvent event = new TerrainEffectEvent(this.theMob, effect.getIdentifier(), true);
+                NeoForge.EVENT_BUS.post(event);
+                if (!event.isCanceled()) effect.doEffect(this.theMob, true);
+            }
+        }
+
+        @Override
+        public void onTerrainTick()
+        {
+            if (this.theMob == null) return;
+            if (this.terrain == null)
+            {
+                if (!theMob.level().isAreaLoaded(this.theMob.getOnPos(), 4)) return;
+                var terrain = TERRAIN_LOOKUP.apply(this.theMob);
+                this.onTerrainEntry(terrain);
+                return;
+            }
+            var mobPos = SectionPos.of(this.theMob.blockPosition());
+            boolean samePos = mobPos.x() == this.terrain.chunkX && mobPos.y() == this.terrain.chunkY
+                    && mobPos.z() == this.terrain.chunkZ;
+            if (!samePos)
+            {
+                if (!theMob.level().isAreaLoaded(this.theMob.getOnPos(), 4)) return;
+                var terrain = TERRAIN_LOOKUP.apply(this.theMob);
+                this.onTerrainEntry(terrain);
+                return;
+            }
+            if (this.effects == null) return;
+            for (final ITerrainEffect effect : this.effects)
+            {
+                final TerrainEffectEvent event = new TerrainEffectEvent(this.theMob, effect.getIdentifier(), false);
+                NeoForge.EVENT_BUS.post(event);
+                if (!event.isCanceled()) effect.doEffect(this.theMob, false);
+            }
+        }
+
+    }
+
+    public static ITerrainAffected makeProvider(final IAttachmentHolder in)
+    {
+        if (!(in instanceof LivingEntity living)) return null;
+        var affected = new DefaultAffected();
+        affected.attach(living);
+        return affected;
+    }
+
+    public static ITerrainAffected get(final IAttachmentHolder in)
+    {
+        return in.getData(TYPE_SAVE.get());
+    }
+
+    public static final ResourceLocation LOCSAVEABLE = ResourceLocation.parse("thutcore:terrain_effects");
+
+    public static Supplier<AttachmentType<ITerrainAffected>> TYPE_SAVE;
+
+    public static void registerAttachment(DeferredRegister<AttachmentType<?>> registry)
+    {
+        Function<IAttachmentHolder, ITerrainAffected> func_a = CapabilityTerrainAffected::makeProvider;
+        var attach_a = AttachmentType.builder(func_a).build();
+        TYPE_SAVE = registry.register(LOCSAVEABLE.getPath(), () -> attach_a);
+    }
+
+    public static void init(Function<Entity, TerrainSegment> lookup)
+    {
+        NeoForge.EVENT_BUS.addListener(CapabilityTerrainAffected::EntityUpdate);
+        TERRAIN_LOOKUP = lookup;
+    }
+
+    private static void EntityUpdate(final EntityTickEvent.Post evt)
+    {
+        if (!(evt.getEntity() instanceof LivingEntity)) return;
+        final ITerrainAffected effects = ThutCaps.getTerrainAffected(evt.getEntity());
+        if (effects != null) effects.onTerrainTick();
+    }
+}

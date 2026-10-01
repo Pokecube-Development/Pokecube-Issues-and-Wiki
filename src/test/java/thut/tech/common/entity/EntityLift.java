@@ -16,7 +16,7 @@ import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import thut.api.ThutCaps;
 import thut.api.attachments.Energy;
-import thut.api.entity.blockentity.BlockEntityBase;
+import thut.core.common.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;

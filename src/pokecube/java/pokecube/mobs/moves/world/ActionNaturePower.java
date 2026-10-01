@@ -29,8 +29,8 @@ import thut.api.data.DataHelpers.ResourceData;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
-import thut.lib.RegHelper;
-import thut.lib.ResourceHelper;
+import thut.api.util.RegHelper;
+import thut.api.util.ResourceHelper;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

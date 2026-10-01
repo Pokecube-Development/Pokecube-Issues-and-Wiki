@@ -62,7 +62,8 @@ import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.moves.MovesUtils;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.forge.ClientProxy;
-import thut.lib.RegHelper;
+import thut.api.ThutAPI;
+import thut.api.util.RegHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -322,7 +323,7 @@ public class ClientSetupHandler
 
         event.register((stack, tintIndex) -> {
             final PokeType type = PokeType.unknown;
-            final PokedexEntry entry = ItemPokemobEgg.getEntry(stack, PokecubeCore.proxy.getRegistries());
+            final PokedexEntry entry = ItemPokemobEgg.getEntry(stack, ThutAPI.getRegistries());
             if (entry != null && entry != Database.missingno)
                 return tintIndex == 0 ? entry.getType1().colour | 0xFF000000 : entry.getType2().colour | 0xFF000000;
             return tintIndex == 0 ? type.colour | 0xFF000000 : 0xFFFFFFFF;

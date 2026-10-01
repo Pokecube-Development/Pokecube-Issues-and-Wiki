@@ -78,7 +78,7 @@ import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Resources;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
+import thut.api.util.AxisAngles;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -26,14 +26,14 @@ import thut.api.entity.IMobColourable;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.core.client.render.animation.AnimationHelper;
-import thut.core.client.render.animation.AnimationXML.Mat;
-import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.model.IModel;
-import thut.core.client.render.model.IModelCustom;
-import thut.core.client.render.model.IModelRenderer;
+import thut.api.entity.animation.AnimationXML.Mat;
+import thut.api.model.IExtendedModelPart;
+import thut.api.model.IModel;
+import thut.api.model.IModelCustom;
+import thut.api.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
-import thut.core.client.render.texturing.IPartTexturer;
-import thut.core.client.render.texturing.IRetexturableModel;
+import thut.api.model.texture.IPartTexturer;
+import thut.api.model.texture.IRetexturableModel;
 import thut.core.client.render.texturing.TextureHelper;
 
 public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IModel

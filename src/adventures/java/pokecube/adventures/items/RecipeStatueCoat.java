@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.utils.RecipePokeAdv;
 import thut.api.attachments.CopyMob;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class RecipeStatueCoat extends CustomRecipe
 {

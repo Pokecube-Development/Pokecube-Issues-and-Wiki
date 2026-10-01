@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class CorruptedDirtBlock extends Block implements BonemealableBlock
 {

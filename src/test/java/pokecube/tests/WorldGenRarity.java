@@ -19,7 +19,7 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import pokecube.api.PokecubeAPI;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.ArrayList;
 import java.util.HashSet;

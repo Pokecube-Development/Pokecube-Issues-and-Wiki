@@ -9,7 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 import thut.test.scripting.ICmdHandler;
 
 public class GetBlockHandler implements ICmdHandler

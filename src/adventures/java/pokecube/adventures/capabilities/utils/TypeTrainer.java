@@ -62,7 +62,7 @@ import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 import java.util.ArrayList;
 import java.util.Collection;

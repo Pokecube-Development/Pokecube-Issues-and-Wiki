@@ -24,9 +24,10 @@ import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
+import thut.api.ThutAPI;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
-import thut.core.common.handlers.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler;
 
 public class TeleportHandler extends DefaultHandler
 {
@@ -38,7 +39,7 @@ public class TeleportHandler extends DefaultHandler
 
     private static Provider access()
     {
-        return PokecubeCore.proxy.getRegistries();
+        return ThutAPI.getRegistries();
     }
 
     public static int getTeleIndex(final String uuid)

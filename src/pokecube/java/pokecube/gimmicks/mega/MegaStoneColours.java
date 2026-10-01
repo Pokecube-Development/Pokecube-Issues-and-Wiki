@@ -17,7 +17,7 @@ import pokecube.core.database.resources.PackFinder;
 import thut.api.data.DataHelpers;
 import thut.api.data.DataHelpers.ResourceData;
 import thut.api.util.JsonUtil;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 /**
  * Datapack-provided names and four-layer tint colours for Mega Stones. Files are loaded from

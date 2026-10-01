@@ -71,7 +71,7 @@ import thut.api.Tracker;
 import thut.api.entity.IAnimated;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.core.common.genetics.DefaultGenetics;
+import thut.api.entity.genetics.DefaultGenetics;
 
 import javax.annotation.Nullable;
 import java.util.UUID;

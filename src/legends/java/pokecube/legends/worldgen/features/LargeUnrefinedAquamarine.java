@@ -20,7 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.utils.AquamarineUtils;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import javax.annotation.Nullable;
 import java.util.Optional;

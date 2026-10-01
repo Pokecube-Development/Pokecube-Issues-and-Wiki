@@ -16,7 +16,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 public class CombatTypeLoader
 {

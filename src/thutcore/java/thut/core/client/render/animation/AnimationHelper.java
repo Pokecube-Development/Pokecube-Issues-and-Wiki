@@ -12,7 +12,7 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animators.IAnimator;
 import thut.api.entity.animation.CapabilityAnimation;
-import thut.core.client.render.model.IExtendedModelPart;
+import thut.api.model.IExtendedModelPart;
 
 /**
  * This class applies the tabula style animations to models consisting of

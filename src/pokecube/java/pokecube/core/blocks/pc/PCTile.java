@@ -8,16 +8,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.pc.PCInventory;
+import thut.api.ThutAPI;
 
 public class PCTile extends InteractableTile
 {
     public UUID boundId = PokecubeMod.fakeUUID;
-    public PCInventory inventory = PCInventory.getPC(PokecubeCore.proxy.getRegistries(), this.boundId);
+    public PCInventory inventory = PCInventory.getPC(ThutAPI.getRegistries(), this.boundId);
 
     public PCTile(final BlockPos pos, final BlockState state)
     {

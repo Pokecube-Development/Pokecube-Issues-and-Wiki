@@ -16,9 +16,9 @@ import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
 import thut.api.entity.animation.Animators.IAnimator;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
-import thut.core.client.render.animation.AnimationXML.Component;
-import thut.core.client.render.animation.AnimationXML.Part;
-import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.api.entity.animation.AnimationXML.Component;
+import thut.api.entity.animation.AnimationXML.Part;
+import thut.api.entity.animation.AnimationXML.Phase;
 import thut.core.common.ThutCore;
 
 public class AnimationBuilder

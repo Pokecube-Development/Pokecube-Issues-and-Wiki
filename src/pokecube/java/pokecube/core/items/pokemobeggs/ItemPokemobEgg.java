@@ -46,6 +46,7 @@ import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.utils.Permissions;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.attachments.IOwnable;
 import thut.api.entity.genetics.Alleles;
@@ -53,7 +54,7 @@ import thut.api.entity.genetics.GeneHolder;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.core.common.genetics.DefaultGenetics;
+import thut.api.entity.genetics.DefaultGenetics;
 
 /** @author Manchou */
 public class ItemPokemobEgg extends Item
@@ -265,7 +266,7 @@ public class ItemPokemobEgg extends Item
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents,
             TooltipFlag tooltipFlag)
     {
-        final PokedexEntry entry = ItemPokemobEgg.getEntry(stack, PokecubeCore.proxy.getRegistries());
+        final PokedexEntry entry = ItemPokemobEgg.getEntry(stack, ThutAPI.getRegistries());
         if (entry != null) tooltipComponents.add(1,
                 Component.translatableEscape("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName()))
                         .withStyle(ChatFormatting.GOLD));
@@ -323,7 +324,7 @@ public class ItemPokemobEgg extends Item
     @Override
     public boolean hasCustomEntity(final ItemStack stack)
     {
-        return ItemPokemobEgg.getEntry(stack, PokecubeCore.proxy.getRegistries()) != null;
+        return ItemPokemobEgg.getEntry(stack, ThutAPI.getRegistries()) != null;
     }
 
     @Override

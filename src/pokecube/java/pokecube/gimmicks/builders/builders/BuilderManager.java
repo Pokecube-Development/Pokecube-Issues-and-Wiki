@@ -40,6 +40,7 @@ import pokecube.world.gen.structures.GenericJigsawStructure.AvoidanceSettings;
 import pokecube.world.gen.structures.GenericJigsawStructure.ClearanceSettings;
 import pokecube.world.gen.structures.GenericJigsawStructure.YSettings;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
+import thut.api.ThutAPI;
 import thut.api.level.structures.NamedVolumes.INamedPart;
 import thut.api.level.structures.StructureManager;
 import thut.core.common.ThutCore;
@@ -132,7 +133,7 @@ public class BuilderManager
         @Override
         public CompoundTag apply(BuilderClearer build)
         {
-            var reg = PokecubeCore.proxy.getRegistries();
+            var reg = ThutAPI.getRegistries();
             CompoundTag tag = new CompoundTag();
             if (build.builder() instanceof INBTSerializable<?> ser) tag.put("b", ser.serializeNBT(reg));
             if (build.builder() == build.clearer()) tag.putBoolean("s", true);

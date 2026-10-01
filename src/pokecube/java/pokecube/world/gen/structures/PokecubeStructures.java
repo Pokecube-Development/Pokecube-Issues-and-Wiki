@@ -16,7 +16,7 @@ import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.PokecubeWorld;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class PokecubeStructures
 {

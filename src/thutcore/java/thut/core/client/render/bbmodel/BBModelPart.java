@@ -7,11 +7,11 @@ import org.joml.Vector3f;
 import thut.core.client.render.bbmodel.BBModelTemplate.Element;
 import thut.core.client.render.bbmodel.BBModelTemplate.IBBPart;
 import thut.core.client.render.bbmodel.BBModelTemplate.JsonGroup;
-import thut.core.client.render.model.parts.Material;
-import thut.core.client.render.model.parts.Mesh;
-import thut.core.client.render.model.parts.Part;
+import thut.api.model.Material;
+import thut.api.model.Mesh;
+import thut.api.model.Part;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
+import thut.api.util.AxisAngles;
 
 import java.util.ArrayList;
 import java.util.Arrays;

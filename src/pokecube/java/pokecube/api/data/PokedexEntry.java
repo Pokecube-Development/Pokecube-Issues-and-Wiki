@@ -74,15 +74,16 @@ import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.utils.TimePeriod;
 import thut.api.ModelHolder;
+import thut.api.ThutAPI;
 import thut.api.Tracker;
-import thut.api.entity.multipart.BodyPartEntity.BodyNode;
+import thut.core.common.mobs.BodyPartEntity.BodyNode;
 import thut.api.item.ItemList;
 import thut.api.level.terrain.BiomeType;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.bbmodel.BBModel;
 import thut.core.client.render.model.ModelFactory;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import javax.annotation.Nullable;
 import java.lang.annotation.Retention;
@@ -1209,7 +1210,7 @@ public class PokedexEntry
                 continue;
             }
             EvolutionData d = new EvolutionData(evolEntry, evol);
-            d.postInit(PokecubeCore.proxy.getRegistries());
+            d.postInit(ThutAPI.getRegistries());
             this.evolutions.add(d);
             evolEntry = d.evolution;
             if (evolEntry == null) continue;
@@ -1881,7 +1882,7 @@ public class PokedexEntry
     public void onHeldItemChange(final ItemStack oldStack, final ItemStack newStack, final IPokemob pokemob)
     {
         if (newStack.isEmpty() && oldStack.isEmpty()) return;
-        if (!ThutCore.proxy.isServerSide()) return;
+        if (!ThutAPI.isServerSide()) return;
         boolean isChangedForme = pokemob.getCustomHolder() != null && pokemob.getCustomHolder()._is_item_forme;
         PokedexEntry base = this;
         if (!isChangedForme && this.formeItems.isEmpty() && this.getBaseForme() != null)

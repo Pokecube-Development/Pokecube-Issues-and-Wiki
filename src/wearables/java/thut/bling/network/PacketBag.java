@@ -23,7 +23,7 @@ import thut.bling.bag.small.SmallContainer;
 import thut.bling.bag.small.SmallInventory;
 import thut.bling.bag.small.SmallManager;
 import thut.bling.data.SmallBagData;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 import thut.wearables.network.Packet;
 
 public class PacketBag extends Packet

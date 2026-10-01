@@ -31,7 +31,7 @@ import thut.api.Tracker;
 import thut.api.world.WorldTickManager;
 import thut.core.common.ThutCore;
 import thut.core.common.network.SyncAttachments;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.List;
 import java.util.function.Predicate;

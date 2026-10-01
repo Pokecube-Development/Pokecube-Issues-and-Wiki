@@ -59,7 +59,7 @@ import thut.api.Tracker;
 import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.Optional;
 import java.util.UUID;

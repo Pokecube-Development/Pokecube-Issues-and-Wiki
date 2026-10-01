@@ -1,6 +1,5 @@
 package thut.core.common;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,7 +23,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -34,16 +32,17 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.RightClick
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.appender.FileAppender;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
-import thut.api.Tracker;
 import thut.api.attachments.CopyMob;
 import thut.api.attachments.Linkable;
-import thut.api.block.flowing.functions.LootLayerFunction;
-import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.entity.event.BreakTestEvent;
+import thut.api.entity.genetics.DefaultGenetics;
+import thut.api.entity.multipart.MultiSync;
+import thut.core.common.loot.LootLayerFunction;
+import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.level.structures.StructureManager;
 import thut.api.util.PermNodes;
 import thut.core.common.config.Config;
@@ -56,34 +55,26 @@ import thut.core.common.network.PartSync;
 import thut.core.common.network.SyncAttachments;
 import thut.core.common.network.TerrainUpdate;
 import thut.core.common.network.TileUpdate;
-import thut.core.common.terrain.CapabilityTerrainAffected;
+import thut.api.level.terrain.CapabilityTerrainAffected;
 import thut.core.common.network.SyncData;
+import thut.core.common.terrain.TerrainManager;
 import thut.core.init.RegistryObjects;
 import thut.core.init.ThutCreativeTabs;
 import thut.crafts.ThutCrafts;
-import thut.lib.DistExecutor;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.io.File;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 @Mod(ThutCore.MODID)
 public class ThutCore
 {
-
-    private static final Pattern ALLOWED = Pattern.compile("([^a-z0-9 /_-])");
-    private static final Map<String, String> trimmed = new Object2ObjectOpenHashMap<String, String>();
-
     public static synchronized String trim(final String name)
     {
-        if (name == null) return null;
-        return trimmed.computeIfAbsent(name, ThutCore::_trim);
+        return ThutAPI.trim(name);
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the
@@ -197,8 +188,8 @@ public class ThutCore
     }
 
     // Directly reference a log4j logger.
-    public static final Logger LOGGER = LogManager.getLogger(ThutCore.MODID);
-    public static final String MODID = "thutcore";
+    public static final Logger LOGGER = ThutAPI.LOGGER;
+    public static final String MODID = ThutAPI.MODID;
 
     private static final String NETVERSION = "2.0.0";
 
@@ -206,27 +197,12 @@ public class ThutCore
 
     public static ThutCore instance;
 
-    public static final Proxy proxy = DistExecutor.runForDist(() -> thut.core.proxy.ClientProxy::new,
-            () -> thut.core.proxy.CommonProxy::new);
-
     public static final ConfigHandler conf = new ConfigHandler();
 
     public static ItemStack THUTICON = ItemStack.EMPTY;
 
     // Bus for Forge Events
     public static final IEventBus FORGE_BUS = NeoForge.EVENT_BUS;
-
-    private static String _trim(String name)
-    {
-        String trim = name;
-        // ROOT locale to prevent issues with turkish letters.
-        trim = trim.toLowerCase(Locale.ROOT).trim();
-        // Replace all not-resourcelocation chars
-        trim = ALLOWED.matcher(trim).replaceAll("");
-        // Replace these too.
-        trim = trim.replaceAll(" ", "_");
-        return trim;
-    }
 
     public static Random newRandom()
     {
@@ -247,8 +223,6 @@ public class ThutCore
 
         // Register the setup method for modloading
         modEventBus.addListener(this::setup);
-        // Register the doClientStuff method for modloading
-        modEventBus.addListener(this::doClientStuff);
 
         RegistryEvents.LOOTTYPE.register(modEventBus);
         RegistryEvents.RECIPETYPE.register(modEventBus);
@@ -267,19 +241,27 @@ public class ThutCore
         ThutCore.FORGE_BUS.register(this);
         ThutCore.FORGE_BUS.addListener(PermNodes::gatherPerms);
 
-        Tracker.init();
         LootLayerFunction.init();
         RegistryObjects.init();
-        BreakTestEvent.init();
+
+        this.initAPI();
 
         // Register Config stuff
         Config.setupConfigs(modContainer, ThutCore.conf, ThutCore.MODID, ThutCore.MODID);
 
     }
 
-    private void doClientStuff(final FMLClientSetupEvent event)
+    private void initAPI()
     {
-        ThutCore.proxy.setupClient(event);
+        ThutAPI.initAPI();
+        MultiSync.SYNC = PartSync::sendUpdate;
+
+        SyncAttachments.SYNCED.add(CopyMob.LOC);
+        SyncAttachments.SYNCED.add(CopyMob.ANIM);
+        SyncAttachments.SYNCED.add(DefaultGenetics.KEY);
+
+        BreakTestEvent.init();
+        CapabilityTerrainAffected.init(mob->TerrainManager.getInstance().getTerrainForEntity(mob));
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -313,16 +295,11 @@ public class ThutCore
         ThutCore.packets.registerBiDirectionalMessage(GeneralUpdate.class);
 
         GeneralUpdate.init();
-        //        CapabilitySync.init();
 
         // Register capabilities.
 
-        CapabilityTerrainAffected.init();
-
         Linkable.setup();
         CopyMob.setup();
-
-        ThutCore.proxy.setup(event);
     }
 
     public static ConfigHandler getConfig()

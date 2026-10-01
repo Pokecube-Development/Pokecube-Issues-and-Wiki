@@ -41,7 +41,7 @@ import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
-import thut.core.common.genetics.DefaultGenetics;
+import thut.api.entity.genetics.DefaultGenetics;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;

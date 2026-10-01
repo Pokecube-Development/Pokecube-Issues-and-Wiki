@@ -54,12 +54,12 @@ import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
+import thut.api.ThutAPI;
 import thut.api.Tracker;
 import thut.api.attachments.CopyMob;
 import thut.api.attachments.Ownable;
 import thut.api.entity.genetics.Alleles;
-import thut.core.common.ThutCore;
-import thut.core.common.genetics.DefaultGenetics;
+import thut.api.entity.genetics.DefaultGenetics;
 
 import java.util.UUID;
 
@@ -356,7 +356,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     @Override
     public ItemStack onHeldItemChanged(ItemStack itemStack)
     {
-        if (ThutCore.proxy.isServerSide())
+        if (ThutAPI.isServerSide())
         {
             ItemStack oldStack = this.getHeldItem();
             // If we have a cache of last held, swap over to that.

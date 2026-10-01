@@ -26,7 +26,7 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import pokecube.core.impl.PokecubeMod;
 import thut.api.maths.Vector3;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class DispenseBehaviourInteract implements DispenseItemBehavior
 {

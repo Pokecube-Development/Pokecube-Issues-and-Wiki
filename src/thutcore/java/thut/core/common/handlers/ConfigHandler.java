@@ -21,6 +21,7 @@ import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.core.common.terrain.ConfigTerrainBuilder;
 import thut.core.common.terrain.ConfigTerrainChecker;
+import thut.api.world.mobs.data.DataSync_Impl;
 
 import static thut.core.common.config.Config.registerStringValidator;
 
@@ -83,8 +84,6 @@ public class ConfigHandler extends ConfigData
     { "minecraft:bedrock" });
     @Configure(category = ConfigHandler.BLOCKENTITY)
     public boolean autoBlacklistErroredTEs = true;
-    @Configure(category = ConfigHandler.MISC)
-    public boolean supress_warns = false;
     @Configure(category = ConfigHandler.MISC, comment = "Add items to vanilla tabs. [Default: true]", gameRestart = true)
     public boolean itemsInCreativeTabs = true;
     @Configure(category = ConfigHandler.MISC, comment = "Add craftmaker to creative tabs. [Default: true]", gameRestart = true)
@@ -106,8 +105,28 @@ public class ConfigHandler extends ConfigData
     @Configure(category = ConfigHandler.DEBUG)
     public boolean debug_models = false;
 
+    public static void initStructMap()
+    {
+        for (final String s : ThutCore.getConfig().structure_subbiomes)
+        {
+            final TerrainChecker.StructInfo info = JsonUtil.gson.fromJson(s, TerrainChecker.StructInfo.class);
+            String key = info.struct.replace("#", "");
+            if (key.contains(":"))
+            {
+                String[] args = key.split(":");
+                key = ThutCore.trim(args[0]) + ":" + ThutCore.trim(args[1]);
+            }
+            else
+            {
+                key = ThutCore.trim(key);
+            }
+            var value = new StringTag.StringValue<String>(key).setValue(info.subbiome);
+            ConfigHandler.STRUCTURE_SUBBIOMES.AddValue(TerrainChecker.tagKey, value);
+        }
+    }
+
     public static final StringTag<String> STRUCTURE_SUBBIOMES = new StringTag<>("tags/structure_subbiomes/",
-            String.class, TerrainChecker::initStructMap);
+            String.class, ConfigHandler::initStructMap);
 
     public ConfigHandler()
     {
@@ -123,6 +142,7 @@ public class ConfigHandler extends ConfigData
         ExplosionCustom.MINBLASTDAMAGE = (float) this.minBlastEffect;
         TerrainSegment.noLoad = this.resetAllTerrain;
         IBlockEntity.TEBLACKLIST.clear();
+        DataSync_Impl.DEBUG_DATASYNC = debug;
         BlockEntityUpdater.autoBlacklist = this.autoBlacklistErroredTEs;
         for (String s : this.teblacklist)
         {
@@ -134,6 +154,6 @@ public class ConfigHandler extends ConfigData
         TerrainSegment.biomeCheckers.removeIf(t -> t instanceof ConfigTerrainChecker);
         ConfigTerrainBuilder.process(this.customBiomeMappings);
         if (this.generateCache) Cruncher.init();
-        TerrainChecker.initStructMap();
+        initStructMap();
     }
 }

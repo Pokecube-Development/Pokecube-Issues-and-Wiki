@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import thut.api.ModelHolder;
 import thut.bling.ThutBling;
 import thut.bling.client.render.Util;
-import thut.core.client.render.model.IModel;
+import thut.api.model.IModel;
 import thut.core.client.render.model.ModelFactory;
 import thut.wearables.EnumWearable;
 

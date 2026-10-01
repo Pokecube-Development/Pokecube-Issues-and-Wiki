@@ -54,7 +54,7 @@ import pokecube.core.utils.TimePeriod;
 import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.level.terrain.BiomeType;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;

@@ -5,14 +5,14 @@ import java.util.UUID;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import pokecube.core.blocks.healer.HealerTile;
-import thut.core.common.Proxy;
 
-public class CommonProxy implements Proxy
+public class CommonProxy
 {
     public Player getPlayer(final UUID uuid)
     {
-        return this.getServer().getPlayerList().getPlayer(uuid);
+        return ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(uuid);
     }
 
     public ResourceLocation getPlayerSkin(final String name)
@@ -27,7 +27,7 @@ public class CommonProxy implements Proxy
 
     public Level getWorld()
     {
-        return this.getServer().getLevel(Level.OVERWORLD);
+        return ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD);
     }
 
     public Player getPlayer()

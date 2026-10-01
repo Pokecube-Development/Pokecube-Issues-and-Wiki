@@ -19,7 +19,7 @@ import thut.api.block.flowing.MoltenBlock;
 import thut.api.block.flowing.SolidBlock;
 import thut.api.maths.Vector3;
 import thut.concrete.Concrete;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.lang.reflect.Array;
 

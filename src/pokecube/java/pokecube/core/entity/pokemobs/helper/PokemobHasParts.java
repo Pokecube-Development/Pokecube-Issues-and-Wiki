@@ -25,9 +25,9 @@ import pokecube.api.data.PokedexEntry;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.animation.CapabilityAnimation;
-import thut.api.entity.multipart.BBPartEntity;
-import thut.api.entity.multipart.BBPartEntity.Factory;
-import thut.api.entity.multipart.IBBPartMultipart;
+import thut.core.common.mobs.BBPartEntity;
+import thut.core.common.mobs.BBPartEntity.Factory;
+import thut.core.common.mobs.IBBPartMultipart;
 import thut.core.client.render.bbmodel.BBModel;
 import thut.core.common.network.PartSync;
 

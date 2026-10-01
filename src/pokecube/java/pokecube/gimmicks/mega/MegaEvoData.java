@@ -21,10 +21,11 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.gimmicks.mega.conditions.*;
+import thut.api.ThutAPI;
 import thut.api.data.DataHelpers;
 import thut.api.data.DataHelpers.ResourceData;
 import thut.api.util.JsonUtil;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 public class MegaEvoData extends ResourceData
 {
@@ -154,7 +155,7 @@ public class MegaEvoData extends ResourceData
     private void loadFromJson(JsonElement element)
     {
         var rule = JsonUtil.gson.fromJson(element, BaseRuleJson.class);
-        rule.init(PokecubeCore.proxy.getRegistries());
+        rule.init(ThutAPI.getRegistries());
     }
 
     private void loadFile(final ResourceLocation l, Resource r)

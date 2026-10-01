@@ -28,7 +28,7 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import thut.api.entity.blockentity.render.RenderBlockEntity;
+import thut.core.common.blockentity.render.RenderBlockEntity;
 import thut.api.maths.Vector3;
 import thut.crafts.Reference;
 import thut.crafts.ThutCrafts;

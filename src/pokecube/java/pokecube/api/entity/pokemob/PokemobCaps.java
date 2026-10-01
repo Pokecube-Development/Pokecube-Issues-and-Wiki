@@ -34,7 +34,7 @@ import thut.api.ThutCaps;
 import thut.api.attachments.Breedable;
 import thut.api.data.HolderProvider;
 import thut.api.entity.IBreedingMob;
-import thut.core.common.genetics.DefaultGenetics;
+import thut.api.entity.genetics.DefaultGenetics;
 import thut.core.common.network.SyncAttachments;
 
 import java.util.function.Supplier;

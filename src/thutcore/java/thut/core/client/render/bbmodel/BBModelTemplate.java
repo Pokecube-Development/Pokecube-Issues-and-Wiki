@@ -9,9 +9,9 @@ import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import thut.api.util.JsonUtil;
-import thut.core.client.render.model.parts.Material;
+import thut.api.model.Material;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
+import thut.api.util.AxisAngles;
 
 import java.util.ArrayList;
 import java.util.Arrays;

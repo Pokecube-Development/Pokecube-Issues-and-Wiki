@@ -45,9 +45,9 @@ import pokecube.core.moves.implementations.MovesAdder;
 import thut.api.data.DataHelpers;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
-import thut.core.xml.bind.annotation.XmlElement;
-import thut.core.xml.bind.annotation.XmlRootElement;
-import thut.lib.ResourceHelper;
+import thut.api.xml.bind.annotation.XmlElement;
+import thut.api.xml.bind.annotation.XmlRootElement;
+import thut.api.util.ResourceHelper;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

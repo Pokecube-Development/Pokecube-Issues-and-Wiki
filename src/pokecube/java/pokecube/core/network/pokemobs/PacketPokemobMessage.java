@@ -12,6 +12,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.connection.ConnectionType;
 import pokecube.core.PokecubeCore;
+import thut.api.ThutAPI;
 import thut.core.common.network.Packet;
 
 public class PacketPokemobMessage extends Packet
@@ -34,7 +35,7 @@ public class PacketPokemobMessage extends Packet
 
     public void read(final FriendlyByteBuf buf)
     {
-        var buffer = new RegistryFriendlyByteBuf(buf, PokecubeCore.proxy.getRegistries(), ConnectionType.NEOFORGE);
+        var buffer = new RegistryFriendlyByteBuf(buf, ThutAPI.getRegistries(), ConnectionType.NEOFORGE);
         this.message = ComponentSerialization.STREAM_CODEC.decode(buffer);
     }
 
@@ -49,7 +50,7 @@ public class PacketPokemobMessage extends Packet
     @Override
     public void write(final FriendlyByteBuf buf)
     {
-        var buffer = new RegistryFriendlyByteBuf(buf, PokecubeCore.proxy.getRegistries(), ConnectionType.NEOFORGE);
+        var buffer = new RegistryFriendlyByteBuf(buf, ThutAPI.getRegistries(), ConnectionType.NEOFORGE);
         ComponentSerialization.STREAM_CODEC.encode(buffer, this.message);
     }
 

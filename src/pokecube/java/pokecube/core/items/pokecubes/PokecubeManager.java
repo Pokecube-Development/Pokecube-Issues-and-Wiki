@@ -23,7 +23,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import thut.api.entity.genetics.GeneHolder;
 import thut.api.item.ItemList;
-import thut.core.common.genetics.DefaultGenetics;
+import thut.api.entity.genetics.DefaultGenetics;
 
 import java.util.UUID;
 

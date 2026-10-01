@@ -20,11 +20,11 @@ import pokecube.adventures.client.gui.trainer.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
-import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.GuardEntry;
 import pokecube.core.client.gui.helper.RouteEditHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.network.packets.PacketSyncRoutes;
+import thut.api.ThutAPI;
 
 public class AI extends Page
 {
@@ -188,7 +188,7 @@ public class AI extends Page
 
     private void onChanged()
     {
-        Tag tag = this.parent.aiStates.serializeNBT(PokecubeCore.proxy.getRegistries());
+        Tag tag = this.parent.aiStates.serializeNBT(ThutAPI.getRegistries());
         try
         {
             parent.aiStates.setDirection(Float.parseFloat(this.faceDirection.getValue()));
@@ -212,7 +212,7 @@ public class AI extends Page
             {
                 PokecubeAPI.LOGGER.error(e);
             }
-            tag = trainer.serializeNBT(PokecubeCore.proxy.getRegistries());
+            tag = trainer.serializeNBT(ThutAPI.getRegistries());
             message.getTag().put("__T__", tag);
         }
         PacketTrainer.ASSEMBLER.sendToServer(message.getTag());

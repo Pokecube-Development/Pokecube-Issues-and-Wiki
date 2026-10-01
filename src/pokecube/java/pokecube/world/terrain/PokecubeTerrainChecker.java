@@ -25,7 +25,7 @@ import thut.api.level.terrain.TerrainSegment;
 import thut.api.level.terrain.TerrainSegment.ISubBiomeChecker;
 import thut.api.maths.Vector3;
 import thut.core.common.handlers.ConfigHandler;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.Set;
 

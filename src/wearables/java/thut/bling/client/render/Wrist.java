@@ -7,8 +7,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import thut.core.client.render.model.IModel;
-import thut.core.client.render.model.parts.Material;
+import thut.api.model.IModel;
+import thut.api.model.Material;
 
 public class Wrist
 {

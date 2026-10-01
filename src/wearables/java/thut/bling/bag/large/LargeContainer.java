@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import thut.api.ThutAPI;
 import thut.api.inventory.BaseContainer;
 import thut.api.inventory.big.BigSlot;
 import thut.api.item.ItemList;
@@ -87,7 +88,7 @@ public class LargeContainer extends BaseContainer
     public void changeName(final String name)
     {
         this.inv.boxes[this.inv.getPage()] = name;
-        if (ThutCore.proxy.isClientSide())
+        if (ThutAPI.isClientSide())
         {
             final PacketBag packet = new PacketBag(PacketBag.RENAME, this.inv.getOwner());
             packet.data.putString("N", name);
@@ -128,7 +129,7 @@ public class LargeContainer extends BaseContainer
     public void gotoInventoryPage(final int page)
     {
         this.inv.setPage(page - 1);
-        if (ThutCore.proxy.isClientSide())
+        if (ThutAPI.isClientSide())
         {
             final PacketBag packet = new PacketBag(PacketBag.SETPAGE, this.inv.getOwner());
             packet.data.putInt("P", page);

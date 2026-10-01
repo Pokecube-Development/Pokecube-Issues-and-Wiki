@@ -16,12 +16,11 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.IAnimationChanger;
-import thut.core.client.render.model.parts.Material;
-import thut.core.client.render.model.parts.MaterialRenderable;
-import thut.core.client.render.texturing.IPartTexturer;
-import thut.core.client.render.texturing.IRetexturableModel;
+import thut.api.model.Material;
+import thut.api.model.texture.IPartTexturer;
+import thut.api.model.texture.IRetexturableModel;
 import thut.core.common.ThutCore;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 /** Body, Made of Bones, Faces, and Materials. */
 public class Body implements IRetexturableModel

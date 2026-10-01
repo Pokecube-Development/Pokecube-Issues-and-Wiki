@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
-import pokecube.core.PokecubeCore;
+import thut.api.ThutAPI;
 
 public class PokecubeDamageSources
 {
@@ -36,31 +36,31 @@ public class PokecubeDamageSources
 
     public static Holder<DamageType> pokemobAttackContact()
     {
-        return PokecubeCore.proxy.getRegistries().holderOrThrow(POKEMOB_ATTACK_CONTACT);
+        return ThutAPI.getRegistries().holderOrThrow(POKEMOB_ATTACK_CONTACT);
     }
 
     public static Holder<DamageType> pokemobAttackRanged()
     {
-        return PokecubeCore.proxy.getRegistries().holderOrThrow(POKEMOB_ATTACK_RANGED);
+        return ThutAPI.getRegistries().holderOrThrow(POKEMOB_ATTACK_RANGED);
     }
 
     public static Holder<DamageType> pokemobStatus()
     {
-        return PokecubeCore.proxy.getRegistries().holderOrThrow(POKEMOB_STATUS);
+        return ThutAPI.getRegistries().holderOrThrow(POKEMOB_STATUS);
     }
 
     public static Holder<DamageType> pokemobOngoing()
     {
-        return PokecubeCore.proxy.getRegistries().holderOrThrow(POKEMOB_ONGOING);
+        return ThutAPI.getRegistries().holderOrThrow(POKEMOB_ONGOING);
     }
 
     public static Holder<DamageType> pokemobGeneric()
     {
-        return PokecubeCore.proxy.getRegistries().holderOrThrow(POKEMOB_GENERIC);
+        return ThutAPI.getRegistries().holderOrThrow(POKEMOB_GENERIC);
     }
 
     public static Holder<DamageType> pokemobTerrain()
     {
-        return PokecubeCore.proxy.getRegistries().holderOrThrow(TERRAIN_EFFECT);
+        return ThutAPI.getRegistries().holderOrThrow(TERRAIN_EFFECT);
     }
 }

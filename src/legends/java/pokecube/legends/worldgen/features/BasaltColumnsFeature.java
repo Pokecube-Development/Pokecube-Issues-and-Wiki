@@ -18,7 +18,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureConfiguration;
 import pokecube.legends.Reference;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class BasaltColumnsFeature extends Feature<ColumnFeatureConfiguration>
 {

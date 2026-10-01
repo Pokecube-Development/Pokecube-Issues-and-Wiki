@@ -44,7 +44,7 @@ import pokecube.core.database.Database;
 import thut.api.level.terrain.BiomeDatabase;
 import thut.api.level.terrain.BiomeType;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class SpawnBiomeMatcher
 {

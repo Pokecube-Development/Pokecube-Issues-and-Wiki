@@ -22,8 +22,8 @@ import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import thut.core.common.ThutCore;
-import thut.core.common.handlers.PlayerDataHandler;
-import thut.core.common.handlers.PlayerDataHandler.PlayerData;
+import thut.api.data.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler.PlayerData;
 
 /** Player capture/hatch/kill stats */
 public class PokecubePlayerStats extends PlayerData

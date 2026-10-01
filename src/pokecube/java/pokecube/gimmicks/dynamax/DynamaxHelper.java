@@ -52,7 +52,7 @@ import pokecube.core.handlers.PokecubePlayerDataHandler;
 import thut.api.Tracker;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.core.common.config.Config;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.List;
 import java.util.function.Supplier;

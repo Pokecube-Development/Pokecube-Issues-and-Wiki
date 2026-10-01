@@ -24,7 +24,7 @@ import pokecube.legends.spawns.LegendarySpawn;
 import thut.api.data.DataHelpers;
 import thut.api.data.DataHelpers.ResourceData;
 import thut.api.util.JsonUtil;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

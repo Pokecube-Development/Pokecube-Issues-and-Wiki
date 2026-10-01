@@ -48,7 +48,7 @@ import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.IBotAI;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.io.File;
 import java.io.IOException;

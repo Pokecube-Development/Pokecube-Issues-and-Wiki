@@ -7,15 +7,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
-import pokecube.core.PokecubeCore;
-import pokecube.core.moves.damage.sources.PokecubeDamageSources;
 import pokecube.core.moves.templates.Move_Ongoing;
+import thut.api.ThutAPI;
 
 public class Perishsong extends Move_Ongoing
 {
@@ -42,7 +40,7 @@ public class Perishsong extends Move_Ongoing
     @Override
     protected DamageSource getOngoingDamage(final LivingEntity user)
     {
-        return new DamageSource(PokecubeCore.proxy.getRegistries().holderOrThrow(PERISH_SONG), user);
+        return new DamageSource(ThutAPI.getRegistries().holderOrThrow(PERISH_SONG), user);
     }
 
     @Override

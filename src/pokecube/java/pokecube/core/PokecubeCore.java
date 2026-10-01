@@ -93,10 +93,10 @@ import thut.api.data.StringTag;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.core.common.ThutCore;
-import thut.core.common.handlers.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
 import thut.lib.DistExecutor;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import javax.annotation.Nullable;
 import java.util.Map;

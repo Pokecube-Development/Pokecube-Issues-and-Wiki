@@ -1,0 +1,266 @@
+package thut.api.entity.teleporting;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.function.Consumer;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import thut.api.maths.Vector3;
+
+public class ThutTeleporter
+{
+    private static class InvulnTicker
+    {
+        private final ServerLevel overworld;
+
+        private final Entity entity;
+        private final long start;
+
+        public InvulnTicker(final Entity entity)
+        {
+            this.entity = entity;
+            this.overworld = entity.getServer().getLevel(Level.OVERWORLD);
+            this.start = this.overworld.getGameTime();
+            NeoForge.EVENT_BUS.register(this);
+        }
+
+        @SubscribeEvent
+        public void damage(final LivingDamageEvent.Pre event)
+        {
+            if (!event.getEntity().getUUID().equals(this.entity.getUUID())) return;
+            final long time = this.overworld.getGameTime();
+            if (time - this.start > 20)
+            {
+                NeoForge.EVENT_BUS.unregister(this);
+                return;
+            }
+            event.setNewDamage(0);
+        }
+
+    }
+
+    private static class TransferTicker
+    {
+        private final Entity entity;
+        private final ServerLevel destWorld;
+        private final TeleDest dest;
+        private final boolean sound;
+        private final Consumer<Entity> postTransfer;
+
+        public TransferTicker(ServerLevel destWorld, Entity entity, TeleDest dest,
+                boolean sound, Consumer<Entity> postTransfer)
+        {
+            this.entity = entity;
+            this.dest = dest;
+            this.sound = sound;
+            this.destWorld = destWorld;
+            this.postTransfer = postTransfer;
+            if (destWorld.isHandlingTick()) NeoForge.EVENT_BUS.register(this);
+            else doTransfer();
+        }
+
+        private void doTransfer()
+        {
+            if (this.entity instanceof ServerPlayer player)
+            {
+                player.isChangingDimension = true;
+                player.teleportTo(destWorld, dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.getYRot(),
+                        entity.getXRot());
+                if (sound)
+                {
+                    destWorld.playLocalSound(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z,
+                            SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+                    player.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+                }
+                player.isChangingDimension = false;
+            }
+            else
+            {
+                ThutTeleporter.transferMob(this.destWorld, this.dest, this.entity, this.postTransfer);
+                if (this.sound)
+                {
+                    this.destWorld.playLocalSound(this.dest.getTeleLoc().x, this.dest.getTeleLoc().y,
+                            this.dest.getTeleLoc().z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F,
+                            false);
+                    this.entity.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+                }
+            }
+            postTransfer.accept(entity);
+        }
+
+        @SubscribeEvent
+        public void tickEvent(final LevelTickEvent.Post event)
+        {
+            if (event.getLevel() == this.entity.level())
+            {
+                NeoForge.EVENT_BUS.unregister(this);
+                doTransfer();
+            }
+        }
+    }
+
+    private static class RemountTicker
+    {
+        private final UUID mount;
+        private final UUID rider;
+
+        final int index;
+
+        private final ServerLevel world;
+
+        int n = 0;
+
+        public RemountTicker(final UUID mount, final UUID rider, final int index, final ServerLevel world)
+        {
+            this.mount = mount;
+            this.rider = rider;
+            this.world = world;
+            this.index = index;
+            NeoForge.EVENT_BUS.register(this);
+        }
+
+        @SubscribeEvent
+        public void TickEvent(final LevelTickEvent.Post event)
+        {
+            if (event.getLevel() != this.world) return;
+            if (this.n++ > 20) NeoForge.EVENT_BUS.unregister(this);
+            final Entity mount = this.world.getEntity(this.mount);
+            final Entity rider = this.world.getEntity(this.rider);
+            if (mount != null && rider != null)
+            {
+                this.n--;
+                final int num = mount.getPassengers().size();
+                if (num == this.index)
+                {
+                    rider.startRiding(mount, true);
+                    NeoForge.EVENT_BUS.unregister(this);
+                }
+            }
+        }
+    }
+
+    public static void transferTo(final Entity entity, final TeleDest dest)
+    {
+        ThutTeleporter.transferTo(entity, dest, false);
+    }
+
+    public static void transferTo(final Entity entity, final TeleDest dest, final boolean sound)
+    {
+        ThutTeleporter.transferTo(entity, dest, sound, (e)->{});
+    }
+
+    public static void transferTo(final Entity entity, final TeleDest dest, final boolean sound, Consumer<Entity> postTransfer)
+    {
+        if (entity.level() instanceof ServerLevel)
+        {
+            new InvulnTicker(entity);
+            if (dest.loc.dimension() == entity.level().dimension())
+            {
+                ThutTeleporter.moveMob(entity, dest, postTransfer);
+                return;
+            }
+            final ServerLevel destWorld = entity.getServer().getLevel(dest.loc.dimension());
+            // Schedule the transfer for end of tick.
+            if (destWorld != null) new TransferTicker(destWorld, entity, dest, sound, postTransfer);
+        }
+    }
+
+    private static void transferMob(final ServerLevel destWorld, final TeleDest dest, final Entity entity, Consumer<Entity> postTransfer)
+    {
+    	ServerPlayer player = null;
+        if (entity instanceof ServerPlayer access)
+        {
+            player = access;
+            player.isChangingDimension = true;
+        }
+        final List<Entity> passengers = entity.getPassengers();
+        entity.ejectPassengers();
+        for (int i = 0; i < passengers.size(); i++)
+        {
+            final Entity e = passengers.get(i);
+            e.getPersistentData().putBoolean("thutcore:dimtp", true);
+            ThutTeleporter.transferTo(e, dest, false, postTransfer);
+            e.getPersistentData().remove("thutcore:dimtp");
+            new RemountTicker(entity.getUUID(), e.getUUID(), i, destWorld);
+        }
+
+        ThutTeleporter.removeMob(entity);
+        entity.revive();
+        entity.moveTo(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.getYRot(), entity.getXRot());
+        entity.level = destWorld;
+        ThutTeleporter.addMob(destWorld, entity);
+        if (player != null)
+        {
+            player.isChangingDimension = false;
+            player.connection.resetPosition();
+            player.connection.teleport(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.getYRot(),
+                    entity.getXRot());
+        }
+    }
+
+    private static void addMob(final ServerLevel world, final Entity entity)
+    {
+        var event = new EntityJoinLevelEvent(entity, world);
+        NeoForge.EVENT_BUS.post(event);
+        if (event.isCanceled()) return;
+        final ChunkAccess ichunk = world.getChunk(Mth.floor(entity.getX() / 16.0D), Mth.floor(entity.getZ() / 16.0D),
+                ChunkStatus.FULL, true);
+        if (ichunk instanceof LevelChunk) ichunk.addEntity(entity);
+        world.addDuringTeleport(entity);
+    }
+
+    private static void removeMob(final Entity entity)
+    {
+        entity.setRemoved(RemovalReason.CHANGED_DIMENSION);
+    }
+
+    private static void moveMob(final Entity entity, TeleDest dest, Consumer<Entity> postTransfer)
+    {
+        if (entity instanceof LivingEntity living)
+        {
+            double targetX = dest.getTeleLoc().x;
+            double targetY = dest.getTeleLoc().y;
+            double targetZ = dest.getTeleLoc().z;
+            final TeleEvent event = TeleEvent.onUseTeleport(living, targetX, targetY, targetZ);
+
+            if (event.isCanceled()) return;
+
+            targetX = event.getTargetX();
+            targetY = event.getTargetY();
+            targetZ = event.getTargetZ();
+
+            dest = new TeleDest().setLoc(
+                    GlobalPos.of(dest.getPos().dimension(), new BlockPos((int) targetX, (int) targetY, (int) targetZ)),
+                    new Vector3().set(targetX, targetY, targetZ));
+        }
+
+        if (entity instanceof ServerPlayer player)
+        {
+            player.isChangingDimension = true;
+            player.connection.teleport(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z, entity.getYRot(),
+                    entity.getXRot());
+            player.connection.resetPosition();
+            player.isChangingDimension = false;
+        }
+        else entity.teleportTo(dest.getTeleLoc().x, dest.getTeleLoc().y, dest.getTeleLoc().z);
+        postTransfer.accept(entity);
+    }
+}

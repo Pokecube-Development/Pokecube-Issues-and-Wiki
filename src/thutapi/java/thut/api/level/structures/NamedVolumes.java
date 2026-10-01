@@ -1,0 +1,325 @@
+package thut.api.level.structures;
+
+import com.google.common.collect.Lists;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+import thut.api.util.RegHelper;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
+public class NamedVolumes
+{
+    public static interface INamedPart
+    {
+        /**
+         * @return The name of this part
+         */
+        String getName();
+        /**
+         * @return A key for the deserialiser for this part for loading it from nbt, etc.
+         */
+        String getKey();
+
+        BoundingBox getBounds();
+
+        default boolean is(String name)
+        {
+            return name.equals(this.getName());
+        }
+
+        default Object getWrapped()
+        {
+            return null;
+        }
+    }
+
+    public static interface INamedVolume
+    {
+        /**
+         * @return The name of this volume, does not need to be unique or registered anywhere
+         */
+        String getName();
+
+        /**
+         * @return A key for the deserialiser for this volume for loading it from nbt, etc.
+         */
+        String getKey();
+
+        default boolean is(String name)
+        {
+            return name.equals(this.getName());
+        }
+
+        List<INamedPart> getParts();
+
+        BoundingBox getTotalBounds();
+
+        /**
+         * @return If this is a local volume, it will apply a subbiome
+         */
+        default boolean notAsSubbiome()
+        {
+            return false;
+        }
+
+        default boolean isIn(final BlockPos pos, boolean forTerrain)
+        {
+            if (forTerrain && this.notAsSubbiome()) return false;
+            if (this.getParts().isEmpty()) return false;
+            if (!this.getTotalBounds().isInside(pos)) return false;
+            synchronized (this.getParts())
+            {
+                for (var p1 : this.getParts()) if (insideBox(p1.getBounds(), pos, forTerrain)) return true;
+            }
+            return false;
+        }
+
+        default boolean isNear(final BlockPos pos, final int distance, boolean forTerrain)
+        {
+            if (forTerrain && this.notAsSubbiome()) return false;
+            if (this.getParts().isEmpty()) return false;
+            if (!inflate(this.getTotalBounds(), distance).isInside(pos)) return false;
+            synchronized (this.getParts())
+            {
+                for (var p1 : this.getParts())
+                    if (insideBox(inflate(p1.getBounds(), distance), pos, forTerrain)) return true;
+            }
+            return false;
+        }
+
+        default Object getWrapped()
+        {
+            return null;
+        }
+    }
+
+    private static BoundingBox inflate(final BoundingBox other, final int amt)
+    {
+        return new BoundingBox(other.minX(), other.minY(), other.minZ(), other.maxX(), other.maxY(),
+                other.maxZ()).inflatedBy(amt);
+    }
+
+    private static boolean insideBox(final BoundingBox b, BlockPos pos, boolean forTerrain)
+    {
+        // TODO decide if we want to do something special for terrain checks?
+        return b.isInside(pos);
+    }
+
+    public static Map<String, Supplier<INamedVolume>> VOLUMES_FACTORY_REGISTRY = new HashMap<>();
+    public static Map<String, Supplier<INamedPart>> PART_FACTORY_REGISTRY = new HashMap<>();
+
+    public static INamedPart loadPart(HolderLookup.Provider registries, CompoundTag comp)
+    {
+        var key = comp.getString("key");
+        var data = comp.getCompound("tag");
+        if (NamedVolumes.PART_FACTORY_REGISTRY.containsKey(key))
+        {
+            var factory = NamedVolumes.PART_FACTORY_REGISTRY.get(key);
+            var obj = factory.get();
+            if (obj instanceof INBTSerializable<?> sera)
+            {
+                try
+                {
+                    @SuppressWarnings("unchecked")
+                    var ser = (INBTSerializable<CompoundTag>) sera;
+                    ser.deserializeNBT(registries, data);
+                    return obj;
+                }
+                catch (Exception ignored)
+                {
+
+                }
+            }
+        }
+        return null;
+    }
+
+    public static INamedVolume loadVolume(HolderLookup.Provider registries, CompoundTag comp)
+    {
+        var key = comp.getString("key");
+        var data = comp.getCompound("tag");
+        if(NamedVolumes.VOLUMES_FACTORY_REGISTRY.containsKey(key))
+        {
+            var factory = NamedVolumes.VOLUMES_FACTORY_REGISTRY.get(key);
+            var obj = factory.get();
+            if(obj instanceof INBTSerializable<?> sera)
+            {
+                try
+                {
+                    @SuppressWarnings("unchecked")
+                    var ser = (INBTSerializable<CompoundTag>) sera;
+                    ser.deserializeNBT(registries, data);
+                    return obj;
+                }
+                catch (Exception ignored)
+                {
+
+                }
+            }
+        }
+        return null;
+    }
+
+    public static CompoundTag saveVolumeOrPart(HolderLookup.Provider registries, Object volume)
+    {
+        CompoundTag tag = new CompoundTag();
+        if (volume instanceof INamedVolume vol)
+        {
+            tag.putString("key", vol.getKey());
+            if (vol instanceof INBTSerializable<?> ser)
+            {
+                tag.put("tag", ser.serializeNBT(registries));
+            }
+        }
+        else if(volume instanceof INamedPart part)
+        {
+            tag.putString("key", part.getKey());
+            if (part instanceof INBTSerializable<?> ser)
+            {
+                tag.put("tag", ser.serializeNBT(registries));
+            }
+        }
+        return tag;
+    }
+
+    public static class NamedStructureWrapper implements INamedVolume
+    {
+        List<INamedPart> parts = Lists.newArrayList();
+        final String name;
+        public Structure feature;
+        public StructureStart start;
+        final ServerLevel level;
+
+        private int hash = -1;
+        private String key;
+
+        public NamedStructureWrapper(ServerLevel level, String name, Structure feature, StructureStart start)
+        {
+            this.feature = feature;
+            this.name = name;
+            this.start = start;
+            this.level = level;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            if (this.hash == -1) this.toString();
+            return this.hash;
+        }
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (!(obj instanceof INamedVolume)) return false;
+            return obj.toString().equals(this.toString());
+        }
+
+        @Override
+        public String toString()
+        {
+            if (this.start.getPieces().isEmpty()) return this.getName();
+            if (this.key == null) this.key = this.getName() + " " + this.getTotalBounds();
+            this.hash = this.key.hashCode();
+            return this.key;
+        }
+
+        @Override
+        public String getName()
+        {
+            return name;
+        }
+
+        @Override
+        public String getKey()
+        {
+            return "minecraft:structure";
+        }
+
+        @Override
+        public boolean is(String name)
+        {
+            if (INamedVolume.super.is(name)) return true;
+            var key = RegHelper.STRUCTURE_REGISTRY;
+            var tag = TagKey.create(key, ResourceLocation.parse(name));
+            var registry = level.registryAccess().registryOrThrow(key);
+            var opt_holder = registry.getHolder(registry.getId(this.feature));
+            return opt_holder.get().is(tag);
+        }
+
+        @Override
+        public BoundingBox getTotalBounds()
+        {
+            return start.getBoundingBox();
+        }
+
+        @Override
+        public List<INamedPart> getParts()
+        {
+            if (parts.isEmpty())
+                start.getPieces().forEach(piece -> this.parts.add(new StructurePiecePart(piece, level)));
+            return parts;
+        }
+
+        @Override
+        public Object getWrapped()
+        {
+            return feature;
+        }
+    }
+
+    public static class StructurePiecePart implements INamedPart
+    {
+        final StructurePiece part;
+        final String name;
+
+        public StructurePiecePart(StructurePiece part, ServerLevel source)
+        {
+            this.part = part;
+            if (source != null && part instanceof PoolElementStructurePiece p
+                    && p.getElement() instanceof INamedPart exp)
+            {
+                this.name = exp.getName();
+            }
+            else this.name = "unk_part";
+        }
+
+        @Override
+        public String getName()
+        {
+            return name;
+        }
+
+        @Override
+        public String getKey()
+        {
+            return "minecraft:structure_part";
+        }
+
+        @Override
+        public BoundingBox getBounds()
+        {
+            return part.getBoundingBox();
+        }
+
+        @Override
+        public Object getWrapped()
+        {
+            return part;
+        }
+
+    }
+}

@@ -13,7 +13,7 @@ import thut.api.util.JsonUtil;
 import thut.core.client.render.json.JsonTemplate.JsonBlock;
 import thut.core.client.render.model.BaseModel;
 import thut.core.common.ThutCore;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 public class JsonModel extends BaseModel
 {

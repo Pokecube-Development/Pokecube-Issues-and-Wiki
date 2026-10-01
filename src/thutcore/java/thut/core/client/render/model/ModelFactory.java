@@ -4,10 +4,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.ModelHolder;
+import thut.api.model.IModel;
+import thut.api.model.IModelRenderer;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.bbmodel.BBModel;
 import thut.core.client.render.json.JsonModel;
-import thut.core.client.render.model.IModel.IModelCallback;
+import thut.api.model.IModel.IModelCallback;
 import thut.core.client.render.x3d.X3dModel;
 import thut.core.common.ThutCore;
 

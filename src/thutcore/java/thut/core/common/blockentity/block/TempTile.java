@@ -1,0 +1,210 @@
+package thut.core.common.blockentity.block;
+
+import com.google.common.collect.Sets;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.joml.Vector3f;
+import thut.api.block.ITickTile;
+import thut.core.common.blockentity.BlockEntityBase;
+import thut.core.common.blockentity.BlockEntityBase.RelativeEntityPos;
+import thut.api.maths.Vector3;
+import thut.crafts.ThutCrafts;
+
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class TempTile extends BlockEntity implements ITickTile
+{
+    private static Set<BlockState> NO_INTERACT = Sets.newHashSet();
+
+    public BlockEntityBase blockEntity;
+
+    public VoxelShape shape = null;
+
+    public TempTile(final BlockPos pos, final BlockState state)
+    {
+        super(ThutCrafts.CRAFTTE.get(), pos, state);
+    }
+
+    public TempTile(final BlockEntityBase blockEntity, final BlockPos pos, final BlockState state)
+    {
+        this(pos, state);
+        this.blockEntity = blockEntity;
+    }
+
+    @Override
+    public void tick()
+    {
+        boolean shouldRemove = this.blockEntity == null;
+        // Check if entity is actually alive
+        if (!shouldRemove) shouldRemove = !this.blockEntity.isAlive();
+        // Check if we are still in bounds.
+        if (!shouldRemove) shouldRemove = !this.blockEntity.getBoundingBox().inflate(1.01)
+                .contains(new Vec3(this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ()));
+
+        if (shouldRemove)
+        {
+            boolean water = this.getBlockState().getValue(TempBlock.WATERLOGGED);
+            this.level.removeBlock(this.getBlockPos(), false);
+            if (water) this.level.setBlock(getBlockPos(), Blocks.WATER.defaultBlockState(), 3);
+        }
+        else
+        {
+            final BlockState fake = this.getEffectiveState();
+            final BlockState real = this.getBlockState();
+            if (fake != null)
+            {
+                final int lightR = real.getLightEmission(this.getLevel(), this.getBlockPos());
+                @SuppressWarnings("deprecation")
+                final int lightF = fake.getLightEmission();
+                if (lightR != lightF)
+                    this.getLevel().setBlockAndUpdate(this.getBlockPos(), real.setValue(TempBlock.LIGHTLEVEL, lightF));
+            }
+        }
+    }
+
+    public BlockEntity getEffectiveTile()
+    {
+        if (this.blockEntity != null) return this.blockEntity.getFakeWorld().getTile(this.getBlockPos());
+        return null;
+    }
+
+    public BlockState getEffectiveState()
+    {
+        if (this.blockEntity != null) return this.blockEntity.getFakeWorld().getBlock(this.getBlockPos());
+        return null;
+    }
+
+    public InteractionResult useWithoutItem(final BlockState state, final Level world, final BlockPos pos,
+            final Player player, final BlockHitResult hit)
+    {
+        final BlockState eff = this.getEffectiveState();
+        if (eff != null && !NO_INTERACT.contains(eff) && blockEntity.getFakeWorld() instanceof Level level)
+        {
+            InteractionResult res = InteractionResult.PASS;
+            try
+            {
+                BlockEntity be = this.getEffectiveTile();
+                if (be != null && be.getLevel() == null) be.setLevel(level);
+                res = eff.useWithoutItem(level, player, hit);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                NO_INTERACT.add(eff);
+            }
+            if (res != InteractionResult.PASS) return res;
+        }
+        return blockEntity.interactAtFromTile(player, hit.getLocation(), player.getUsedItemHand());
+    }
+
+    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player,
+            InteractionHand hand, BlockHitResult hitResult)
+    {
+        final BlockState eff = this.getEffectiveState();
+        if (eff != null && !NO_INTERACT.contains(eff) && blockEntity.getFakeWorld() instanceof Level level)
+        {
+            ItemInteractionResult res = ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            try
+            {
+                BlockEntity be = this.getEffectiveTile();
+                if (be != null && be.getLevel() == null) be.setLevel(level);
+                res = eff.useItemOn(stack, level, player, hand, hitResult);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                NO_INTERACT.add(eff);
+            }
+            if (res != ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION) return res;
+        }
+        // Otherwise forward the interaction to the block entity;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    //    TODO figure out how to sync these now...
+    //    @Override
+    //    public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
+    //    {
+    //        final BlockEntity effective = this.getEffectiveTile();
+    //        if (effective != null && !(effective instanceof TempTile)) return effective.getCapability(cap, side);
+    //        return super.getCapability(cap, side);
+    //    }
+
+    public VoxelShape getShape(boolean forCollide)
+    {
+        VoxelShape ret = Shapes.empty();
+        if (this.blockEntity != null)
+        {
+            final Vector3 r = new Vector3().set(this.worldPosition);
+            final VoxelShape shape = this.blockEntity.getUpdater().buildShape();
+            if (!shape.isEmpty()) ret = Shapes.join(Shapes.block(), shape.move(-r.x, -r.y, -r.z), BooleanOp.AND);
+            if (forCollide && blockEntity.getV().y() > 0 && !ret.isEmpty())
+            {
+                BlockEntity above = getLevel().getBlockEntity(getBlockPos().above());
+                boolean empty = true;
+                if (above instanceof TempTile tile)
+                {
+                    var s2 = tile.getShape(false);
+                    if (!s2.isEmpty() && s2.bounds().getYsize() > 0.9) empty = false;
+                }
+                // Walls should still be walls, just floors affected.
+                if (empty) return Shapes.empty();
+            }
+        }
+        this.shape = ret;
+        return ret;
+    }
+
+    public float onVerticalCollide(Entity entity, float distance)
+    {
+        if (entity == this.blockEntity) return distance;
+        if (this.blockEntity == null) return distance;
+        double y = this.getShape(false).max(Direction.Axis.Y);
+        if (Double.isFinite(y))
+        {
+            if (!(entity instanceof ServerPlayer serverplayer))
+            {
+                y += this.getBlockPos().getY();
+                double _dy = this.blockEntity.getDeltaMovement().y();
+                var velocity = entity.getDeltaMovement();
+                velocity = new Vec3(velocity.x(), _dy, velocity.z());
+                entity.setDeltaMovement(velocity);
+                entity.setPos(entity.getX(), y, entity.getZ());
+                this.blockEntity.recentCollides.compute(entity, (e, _v) -> {
+                    var v = new RelativeEntityPos(e, new AtomicInteger(), new Vector3f());
+                    v.lastSeen().set(this.blockEntity.tickCount + 20);
+                    float dx = (float) (entity.getX() - this.blockEntity.getX());
+                    double dy = entity.getY() - this.blockEntity.getY();
+                    float dz = (float) (entity.getZ() - this.blockEntity.getZ());
+                    v.relativePos().set(dx, dy, dz);
+                    return v;
+                });
+            }
+            else
+            {
+                // Meed to set floatingTickCount to prevent being kicked
+                serverplayer.connection.aboveGroundVehicleTickCount = 0;
+                serverplayer.connection.aboveGroundTickCount = 0;
+            }
+        }
+        return distance;
+    }
+
+}

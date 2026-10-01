@@ -43,7 +43,7 @@ import thut.api.attachments.Ownable;
 import thut.api.data.HolderProvider;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;

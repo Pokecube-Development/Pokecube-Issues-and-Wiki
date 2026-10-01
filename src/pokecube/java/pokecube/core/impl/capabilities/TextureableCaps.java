@@ -16,7 +16,7 @@ import pokecube.core.entity.pokemobs.EntityPokemob;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IMobTexturable;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class TextureableCaps
 {

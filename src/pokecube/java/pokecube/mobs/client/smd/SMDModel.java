@@ -31,17 +31,17 @@ import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
-import thut.core.client.render.animation.AnimationXML.Mat;
-import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.model.IModel;
-import thut.core.client.render.model.IModelCustom;
-import thut.core.client.render.model.IModelRenderer;
-import thut.core.client.render.model.parts.Material;
-import thut.core.client.render.model.parts.Mesh;
-import thut.core.client.render.texturing.IPartTexturer;
-import thut.core.client.render.texturing.IRetexturableModel;
+import thut.api.entity.animation.AnimationXML.Mat;
+import thut.api.model.IExtendedModelPart;
+import thut.api.model.IModel;
+import thut.api.model.IModelCustom;
+import thut.api.model.IModelRenderer;
+import thut.api.model.Material;
+import thut.api.model.Mesh;
+import thut.api.model.texture.IPartTexturer;
+import thut.api.model.texture.IRetexturableModel;
 import thut.core.common.ThutCore;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFakeExtendedPart
 {

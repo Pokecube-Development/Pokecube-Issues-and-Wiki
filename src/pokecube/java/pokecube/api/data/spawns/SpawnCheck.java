@@ -18,7 +18,7 @@ import pokecube.core.utils.TimePeriod;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.terrain.BiomeType;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;

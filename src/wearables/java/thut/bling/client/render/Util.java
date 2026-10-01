@@ -23,12 +23,12 @@ import thut.api.ModelHolder;
 import thut.api.Tracker;
 import thut.bling.ThutBling;
 import thut.bling.data.GemData;
-import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.model.IModel;
-import thut.core.client.render.model.IModelCustom;
+import thut.api.model.IExtendedModelPart;
+import thut.api.model.IModel;
+import thut.api.model.IModelCustom;
 import thut.core.client.render.model.ModelFactory;
-import thut.core.client.render.model.parts.Material;
-import thut.lib.RegHelper;
+import thut.api.model.Material;
+import thut.api.util.RegHelper;
 import thut.wearables.EnumWearable;
 
 public class Util

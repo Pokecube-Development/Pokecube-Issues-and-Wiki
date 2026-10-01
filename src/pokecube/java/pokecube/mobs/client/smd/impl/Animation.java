@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 /**
  * Animation Object, this contains the various frames of the animations, and

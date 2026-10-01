@@ -10,9 +10,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
-import thut.core.common.handlers.PlayerDataHandler;
-import thut.core.common.handlers.PlayerDataHandler.PlayerData;
-import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
+import thut.api.ThutAPI;
+import thut.api.data.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler.PlayerData;
+import thut.api.data.PlayerDataHandler.PlayerDataManager;
 import thut.core.common.network.Packet;
 
 public class PacketDataSync extends Packet
@@ -22,7 +23,7 @@ public class PacketDataSync extends Packet
         final PacketDataSync packet = new PacketDataSync();
         packet.data.putString("type", data.getIdentifier());
         final CompoundTag tag1 = new CompoundTag();
-        data.writeToNBT(PokecubeCore.proxy.getRegistries(), tag1);
+        data.writeToNBT(ThutAPI.getRegistries(), tag1);
         packet.data.put("data", tag1);
         packet.data.putUUID("uuid", owner);
         return packet;

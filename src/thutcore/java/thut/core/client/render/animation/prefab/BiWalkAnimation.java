@@ -10,7 +10,7 @@ import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
-import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.api.entity.animation.AnimationXML.Phase;
 import thut.core.common.ThutCore;
 
 public class BiWalkAnimation extends Animation

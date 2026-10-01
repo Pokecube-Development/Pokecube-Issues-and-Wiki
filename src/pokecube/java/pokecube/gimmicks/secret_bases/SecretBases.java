@@ -46,7 +46,7 @@ import pokecube.gimmicks.secret_bases.moves.ActionSecretPower;
 import thut.api.attachments.Ownable;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.function.Supplier;
 

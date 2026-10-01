@@ -23,7 +23,7 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.Tags;
 import thut.concrete.Concrete;
 import thut.concrete.item.PaintBrush;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class PaintBrushRecipe extends CustomRecipe
 {

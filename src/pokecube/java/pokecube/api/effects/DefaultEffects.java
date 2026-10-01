@@ -7,10 +7,9 @@ import pokecube.api.data.moves.Moves;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.effects.AnimationMultiAnimations;
-import pokecube.core.effects.MoveAnimationBase;
 import pokecube.core.effects.MoveAnimationHelper;
 import thut.api.util.JsonUtil;
-import thut.lib.ResourceHelper;
+import thut.api.util.ResourceHelper;
 
 import java.io.InputStreamReader;
 import java.util.ArrayList;

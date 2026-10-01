@@ -24,12 +24,12 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEve
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.StartTracking;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import thut.api.Tracker;
-import thut.api.entity.blockentity.BlockEntityBase;
+import thut.core.common.blockentity.BlockEntityBase;
 import thut.api.level.structures.StructureManager;
-import thut.api.level.structures.StructureStickApplier;
+import thut.core.common.handlers.StructureStickApplier;
 import thut.api.level.terrain.BiomeType;
-import thut.api.level.terrain.SubbiomeStickApplier;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.handlers.SubbiomeStickApplier;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;

@@ -97,17 +97,17 @@ import thut.api.item.ItemList;
 import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandConfigs;
-import thut.core.common.handlers.PlayerDataHandler;
-import thut.core.common.handlers.PlayerDataHandler.PlayerData;
-import thut.core.common.handlers.PlayerDataHandler.PlayerDataManager;
-import thut.lib.RegHelper;
+import thut.api.data.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler.PlayerData;
+import thut.api.data.PlayerDataHandler.PlayerDataManager;
+import thut.api.util.RegHelper;
 
 import java.util.Collections;
 import java.util.List;
@@ -479,6 +479,11 @@ public class EventsHandler
             else for (INamedVolume structure : set)
             {
                 thut.lib.ChatHelper.sendSystemMessage(player, Component.literal(structure.getName()));
+                for (var p : structure.getParts())
+                {
+                    if (p.getBounds().isInside(v.getPos()))
+                        thut.lib.ChatHelper.sendSystemMessage(player, Component.literal("  " + p.getName()));
+                }
             }
         }
     }

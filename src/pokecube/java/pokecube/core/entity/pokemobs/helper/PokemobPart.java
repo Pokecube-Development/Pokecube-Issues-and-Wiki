@@ -5,9 +5,9 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
-import thut.api.entity.multipart.BBPartEntity;
+import thut.core.common.mobs.BBPartEntity;
 import thut.core.client.render.bbmodel.BBModel;
-import thut.core.client.render.model.parts.Part;
+import thut.api.model.Part;
 
 public class PokemobPart extends BBPartEntity<PokemobHasParts>
 {

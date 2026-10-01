@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
-import thut.core.common.handlers.PlayerDataHandler;
+import thut.api.data.PlayerDataHandler;
 
 public class PokecubePlayerDataHandler extends PlayerDataHandler
 {

@@ -21,7 +21,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.lighting.LightEngine;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.PlantsInit;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.List;
 

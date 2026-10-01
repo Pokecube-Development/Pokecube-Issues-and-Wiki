@@ -7,6 +7,7 @@ import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.tags.Tags;
+import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -31,14 +32,14 @@ public class Damp extends Ability
     @Override
     public void destroy(IPokemob mob)
     {
-        if (ThutCore.proxy.isClientSide()) return;
+        if (ThutAPI.isClientSide()) return;
         ThutCore.FORGE_BUS.unregister(this);
     }
 
     @Override
     public Ability init(final Object... args)
     {
-        if (ThutCore.proxy.isClientSide()) return this;
+        if (ThutAPI.isClientSide()) return this;
         for (int i = 0; i < 2; i++)
             if (args != null && args.length > i)
             {

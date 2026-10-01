@@ -23,6 +23,7 @@ import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.network.packets.PacketPC;
+import thut.api.ThutAPI;
 import thut.api.inventory.BaseContainer;
 import thut.core.common.ThutCore;
 import thut.wearables.ThutWearables;
@@ -115,7 +116,7 @@ public class PCContainer extends BaseContainer
     public void changeName(final String name)
     {
         this.inv.boxes[this.inv.getPage()] = name;
-        if (ThutCore.proxy.isClientSide())
+        if (ThutAPI.isClientSide())
         {
             final PacketPC packet = new PacketPC(PacketPC.RENAME, this.inv.getOwner());
             packet.data.putString("N", name);
@@ -156,7 +157,7 @@ public class PCContainer extends BaseContainer
     {
         if (page - 1 == this.inv.getPage()) return;
         this.inv.setPage(page - 1);
-        if (ThutCore.proxy.isClientSide())
+        if (ThutAPI.isClientSide())
         {
             final PacketPC packet = new PacketPC(PacketPC.SETPAGE, this.inv.getOwner());
             packet.data.putInt("P", page);
@@ -174,7 +175,7 @@ public class PCContainer extends BaseContainer
 
     public void setRelease(final boolean bool, final UUID id)
     {
-        if (this.release && !bool) if (ThutCore.proxy.isClientSide())
+        if (this.release && !bool) if (ThutAPI.isClientSide())
         {
             final PacketPC packet = new PacketPC(PacketPC.RELEASE, id);
             packet.data.putBoolean("T", false);
@@ -205,7 +206,7 @@ public class PCContainer extends BaseContainer
     public void toggleAuto()
     {
         this.inv.setAutoToPC(!this.inv.isAutoToPC());
-        if (ThutCore.proxy.isClientSide())
+        if (ThutAPI.isClientSide())
         {
             final PacketPC packet = new PacketPC(PacketPC.TOGGLEAUTO, this.inv.getOwner());
             packet.data.putBoolean("A", this.inv.isAutoToPC());

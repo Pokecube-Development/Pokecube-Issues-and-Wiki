@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import net.minecraft.server.level.WorldGenRegion;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.mutable.MutableObject;
 
 import com.google.common.collect.Lists;
@@ -62,7 +63,7 @@ import pokecube.world.gen.structures.GenericJigsawStructure;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class ExpandedJigsawPacement
 {
@@ -94,11 +95,10 @@ public class ExpandedJigsawPacement
 
         // Finally decide from chunkGenerator.
         ChunkGenerator chunkGen = context.chunkGenerator();
-        final MinecraftServer server = ThutCore.proxy.getServer();
+        final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         for (final ServerLevel w : server.getAllLevels()) if (w.getChunkSource().getGenerator() == chunkGen) return w;
         Exception e = new IllegalStateException("Did not find a server level for this context!");
         PokecubeAPI.LOGGER.error(e);
-        e.printStackTrace();
         return server.overworld();
     }
 
@@ -419,7 +419,7 @@ public class ExpandedJigsawPacement
                                 // flag!
                                 if (needed_once.contains(flag))
                                 {
-                                    need = p.int_config.priority >= 0;
+                                    need = p.int_config.priority() >= 0;
                                 }
                             }
                             if (need) needed.add(p);
@@ -497,7 +497,7 @@ public class ExpandedJigsawPacement
             if (root_element instanceof ExpandedJigsawPiece p)
             {
                 water = water || p.bool_config.water_terrain_match;
-                depth_offset = -p.int_config.extra_child_depth;
+                depth_offset = -p.int_config.extra_child_depth();
                 parent_junctions = !p.bool_config.no_affect_noise;
                 _default = water ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
                 root_projection = p._projection;
@@ -635,14 +635,14 @@ public class ExpandedJigsawPacement
                                         int v_clearance = config.clearances.v_clearance;
                                         if (next_picked_element instanceof ExpandedJigsawPiece p)
                                         {
-                                            room_below = p.int_config.space_below;
-                                            if (p.int_config.v_clearance >= 0)
+                                            room_below = p.int_config.space_below();
+                                            if (p.int_config.v_clearance() >= 0)
                                             {
-                                                v_clearance = p.int_config.v_clearance;
+                                                v_clearance = p.int_config.v_clearance();
                                             }
-                                            if (p.int_config.h_clearance >= 0)
+                                            if (p.int_config.h_clearance() >= 0)
                                             {
-                                                v_clearance = p.int_config.h_clearance;
+                                                v_clearance = p.int_config.h_clearance();
                                             }
                                             next_projection = p._projection;
                                         }

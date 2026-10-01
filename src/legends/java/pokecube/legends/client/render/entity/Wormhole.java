@@ -16,10 +16,10 @@ import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.core.client.render.animation.AnimationLoader;
-import thut.core.client.render.model.IModel;
-import thut.core.client.render.model.IModelRenderer;
+import thut.api.model.IModel;
+import thut.api.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
-import thut.core.client.render.texturing.IPartTexturer;
+import thut.api.model.texture.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
 
 public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<WormholeEntity>>

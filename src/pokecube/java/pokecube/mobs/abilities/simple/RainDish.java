@@ -6,7 +6,7 @@ import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.moves.PokemobTerrainEffects;
-import thut.api.level.terrain.TerrainManager;
+import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 
 @AbilityProvider(name = "rain-dish")

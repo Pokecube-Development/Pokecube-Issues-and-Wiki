@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.statue.StatueEntity;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
-import thut.lib.AxisAngles;
+import thut.api.util.AxisAngles;
 
 public class AFABlock implements BlockEntityRenderer<AfaTile>
 {

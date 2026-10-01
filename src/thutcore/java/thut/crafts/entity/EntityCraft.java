@@ -22,11 +22,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import org.joml.Vector3f;
 import thut.api.entity.IMultiplePassengerEntity;
-import thut.api.entity.blockentity.BlockEntityBase;
+import thut.core.common.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.core.common.world.mobs.data.types.Data_Seat;
+import thut.api.world.mobs.data.types.Data_Seat;
 
 import java.util.List;
 import java.util.UUID;

@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.PointedDripstoneConfiguration;
 import pokecube.legends.Reference;
 import pokecube.legends.worldgen.utils.AquamarineUtils;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 public class AquamarineCrystalFeature extends Feature<PointedDripstoneConfiguration>
 {

@@ -15,7 +15,7 @@ import thut.api.entity.ICopyMob;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
 import thut.core.common.network.SyncAttachments;
-import thut.lib.RegHelper;
+import thut.api.util.RegHelper;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

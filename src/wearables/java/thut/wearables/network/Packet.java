@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
+import thut.api.ThutAPI;
 import thut.core.common.ThutCore;
 
 public abstract class Packet
@@ -31,7 +32,7 @@ public abstract class Packet
     public void handle(Packet payload, IPayloadContext context)
     {
         var player = context.player();
-        if (ThutCore.proxy.isClientSide()) payload.handleClient(player);
+        if (ThutAPI.isClientSide()) payload.handleClient(player);
         else handleServer((ServerPlayer) player);
     }
 
@@ -53,8 +54,6 @@ public abstract class Packet
 
     /**
      * Write to the buffer.
-     * 
-     * @param buffer
      */
     public abstract void write(FriendlyByteBuf buffer);
 
