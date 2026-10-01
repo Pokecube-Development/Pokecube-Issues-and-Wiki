@@ -353,7 +353,6 @@ dependencies {
     implementation "curse.maven:jei-${version_jei}"
 
     // Compiles against and includes the supported version of thutapi
-    //   from 2.0 (inclusive)
     jarJar(implementation('thut.api:thutapi-1.0.0')) {
         version {
             // Version used in your workspace and bundled in mod jar
