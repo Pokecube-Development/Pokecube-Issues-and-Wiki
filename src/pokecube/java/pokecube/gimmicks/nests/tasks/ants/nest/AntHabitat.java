@@ -34,6 +34,7 @@ import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.blocks.IInhabitable;
+import pokecube.api.blocks.IRepelledVolume;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -46,7 +47,6 @@ import pokecube.gimmicks.nests.blocks.NestTile;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.SpawnHandler.AABBRegion;
-import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
 import pokecube.core.init.Config;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks;
@@ -82,7 +82,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
     int antExitCooldown = 0;
 
-    ForbidRegion repelled = null;
+    IRepelledVolume repelled = null;
 
     // This list gets shuffled every so often, so the order is not constant!
     public List<Node> allRooms = Lists.newArrayList();
@@ -159,19 +159,19 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     public void updateRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
         final AABB box = this.rooms.getBounds().inflate(10, 0, 10);
-        this.repelled = new AABBRegion(box);
+        this.repelled = new AABBRegion(box, IRepelledVolume.ForbidReason.NEST);
         this.tile = tile;
         if (this.tile instanceof NestTile nest)
         {
             this.removing = true;
-            if (this.repelled != null) SpawnHandler.removeForbiddenSpawningCoord(this.repelled.getPos(), world);
+            if (this.repelled != null) SpawnHandler.removeForbiddenSpawnVolume(this.repelled, world);
             this.removing = false;
             nest.addForbiddenSpawningCoord();
         }
     }
 
     @Override
-    public ForbidRegion getRepelledRegion(final BlockEntity tile, final ServerLevel world)
+    public IRepelledVolume getRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
         if (this.repelled == null && !this.removing) this.updateRepelledRegion(tile, world);
         return this.repelled;
@@ -530,7 +530,6 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT(reg));
                     updateJob(mob, tag, pos);
-                    break dig;
                 }
                 else
                 {
@@ -552,7 +551,6 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     tag.putString("type", "edge");
                     tag.put("data", a.serializeNBT(reg));
                     updateJob(mob, tag, pos);
-                    break dig;
                 }
             }
             break;

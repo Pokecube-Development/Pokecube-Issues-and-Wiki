@@ -37,6 +37,7 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.blocks.IRepelledVolume.ForbidReason;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
@@ -53,8 +54,6 @@ import pokecube.core.database.Database;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.spawns.PokemobSpawns;
 import pokecube.core.eventhandlers.SpawnHandler;
-import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
-import pokecube.core.eventhandlers.SpawnHandler.ForbiddenEntry;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
@@ -147,12 +146,12 @@ public class PacketPokedex extends NBTPacket
             });
             return meteors;
         });
-        RADAR_SUPPLIERS.put("_repels_", player->{
-           List<GlobalPos> repels = new ArrayList<>();
+        RADAR_SUPPLIERS.put("_repels_", player -> {
+            List<GlobalPos> repels = new ArrayList<>();
             final ServerLevel level = player.serverLevel().getLevel();
             final BlockPos pos = player.blockPosition();
-            final List<ForbiddenEntry> _repels = SpawnHandler.getForbiddenEntries(level, pos);
-            _repels.forEach(entry-> repels.add(GlobalPos.of(level.dimension(), entry.region.getPos())));
+            var _repels = SpawnHandler.getForbiddenEntries(level, pos);
+            _repels.forEach(entry -> repels.add(GlobalPos.of(level.dimension(), entry.getTotalBounds().getCenter())));
             return repels;
         });
     }

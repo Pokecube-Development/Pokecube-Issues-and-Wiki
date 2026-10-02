@@ -11,10 +11,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import pokecube.api.blocks.IRepelledVolume;
+import pokecube.api.blocks.IRepelledVolume.ForbidReason;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.eventhandlers.SpawnHandler;
-import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.berries.ItemBerry;
 
@@ -26,6 +27,7 @@ public class MaxTile extends InteractableTile
 
     public int range = PokecubeCore.getConfig().repelRadius;
     public boolean enabled = true;
+    private IRepelledVolume volume;
 
     public MaxTile(final BlockPos pos, final BlockState state)
     {
@@ -41,7 +43,9 @@ public class MaxTile extends InteractableTile
     {
         if (this.getLevel() == null || this.getLevel().isClientSide || !this.enabled) return;
         final BlockPos pos = this.getBlockPos();
-        SpawnHandler.addForbiddenSpawningCoord(pos, this.level, this.range, MaxTile.MAXSPOT);
+        if (this.volume != null) SpawnHandler.removeForbiddenSpawnVolume(this.volume, this.level);
+        this.volume = new SpawnHandler.CubeRegion(this.range, pos, MaxTile.MAXSPOT);
+        SpawnHandler.addForbiddenSpawnVolume(this.level, this.volume);
     }
 
     @Override
@@ -87,7 +91,7 @@ public class MaxTile extends InteractableTile
     public void removeForbiddenSpawningCoord()
     {
         if (this.getLevel() == null || this.getLevel().isClientSide) return;
-        SpawnHandler.removeForbiddenSpawningCoord(this.getBlockPos(), this.level);
+        if (this.volume != null) SpawnHandler.removeForbiddenSpawnVolume(this.volume, this.level);
     }
 
     @Override

@@ -28,8 +28,6 @@ import pokecube.api.events.EggEvent;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.eventhandlers.SpawnHandler;
-import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
-import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
@@ -119,9 +117,9 @@ public class NestTile extends InteractableTile implements ITickTile
         final IInhabitable hab = this.getWrappedHab();
         if (hab == null) return;
         hab.setPos(pos);
-        final ForbidRegion region = hab.getRepelledRegion(this, level);
+        var region = hab.getRepelledRegion(this, level);
         if (region == null) return;
-        SpawnHandler.addForbiddenSpawningCoord(this.level, region, ForbidReason.NEST);
+        SpawnHandler.addForbiddenSpawnVolume(this.level, region);
     }
 
     public void addResident(final IPokemob resident)
@@ -171,9 +169,9 @@ public class NestTile extends InteractableTile implements ITickTile
         if (hab == null || this.level.isClientSide()) return;
         final BlockPos pos = this.getBlockPos();
         hab.setPos(pos);
-        final ForbidRegion region = hab.getRepelledRegion(this, level);
+        var region = hab.getRepelledRegion(this, level);
         if (region == null) return;
-        SpawnHandler.removeForbiddenSpawningCoord(region.getPos(), this.level);
+        SpawnHandler.removeForbiddenSpawnVolume(region, this.level);
     }
 
     @Override

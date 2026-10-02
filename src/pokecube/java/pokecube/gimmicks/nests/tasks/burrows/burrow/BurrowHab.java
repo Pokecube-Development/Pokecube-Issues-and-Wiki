@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import pokecube.api.blocks.IInhabitable;
+import pokecube.api.blocks.IRepelledVolume;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.PokedexEntry.SpawnData;
@@ -39,7 +40,6 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
 import pokecube.core.eventhandlers.SpawnHandler.AABBRegion;
-import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
 import pokecube.core.init.Config;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
@@ -66,7 +66,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
 
     public Room burrow;
 
-    ForbidRegion repelled = null;
+    IRepelledVolume repelled = null;
 
     final Set<PokedexEntry> related = Sets.newHashSet();
 
@@ -90,11 +90,11 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
     public void updateRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
         final AABB box = this.burrow.getOutBounds().inflate(16, 0, 16);
-        this.repelled = new AABBRegion(box);
+        this.repelled = new AABBRegion(box, IRepelledVolume.ForbidReason.NEST);
     }
 
     @Override
-    public ForbidRegion getRepelledRegion(final BlockEntity tile, final ServerLevel world)
+    public IRepelledVolume getRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
         if (this.repelled == null) this.updateRepelledRegion(tile, world);
         return this.repelled;

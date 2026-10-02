@@ -2,7 +2,6 @@ package pokecube.core.eventhandlers;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.brigadier.StringReader;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -35,6 +34,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
@@ -42,6 +42,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.event.EventHooks;
 import org.nfunk.jep.JEP;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.blocks.IRepelledVolume;
+import pokecube.api.blocks.IRepelledVolume.ForbidReason;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
@@ -59,13 +61,13 @@ import pokecube.core.commands.Pokemake;
 import pokecube.core.commands.Pokemake2;
 import pokecube.core.database.Database;
 import pokecube.core.init.Config;
-import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.Tracker;
 import thut.api.boom.ExplosionCustom;
 import thut.api.boom.ExplosionCustom.DefaultBreaker;
+import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
 import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
@@ -80,119 +82,65 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.function.Supplier;
 
 /** @author Manchou Heavily modified by Thutmose */
 public final class SpawnHandler
 {
-    public static interface ForbidRegion
+    public static class CubeRegion implements IRepelledVolume
     {
-        boolean isInside(BlockPos pos);
+        final BoundingBox box;
+        final ForbidReason reason;
 
-        BlockPos getPos();
-    }
-
-    public record CubeRegion(int range, BlockPos origin) implements ForbidRegion
-    {
-        @Override
-        public boolean isInside(final BlockPos pos)
+        public CubeRegion(int range, BlockPos origin, ForbidReason reason)
         {
-            return ChunkCoordinate.isWithin(pos, this.origin, this.range);
-        }
-
-        @Override
-        public BlockPos getPos()
-        {
-            return this.origin;
-        }
-    }
-
-    public static class AABBRegion implements ForbidRegion
-    {
-        private final AABB box;
-
-        private final BlockPos mid;
-
-        public AABBRegion(final AABB box)
-        {
-            // TODO: Check this
-            this.box = box;
-            this.mid = new BlockPos((int) box.getCenter().x, (int) box.getCenter().y, (int) box.getCenter().z);
-        }
-
-        @Override
-        public boolean isInside(final BlockPos pos)
-        {
-            return this.box.contains(pos.getX(), pos.getY(), pos.getZ());
-        }
-
-        @Override
-        public BlockPos getPos()
-        {
-            return this.mid;
-        }
-    }
-
-    public static class ForbiddenEntry
-    {
-        public final ForbidReason reason;
-        public final ForbidRegion region;
-
-        public ForbiddenEntry(final ForbidReason reason, final ForbidRegion region)
-        {
+            this.box = BoundingBox.fromCorners(origin.offset(-range, -range, -range),
+                    origin.offset(range, range, range));
             this.reason = reason;
-            this.region = region;
         }
 
-        public ForbiddenEntry(final int range, final ForbidReason reason, final BlockPos origin)
+        @Override
+        public ForbidReason getReason()
         {
-            this(reason, new CubeRegion(range, origin));
+            return reason;
+        }
+
+        @Override
+        public BoundingBox getTotalBounds()
+        {
+            return box;
         }
     }
 
-    public static class ForbidReason
+    public static class AABBRegion implements IRepelledVolume
     {
-        public static final ForbidReason NONE, REPEL, NEST;
+        final BoundingBox box;
+        final ForbidReason reason;
 
-        static
+        public AABBRegion(final AABB box, ForbidReason reason)
         {
-            NONE = new ForbidReason("pokecube:none");
-            REPEL = new ForbidReason("pokecube:repel");
-            NEST = new ForbidReason("pokecube:nest");
-        }
-
-        public final ResourceLocation name;
-
-        public ForbidReason(final String name)
-        {
-            this.name = ResourceLocation.parse(name);
+            var min = BlockPos.containing(box.minX, box.minY, box.minZ);
+            var max = BlockPos.containing(box.maxX, box.maxY, box.maxZ);
+            this.box = BoundingBox.fromCorners(min, max);
+            this.reason = reason;
         }
 
         @Override
-        public String toString()
+        public ForbidReason getReason()
         {
-            return this.name.toString();
+            return reason;
         }
 
         @Override
-        public int hashCode()
+        public BoundingBox getTotalBounds()
         {
-            return this.name.hashCode();
-        }
-
-        @Override
-        public boolean equals(final Object obj)
-        {
-            if (obj instanceof ForbidReason fob) return fob.name.equals(this.name);
-            return false;
+            return box;
         }
     }
 
     private static class MeteorBlockBreaker extends DefaultBreaker
     {
-
         public MeteorBlockBreaker(ServerLevel world)
         {
             super(world);
@@ -240,8 +188,6 @@ public final class SpawnHandler
 
     public static Variance DEFAULT_VARIANCE = new Variance();
 
-    private static final Map<ResourceKey<Level>, Map<BlockPos, ForbiddenEntry>> forbidReasons = new HashMap<>();
-
     public static Supplier<BlockState> MELT_GETTER = Blocks.AIR::defaultBlockState;
     public static Supplier<BlockState> DUST_GETTER = Blocks.AIR::defaultBlockState;
 
@@ -263,21 +209,9 @@ public final class SpawnHandler
     public static boolean lvlCap = false;
     public static int capLevel = 50;
 
-    public static void addForbiddenSpawningCoord(final BlockPos pos, final Level dim, final int range,
-            final ForbidReason reason)
+    public static void addForbiddenSpawnVolume(Level dim, IRepelledVolume region)
     {
-        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.computeIfAbsent(dim.dimension(),
-                k -> Maps.newHashMap());
-        if (entries.containsKey(pos)) return;
-        entries.put(pos, new ForbiddenEntry(range, reason, pos));
-    }
-
-    public static void addForbiddenSpawningCoord(final Level dim, final ForbidRegion region, final ForbidReason reason)
-    {
-        Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.computeIfAbsent(dim.dimension(),
-                k -> Maps.newHashMap());
-        if (entries.containsKey(region.getPos())) return;
-        entries.put(region.getPos(), new ForbiddenEntry(reason, region));
+        StructureManager.addVolume(region, dim);
     }
 
     public static boolean canPokemonSpawnHere(SpawnContext context, boolean respectDensity)
@@ -335,7 +269,6 @@ public final class SpawnHandler
 
     public static void clear()
     {
-        SpawnHandler.forbidReasons.clear();
     }
 
     public static Mob creatureSpecificInit(final Mob mob, final Level world, final SpawnBiomeMatcher matcher)
@@ -353,21 +286,21 @@ public final class SpawnHandler
         return null;
     }
 
-    public static ForbiddenEntry getForbiddenEntry(final Level world, final int x, final int y, final int z)
+    public static IRepelledVolume getForbiddenEntry(final Level world, final int x, final int y, final int z)
     {
-        final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.dimension());
-        if (entries == null) return null;
         final BlockPos here = new BlockPos(x, y, z);
-        for (final ForbiddenEntry entry : entries.values()) if (entry.region.isInside(here)) return entry;
-        return null;
+        var hits = StructureManager.getFor(world, here);
+        hits.removeIf(h -> !(h instanceof IRepelledVolume));
+        if (hits.isEmpty()) return null;
+        return (IRepelledVolume) hits.getFirst();
     }
 
-    public static List<ForbiddenEntry> getForbiddenEntries(final Level world, final BlockPos pos)
+    public static List<IRepelledVolume> getForbiddenEntries(final Level world, final BlockPos pos)
     {
-        final List<ForbiddenEntry> ret = Lists.newArrayList();
-        final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.dimension());
-        if (entries == null) return ret;
-        for (final ForbiddenEntry entry : entries.values()) if (entry.region.isInside(pos)) ret.add(entry);
+        final List<IRepelledVolume> ret = Lists.newArrayList();
+        var hits = StructureManager.getFor(world, pos);
+        hits.removeIf(h -> !(h instanceof IRepelledVolume));
+        hits.forEach(v -> ret.add((IRepelledVolume) v));
         return ret;
     }
 
@@ -378,8 +311,8 @@ public final class SpawnHandler
 
     public static ForbidReason getNoSpawnReason(final Level world, final int x, final int y, final int z)
     {
-        final ForbiddenEntry entry = SpawnHandler.getForbiddenEntry(world, x, y, z);
-        return entry == null ? ForbidReason.NONE : entry.reason;
+        final IRepelledVolume entry = SpawnHandler.getForbiddenEntry(world, x, y, z);
+        return entry == null ? ForbidReason.NONE : entry.getReason();
     }
 
     private static BlockPos getRandomHeight(RandomSource rng, final LevelChunk chunk, final int yCenter,
@@ -676,12 +609,10 @@ public final class SpawnHandler
                 }
     }
 
-    public static void removeForbiddenSpawningCoord(final BlockPos pos, final Level world)
+    public static void removeForbiddenSpawnVolume(IRepelledVolume volume, final Level world)
     {
-        if (world == null) return;
-        final Map<BlockPos, ForbiddenEntry> entries = SpawnHandler.forbidReasons.get(world.dimension());
-        if (entries == null) return;
-        entries.remove(pos);
+        if (world == null || volume == null) return;
+        StructureManager.removeVolume(volume, world);
     }
 
     public JEP parser = new JEP();

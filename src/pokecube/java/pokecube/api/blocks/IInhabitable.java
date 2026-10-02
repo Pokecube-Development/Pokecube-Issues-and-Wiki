@@ -7,7 +7,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.common.util.INBTSerializable;
-import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
 
 public interface IInhabitable
 {
@@ -59,7 +58,7 @@ public interface IInhabitable
 
     }
 
-    default ForbidRegion getRepelledRegion(final BlockEntity tile, final ServerLevel world)
+    default IRepelledVolume getRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
         return null;
     }

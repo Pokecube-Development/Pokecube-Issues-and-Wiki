@@ -47,7 +47,6 @@ import pokecube.gimmicks.dynamax.blocks.MaxTile;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.eventhandlers.SpawnHandler;
-import pokecube.core.eventhandlers.SpawnHandler.ForbiddenEntry;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import thut.api.Tracker;
 import thut.api.entity.genetics.GeneRegistry;
@@ -152,11 +151,11 @@ public class DynamaxHelper
             final Component oldName = pokemob.getDisplayName();
 
             // Check dynamax/gigantamax first.
-            List<ForbiddenEntry> reasons = SpawnHandler.getForbiddenEntries(world, pos);
+            var reasons = SpawnHandler.getForbiddenEntries(world, pos);
             boolean isMaxSpot = false;
-            for (ForbiddenEntry e : reasons)
+            for (var e : reasons)
             {
-                if (e.reason == MaxTile.MAXSPOT)
+                if (e.getReason() == MaxTile.MAXSPOT)
                 {
                     isMaxSpot = true;
                     break;
