@@ -109,6 +109,11 @@ public class NamedVolumes
             return false;
         }
 
+        default boolean unloadWithChunk()
+        {
+            return false;
+        }
+
         default long computeVolume()
         {
             return NamedVolumes.computeVolume(this.getTotalBounds());
@@ -285,6 +290,12 @@ public class NamedVolumes
             if (parts.isEmpty())
                 start.getPieces().forEach(piece -> this.parts.add(new StructurePiecePart(piece, level)));
             return parts;
+        }
+
+        @Override
+        public boolean unloadWithChunk()
+        {
+            return true;
         }
 
         @Override

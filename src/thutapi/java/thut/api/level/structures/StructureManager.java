@@ -61,31 +61,7 @@ public class StructureManager
 
     public static List<INamedVolume> getFor(Level dim, final BlockPos loc, boolean forTerrain)
     {
-        final GlobalChunkPos pos = new GlobalChunkPos(dim.dimension(), new ChunkPos(loc));
-        var rPos = new GlobalChunkPos(pos.world, new ChunkPos(pos.pos.getRegionX(), pos.pos.getRegionZ()));
-        var rMap = StructureManager.map_by_rpos.get(rPos);
-        if ((rMap == null || !rMap.containsKey(pos)) && dim instanceof ServerLevel level)
-        {
-            if (level.isAreaLoaded(loc, 32))
-            {
-                var chunk = level.getChunkAt(loc);
-                var reg = level.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
-                var starts = level.structureManager().startsForStructure(chunk.getPos(), s -> true);
-                starts.forEach(start -> {
-                    var structure = start.getStructure();
-                    var name = reg.getKey(structure).toString();
-                    final NamedVolumes.NamedStructureWrapper info = new NamedVolumes.NamedStructureWrapper(level, name,
-                            structure, start);
-                    if (!info.start.isValid()) return;
-                    addVolume(info, level);
-                });
-            }
-            else
-            {
-                return Collections.emptyList();
-            }
-        }
-        return getFor(pos.world, loc, forTerrain);
+        return getFor(dim.dimension(), loc, forTerrain);
     }
 
     public static List<INamedVolume> getFor(ResourceKey<Level>  dim, final BlockPos loc)
@@ -193,11 +169,35 @@ public class StructureManager
     @SubscribeEvent
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
-        if (!(evt.getLevel() instanceof Level level) || level.isClientSide()) return;
+        if (!(evt.getLevel() instanceof ServerLevel level)) return;
         final ResourceKey<Level> dim = level.dimension();
         final GlobalChunkPos pos = new GlobalChunkPos(dim, evt.getChunk().getPos());
-        var rPos = new GlobalChunkPos(pos.world, new ChunkPos(pos.pos.getRegionX(), pos.pos.getRegionZ()));
-        map_by_rpos.getOrDefault(rPos, new HashMap<>()).remove(pos);
+        // Clean up any structure based ones, and then remove the map if we are empty.
+        var collection = getFor(pos.world, pos.pos);
+        collection.removeIf(b -> !b.unloadWithChunk());
+        // Remaining collection is ones to remove
+        collection.forEach(v -> removeVolume(v, level));
+        collection = getFor(pos.world, pos.pos);
+        if (collection.isEmpty())
+        {
+            var rPos = new GlobalChunkPos(pos.world, new ChunkPos(pos.pos.getRegionX(), pos.pos.getRegionZ()));
+            map_by_rpos.getOrDefault(rPos, new HashMap<>()).remove(pos);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onChunkLoad(final ChunkEvent.Load evt)
+    {
+        if (!(evt.getLevel() instanceof ServerLevel level)) return;
+        var chunk = evt.getChunk();
+        var reg = level.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
+        chunk.getAllStarts().forEach((structure, start) -> {
+            var name = reg.getKey(structure).toString();
+            final NamedVolumes.NamedStructureWrapper info = new NamedVolumes.NamedStructureWrapper(level, name,
+                    structure, start);
+            if (!info.start.isValid()) return;
+            addVolume(info, level);
+        });
     }
 
     public static void clear()
