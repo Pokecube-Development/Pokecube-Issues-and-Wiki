@@ -32,22 +32,32 @@ import thut.api.util.PermNodes.StringSetPermCache;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class ForgeEventHandlers
 {
-    private static final ResourceLocation ZMOVECAP = ResourceLocation.parse("pokecube_legends:zmove_check");
-
     private static final ResourceLocation WHILTELISTED = ResourceLocation.parse(
             "pokecube_legends:arceus_approved/arceus_approved");
 
     private static final String PERM_ARCEUS_APPROVE = "arceus.approval";
 
+    public static record ArceusCheck(INamedVolume volume, BlockPos pos, ServerLevel level, ServerPlayer player, BlockState newState) {}
+
+    public static final List<Predicate<ArceusCheck>> ARCEUS_PROTECTED = new ArrayList<>();
+
     static
     {
         PermNodes.registerStringNode(Reference.ID, PERM_ARCEUS_APPROVE, DefaultPermissionLevel.ALL,
                 "Arceus approves removal in these structures.", "");
+
+        ARCEUS_PROTECTED.add((check) -> {
+            String name = check.volume().getName();
+            if (!name.contains(":")) name = "minecraft:" + name;
+            return (PokecubeLegends.config.PROTECTED_STRUCTURES.contains(name));
+        });
     }
 
     public static Supplier<BlockState> DUST = Blocks.AIR::defaultBlockState;
@@ -63,36 +73,45 @@ public class ForgeEventHandlers
         var set = StructureManager.getFor(world, pos, false);
         for (final INamedVolume info : set)
         {
+            ArceusCheck checker = new ArceusCheck(info, pos, world, player, newState);
+            boolean protect = false;
+            for (var v : ARCEUS_PROTECTED)
+                if (v.test(checker))
+                {
+                    protect = true;
+                    break;
+                }
+            if(!protect) continue;
+
+            if (player == null) return true;
+
             String name = info.getName();
             if (!name.contains(":")) name = "minecraft:" + name;
-            if (PokecubeLegends.config.PROTECTED_STRUCTURES.contains(name))
+
+            // Lets see if they have permissions to break this structure.
+            StringSetPermCache cache = PermNodes.getStringCache(PERM_ARCEUS_APPROVE);
+            // Continue incase there is structure overlap that causes
+            // problems.
+            if (cache.contains(player, name)) continue;
+
+            // Now we do some specifc checks for the player, to see if we
+            // might actually allow breaking here.
+            final List<PokedexEntry> valid = PokecubeLegends.config.STRUCTURE_ENTRIES.get(name);
+            if (valid == null) return true;
+
+            boolean canEdit = false;
+            for (final PokedexEntry entry : valid)
             {
-                if (player == null) return true;
-
-                // Lets see if they have permissions to break this structure.
-                StringSetPermCache cache = PermNodes.getStringCache(PERM_ARCEUS_APPROVE);
-                // Continue incase there is structure overlap that causes
-                // problems.
-                if (cache.contains(player, name)) continue;
-
-                // Now we do some specifc checks for the player, to see if we
-                // might actually allow breaking here.
-                final List<PokedexEntry> valid = PokecubeLegends.config.STRUCTURE_ENTRIES.get(name);
-                if (valid == null) return true;
-
-                boolean canEdit = false;
-                for (final PokedexEntry entry : valid)
+                final ISpecialCaptureCondition capt = SpecialCaseRegister.getCaptureCondition(entry);
+                if (!(capt instanceof AbstractCondition condition)) continue;
+                if (condition.canCapture(player, false) && condition.isRelevant(state))
                 {
-                    final ISpecialCaptureCondition capt = SpecialCaseRegister.getCaptureCondition(entry);
-                    if (!(capt instanceof AbstractCondition condition)) continue;
-                    if (condition.canCapture(player, false) && condition.isRelevant(state))
-                    {
-                        canEdit = true;
-                        break;
-                    }
+                    canEdit = true;
+                    break;
                 }
-                return !canEdit;
             }
+            return !canEdit;
+
         }
         return false;
     }
@@ -159,26 +178,6 @@ public class ForgeEventHandlers
             evt.setPreCancelled();
         }
     }
-
-    // TODO See if we can protect fluids inside temples again...
-//    @SubscribeEvent(priority = EventPriority.HIGHEST)
-//    public void bucket(final FillBucketEvent evt)
-//    {
-//        if (!(evt.getEntity() instanceof ServerPlayer player) || !PokecubeLegends.config.protectTemples) return;
-//        final ServerLevel world = (ServerLevel) player.level();
-//        BlockPos pos = player.blockPosition();
-//        if (evt.getTarget() instanceof BlockHitResult && evt.getTarget().getType() != Type.MISS)
-//        {
-//            final BlockHitResult trace = (BlockHitResult) evt.getTarget();
-//            pos = trace.getBlockPos().relative(trace.getDirection());
-//        }
-//        if (this.protectTemple(player, world, null, pos))
-//        {
-//            evt.setCanceled(true);
-//            player.inventoryMenu.sendAllDataToRemote();
-//            player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
-//        }
-//    }
 
     @SubscribeEvent
     public void MeteorDestructionEvent(final MeteorEvent event)

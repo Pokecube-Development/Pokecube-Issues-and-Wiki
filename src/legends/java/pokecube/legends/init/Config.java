@@ -257,7 +257,7 @@ public class Config extends ConfigData
             }
         });
 
-        if (this.ultraKeyRequireFuel == true)
+        if (this.ultraKeyRequireFuel)
             if (this.ultraKeyRequiredFuelAmount <= 1 || this.ultraKeyRequiredFuelAmount >= 30) this.ultraKeyRequiredFuelAmount = 5;
 
         if (this.mirrorCooldown <= 300) this.mirrorCooldown = 800;
