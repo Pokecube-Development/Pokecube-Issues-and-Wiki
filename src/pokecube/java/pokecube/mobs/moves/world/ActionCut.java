@@ -8,8 +8,8 @@ import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.moves.TreeRemover;
+import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 public class ActionCut implements IMoveWorldEffect
 {
@@ -31,7 +31,7 @@ public class ActionCut implements IMoveWorldEffect
         int cut = remover.cut(true);
         if (cut == 0)
         {
-            final int index = ThutCore.newRandom().nextInt(6);
+            final int index = ThutAPI.newRandom().nextInt(6);
             for (int i = 0; i < 6; i++)
             {
                 final Direction dir = Direction.values()[(i + index) % 6];

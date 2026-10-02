@@ -60,8 +60,8 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 import thut.api.util.ResourceHelper;
 
 import java.util.ArrayList;
@@ -390,7 +390,7 @@ public class TypeTrainer extends NpcType
         for (int i = 0; i < 6; i++) trainer.setPokemob(i, ItemStack.EMPTY);
         if (level == 0) level = 5;
         final Variance variance = SpawnHandler.DEFAULT_VARIANCE;
-        int number = 1 + ThutCore.newRandom().nextInt(6);
+        int number = 1 + ThutAPI.newRandom().nextInt(6);
         number = Math.min(number, trainer.getMaxPokemobCount());
         for (int i = 0; i < number; i++)
         {

@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.common.NeoForge;
 import pokecube.adventures.blocks.genetics.helper.SelectorImpl.SelectorValue;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -19,12 +20,12 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
+import thut.api.ThutAPI;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneHolder;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.core.common.ThutCore;
 import thut.api.entity.genetics.DefaultGenetics;
 
 public class ClonerHelper
@@ -47,7 +48,7 @@ public class ClonerHelper
     {
         final String[] args = line.split(":");
         String domain = "pokecube";
-        String path = "";
+        String path;
         if (args.length == 2)
         {
             domain = args[0];
@@ -55,10 +56,9 @@ public class ClonerHelper
         }
         else path = args[0];
         path = path.split("#")[0];
-        path = ThutCore.trim(path);
+        path = ThutAPI.trim(path);
         final ResourceLocation location = ResourceLocation.fromNamespaceAndPath(domain, path);
-        final Class<? extends Gene<?>> geneClass = GeneRegistry.getClass(location);
-        return geneClass;
+        return GeneRegistry.getClass(location);
     }
 
     public static IMobGenetics getGenes(Provider provider, final ItemStack stack)
@@ -141,7 +141,7 @@ public class ClonerHelper
             stack.set(DefaultGenetics.GENE_STORE, new GeneHolder(genes, provider));
             return;
         }
-        ThutCore.FORGE_BUS.post(new GeneEditEvent(sourceGenes, genes, reason));
+        NeoForge.EVENT_BUS.post(new GeneEditEvent(sourceGenes, genes, reason));
         stack.set(DefaultGenetics.GENE_STORE, new GeneHolder(genes, provider));
     }
 
@@ -153,7 +153,7 @@ public class ClonerHelper
         alleles = selector.merge(provider, source, destination, alleles, eggsAllele);
         if (alleles != null)
         {
-            final Random rand = ThutCore.newRandom();
+            final Random rand = ThutAPI.newRandom();
             if (alleles.getExpressed().getEpigeneticRate() > rand.nextFloat())
             {
                 final GENE gene = alleles.getAllele(rand.nextBoolean() ? 0 : 1);

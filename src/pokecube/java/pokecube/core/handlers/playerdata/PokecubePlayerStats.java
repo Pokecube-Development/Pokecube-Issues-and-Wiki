@@ -21,7 +21,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 import thut.api.data.PlayerDataHandler;
 import thut.api.data.PlayerDataHandler.PlayerData;
 
@@ -40,7 +40,7 @@ public class PokecubePlayerStats extends PlayerData
     public static MutableComponent obfuscate(final Component compIn)
     {
         String val = compIn.getString();
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
         final char[] chars = val.toCharArray();
         for (int i = 0; i < val.length(); i++)
             for (int j = 0; j < 10; j++)

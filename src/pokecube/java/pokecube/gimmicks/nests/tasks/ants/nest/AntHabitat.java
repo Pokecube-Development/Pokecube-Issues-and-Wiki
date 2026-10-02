@@ -54,12 +54,12 @@ import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntJob;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntRoom;
 import pokecube.gimmicks.nests.tasks.ants.sensors.NestSensor;
 import pokecube.gimmicks.nests.tasks.ants.sensors.NestSensor.AntNest;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
-import thut.core.common.ThutCore;
 import thut.lib.ItemStackTools;
 
 public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, IWorldTickListener
@@ -214,7 +214,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
         final Node entrance = this.getRooms(AntRoom.ENTRANCE).getFirst();
 
-        final Random rng = ThutCore.newRandom();
+        final Random rng = ThutAPI.newRandom();
         final int index = rng.nextInt(nodes.size());
         final Node root = nodes.get(index);
 
@@ -348,7 +348,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
 
         final int ants = this.ants_in.size() + this.ants.size();
 
-        final Random rng = ThutCore.newRandom();
+        final Random rng = ThutAPI.newRandom();
         // Lets make the eggs not hatch for now, if we are about say 5 ants,
         // This also removes hatched/removed eggs
         this.eggs.removeIf(uuid -> {

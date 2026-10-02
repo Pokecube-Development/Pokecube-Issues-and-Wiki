@@ -7,8 +7,8 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.AbilityGene.AbilityObject;
+import thut.api.ThutAPI;
 import thut.api.entity.genetics.Gene;
-import thut.core.common.ThutCore;
 
 import java.util.Random;
 
@@ -98,7 +98,7 @@ public class AbilityGene implements Gene<AbilityObject>
     public Gene<AbilityObject> mutate()
     {
         final AbilityGene newGene = new AbilityGene();
-        newGene.ability.abilityIndex = (byte) (this.ability.abilityIndex == 2 ? ThutCore.newRandom().nextInt(2) : 2);
+        newGene.ability.abilityIndex = (byte) (this.ability.abilityIndex == 2 ? ThutAPI.newRandom().nextInt(2) : 2);
         return newGene;
     }
 

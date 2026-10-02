@@ -34,8 +34,8 @@ import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
+import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 public class DynamaxRaid implements IBossProvider
 {
@@ -86,7 +86,7 @@ public class DynamaxRaid implements IBossProvider
             genes.gigantamax = false;
 
             // Pokemob Level Spawm
-            final int level = ThutCore.newRandom().nextInt(50);
+            final int level = ThutAPI.newRandom().nextInt(50);
 
             if (newMob)
             {

@@ -26,6 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import org.joml.Vector3f;
 import pokecube.api.data.PokedexEntry;
@@ -46,9 +47,9 @@ import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.Permissions;
+import thut.api.ThutAPI;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
 import thut.api.entity.genetics.DefaultGenetics;
 import thut.api.util.RegHelper;
@@ -192,7 +193,7 @@ public class Pokecube extends Item implements IPokecube
                 if (sexe == IPokemob.FEMALE) list.add(Component.translatable("pokecube.tooltip.female"));
             }
             else list.add(Component.translatable("pokecube.tooltip.advanced"));
-            ThutCore.FORGE_BUS.post(new PokecubeTooltipEvent(item, contents, context, list, advanced));
+            NeoForge.EVENT_BUS.post(new PokecubeTooltipEvent(item, contents, context, list, advanced));
         }
         else
         {
@@ -443,7 +444,7 @@ public class Pokecube extends Item implements IPokecube
         if (hasMob && !thrower.isShiftKeyDown()) entity.targetLocation.y = -1;
         if (!world.isClientSide)
         {
-            thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (ThutCore.newRandom().nextFloat() * 0.4F + 0.8F));
+            thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (ThutAPI.newRandom().nextFloat() * 0.4F + 0.8F));
             world.addFreshEntity(entity);
             if (hasMob && thrower instanceof Player) PlayerPokemobCache.UpdateCache(stack, false, false);
         }
@@ -508,7 +509,7 @@ public class Pokecube extends Item implements IPokecube
             }
             if (!world.isClientSide)
             {
-                thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (ThutCore.newRandom().nextFloat() * 0.4F + 0.8F));
+                thrower.playSound(SoundEvents.EGG_THROW, 0.5F, 0.4F / (ThutAPI.newRandom().nextFloat() * 0.4F + 0.8F));
                 world.addFreshEntity(entity);
                 if (PokecubeManager.isFilled(stack) && thrower instanceof Player)
                     PlayerPokemobCache.UpdateCache(stack, false, false);

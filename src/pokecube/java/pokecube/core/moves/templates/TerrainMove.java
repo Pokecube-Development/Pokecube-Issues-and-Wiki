@@ -10,10 +10,10 @@ import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.PokemobTerrainEffects.EffectType;
 import pokecube.core.moves.PokemobTerrainEffects.EntryEffectType;
+import thut.api.ThutAPI;
 import thut.api.Tracker;
 import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
-import thut.core.common.ThutCore;
 import thut.core.common.network.TerrainUpdate;
 
 import java.util.Map;
@@ -46,7 +46,7 @@ public class TerrainMove implements IMove
         if (user.getMoveStats().SPECIALCOUNTER > 0 || t.canceled) return null;
         user.getMoveStats().SPECIALCOUNTER = 20;
 
-        this.duration = 300 + ThutCore.newRandom().nextInt(600);
+        this.duration = 300 + ThutAPI.newRandom().nextInt(600);
         final Level world = attackerE.level();
         final TerrainSegment segment = TerrainManager.getInstance().getTerrainForEntity(attackerE);
 

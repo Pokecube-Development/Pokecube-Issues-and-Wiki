@@ -35,9 +35,9 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPokecube;
+import thut.api.ThutAPI;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -251,7 +251,7 @@ public class EntityPokecube extends EntityPokecubeBase
                     boolean did = false;
                     if (!this.lootStacks.isEmpty())
                     {
-                        loot = this.lootStacks.get(ThutCore.newRandom().nextInt(this.lootStacks.size()));
+                        loot = this.lootStacks.get(ThutAPI.newRandom().nextInt(this.lootStacks.size()));
                         if (!loot.isEmpty())
                         {
                             Tools.giveItem(player, loot.copy());
@@ -352,7 +352,7 @@ public class EntityPokecube extends EntityPokecubeBase
                 double y = this.getY();
                 double z = this.getZ();
 
-                Random r = ThutCore.newRandom();
+                Random r = ThutAPI.newRandom();
                 for (int l = 0; l < 2; l++)
                 {
                     double i = (0.5 - r.nextDouble()) * size;

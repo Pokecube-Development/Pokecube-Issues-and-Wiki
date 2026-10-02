@@ -16,7 +16,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.moves.MovesUtils;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 import java.util.Map;
 import java.util.Random;
@@ -106,7 +106,7 @@ public class SelectMoveTask extends CombatTask
      */
     protected void selectRandomMove(IPokemob pokemob)
     {
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
         int timer = pokemob.getEntity().getBrain().getMemory(MemoryModules.TIMER_SWAPMOVE.get()).orElse(0);
         if (timer++ > rand.nextInt(30))
         {

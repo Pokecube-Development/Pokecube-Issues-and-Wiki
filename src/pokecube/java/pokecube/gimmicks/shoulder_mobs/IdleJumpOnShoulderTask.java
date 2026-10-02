@@ -15,7 +15,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
 import pokecube.core.ai.tasks.idle.IdleWalkTask;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 import java.util.Map;
 
@@ -42,7 +42,7 @@ public class IdleJumpOnShoulderTask extends BaseIdleTask
     public IdleJumpOnShoulderTask()
     {
         super(_getMems());
-        restTimer = 6000 + ThutCore.newRandom().nextInt(IdleWalkTask.IDLETIMER);
+        restTimer = 6000 + ThutAPI.newRandom().nextInt(IdleWalkTask.IDLETIMER);
     }
 
     @Override

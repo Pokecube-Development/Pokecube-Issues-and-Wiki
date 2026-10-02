@@ -17,11 +17,11 @@ import pokecube.core.database.genes.Mutations.MutationHolder;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.SpeciesGene.SpeciesInfo;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.genetics.Gene;
 import thut.api.world.WorldTickManager;
-import thut.core.common.ThutCore;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -118,7 +118,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         {
             if (value == -5 && this.entry != null)
             {
-                this.value = Tools.getSexe(this.entry.getSexeRatio(), ThutCore.newRandom());
+                this.value = Tools.getSexe(this.entry.getSexeRatio(), ThutAPI.newRandom());
                 this.setEntry(this.entry.getForGender(this.value));
             }
             return value;
@@ -191,7 +191,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
 
     SpeciesInfo info = new SpeciesInfo();
 
-    Random rand = ThutCore.newRandom();
+    Random rand = ThutAPI.newRandom();
 
     /** The value here is of format {gender, ratio}. */
     public SpeciesGene()

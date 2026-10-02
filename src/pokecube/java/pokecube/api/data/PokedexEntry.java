@@ -82,7 +82,6 @@ import thut.api.level.terrain.BiomeType;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.bbmodel.BBModel;
 import thut.core.client.render.model.ModelFactory;
-import thut.core.common.ThutCore;
 import thut.api.util.RegHelper;
 
 import javax.annotation.Nullable;
@@ -145,9 +144,7 @@ public class PokedexEntry
             final List<MutableComponent> comps = Lists.newArrayList();
             if (this._condition != null)
             {
-                if ("eevee".equals(data.user)) ThutCore.conf.debug = true;
                 List<Component> baseComps = PokemobCondition.getDescriptions(_condition);
-                if ("eevee".equals(data.user)) ThutCore.conf.debug = false;
                 for (var c : baseComps) comps.add(Component.translatableEscape("pokemob.description.tabbed", c));
             }
             return comps;
@@ -470,7 +467,7 @@ public class PokedexEntry
                 result = results.get(index).copy();
             }
             if (result.isEmpty()) return false;
-            final long dt = (long) ((action.cooldown + ThutCore.newRandom().nextInt(action.variance))
+            final long dt = (long) ((action.cooldown + ThutAPI.newRandom().nextInt(action.variance))
                     * PokecubeCore.getConfig().interactDelayScale);
             final long now = Tracker.instance().getTick();
             final long timer = dt + now;
@@ -1962,7 +1959,7 @@ public class PokedexEntry
         boolean mobs;
         if (mobs = sound.startsWith("mobs.")) sound = sound.replaceFirst("mobs.", "");
         // Replace all non word chars.
-        sound = ThutCore.trim(sound);
+        sound = ThutAPI.trim(sound);
         if (mobs) sound = "mobs." + sound;
         this.sound = ResourceLocation.fromNamespaceAndPath(ModLoadingContext.get().getActiveNamespace(), sound);
     }

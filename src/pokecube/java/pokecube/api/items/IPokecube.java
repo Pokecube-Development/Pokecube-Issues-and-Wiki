@@ -19,7 +19,6 @@ import pokecube.api.events.pokemobs.CaptureEvent.Post;
 import pokecube.api.events.pokemobs.CaptureEvent.Pre;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
-import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.maths.Vector3;
 
 public interface IPokecube

@@ -17,12 +17,12 @@ import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.gimmicks.dynamax.DynamaxGene.DynaObject;
 import pokecube.gimmicks.zmoves.GZMoveManager;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.core.common.ThutCore;
 
 public class DynamaxGene implements Gene<DynaObject>
 {
@@ -103,7 +103,7 @@ public class DynamaxGene implements Gene<DynaObject>
     public Gene<DynaObject> interpolate(final Gene<DynaObject> other)
     {
         final DynamaxGene result = new DynamaxGene();
-        result.value = ThutCore.newRandom().nextBoolean() ? other.getValue() : this.getValue();
+        result.value = ThutAPI.newRandom().nextBoolean() ? other.getValue() : this.getValue();
         return result;
     }
     private IPokemob _pokemob = null;

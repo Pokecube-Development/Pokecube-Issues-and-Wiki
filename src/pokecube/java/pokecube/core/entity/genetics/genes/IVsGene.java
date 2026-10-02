@@ -7,17 +7,17 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.Tools;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.epigenes.EVsGene;
+import thut.api.ThutAPI;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.core.common.ThutCore;
 import thut.core.common.genetics.genes.GeneByteArr;
 
 public class IVsGene extends GeneByteArr
 {
     public IVsGene()
     {
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
         this.value = new byte[] { Tools.getRandomIV(rand), Tools.getRandomIV(rand), Tools.getRandomIV(rand), Tools
                 .getRandomIV(rand), Tools.getRandomIV(rand), Tools.getRandomIV(rand) };
     }
@@ -56,7 +56,7 @@ public class IVsGene extends GeneByteArr
         final IVsGene newGene = new IVsGene();
         newGene.value = this.value.clone();
         final byte[] ret = newGene.value;
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
         final float chance = GeneticsManager.mutationRates.get(this.getKey());
         for (int i = 0; i < 6; i++)
         {
@@ -85,7 +85,7 @@ public class IVsGene extends GeneByteArr
                     parent2);
             return newGene;
         }
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
         final EVsGene gene1 = evs1.getExpressed();
         final EVsGene gene2 = evs2.getExpressed();
         final byte[] ret = newGene.value;

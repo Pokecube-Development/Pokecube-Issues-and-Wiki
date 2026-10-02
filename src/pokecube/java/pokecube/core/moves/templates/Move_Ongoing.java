@@ -7,7 +7,7 @@ import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.core.impl.entity.impl.OngoingMoveEffect;
 import pokecube.core.moves.damage.sources.PokecubeDamageSources;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -44,7 +44,7 @@ public class Move_Ongoing implements Function<Damage, IOngoingEffect>
 
     public int getDuration()
     {
-        final Random r = ThutCore.newRandom();
+        final Random r = ThutAPI.newRandom();
         return 4 + r.nextInt(2);
     }
 

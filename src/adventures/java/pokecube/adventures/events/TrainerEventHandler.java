@@ -32,6 +32,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.event.entity.EntityEvent;
@@ -95,12 +96,12 @@ import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.sources.PokemobDamageSource;
 import pokecube.core.moves.damage.sources.TerrainDamageSource;
+import thut.api.ThutAPI;
 import thut.api.inventory.npc.NpcContainer;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.api.world.mobs.data.DataSync;
-import thut.core.common.ThutCore;
 import thut.api.world.mobs.data.DataSync_Impl;
 import thut.wearables.events.WearableDroppedEvent;
 import thut.wearables.events.WearableUseEvent;
@@ -123,7 +124,7 @@ public class TrainerEventHandler
             final List<String> names = mob.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
             if (!names.isEmpty() && mob.getNPCName().isEmpty()) mob.setNPCName(
                     "pokecube." + mob.getNpcType().getName() + ".named:" + names.get(
-                            ThutCore.newRandom().nextInt(names.size())));
+                            ThutAPI.newRandom().nextInt(names.size())));
         }
 
         @Override
@@ -435,7 +436,7 @@ public class TrainerEventHandler
         if (target instanceof Villager vill)
         {
             NpcEvent.OpenInventory event = new NpcEvent.OpenInventory(vill);
-            ThutCore.FORGE_BUS.post(event);
+            NeoForge.EVENT_BUS.post(event);
 
             boolean creativeStick = player.isCreative() && player.getItemInHand(hand).getItem() == Items.STICK;
 

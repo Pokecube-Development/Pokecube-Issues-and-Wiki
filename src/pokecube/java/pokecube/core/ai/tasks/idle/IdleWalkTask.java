@@ -18,9 +18,9 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.init.Config;
+import thut.api.ThutAPI;
 import thut.core.common.terrain.TerrainManager;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import java.util.Map;
 import java.util.Random;
@@ -35,7 +35,7 @@ public class IdleWalkTask extends BaseIdleTask
     public static Vector3 getRandomPointNear(final BlockGetter world, final IPokemob mob, final Vector3 v,
             final int distance, double minDy, double maxDy)
     {
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
 
         // SElect random gaussians from here.
         double x = rand.nextFloat() * distance;

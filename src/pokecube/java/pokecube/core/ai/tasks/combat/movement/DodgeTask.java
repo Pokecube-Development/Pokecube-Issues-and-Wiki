@@ -17,8 +17,8 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.utils.AITools;
+import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import java.util.Map;
 
@@ -42,7 +42,7 @@ public class DodgeTask extends CombatTask
     private SoundEvent getDodgeSound()
     {
         if (PokecubeCore.getConfig().dodges.length == 1) return PokecubeCore.getConfig().dodges[0];
-        return PokecubeCore.getConfig().dodges[ThutCore.newRandom().nextInt(PokecubeCore.getConfig().dodges.length)];
+        return PokecubeCore.getConfig().dodges[ThutAPI.newRandom().nextInt(PokecubeCore.getConfig().dodges.length)];
     }
 
     @Override

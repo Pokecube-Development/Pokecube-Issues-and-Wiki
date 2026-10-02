@@ -27,9 +27,9 @@ import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.sources.PokecubeDamageSources;
+import thut.api.ThutAPI;
 import thut.api.Tracker;
 import thut.api.world.WorldTickManager;
-import thut.core.common.ThutCore;
 import thut.core.common.network.SyncAttachments;
 import thut.api.util.RegHelper;
 
@@ -55,7 +55,7 @@ public class AITools
             if (wildAgress)
             {
                 if (PokecubeCore.getConfig().hostileAgroRate > 0)
-                    wildAgress = ThutCore.newRandom().nextInt(PokecubeCore.getConfig().hostileAgroRate) == 0;
+                    wildAgress = ThutAPI.newRandom().nextInt(PokecubeCore.getConfig().hostileAgroRate) == 0;
                 else wildAgress = false;
                 return wildAgress;
             }
@@ -65,7 +65,7 @@ public class AITools
             /// If not hostile, or not friendly, it uses the normal config
             /// option for aggressive
             if (PokecubeCore.getConfig().aggressiveAgroRate > 0)
-                wildAgress = ThutCore.newRandom().nextInt(PokecubeCore.getConfig().aggressiveAgroRate) == 0;
+                wildAgress = ThutAPI.newRandom().nextInt(PokecubeCore.getConfig().aggressiveAgroRate) == 0;
             else wildAgress = false;
             return wildAgress;
         }

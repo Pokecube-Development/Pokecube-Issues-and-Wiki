@@ -41,7 +41,6 @@ import pokecube.core.utils.EntityTools;
 import thut.api.ThutAPI;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -203,7 +202,7 @@ public class Tools
     public static int computeCatchRate(final IPokemob pokemob, final double cubeBonus, final int cubeBonus2)
     {
         final float HPmax = pokemob.getMaxHealth();
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
         final float HP = pokemob.getHealth();
         float statusBonus = 1F;
         if (pokemob.getEntity().hasEffect(StatusEffects.FREEZE) || pokemob.getEntity().hasEffect(StatusEffects.SLEEP))
@@ -455,7 +454,7 @@ public class Tools
 
     public static int getType(String name)
     {
-        name = ThutCore.trim(name);
+        name = ThutAPI.trim(name);
 
         switch (name)
         {

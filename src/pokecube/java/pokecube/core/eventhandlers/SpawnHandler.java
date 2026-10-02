@@ -39,6 +39,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.EventHooks;
 import org.nfunk.jep.JEP;
 import pokecube.api.PokecubeAPI;
@@ -64,6 +65,7 @@ import pokecube.core.init.Config;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.world.terrain.PokecubeTerrainChecker;
+import thut.api.ThutAPI;
 import thut.api.Tracker;
 import thut.api.boom.ExplosionCustom;
 import thut.api.boom.ExplosionCustom.DefaultBreaker;
@@ -74,7 +76,6 @@ import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.util.JsonUtil;
-import thut.core.common.ThutCore;
 import thut.api.util.RegHelper;
 
 import javax.annotation.Nullable;
@@ -175,7 +176,7 @@ public final class SpawnHandler
             if (applyBreak)
             {
                 final MeteorEvent event = new MeteorEvent(state, to, pos, power, boom);
-                ThutCore.FORGE_BUS.post(event);
+                NeoForge.EVENT_BUS.post(event);
                 final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.level, pos);
                 seg.setBiome(pos, BiomeType.METEOR);
             }
@@ -728,7 +729,7 @@ public final class SpawnHandler
         var record = entry.getMatcher(context);
         if (record == null) return;
         final byte distGroupZone = 4;
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
         final int n = Math.max(entry.getMax(record) - entry.getMin(record), 1);
         final int spawnNumber = entry.getMin(record) + rand.nextInt(n);
         for (int i = 0; i < spawnNumber; i++)

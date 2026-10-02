@@ -6,8 +6,8 @@ import pokecube.api.effects.EffectPacketInfo;
 import pokecube.core.PokecubeCore;
 import pokecube.core.effects.AnimPreset;
 import pokecube.core.effects.MoveAnimationBase;
+import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 @AnimPreset(getPreset = "pont")
 public class ParticlesOnTarget extends MoveAnimationBase
@@ -21,7 +21,7 @@ public class ParticlesOnTarget extends MoveAnimationBase
     {
         if (Math.random() > values.density) return;
         final Vector3 temp = new Vector3();
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
         float dw = info.targetScale;
         final float width = values.width * dw;
         for (int i = 0; i < 50 * values.density; i++)

@@ -9,7 +9,7 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks;
 import pokecube.gimmicks.nests.tasks.ants.nest.Node;
 import pokecube.gimmicks.nests.tasks.ants.tasks.AbstractAntTask;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 import java.util.Map;
 
@@ -45,7 +45,7 @@ public class Idle extends AbstractAntTask
         if (num == 0) return;
         if (this.timer-- > 0) return;
         this.timer = 100;
-        final int index = ThutCore.newRandom().nextInt(num);
+        final int index = ThutAPI.newRandom().nextInt(num);
         final Node room = this.nest.hab.rooms.allRooms.get(index);
         if (!room.started) return;
         // PokecubeAPI.logDebug("wander to {} ({})", room.center,

@@ -28,6 +28,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.attachments.Inventory;
 import thut.api.block.IOwnableTE;
@@ -35,7 +36,6 @@ import thut.api.block.ITickTile;
 import thut.api.inventory.InvHelper.ItemCap;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
 
 import java.util.Random;
@@ -341,7 +341,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     {
         if (this.shiny) if (evt.location().distanceTo(new Vector3().set(this)) <= this.distance)
         {
-            final Random rand = ThutCore.newRandom();
+            final Random rand = ThutAPI.newRandom();
             final int rate = Math.max(PokecubeAdv.config.afaShinyRate, 1);
             if (rand.nextInt(rate) == 0)
             {

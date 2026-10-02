@@ -16,9 +16,9 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.PokemobBehaviour;
 import pokecube.core.ai.tasks.TaskBase;
+import thut.api.ThutAPI;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import java.util.Map;
 
@@ -48,7 +48,7 @@ public class LeapTask extends PokemobBehaviour implements IAICombat
     private SoundEvent getLeapSound()
     {
         if (PokecubeCore.getConfig().leaps.length == 1) return PokecubeCore.getConfig().leaps[0];
-        return PokecubeCore.getConfig().leaps[ThutCore.newRandom().nextInt(PokecubeCore.getConfig().leaps.length)];
+        return PokecubeCore.getConfig().leaps[ThutAPI.newRandom().nextInt(PokecubeCore.getConfig().leaps.length)];
     }
 
     @Override

@@ -38,13 +38,13 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.genes.SizeGene;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.attachments.CopyMob;
 import thut.api.attachments.CopyMob.CopyInfo;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 import thut.core.common.network.TileUpdate;
 
 import java.util.Random;
@@ -288,7 +288,7 @@ public class StatueEntity extends InteractableTile implements IEnergyStorage
             {
                 if (lastParticleTick < tick)
                 {
-                    Random r = ThutCore.newRandom();
+                    Random r = ThutAPI.newRandom();
                     for (int l = 0; l < 10; l++)
                     {
                         double i = r.nextGaussian() * size;
@@ -328,7 +328,7 @@ public class StatueEntity extends InteractableTile implements IEnergyStorage
             else if (s < 1) event.setRate(r1 * (1 - s));
             if (lastParticleTick < tick)
             {
-                Random r = ThutCore.newRandom();
+                Random r = ThutAPI.newRandom();
                 for (int l = 0; l < 10; l++)
                 {
                     double i = r.nextGaussian() * size;

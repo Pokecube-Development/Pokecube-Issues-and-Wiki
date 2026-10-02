@@ -15,10 +15,10 @@ import pokecube.api.moves.utils.IMoveNames;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.entity.genetics.epigenes.MovesGene;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import java.util.List;
 
@@ -99,7 +99,7 @@ public class LogicMovesUpdates extends LogicBase
                 if (this.pokemob.getMove(0) != null) break learn_moves;
                 String move = IMoveNames.MOVE_TACKLE;
                 final List<String> moves = this.pokemob.getPokedexEntry().getMovesForLevel(this.pokemob.getLevel());
-                if (!moves.isEmpty()) move = moves.get(ThutCore.newRandom().nextInt(moves.size()));
+                if (!moves.isEmpty()) move = moves.get(ThutAPI.newRandom().nextInt(moves.size()));
                 this.pokemob.learn(move);
             }
 

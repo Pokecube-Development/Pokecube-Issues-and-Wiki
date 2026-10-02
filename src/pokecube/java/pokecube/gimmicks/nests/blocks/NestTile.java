@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import pokecube.api.blocks.IInhabitable;
@@ -31,11 +32,11 @@ import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.block.ITickTile;
 import thut.api.inventory.InvWrapper;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -50,12 +51,12 @@ public class NestTile extends InteractableTile implements ITickTile
     {
         final ItemStack eggItem = ItemPokemobEgg.getEggStack(entry, world);
         eggItem.set(PokemobCaps.POKEEGG_DATA, eggItem.get(PokemobCaps.POKEEGG_DATA).withNest(pos));
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
         final EntityPokemobEgg egg = new EntityPokemobEgg(EntityTypes.getEgg(), world);
         egg.setToPos(pos.getX() + 1.5 * (0.5 - rand.nextDouble()), pos.getY() + 1,
                 pos.getZ() + 1.5 * (0.5 - rand.nextDouble())).setStack(eggItem);
         final EggEvent.Lay event = new EggEvent.Lay(egg);
-        ThutCore.FORGE_BUS.post(event);
+        NeoForge.EVENT_BUS.post(event);
         if (spawnNow) egg.setAge(-100);// Make it spawn after 5s
         if (!event.isCanceled())
         {

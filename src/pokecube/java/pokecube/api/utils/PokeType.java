@@ -7,7 +7,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -52,7 +52,7 @@ public class PokeType
     {
         name = name.toLowerCase(Locale.ROOT);
         if (name.equals(unknown.name)) return unknown;
-        name = ThutCore.trim(name);
+        name = ThutAPI.trim(name);
         if (PokeType.names.containsKey(name)) return PokeType.names.get(name);
         for (final PokeType type : PokeType.values()) if (name.equalsIgnoreCase(type.name))
         {

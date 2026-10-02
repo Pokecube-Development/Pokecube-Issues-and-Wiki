@@ -12,7 +12,7 @@ import pokecube.api.events.pokemobs.LevelUpEvent;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.network.pokemobs.PacketNickname;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 public abstract class PokemobStats extends PokemobGenes
 {
@@ -56,7 +56,7 @@ public abstract class PokemobStats extends PokemobGenes
     @Override
     public int getRNGValue()
     {
-        if (this.personalityValue == 0) this.personalityValue = ThutCore.newRandom().nextInt();
+        if (this.personalityValue == 0) this.personalityValue = ThutAPI.newRandom().nextInt();
         return this.personalityValue;
     }
 
@@ -175,7 +175,7 @@ public abstract class PokemobStats extends PokemobGenes
     @Override
     public void setRNGValue(int value)
     {
-        if (value == 0) value = ThutCore.newRandom().nextInt();
+        if (value == 0) value = ThutAPI.newRandom().nextInt();
         this.personalityValue = value;
     }
 

@@ -32,7 +32,7 @@ import pokecube.mobs.moves.attacks.Perishsong;
 import pokecube.mobs.moves.attacks.Taunt;
 import pokecube.mobs.moves.attacks.Whirlpool;
 import pokecube.mobs.moves.attacks.Yawn;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 import java.util.Map;
 
@@ -197,7 +197,7 @@ public class MoveRegister
         });
 
         POWER.put("magnitude", (IPokemob user, LivingEntity target, int pwr) -> {
-            final int rand = ThutCore.newRandom().nextInt(20);
+            final int rand = ThutAPI.newRandom().nextInt(20);
             if (rand == 0) pwr = 10;
             else if (rand <= 2) pwr = 30;
             else if (rand <= 6) pwr = 50;
@@ -240,7 +240,7 @@ public class MoveRegister
         });
 
         POWER.put("present", (IPokemob user, LivingEntity target, int pwr) -> {
-            final double rand = ThutCore.newRandom().nextDouble();
+            final double rand = ThutAPI.newRandom().nextDouble();
             if (rand < 0.4) return 40;
             if (rand < 0.7) return 80;
             if (rand < 0.8) return 120;

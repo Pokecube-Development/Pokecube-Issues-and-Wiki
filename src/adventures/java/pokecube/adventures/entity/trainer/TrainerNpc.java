@@ -19,13 +19,12 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
-import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TimePeriod;
+import thut.api.ThutAPI;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import java.util.List;
 import java.util.UUID;
@@ -150,7 +149,7 @@ public class TrainerNpc extends TrainerBase
         if (this.getNPCName().isEmpty() || resetName)
         {
             final List<String> names = this.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
-            if (!names.isEmpty()) this.setTypedName(names.get(ThutCore.newRandom().nextInt(names.size())));
+            if (!names.isEmpty()) this.setTypedName(names.get(ThutAPI.newRandom().nextInt(names.size())));
             this.setCustomName(this.getDisplayName());
         }
     }

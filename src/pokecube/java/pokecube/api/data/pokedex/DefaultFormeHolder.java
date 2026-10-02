@@ -19,7 +19,7 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.JsonPokedexEntry;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 public class DefaultFormeHolder
 {
@@ -126,7 +126,7 @@ public class DefaultFormeHolder
                 if (this._matches.isEmpty()) for (final ResourceLocation test : FormeHolder.formeHolders.keySet())
                     if (test.getPath().startsWith(key)) this._matches.add(FormeHolder.formeHolders.get(test));
                 if (!this._matches.isEmpty())
-                    return this._matches.get(ThutCore.newRandom().nextInt(this._matches.size()));
+                    return this._matches.get(ThutAPI.newRandom().nextInt(this._matches.size()));
             }
             return null;
         }
@@ -162,17 +162,17 @@ public class DefaultFormeHolder
 
         if (this.hidden != null) for (final String element : this.hidden)
         {
-            final String value = ThutCore.trim(element);
+            final String value = ThutAPI.trim(element);
             this._hide_.add(value);
         }
         if (this.colours != null) for (final TexColours c : this.colours)
         {
-            c.material = ThutCore.trim(c.material);
+            c.material = ThutAPI.trim(c.material);
             this._colourMap_.put(c.material, c);
         }
         if (this.matTex != null) for (final MatTexs c : this.matTex)
         {
-            c.material = ThutCore.trim(c.material);
+            c.material = ThutAPI.trim(c.material);
             this._matsMap_.put(c.material, c);
         }
         var entry = this.getEntry(baseEntry);

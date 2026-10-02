@@ -42,10 +42,10 @@ import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.moves.damage.effects.Poison;
 import pokecube.core.moves.damage.effects.StatusEffects;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
+import thut.api.ThutAPI;
 import thut.api.boom.ExplosionCustom;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -65,7 +65,7 @@ public class MovesUtils implements IMoveConstants
         ABLE, SLEEP, FREEZE, AIOFF, GENERICUNABLE
     }
 
-    public static Random rand = ThutCore.newRandom();
+    public static Random rand = ThutAPI.newRandom();
 
     public static Collection<String> getKnownMoveNames()
     {
@@ -574,7 +574,7 @@ public class MovesUtils implements IMoveConstants
 
         for (var s : IDS) if ((s & status) != 0) ST.add(s);
 
-        final int start = ThutCore.newRandom().nextInt(1000);
+        final int start = ThutAPI.newRandom().nextInt(1000);
         for (int i = 0; i < ST.size(); i++)
         {
             final int j = (i + start) % ST.size();

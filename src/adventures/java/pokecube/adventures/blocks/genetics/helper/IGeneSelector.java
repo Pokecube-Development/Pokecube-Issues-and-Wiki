@@ -6,11 +6,11 @@ import java.util.Random;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import pokecube.api.PokecubeAPI;
+import thut.api.ThutAPI;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.core.common.ThutCore;
 
 public interface IGeneSelector
 {
@@ -52,7 +52,7 @@ public interface IGeneSelector
     default <T, GENE extends Gene<T>> Alleles<T, GENE> merge(Provider provider, final IMobGenetics p1,
             final IMobGenetics p2, final Alleles<T, GENE> source, final Alleles<T, GENE> destination)
     {
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
         GENE geneSource = source.getExpressed();
         GENE geneDest = destination.getExpressed();
 

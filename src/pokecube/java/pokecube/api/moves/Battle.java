@@ -24,6 +24,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.NeoForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -44,7 +45,6 @@ import thut.api.entity.EntityProvider;
 import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
-import thut.core.common.ThutCore;
 
 public class Battle
 {
@@ -211,7 +211,7 @@ public class Battle
         final Battle existingB = Battle.getBattle(target);
 
         var event = new JoinBattleEvent(agressor, target, existingA, existingB);
-        ThutCore.FORGE_BUS.post(event);
+        NeoForge.EVENT_BUS.post(event);
         if (event.isCanceled()) return false;
         target = event.getNewTarget();
 
@@ -421,7 +421,7 @@ public class Battle
 
         var otherList = sideList == s1 ? s2 : s1;
         var event = new JoinSideEvent(this, toAdd, sideList, otherList);
-        ThutCore.FORGE_BUS.post(event);
+        NeoForge.EVENT_BUS.post(event);
         if (event.isCanceled()) return;
 
         markAsValid(toAdd);
@@ -447,7 +447,7 @@ public class Battle
 
         var otherList = sideList == s1 ? s2 : s1;
         var event = new JoinSideEvent(this, toAdd, sideList, otherList);
-        ThutCore.FORGE_BUS.post(event);
+        NeoForge.EVENT_BUS.post(event);
         if (event.isCanceled()) return;
 
         markAsValid(toAdd);
@@ -679,7 +679,7 @@ public class Battle
             PokecubeAttributes.cleanupAbilities(poke);
         }
 
-        ThutCore.FORGE_BUS.post(new ExitBattleEvent(mob, this));
+        NeoForge.EVENT_BUS.post(new ExitBattleEvent(mob, this));
     }
 
     private boolean checkStale()

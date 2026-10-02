@@ -5,7 +5,7 @@ import net.minecraft.world.entity.Mob;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntJob;
 import pokecube.gimmicks.nests.tasks.ants.tasks.AbstractWorkTask;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 public class Gather extends AbstractWorkTask
 {
@@ -31,7 +31,7 @@ public class Gather extends AbstractWorkTask
         if (details.targetItem == null && this.gather_timer++ % 20 == 0)
         {
             if (!this.nest.hab.items.isEmpty())
-                details.targetItem = this.nest.hab.items.get(ThutCore.newRandom().nextInt(this.nest.hab.items.size()));
+                details.targetItem = this.nest.hab.items.get(ThutAPI.newRandom().nextInt(this.nest.hab.items.size()));
         }
     }
 }

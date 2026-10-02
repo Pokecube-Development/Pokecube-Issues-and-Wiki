@@ -9,8 +9,8 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.genetics.GeneticsManager;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
+import thut.api.ThutAPI;
 import thut.api.entity.genetics.Gene;
-import thut.core.common.ThutCore;
 import thut.core.common.genetics.genes.GeneFloat;
 
 import java.util.Random;
@@ -53,7 +53,7 @@ public class SizeGene extends GeneFloat
     }
 
     public static float scaleFactor = 0.075f;
-    Random rand = ThutCore.newRandom();
+    Random rand = ThutAPI.newRandom();
     float _last_set = -1;
 
     public SizeGene()
@@ -87,7 +87,7 @@ public class SizeGene extends GeneFloat
     {
         final SizeGene newGene = new SizeGene();
         final float factor = SizeGene.scaleFactor * (this.value > 1 ? 1 / this.value : this.value);
-        newGene.value = this.value + factor * (float) ThutCore.newRandom().nextGaussian();
+        newGene.value = this.value + factor * (float) ThutAPI.newRandom().nextGaussian();
         newGene.value = Math.abs(newGene.value);
         return newGene;
     }

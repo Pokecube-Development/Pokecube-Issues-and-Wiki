@@ -16,8 +16,8 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
+import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import java.util.Map;
 
@@ -48,7 +48,7 @@ public class IdleRestTask extends BaseIdleTask
     public IdleRestTask()
     {
         super(_getMems());
-        restTimer = ThutCore.newRandom().nextInt(IdleWalkTask.IDLETIMER);
+        restTimer = ThutAPI.newRandom().nextInt(IdleWalkTask.IDLETIMER);
     }
 
     @Override

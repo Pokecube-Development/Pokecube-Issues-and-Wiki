@@ -9,7 +9,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.utils.PokeType;
 import pokecube.core.moves.templates.Move_Ongoing;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 public class FireSpin extends Move_Ongoing
 {
@@ -24,7 +24,7 @@ public class FireSpin extends Move_Ongoing
     @Override
     public int getDuration()
     {
-        final Random r = ThutCore.newRandom();
+        final Random r = ThutAPI.newRandom();
         return 2 + r.nextInt(4);
     }
 

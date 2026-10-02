@@ -4,8 +4,8 @@ import java.util.Random;
 
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.entity.genetics.GeneticsManager;
+import thut.api.ThutAPI;
 import thut.api.entity.genetics.Gene;
-import thut.core.common.ThutCore;
 import thut.core.common.genetics.genes.GeneIntArray;
 
 public class ColourGene extends GeneIntArray
@@ -56,7 +56,7 @@ public class ColourGene extends GeneIntArray
 
     void setRandomColour()
     {
-        final Random r = ThutCore.newRandom();
+        final Random r = ThutAPI.newRandom();
         final int first = r.nextInt(3);
         int red = this.value[0] - 128, green = this.value[1] - 128, blue = this.value[2] - 128;
 

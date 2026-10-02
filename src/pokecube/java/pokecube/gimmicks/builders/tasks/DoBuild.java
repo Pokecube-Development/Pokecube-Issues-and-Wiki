@@ -26,9 +26,9 @@ import pokecube.gimmicks.builders.builders.IBlocksBuilder.CanPlace;
 import pokecube.gimmicks.builders.builders.IBlocksBuilder.PlaceInfo;
 import pokecube.gimmicks.builders.builders.IBlocksClearer;
 import pokecube.gimmicks.builders.builders.StructureBuilder;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.world.StructureTemplateTools;
-import thut.core.common.ThutCore;
 import thut.lib.ItemStackTools;
 
 import java.util.ArrayList;
@@ -140,7 +140,7 @@ public class DoBuild extends UtilBehaviour
                     double x = entity.getX();
                     double y = entity.getY() + entity.getBbHeight();
                     double z = entity.getZ();
-                    Random r = ThutCore.newRandom();
+                    Random r = ThutAPI.newRandom();
                     double i = r.nextGaussian() * size;
                     double j = r.nextGaussian() * size;
                     double k = r.nextGaussian() * size;
@@ -369,7 +369,7 @@ public class DoBuild extends UtilBehaviour
                     double y = entity.getY() + entity.getBbHeight();
                     double z = entity.getZ();
 
-                    Random r = ThutCore.newRandom();
+                    Random r = ThutAPI.newRandom();
                     double i = r.nextGaussian() * size;
                     double j = r.nextGaussian() * size;
                     double k = r.nextGaussian() * size;

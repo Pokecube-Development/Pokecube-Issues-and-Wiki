@@ -16,12 +16,12 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.core.utils.TimePeriod;
 import pokecube.world.terrain.PokecubeTerrainChecker;
+import thut.api.ThutAPI;
 import thut.api.level.structures.NamedVolumes.INamedVolume;
 import thut.api.level.terrain.BiomeType;
 import thut.core.common.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 import java.util.List;
 import java.util.Optional;
@@ -156,7 +156,7 @@ public class SpawnCheck
 
     public long getRNGSeed()
     {
-        if(RNGSeed==0) RNGSeed = ThutCore.newRandom().nextLong();
+        if(RNGSeed==0) RNGSeed = ThutAPI.newRandom().nextLong();
         return RNGSeed;
     }
 

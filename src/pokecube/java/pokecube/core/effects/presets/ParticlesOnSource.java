@@ -5,8 +5,8 @@ import java.util.Random;
 import pokecube.api.effects.EffectPacketInfo;
 import pokecube.core.PokecubeCore;
 import pokecube.core.effects.AnimPreset;
+import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 @AnimPreset(getPreset = "pons")
 public class ParticlesOnSource extends ParticlesOnTarget
@@ -21,7 +21,7 @@ public class ParticlesOnSource extends ParticlesOnTarget
     {
         if (Math.random() > this.values.density) return;
         final Vector3 temp = new Vector3();
-        final Random rand = ThutCore.newRandom();
+        final Random rand = ThutAPI.newRandom();
         float dw = info.sourceScale;
         final float width = this.values.width * dw;
         for (int i = 0; i < 50 * values.density; i++)

@@ -19,6 +19,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
@@ -50,9 +51,9 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.SpawnEventsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
+import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
-import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 
 import java.util.Collections;
@@ -186,7 +187,7 @@ public class TrainerSpawnHandler
             // Randomize badge for leader.
 
             final IHasRewards rewardsCap = npc.getData(TrainerCaps.REWARDS);
-            final PokeType type = PokeType.values()[ThutCore.newRandom().nextInt(PokeType.values().length)];
+            final PokeType type = PokeType.values()[ThutAPI.newRandom().nextInt(PokeType.values().length)];
             String _type = type == PokeType.unknown ? "unknown" : type.name;
             final Item item = BuiltInRegistries.ITEM.get(
                     ResourceLocation.fromNamespaceAndPath(PokecubeAdv.MODID, "badge_" + _type));
@@ -235,7 +236,7 @@ public class TrainerSpawnHandler
             if (npc == null) return;
             final IHasPokemobs cap = TrainerCaps.getHasPokemobs(npc);
             final NpcSpawn.Spawn event = new NpcSpawn.Spawn(npc, v.getPos(), MobSpawnType.NATURAL);
-            ThutCore.FORGE_BUS.post(event);
+            NeoForge.EVENT_BUS.post(event);
             if (event.isCanceled())
             {
                 npc.remove(RemovalReason.DISCARDED);
@@ -319,7 +320,7 @@ public class TrainerSpawnHandler
             }
             if (PokecubeCore.getConfig().debug_spawning) PokecubeAPI.logInfo("Adding trainer: " + mob);
             var checkEvent = new NpcSpawn.Check(mob, event.pos, MobSpawnType.STRUCTURE, thing);
-            ThutCore.FORGE_BUS.post(checkEvent);
+            NeoForge.EVENT_BUS.post(checkEvent);
             if (!checkEvent.isCanceled())
             {
                 event.setResult(TriState.TRUE);

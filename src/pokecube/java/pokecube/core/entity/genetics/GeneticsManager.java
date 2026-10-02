@@ -22,11 +22,11 @@ import pokecube.core.entity.genetics.genes.ShinyGene;
 import pokecube.core.entity.genetics.genes.SizeGene;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.impl.PokecubeMod;
+import thut.api.ThutAPI;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.core.common.ThutCore;
 import thut.api.entity.genetics.DefaultGenetics;
 
 import javax.annotation.Nullable;
@@ -108,7 +108,7 @@ public class GeneticsManager
             info.setEntry(PokecubeCore.getEntryFor(entity.getType()));
             if (info.getEntry() != null)
             {
-                info.setSexe(Tools.getSexe(info.getEntry().getSexeRatio(), ThutCore.newRandom()));
+                info.setSexe(Tools.getSexe(info.getEntry().getSexeRatio(), ThutAPI.newRandom()));
                 info.setEntry(info.getEntry().getForGender(info.getSexe()));
             }
             return true;

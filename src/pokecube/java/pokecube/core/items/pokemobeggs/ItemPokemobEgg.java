@@ -28,6 +28,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -53,7 +54,6 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.GeneHolder;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 import thut.api.entity.genetics.DefaultGenetics;
 
 /** @author Manchou */
@@ -137,7 +137,7 @@ public class ItemPokemobEgg extends Item
     public static float getSize(final float fatherSize, final float motherSize)
     {
         float ret;
-        ret = (fatherSize + motherSize) * 0.5f * (1 + 0.075f * (float) ThutCore.newRandom().nextGaussian());
+        ret = (fatherSize + motherSize) * 0.5f * (1 + 0.075f * (float) ThutAPI.newRandom().nextGaussian());
         ret = Math.min(Math.max(0.1f, ret), 2);
         return ret;
     }
@@ -306,7 +306,7 @@ public class ItemPokemobEgg extends Item
         final EntityPokemobEgg entity = new EntityPokemobEgg(EntityTypes.getEgg(), world).setToPos(location)
                 .setStack(eggItemStack);
         final EggEvent.Place event = new EggEvent.Place(entity);
-        ThutCore.FORGE_BUS.post(event);
+        NeoForge.EVENT_BUS.post(event);
         world.addFreshEntity(entity);
         return true;
     }

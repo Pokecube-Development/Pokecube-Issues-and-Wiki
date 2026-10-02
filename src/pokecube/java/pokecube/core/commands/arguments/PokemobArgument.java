@@ -23,7 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.commands.arguments.PokemobArgument.PokemobInput;
 import pokecube.core.database.Database;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 public class PokemobArgument implements ArgumentType<PokemobInput>
 {
@@ -79,7 +79,7 @@ public class PokemobArgument implements ArgumentType<PokemobInput>
         var entries = getMatching(s);
         if (entries.isEmpty()) throw ERROR_UNKNOWN_ENTITY.create(reader);
         PokedexEntry entry = entries.size() == 1 ? entries.getFirst()
-                : entries.get(ThutCore.newRandom().nextInt(entries.size()));
+                : entries.get(ThutAPI.newRandom().nextInt(entries.size()));
         if (entry == null) throw ERROR_UNKNOWN_ENTITY.create(reader);
         PokemobInput resp = new PokemobInput();
         resp.entry = entry;

@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 /**
  * This is a general capability interface for a mob which gives rewards.
@@ -57,7 +57,7 @@ public interface IHasRewards extends INBTSerializable<ListTag>
         {
             final ItemStack i = reward.stack;
             if (i.isEmpty()) continue;
-            if (ThutCore.newRandom().nextFloat() > reward.chance) continue;
+            if (ThutAPI.newRandom().nextFloat() > reward.chance) continue;
             boolean drop = true;
             if (rewardee instanceof ServerPlayer player)
             {

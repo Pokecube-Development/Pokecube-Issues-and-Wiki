@@ -15,7 +15,7 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
-import thut.core.common.ThutCore;
+import thut.api.ThutAPI;
 
 import java.util.Map;
 import java.util.Optional;
@@ -108,7 +108,7 @@ public class GuardEggTask extends TaskBase
                 double y = entity.getY();
                 double z = entity.getZ();
 
-                Random r = ThutCore.newRandom();
+                Random r = ThutAPI.newRandom();
                 for (int l = 0; l < 5; l++)
                 {
                     double i = r.nextGaussian() * size;

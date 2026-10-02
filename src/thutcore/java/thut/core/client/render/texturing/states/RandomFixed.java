@@ -2,8 +2,8 @@ package thut.core.client.render.texturing.states;
 
 import java.util.Random;
 
+import thut.api.ThutAPI;
 import thut.api.entity.IMobTexturable;
-import thut.core.common.ThutCore;
 
 public class RandomFixed
 {
@@ -14,7 +14,7 @@ public class RandomFixed
     public double startU       = 0;
     public double startV       = 0;
 
-    Random rand = ThutCore.newRandom();
+    Random rand = ThutAPI.newRandom();
 
     public RandomFixed()
     {

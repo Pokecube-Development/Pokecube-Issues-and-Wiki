@@ -18,9 +18,9 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.items.berries.ItemBerry;
+import thut.api.ThutAPI;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 
 public abstract class PokemobHungry extends PokemobMoves
 {
@@ -103,7 +103,7 @@ public abstract class PokemobHungry extends PokemobMoves
             final int exp = SpawnHandler.getSpawnXp(new SpawnContext(this));
             if (this.getExp() < exp)
             {
-                final int n = ThutCore.newRandom().nextInt(exp - this.getExp()) / 3 + 1;
+                final int n = ThutAPI.newRandom().nextInt(exp - this.getExp()) / 3 + 1;
                 this.setExp(this.getExp() + n, true);
             }
         }
