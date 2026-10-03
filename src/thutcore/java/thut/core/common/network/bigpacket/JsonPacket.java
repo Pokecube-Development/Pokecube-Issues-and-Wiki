@@ -1,6 +1,6 @@
 package thut.core.common.network.bigpacket;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import thut.api.util.JsonUtil;
 
@@ -16,26 +16,12 @@ public abstract class JsonPacket extends BigPacket
     {
         super();
         String json = JsonUtil.smol_gson.toJson(o);
-        try
-        {
-            this.setData(json.getBytes("UTF-8"));
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
+        this.setData(json.getBytes(StandardCharsets.UTF_8));
     }
 
     public JsonPacket(String data)
     {
         super();
-        try
-        {
-            this.setData(data.getBytes("UTF-8"));
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            e.printStackTrace();
-        }
+        this.setData(data.getBytes(StandardCharsets.UTF_8));
     }
 }

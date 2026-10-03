@@ -21,10 +21,13 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import thut.api.ThutAPI;
 import thut.api.data.DataHelpers.IResourceData;
+import thut.api.util.JsonUtil;
 import thut.api.util.UnderscoreIgnore;
 import thut.api.util.ResourceHelper;
 
@@ -38,8 +41,6 @@ public class StringTag<T> implements IResourceData
     {
         public final String name;
         public T value = null;
-
-        public Object _cached = null;
 
         public StringValue(String name)
         {
@@ -246,10 +247,41 @@ public class StringTag<T> implements IResourceData
         if (this.tagsMap.containsKey(tag))
         {
             final TagHolder<T> holder = this.tagsMap.get(tag);
-            var value = holder.isIn(toCheck);
-            return value;
+            return holder.isIn(toCheck);
         }
         return null;
+    }
+
+    @Override
+    public JsonElement makeForSync()
+    {
+        var tags = gson.toJsonTree(this.tagsMap);
+        var rev = gson.toJsonTree(this.reversedTagsMap);
+        JsonObject o = new JsonObject();
+        o.add("tagsMap", tags);
+        o.add("reversedTagsMap", rev);
+        return o;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void handleSync(JsonElement data)
+    {
+        if (data.isJsonObject())
+        {
+            var obj = data.getAsJsonObject();
+            var _tagsMap = obj.get("tagsMap");
+            var _reversedTagsMap = obj.get("reversedTagsMap");
+            Map<String, Object> map = JsonUtil.gson.fromJson(_tagsMap, tagsMap.getClass());
+            this.tagsMap.clear();
+            map.forEach((key, obj2) -> this.tagsMap.put(key,
+                    JsonUtil.gson.fromJson(JsonUtil.gson.toJson(obj2), TagHolder.class)));
+
+            this.reversedTagsMap.clear();
+            Map<String, Object> rev = JsonUtil.gson.fromJson(_reversedTagsMap, reversedTagsMap.getClass());
+            rev.forEach((key, obj2) -> this.reversedTagsMap.put(key,
+                    JsonUtil.gson.fromJson(JsonUtil.gson.toJson(obj2), HashSet.class)));
+        }
     }
 
     public Collection<String> getKeys()

@@ -84,6 +84,7 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.legacy.RegistryChangeFixer;
 import pokecube.core.moves.damage.attributes.PokecubeAttributes;
 import pokecube.core.moves.damage.effects.StatusEffects;
+import pokecube.core.network.packets.PacketSyncPokedex;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.Permissions;
 import pokecube.world.PokecubeWorld;
@@ -365,6 +366,7 @@ public class PokecubeCore
         ItemGenerator.strippableBlocks(event);
         ItemGenerator.compostables(event);
         ItemGenerator.flammables(event);
+        PacketSyncPokedex.init();
 
         // Register all of the types to the animation holder set.
         typeMap.keySet().forEach(CopyMob::register);

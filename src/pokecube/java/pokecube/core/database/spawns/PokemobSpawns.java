@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import com.google.gson.JsonElement;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.neoforged.fml.ModList;
@@ -89,6 +90,21 @@ public class PokemobSpawns extends ResourceData
         super(string);
         this.tagPath = string;
         DataHelpers.addDataType(this);
+    }
+
+    @Override
+    public JsonElement makeForSync()
+    {
+        return JsonUtil.gson.toJsonTree(MASTER_LIST);
+    }
+
+    @Override
+    public void handleSync(JsonElement data)
+    {
+        var list = JsonUtil.gson.fromJson(data, SpawnList.class);
+        MASTER_LIST.required_mods = list.required_mods;
+        MASTER_LIST.rules = list.rules;
+        this.apply();
     }
 
     @Override

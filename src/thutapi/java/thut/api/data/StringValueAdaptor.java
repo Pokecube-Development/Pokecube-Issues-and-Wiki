@@ -75,7 +75,7 @@ public class StringValueAdaptor implements JsonDeserializer<StringValue<?>>
         {
 
         }
-        throw new JsonParseException("Error. unsupported format!");
+        throw new JsonParseException("Error. unsupported format! for "+json);
     }
 
 }

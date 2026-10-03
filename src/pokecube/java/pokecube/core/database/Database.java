@@ -42,6 +42,7 @@ import pokecube.core.database.types.CombatTypeLoader;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.moves.implementations.MovesAdder;
+import pokecube.core.network.packets.PacketSyncPokedex;
 import thut.api.data.DataHelpers;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
@@ -726,6 +727,7 @@ public class Database
         Database.listener.loaded = false;
         Database.needs_reload = false;
         dt = System.nanoTime() - time;
+        PacketSyncPokedex.resetData();
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Resource Stage 5: {}s", dt / 1e9d);
     }
 

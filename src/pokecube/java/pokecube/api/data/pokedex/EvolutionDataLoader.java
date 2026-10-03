@@ -16,6 +16,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Evolution;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.Database;
 import pokecube.core.database.resources.PackFinder;
 import thut.api.data.DataHelpers;
 import thut.api.data.DataHelpers.ResourceData;
@@ -37,6 +38,38 @@ public class EvolutionDataLoader extends ResourceData
         super(key);
         this.tagPath = key;
         DataHelpers.addDataType(this);
+    }
+
+    @Override
+    public JsonElement makeForSync()
+    {
+        return JsonUtil.gson.toJsonTree(RULES);
+    }
+
+    @Override
+    public void handleSync(JsonElement data)
+    {
+        if (data.isJsonObject())
+        {
+            RULES = new HashMap<>();
+            var map = data.getAsJsonObject().asMap();
+            for (var pair : map.entrySet())
+            {
+                var key = pair.getKey();
+                var value = pair.getValue();
+                var entry = Database.getEntry(key);
+                if (entry == null) continue;
+                List<Evolution> evos = new ArrayList<>();
+                if (value.isJsonArray())
+                {
+                    for (var v : value.getAsJsonArray())
+                    {
+                        evos.add(JsonUtil.gson.fromJson(v, Evolution.class));
+                    }
+                }
+                RULES.put(entry, evos);
+            }
+        }
     }
 
     @Override

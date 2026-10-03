@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.google.common.collect.Sets;
 import com.google.common.hash.Hashing;
 
+import com.google.gson.JsonElement;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.ThutAPI;
 import thut.api.util.JsonUtil;
@@ -18,10 +19,16 @@ public class DataHelpers
     {
         void reload(AtomicBoolean valid);
 
-        default void postReload()
-        {};
+        default void postReload() {}
 
         String getKey();
+
+        default JsonElement makeForSync()
+        {
+            return null;
+        }
+
+        default void handleSync(JsonElement data) {}
     }
 
     public static abstract class ResourceData implements IResourceData
@@ -58,7 +65,7 @@ public class DataHelpers
         }
     }
 
-    private static final Set<IResourceData> tagHelpers = Sets.newHashSet();
+    public static final Set<IResourceData> tagHelpers = Sets.newHashSet();
 
     public static void onResourcesReloaded()
     {
