@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.EvolutionDataLoader;
@@ -27,8 +28,11 @@ import thut.core.common.network.bigpacket.PacketAssembly;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -98,6 +102,7 @@ public class PacketSyncPokedex extends JsonPacket
     }
 
     private static String toSend = null;
+    private static Set<UUID> SENT = new HashSet<>();
 
     public static void resetData()
     {
@@ -106,6 +111,13 @@ public class PacketSyncPokedex extends JsonPacket
             send.add(key, DATA_PROVIDERS.get(key).get());
         });
         toSend = JsonUtil.smol_gson.toJson(send);
+        SENT.clear();
+    }
+
+    @SubscribeEvent
+    public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event)
+    {
+        SENT.remove(event.getEntity().getUUID());
     }
 
     @SubscribeEvent
@@ -114,8 +126,11 @@ public class PacketSyncPokedex extends JsonPacket
         if (event.getPlayer() == null) return;
         if (event.getPlayer().isLocalPlayer()) return;
         if (toSend == null) resetData();
-        var packet = new PacketSyncPokedex(toSend);
-        ASSEMBLER.sendTo(packet.getData(), event.getPlayer());
+        if (SENT.add(event.getPlayer().getUUID()))
+        {
+            var packet = new PacketSyncPokedex(toSend);
+            ASSEMBLER.sendTo(packet.getData(), event.getPlayer());
+        }
     }
 
     public static final PacketAssembly<PacketSyncPokedex> ASSEMBLER = PacketAssembly.registerAssembler(
