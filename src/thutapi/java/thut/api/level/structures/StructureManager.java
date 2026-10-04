@@ -166,6 +166,19 @@ public class StructureManager
         return map_by_rpos.containsKey(gpos);
     }
 
+    public static List<INamedVolume> forRegion(ResourceKey<Level> dimension, int regionX, int regionZ)
+    {
+        final GlobalChunkPos gpos = new GlobalChunkPos(dimension, new ChunkPos(regionX, regionZ));
+        var map = map_by_rpos.getOrDefault(gpos, Collections.emptyMap());
+        Set<INamedVolume> list = new HashSet<>();
+        map.forEach((pos, set) -> {
+            SET_ADD_LOCK.lock();
+            list.addAll(set);
+            SET_ADD_LOCK.unlock();
+        });
+        return new ArrayList<>(list);
+    }
+
     @SubscribeEvent
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
