@@ -12,7 +12,7 @@ import org.joml.Vector3f;
 import thut.api.ThutAPI;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
-import thut.api.entity.IShearable;
+import thut.api.entity.IShearableCheck;
 
 public interface IAnimationChanger
 {
@@ -66,7 +66,7 @@ public interface IAnimationChanger
         return false;
     }
 
-    void setShearable(IShearable shear);
+    void setShearable(IShearableCheck shear);
 
     void setColourable(IMobColourable colourable);
 

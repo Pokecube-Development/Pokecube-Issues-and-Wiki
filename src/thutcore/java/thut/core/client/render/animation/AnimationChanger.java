@@ -15,7 +15,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.DyeColor;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
-import thut.api.entity.IShearable;
+import thut.api.entity.IShearableCheck;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 
@@ -44,7 +44,7 @@ public class AnimationChanger implements IAnimationChanger
 
     IAnimationHolder currentHolder = null;
     IMobColourable currentColourable = null;
-    IShearable currentShearable = null;
+    IShearableCheck currentShearable = null;
 
     public AnimationChanger()
     {}
@@ -178,7 +178,7 @@ public class AnimationChanger implements IAnimationChanger
     }
 
     @Override
-    public void setShearable(IShearable shear)
+    public void setShearable(IShearableCheck shear)
     {
         this.currentShearable = shear;
     }

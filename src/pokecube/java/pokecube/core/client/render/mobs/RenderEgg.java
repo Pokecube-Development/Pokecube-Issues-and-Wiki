@@ -25,7 +25,7 @@ import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
-import thut.api.entity.IShearable;
+import thut.api.entity.IShearableCheck;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.entity.animation.IAnimationChanger;
@@ -80,7 +80,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
         {}
 
         @Override
-        public void setShearable(IShearable shear)
+        public void setShearable(IShearableCheck shear)
         {}
 
         @Override

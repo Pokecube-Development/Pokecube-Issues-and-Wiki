@@ -18,6 +18,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.IShearable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
@@ -35,7 +36,7 @@ import thut.api.attachments.TrackedAttachment;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.IHungrymob;
 import thut.api.entity.IMobColourable;
-import thut.api.entity.IShearable;
+import thut.api.entity.IShearableCheck;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
@@ -52,7 +53,7 @@ import java.util.function.Consumer;
 /** @author Manchou */
 public interface IPokemob
         extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob, IHasCommands, IMobColourable,
-        IShearable, TrackedAttachment, Consumer<Gene<?>>
+        IShearableCheck, IShearable, TrackedAttachment, Consumer<Gene<?>>
 {
     /**
      * Holder object for custom models/textures/etc for a pokemob.

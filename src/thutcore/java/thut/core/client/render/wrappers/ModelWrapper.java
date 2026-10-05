@@ -23,6 +23,7 @@ import thut.api.ModelHolder;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
+import thut.api.entity.IShearableCheck;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.core.client.render.animation.AnimationHelper;
@@ -196,7 +197,9 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         int[] rgba = poke != null ? poke.getRGBA() : new int[] { 255, 255, 255, 255 };
         if (animChanger != null)
         {
-            animChanger.setShearable(ThutCaps.getShearable(entity));
+            IShearableCheck shear = entity instanceof IShearableCheck check ? check : null;
+            if (shear == null && ThutCaps.getShearable(entity) instanceof IShearableCheck shea) shear = shea;
+            animChanger.setShearable(shear);
             animChanger.setColourable(poke);
         }
         for (var p : model.getPartsList())

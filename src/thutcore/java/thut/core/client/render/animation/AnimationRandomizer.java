@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Entity;
 import thut.api.Tracker;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
-import thut.api.entity.IShearable;
+import thut.api.entity.IShearableCheck;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.entity.animation.AnimationXML.SubAnim;
@@ -146,7 +146,7 @@ public class AnimationRandomizer implements IAnimationChanger
     }
 
     @Override
-    public void setShearable(IShearable shear)
+    public void setShearable(IShearableCheck shear)
     {
         // Nope
     }

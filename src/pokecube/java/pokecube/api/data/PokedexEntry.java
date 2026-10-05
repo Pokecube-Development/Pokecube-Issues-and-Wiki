@@ -507,13 +507,8 @@ public class PokedexEntry
             if (action.stacks.isEmpty() && action.lootTable == null) return false;
             if (InteractionLogic.isShears.test(held))
             {
-                if (pokemob.isSheared()) return true;
-                if (doInteract)
-                {
-                    pokemob.shear(held);
-                    if (action.effectAction != null) action.effectAction.applyEffect(entity);
-                }
-                return true;
+                // TODO shear logic here?
+                return false;
             }
             if (!doInteract) return true;
             return this.applyInteraction(player, hand, pokemob, true);
@@ -1837,9 +1832,9 @@ public class PokedexEntry
      *
      * @param stack - if false, will not actually do anything.
      */
-    public boolean interact(final ItemStack stack)
+    public InteractionLogic.Interaction interact(final ItemStack stack)
     {
-        return this.interactionLogic.canInteract(stack);
+        return this.interactionLogic.getFor(stack);
     }
 
     /**

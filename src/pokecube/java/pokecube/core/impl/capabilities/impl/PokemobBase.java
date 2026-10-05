@@ -2,6 +2,7 @@ package pokecube.core.impl.capabilities.impl;
 
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
@@ -13,11 +14,13 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import pokecube.api.data.PokedexEntry;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -326,8 +329,9 @@ public abstract class PokemobBase implements IPokemob
         if (sheared && this.getEntity().isEffectiveAi())
         {
             final long lastShear = this.getEntity().getPersistentData().getLong(TagNames.SHEARTIME);
-            final ItemStack key = new ItemStack(Items.SHEARS);
-            if (this.getPokedexEntry().interact(key))
+            final ItemStack shears = new ItemStack(Items.SHEARS);
+            var action = this.getPokedexEntry().interact(shears);
+            if (action != null)
             {
                 if (lastShear < Tracker.instance().getTick()) sheared = false;
             }
@@ -339,19 +343,26 @@ public abstract class PokemobBase implements IPokemob
     }
 
     @Override
-    public void shear(final ItemStack shears)
+    public boolean isShearable(@Nullable Player player, ItemStack item, Level level, BlockPos pos)
     {
-        if (this.isSheared() || !this.getEntity().isEffectiveAi()) return;
-        final ResourceLocation WOOL = ResourceLocation.parse("wool");
+        if (this.isSheared()) return false;
+        var action = this.getPokedexEntry().interact(item);
+        return action != null;
+    }
 
-        if (this.getPokedexEntry().interact(shears))
+    static final ResourceLocation WOOL = ResourceLocation.parse("wool");
+
+    @Override
+    public List<ItemStack> onSheared(@Nullable Player player, ItemStack item, Level level, BlockPos pos)
+    {
+        List<ItemStack> ret = new ArrayList<>();
+        var action = this.getPokedexEntry().interact(item);
+        if (action != null)
         {
             this.getEntity().getData(Shearable.TYPE);
-            final ArrayList<ItemStack> ret = new ArrayList<>();
             this.setGeneralState(GeneralStates.SHEARED, true);
-            final PokedexEntry.InteractionLogic.Interaction action = this.getPokedexEntry().interactionLogic.getFor(
-                    shears);
             int timer = action.cooldown + this.getEntity().getRandom().nextInt(1 + action.variance);
+            if (action.effectAction != null) action.effectAction.applyEffect(entity);
             this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, Tracker.instance().getTick() + timer);
             final List<ItemStack> list = action.stacks;
             this.applyHunger(action.hunger);
@@ -368,9 +379,9 @@ public abstract class PokemobBase implements IPokemob
                 }
                 ret.add(toAdd);
             }
-            for (final ItemStack stack : ret) this.getEntity().spawnAtLocation(stack);
             this.getEntity().playSound(SoundEvents.SHEEP_SHEAR, 1.0F, 1.0F);
         }
+        return ret;
     }
 
     @Override
