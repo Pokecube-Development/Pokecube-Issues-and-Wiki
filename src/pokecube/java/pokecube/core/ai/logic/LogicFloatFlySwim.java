@@ -231,10 +231,10 @@ public class LogicFloatFlySwim extends LogicBase
             nextVec.set(next);
             var box = this.entity.getBoundingBox();
 
-            if (hereVec.distToSq(this.lastPos) < 1)
+            if (hereVec.distToSq(this.lastPos) < Math.max(box.getZsize(), box.getXsize()))
             {
                 this.time_at_pos++;
-                if (this.time_at_pos > 10)
+                if (this.time_at_pos > 50)
                 {
                     path.advance();
                     this.time_at_pos = 0;
