@@ -31,7 +31,6 @@ import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
-import thut.api.maths.Vector3;
 import thut.api.util.RegHelper;
 
 import java.util.List;
@@ -43,16 +42,14 @@ public class SecretBaseDimension
     public static void sendToBase(final ServerPlayer player, final UUID baseOwner)
     {
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), true);
-        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
-        ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
+        ThutTeleporter.transferTo(player, new TeleDest().setPos(pos), true);
         thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.secretbase.enter"));
     }
 
     public static void sendToExit(final ServerPlayer player, final UUID baseOwner)
     {
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), false);
-        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
-        ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
+        ThutTeleporter.transferTo(player, new TeleDest().setPos(pos), true);
         thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.secretbase.exit"));
     }
 

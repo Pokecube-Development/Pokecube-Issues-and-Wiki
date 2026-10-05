@@ -80,8 +80,7 @@ public class SecretBase
             return 1;
         }
         final GlobalPos pos = SecretBaseDimension.getSecretBaseLoc(player.getUUID(), player.getServer(), false);
-        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
-        ThutTeleporter.transferTo(player, new TeleDest().setLoc(pos, v), true);
+        ThutTeleporter.transferTo(player, new TeleDest().setPos(pos), true);
         thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.secretbase.exit"));
         return 0;
     }

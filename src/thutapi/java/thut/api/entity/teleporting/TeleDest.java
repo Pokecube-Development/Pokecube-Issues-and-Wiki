@@ -1,10 +1,12 @@
 package thut.api.entity.teleporting;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.NeoForge;
 import thut.api.ThutAPI;
 import thut.api.maths.Vector3;
@@ -14,22 +16,33 @@ public class TeleDest
 
     public static TeleDest readFromNBT(final CompoundTag nbt)
     {
-        final Vector3 loc = Vector3.readFromNBT(nbt, "v");
-        final String name = nbt.getString("name");
-        final int index = nbt.getInt("i");
-        final int version = nbt.getInt("_v_");
-        GlobalPos pos;
-        try
+        Vector3 loc = Vector3.readFromNBT(nbt, "v");
+        String name = nbt.getString("name");
+        int index = nbt.getInt("i");
+        int version = nbt.getInt("_v_");
+        TeleDest dest = new TeleDest().setName(name).setIndex(index).setVersion(version);
+        // New method
+        if (nbt.contains("dim"))
         {
-            pos = GlobalPos.CODEC.decode(NbtOps.INSTANCE, nbt.get("pos")).result().get().getFirst();
+            var dim = ResourceLocation.parse(nbt.getString("dim"));
+            dest.setLoc(GlobalPos.of(ResourceKey.create(Registries.DIMENSION, dim), loc.getPos()), loc);
         }
-        catch (final Exception e)
+        else
         {
-            ThutAPI.LOGGER.error("Error loading value", e);
-            return null;
+            // TODO remove legacy support
+            GlobalPos pos;
+            try
+            {
+                pos = GlobalPos.CODEC.decode(NbtOps.INSTANCE, nbt.get("pos")).result().get().getFirst();
+                dest.setLoc(pos, loc);
+            }
+            catch (final Exception e)
+            {
+                ThutAPI.LOGGER.error("Error loading value", e);
+                return null;
+            }
         }
-        final TeleDest dest = new TeleDest().setLoc(pos, loc).setName(name).setIndex(index).setVersion(version);
-        final TeleLoadEvent event = new TeleLoadEvent(dest);
+        TeleLoadEvent event = new TeleLoadEvent(dest);
         NeoForge.EVENT_BUS.post(event);
         if (event.isCanceled()) return null;
         // The event can override the destination, it defaults to dest.
@@ -37,7 +50,6 @@ public class TeleDest
     }
 
     public GlobalPos loc;
-    private Vector3 subLoc;
     private final Vector3 teleLoc = new Vector3();
     private String name;
 
@@ -53,7 +65,7 @@ public class TeleDest
     public TeleDest setLoc(final GlobalPos loc, final Vector3 subLoc)
     {
         this.loc = loc;
-        this.subLoc = subLoc;
+        this.teleLoc.set(subLoc);
         this.name = "";
         return this;
     }
@@ -63,11 +75,15 @@ public class TeleDest
         if (pos != null)
         {
             this.loc = pos;
-            this.subLoc = new Vector3().set(this.loc.pos().getX() + 0.5, this.loc.pos().getY(),
-                    this.loc.pos().getZ() + 0.5);
+            this.teleLoc.set(this.loc.pos().getX() + 0.5, this.loc.pos().getY(), this.loc.pos().getZ() + 0.5);
             this.name = "";
         }
         return this;
+    }
+
+    public TeleDest copy()
+    {
+        return new TeleDest().setLoc(this.loc, this.getTeleLoc());
     }
 
     public TeleDest setVersion(final int version)
@@ -81,17 +97,9 @@ public class TeleDest
         return this.loc;
     }
 
-    public Vector3 getLoc()
-    {
-        return this.subLoc;
-    }
-
     public Vector3 getTeleLoc()
     {
-        double dx = subLoc.x > 0 ? this.subLoc.x % 1 : -this.subLoc.x % 1;
-        double dy = subLoc.y > 0 ? this.subLoc.y % 1 : -this.subLoc.y % 1;
-        double dz = subLoc.z > 0 ? this.subLoc.z % 1 : -this.subLoc.z % 1;
-        return teleLoc.set(this.getPos().pos()).add(dx, dy, dz);
+        return teleLoc;
     }
 
     public String getName()
@@ -113,9 +121,8 @@ public class TeleDest
 
     public void writeToNBT(final CompoundTag nbt)
     {
-        if (this.subLoc == null) this.subLoc = new Vector3().set(this.loc.pos()).add(0.5, 0, 0.5);
-        this.subLoc.writeToNBT(nbt, "v");
-        nbt.put("pos", GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, this.loc).getOrThrow());
+        this.teleLoc.writeToNBT(nbt, "v");
+        nbt.putString("dim", loc.dimension().location().toString());
         nbt.putString("name", this.name);
         nbt.putInt("i", this.index);
         nbt.putInt("_v_", this.version);
@@ -123,28 +130,10 @@ public class TeleDest
 
     public void shift(final double dx, final double dy, final double dz)
     {
-        this.subLoc.x += dx;
-        this.subLoc.y += dy;
-        this.subLoc.z += dz;
-
-        if (Math.abs(dx)>1)
-        {
-            int shift = (int) dx;
-            BlockPos pos = this.getPos().pos().offset(shift, 0, 0);
-            this.loc = GlobalPos.of(this.getPos().dimension(), pos);
-        }
-        if (Math.abs(dy)>1)
-        {
-            int shift = (int) dy;
-            BlockPos pos = this.getPos().pos().offset(0, shift, 0);
-            this.loc = GlobalPos.of(this.getPos().dimension(), pos);
-        }
-        if (Math.abs(dz)>1)
-        {
-            int shift = (int) dz;
-            BlockPos pos = this.getPos().pos().offset(0, 0, shift);
-            this.loc = GlobalPos.of(this.getPos().dimension(), pos);
-        }
+        this.teleLoc.x += dx;
+        this.teleLoc.y += dy;
+        this.teleLoc.z += dz;
+        this.loc = new GlobalPos(this.loc.dimension(), this.teleLoc.getPos());
     }
 
     public Component getInfoName()

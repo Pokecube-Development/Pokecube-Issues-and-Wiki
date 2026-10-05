@@ -12,7 +12,6 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import pokecube.legends.init.FeaturesInit;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
-import thut.api.maths.Vector3;
 
 public class DimensionTranserHelper
 {
@@ -21,24 +20,21 @@ public class DimensionTranserHelper
     {
         final ResourceKey<Level> targetDim = FeaturesInit.DISTORTEDWORLD_KEY;
         final BlockPos pos = DimensionTranserHelper.getTransferPoint(player, player.getServer(), targetDim);
-        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
-        ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
+        ThutTeleporter.transferTo(player, new TeleDest().setPos(GlobalPos.of(targetDim, pos)), true);
     }
 
     public static void sentToUltraspace(final ServerPlayer player)
     {
         final ResourceKey<Level> targetDim = FeaturesInit.ULTRASPACE_KEY;
         final BlockPos pos = DimensionTranserHelper.getTransferPoint(player, player.getServer(), targetDim);
-        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
-        ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
+        ThutTeleporter.transferTo(player, new TeleDest().setPos(GlobalPos.of(targetDim, pos)), true);
     }
 
     public static void sendToOverworld(final ServerPlayer player)
     {
         final ResourceKey<Level> targetDim = Level.OVERWORLD;
         final BlockPos pos = DimensionTranserHelper.getTransferPoint(player, player.getServer(), targetDim);
-        final Vector3 v = new Vector3().set(pos).addTo(0.5, 0, 0.5);
-        ThutTeleporter.transferTo(player, new TeleDest().setLoc(GlobalPos.of(targetDim, pos), v), true);
+        ThutTeleporter.transferTo(player, new TeleDest().setPos(GlobalPos.of(targetDim, pos)), true);
     }
 
     public static BlockPos getTransferPoint(final ServerPlayer player, final MinecraftServer server,

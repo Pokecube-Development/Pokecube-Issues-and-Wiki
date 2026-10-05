@@ -644,7 +644,7 @@ public class WormholeEntity extends LivingEntity implements IEntityWithComplexSp
             entity.getPersistentData().putLong("pokecube_legends:uwh_use", now);
 
             TeleDest dest = this.getDest();
-            dest = new TeleDest().setLoc(dest.getPos(), dest.getLoc().copy());
+            dest = new TeleDest().setLoc(dest.getPos(), dest.getTeleLoc());
 
             Vec3 postV = Vec3.ZERO;
             // Recompute this post transfer, so we are probably loaded if a player went through at least?
