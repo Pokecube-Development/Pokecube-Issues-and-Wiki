@@ -343,9 +343,19 @@ public class PokedexEntry
                 {
                     final ItemStack keyStack = Tools.getStack(key);
                     if (!replace && entry.interactionLogic.canInteract(keyStack)) continue;
-                    entry.interactionLogic.stackActions.put(keyStack, interaction);
-                    DispenseBehaviourInteract.registerBehavior(keyStack);
-                    entry.interactionLogic.hasShearInteraction |= isShears.test(keyStack);
+                    boolean isShear = isShears.test(keyStack);
+                    entry.interactionLogic.hasShearInteraction |= isShear;
+                    if (isShear)
+                    {
+                        final ResourceLocation tag = SHEARS;
+                        entry.interactionLogic.tagActions.put(tag, interaction);
+                        DispenseBehaviourInteract.registerBehavior(tag);
+                    }
+                    else
+                    {
+                        entry.interactionLogic.stackActions.put(keyStack, interaction);
+                        DispenseBehaviourInteract.registerBehavior(keyStack);
+                    }
                 }
 
                 interaction.male = interact.male;
