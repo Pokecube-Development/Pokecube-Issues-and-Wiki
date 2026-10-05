@@ -229,7 +229,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.resetForm(true);
 
         final Ability ab = this.getAbility();
-        ab.onRecall(this);
+        if (ab != null) ab.onRecall(this);
         PokecubeAttributes.cleanupAbilities(this);
 
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Recalling " + this.getEntity());
