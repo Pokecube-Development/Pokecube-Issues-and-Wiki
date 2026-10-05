@@ -319,7 +319,7 @@ public class LogicMiscUpdate extends LogicBase
         // Now some server only processing
         if (!world.isClientSide)
         {
-            complexTick = entity.tickCount % 20 == Math.abs(entity.getId()) / 20;
+            complexTick = entity.tickCount % 20 == rand.nextInt(20);
 
             // Check that AI states are correct
             this.checkAIStates(ownerID);
