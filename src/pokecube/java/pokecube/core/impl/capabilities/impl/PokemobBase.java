@@ -329,9 +329,7 @@ public abstract class PokemobBase implements IPokemob
             final ItemStack key = new ItemStack(Items.SHEARS);
             if (this.getPokedexEntry().interact(key))
             {
-                final PokedexEntry.InteractionLogic.Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
-                final int timer = action.cooldown + this.getEntity().getRandom().nextInt(1 + action.variance);
-                if (lastShear < Tracker.instance().getTick() - timer) sheared = false;
+                if (lastShear < Tracker.instance().getTick()) sheared = false;
             }
             // Cannot shear this!
             else sheared = false;
@@ -351,8 +349,10 @@ public abstract class PokemobBase implements IPokemob
             this.getEntity().getData(Shearable.TYPE);
             final ArrayList<ItemStack> ret = new ArrayList<>();
             this.setGeneralState(GeneralStates.SHEARED, true);
-            this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, Tracker.instance().getTick());
-            final PokedexEntry.InteractionLogic.Interaction action = this.getPokedexEntry().interactionLogic.getFor(shears);
+            final PokedexEntry.InteractionLogic.Interaction action = this.getPokedexEntry().interactionLogic.getFor(
+                    shears);
+            int timer = action.cooldown + this.getEntity().getRandom().nextInt(1 + action.variance);
+            this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, Tracker.instance().getTick() + timer);
             final List<ItemStack> list = action.stacks;
             this.applyHunger(action.hunger);
             for (final ItemStack stack : list)
