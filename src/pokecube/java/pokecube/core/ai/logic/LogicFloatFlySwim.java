@@ -216,6 +216,12 @@ public class LogicFloatFlySwim extends LogicBase
     {
         super.tick(level);
 
+        boolean floats = this.pokemob.floats();
+        boolean air = (floats || this.pokemob.flys());
+        if(this.pokemob.isGrounded()) floats = air = false;
+        if(!this.pokemob.getTrackedEntity().isAlive()) floats = air = false;
+        boolean water = this.pokemob.getEntity().isInWater() && this.pokemob.swims();
+
         final Path path = this.entity.getNavigation().getPath();
         boolean hasPath = path != null && !path.isDone();
         if (hasPath)
@@ -223,6 +229,7 @@ public class LogicFloatFlySwim extends LogicBase
             final BlockPos next = path.getNextNodePos();
             hereVec.set(this.entity);
             nextVec.set(next);
+            var box = this.entity.getBoundingBox();
 
             if (hereVec.distToSq(this.lastPos) < 1)
             {
@@ -238,14 +245,15 @@ public class LogicFloatFlySwim extends LogicBase
                 this.lastPos.set(this.entity);
                 this.time_at_pos = 0;
             }
-            if (nextVec.distToSq(hereVec) < 1 && path.getNextNodeIndex() + 1 < path.getNodeCount())
+            if (floats)
+            {
+                box = box.expandTowards(0, -pokemob.getFloatHeight() * entity.getScale(), 0);
+            }
+            if (box.contains(nextVec.toVec3d()) && path.getNextNodeIndex() + 1 < path.getNodeCount())
                 path.setNextNodeIndex(path.getNextNodeIndex() + 1);
         }
-        boolean floats = this.pokemob.floats();
-        boolean air = (floats || this.pokemob.flys());
-        boolean water = this.pokemob.getEntity().isInWater() && this.pokemob.swims();
 
-        if (floats && !hasPath && !this.pokemob.isGrounded())
+        if (floats && !hasPath)
         {
             entity.setNoGravity(false);
             double gravity = entity.getGravity();
@@ -266,7 +274,7 @@ public class LogicFloatFlySwim extends LogicBase
             if (Math.signum(vy) != Math.signum(push.y)) push.addVelocities(entity);
         }
 
-        if (air && this.entity.isAlive() && !this.pokemob.isGrounded())
+        if (air)
         {
             if (this.state != NaviState.FLY)
             {
