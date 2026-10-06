@@ -150,10 +150,11 @@ public class GatherItems extends PokemobBehaviour
                 if (!stack.isEmpty() && stack.getItem() instanceof IBlockItem plantable)
                 {
                     Vec3 mid = context.pos().getBottomCenter();
+                    Player player = PokecubeMod.getFakePlayer(entity.level());
                     BlockHitResult hit = new BlockHitResult(mid, Direction.DOWN, context.pos(), true);
-                    BlockPlaceContext _context = new BlockPlaceContext(context.level(), null, InteractionHand.MAIN_HAND,
+                    BlockPlaceContext _context = new BlockPlaceContext(context.level(), player, InteractionHand.MAIN_HAND,
                             stack, hit);
-                    final BlockState plantState = plantable.getPlacement(_context);
+                    BlockState plantState = plantable.getPlacement(_context);
                     if (plantState != null && !replanted)
                     {
                         new ReplantTask(stack, context.state(), context.pos()).run(context.level());
