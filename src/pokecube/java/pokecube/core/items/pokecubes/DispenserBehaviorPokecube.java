@@ -15,8 +15,12 @@ import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeItems;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.impl.PokecubeMod;
+import thut.api.attachments.IOwnable;
+import thut.api.attachments.Ownable;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+
+import java.util.UUID;
 
 public class DispenserBehaviorPokecube implements DispenseItemBehavior
 {
@@ -33,7 +37,9 @@ public class DispenserBehaviorPokecube implements DispenseItemBehavior
         }
         if (dir == null) return stack;
 
-        final FakePlayer player = PokecubeMod.getFakePlayer(source.level());
+        IOwnable ownable = source.blockEntity().getData(Ownable.TYPE);
+        UUID id = ownable != null ? ownable.getOwnerId() : null;
+        final FakePlayer player = PokecubeMod.getFakePlayer(source.level(), id);
         player.setPos(source.center());
 
         // Defaults are for south.

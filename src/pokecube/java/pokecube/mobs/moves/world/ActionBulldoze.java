@@ -1,7 +1,6 @@
 package pokecube.mobs.moves.world;
 
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -12,7 +11,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
@@ -46,13 +44,9 @@ public class ActionBulldoze implements IMoveWorldEffect
     private int bulldoze(final IPokemob digger, final Vector3 v, final boolean count)
     {
         int ret = 0;
-
-        final LivingEntity owner = digger.getOwner();
         final Level world = digger.getEntity().level();
         ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
-        ServerPlayer player;
-        if (owner instanceof ServerPlayer splayer) player = splayer;
-        else player = PokecubeMod.getFakePlayer(world);
+        ServerPlayer player = MoveEventsHandler.getRelevantPlayer(digger);
         final Vector3 temp = new Vector3();
         temp.set(v);
 

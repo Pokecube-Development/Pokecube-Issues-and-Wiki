@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+import com.mojang.authlib.GameProfile;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.appender.FileAppender;
 
@@ -25,13 +26,19 @@ public abstract class PokecubeMod
 
     public static FakePlayer getFakePlayer(final Level world)
     {
-        if (!(world instanceof ServerLevel level)) throw new IllegalArgumentException("Must be called server side!");
-        return PokecubeMod.getFakePlayer(level);
+        return getFakePlayer(world, null);
     }
 
-    public static FakePlayer getFakePlayer(final ServerLevel world)
+    public static FakePlayer getFakePlayer(final Level world, UUID id)
     {
-        return FakePlayerFactory.getMinecraft(world);
+        if (!(world instanceof ServerLevel level)) throw new IllegalArgumentException("Must be called server side!");
+        return PokecubeMod.getFakePlayer(level, id);
+    }
+
+    public static FakePlayer getFakePlayer(final ServerLevel world, UUID id)
+    {
+        if (id == null) return FakePlayerFactory.getMinecraft(world);
+        return FakePlayerFactory.get(world, new GameProfile(id, "FakePlayer"));
     }
 
     public static void setLogger(final Logger logger_in)
@@ -50,7 +57,7 @@ public abstract class PokecubeMod
             }
             catch (final IOException e)
             {
-                e.printStackTrace();
+                logger_in.error(e);
             }
         }
         final org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) logger_in;

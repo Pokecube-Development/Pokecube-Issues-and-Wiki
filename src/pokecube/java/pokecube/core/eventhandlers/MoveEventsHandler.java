@@ -118,11 +118,11 @@ public class MoveEventsHandler
         return MoveEventsHandler.canAffectBlock(user, location, move, true, true);
     }
 
-    public static Player getRelevantPlayer(IPokemob user)
+    public static ServerPlayer getRelevantPlayer(IPokemob user)
     {
-        LivingEntity owner = user.getOwner();
-        if (!(owner instanceof Player)) owner = PokecubeMod.getFakePlayer(user.getEntity().level());
-        return (Player) owner;
+        if (!(user.getOwner() instanceof ServerPlayer player))
+            return PokecubeMod.getFakePlayer(user.getEntity().level(), user.getOwnerId());
+        return player;
     }
 
     /**
@@ -185,15 +185,14 @@ public class MoveEventsHandler
         return getContext(world, user, toPlace, hit);
     }
 
-    public static UseContext getContext(final Level world, final Entity user, final BlockState toPlace,
+    public static UseContext getContext(final Level world, final Player player, final BlockState toPlace,
             final Vector3 target)
     {
         final ItemStack stack = new ItemStack(toPlace.getBlock());
-        final Player player = user instanceof Player ? (Player) user : PokecubeMod.getFakePlayer(world);
-        final Vector3 origin = new Vector3().set(user);
+        final Vector3 origin = new Vector3().set(player);
         final Vec3 start = origin.toVec3d();
         final Vec3 end = target.toVec3d();
-        final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.ANY, user);
+        final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.ANY, player);
         final BlockHitResult hit = world.clip(context);
         return new UseContext(world, player, InteractionHand.MAIN_HAND, stack, hit);
     }

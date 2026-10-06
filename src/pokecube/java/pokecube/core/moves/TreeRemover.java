@@ -48,8 +48,7 @@ public class TreeRemover
     public void cutGrass()
     {
         final Vector3 temp = new Vector3();
-        ServerPlayer player = null;
-        if (user.getOwner() instanceof ServerPlayer splayer) player = splayer;
+        ServerPlayer player = MoveEventsHandler.getRelevantPlayer(user);
         ItemStack tool = new ItemStack(Items.SHEARS);
         for (int i = -4; i < 5; i++) for (int j = -4; j < 5; j++) for (int k = -1; k < 6; k++)
         {
@@ -64,8 +63,7 @@ public class TreeRemover
     private int cutPoints(final boolean count)
     {
         int ret = 0;
-        ServerPlayer player = null;
-        if (user.getOwner() instanceof ServerPlayer splayer) player = splayer;
+        ServerPlayer player = MoveEventsHandler.getRelevantPlayer(user);
         ItemStack tool = new ItemStack(Items.DIAMOND_AXE);
         for (final Vector3 v : this.blocks)
         {

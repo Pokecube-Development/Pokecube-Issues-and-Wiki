@@ -252,7 +252,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         // Reset this so that the ability shows correctly on the cube.
         this.timeSinceCombat = -50;
 
-        final Player tosser = PokecubeMod.getFakePlayer(this.getEntity().level());
+        final Player tosser = PokecubeMod.getFakePlayer(this.getEntity().level(), this.getOwnerId());
 
         boolean added = false;
         ItemStack itemstack = ItemStack.EMPTY;

@@ -43,6 +43,7 @@ import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.DispenserBlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -206,6 +207,7 @@ public class PokecubeItems extends ItemList
         DEFAULT_OWNABLE_TE.add(HealerTile.class);
         DEFAULT_OWNABLE_TE.add(PCTile.class);
         DEFAULT_OWNABLE_TE.add(TraderTile.class);
+        DEFAULT_OWNABLE_TE.add(DispenserBlockEntity.class);
 
         Ownable._REGISTRY.register(new HolderProvider.Provider<>()
         {
@@ -219,6 +221,7 @@ public class PokecubeItems extends ItemList
             @Override
             public Ownable.IOwnableSerializable apply(IAttachmentHolder h)
             {
+                if(h instanceof DispenserBlockEntity te) return new Ownable.ImplTE(te, true, false);
                 if (DEFAULT_OWNABLE_TE.contains(h.getClass()) && h instanceof BlockEntity te) return new Ownable.ImplTE(te, PokecubeCore.getConfig().allowRaidingPokecenters, false);
                 return null;
             }

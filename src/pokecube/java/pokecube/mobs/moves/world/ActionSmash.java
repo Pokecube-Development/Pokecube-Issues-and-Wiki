@@ -3,7 +3,6 @@ package pokecube.mobs.moves.world;
 import java.util.List;
 
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -66,9 +65,7 @@ public class ActionSmash implements IMoveWorldEffect
     private int smashRock(final IPokemob digger, final Vector3 v, final boolean count)
     {
         int ret = 0;
-        final LivingEntity owner = digger.getOwner();
-        ServerPlayer player = null;
-        if (owner instanceof ServerPlayer splayer) player = splayer;
+        ServerPlayer player = MoveEventsHandler.getRelevantPlayer(digger);
         final Level world = digger.getEntity().level();
         final Vector3 temp = new Vector3();
         ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);

@@ -97,7 +97,7 @@ public class EatRock extends EatBlockBase
         for (final ItemStack stack : list)
         {
             // If so, Replant it.
-            if (!replanted) replanted = new ReplantTask(stack, current, block.pos(), true).run(world);
+            if (!replanted) replanted = new ReplantTask(pokemob, stack, current, block.pos(), true).run(world);
             new InventoryChange(entity, 2, stack, true).run(world);
         }
 

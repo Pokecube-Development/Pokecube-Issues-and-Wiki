@@ -3,6 +3,7 @@ package pokecube.core.entity.pokemobs;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
@@ -25,6 +26,8 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import pokecube.core.impl.PokecubeMod;
+import thut.api.attachments.IOwnable;
+import thut.api.attachments.Ownable;
 import thut.api.maths.Vector3;
 import thut.api.util.RegHelper;
 
@@ -62,7 +65,9 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
                 .getOrDefault(RegHelper.getKey(stack.getItem()), DispenseBehaviourInteract.DEFAULT)
                 .dispense(source, stack);
 
-        final FakePlayer player = PokecubeMod.getFakePlayer(source.level());
+        IOwnable ownable = source.blockEntity().getData(Ownable.TYPE);
+        UUID id = ownable != null ? ownable.getOwnerId() : null;
+        final FakePlayer player = PokecubeMod.getFakePlayer(source.level(), id);
         Vec3 mid = source.center();
         player.setPos(mid.x(), mid.y() - player.getEyeHeight(), mid.z());
 

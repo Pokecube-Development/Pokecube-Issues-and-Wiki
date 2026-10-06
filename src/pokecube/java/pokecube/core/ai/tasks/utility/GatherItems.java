@@ -150,7 +150,8 @@ public class GatherItems extends PokemobBehaviour
             for (final ItemStack stack : list)
             {
                 // If so, Replant it.
-                if (!replanted) replanted = new ReplantTask(stack, context.state(), context.pos()).run(context.level());
+                if (!replanted)
+                    replanted = new ReplantTask(pokemob, stack, context.state(), context.pos()).run(context.level());
                 new TaskBase.InventoryChange(entity, startSlot, stack, true).run(context.level());
             }
             if (!replanted) for (int i = startSlot; i < endSlot; i++)
@@ -159,14 +160,14 @@ public class GatherItems extends PokemobBehaviour
                 if (!stack.isEmpty() && stack.getItem() instanceof IBlockItem plantable)
                 {
                     Vec3 mid = context.pos().getBottomCenter();
-                    Player player = PokecubeMod.getFakePlayer(entity.level());
+                    Player player = PokecubeMod.getFakePlayer(entity.level(), pokemob.getOwnerId());
                     BlockHitResult hit = new BlockHitResult(mid, Direction.DOWN, context.pos(), true);
-                    BlockPlaceContext _context = new BlockPlaceContext(context.level(), player, InteractionHand.MAIN_HAND,
-                            stack, hit);
+                    BlockPlaceContext _context = new BlockPlaceContext(context.level(), player,
+                            InteractionHand.MAIN_HAND, stack, hit);
                     BlockState plantState = plantable.getPlacement(_context);
                     if (plantState != null && !replanted)
                     {
-                        new ReplantTask(stack, context.state(), context.pos()).run(context.level());
+                        new ReplantTask(pokemob, stack, context.state(), context.pos()).run(context.level());
                         break;
                     }
                 }
@@ -184,20 +185,22 @@ public class GatherItems extends PokemobBehaviour
         final ItemStack seeds;
         final BlockPos pos;
         final BlockState oldState;
+        final IPokemob pokemob;
 
         final boolean selfPlacement;
 
-        public ReplantTask(final ItemStack seeds, final BlockState old, final BlockPos pos)
+        public ReplantTask(IPokemob pokemob, ItemStack seeds, BlockState old, BlockPos pos)
         {
-            this(seeds, old, pos, false);
+            this(pokemob, seeds, old, pos, false);
         }
 
-        public ReplantTask(final ItemStack seeds, final BlockState old, final BlockPos pos, final boolean selfPlacment)
+        public ReplantTask(IPokemob pokemob, ItemStack seeds, BlockState old, BlockPos pos, boolean selfPlacment)
         {
             this.seeds = seeds;
             this.pos = new BlockPos(pos);
             this.oldState = old;
             this.selfPlacement = selfPlacment;
+            this.pokemob = pokemob;
         }
 
         @Override
@@ -206,7 +209,7 @@ public class GatherItems extends PokemobBehaviour
             if (this.seeds.isEmpty()) return false;
             final BlockPos down = this.pos.below();
             // Use the fakeplayer to plant it
-            final Player player = PokecubeMod.getFakePlayer(world);
+            final Player player = PokecubeMod.getFakePlayer(world, this.pokemob.getOwnerId());
             player.setPos(this.pos.getX(), this.pos.getY(), this.pos.getZ());
             player.getInventory().items.set(player.getInventory().selected, this.seeds);
             final UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND,

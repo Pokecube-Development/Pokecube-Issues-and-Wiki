@@ -729,7 +729,7 @@ public class MovesUtils implements IMoveConstants
         ItemStack offhand = pokemob.getEntity().getOffhandItem();
         if (!offhand.isEmpty())
         {
-            FakePlayer player = PokecubeMod.getFakePlayer(pokemob.getEntity().level());
+            FakePlayer player = PokecubeMod.getFakePlayer(pokemob.getEntity().level(), pokemob.getOwnerId());
             player.setExperienceLevels(1000);
             AnvilMenu menu = new AnvilMenu(0, player.getInventory());
             menu.getSlot(0).set(tool);
