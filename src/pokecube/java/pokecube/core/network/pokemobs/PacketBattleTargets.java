@@ -19,8 +19,15 @@ import thut.api.Tracker;
 import thut.core.common.ThutCore;
 import thut.core.common.network.Packet;
 
+import java.util.function.BiFunction;
+
 public class PacketBattleTargets extends Packet
 {
+    public static BiFunction<ServerPlayer, IPokemob, Boolean> CAN_YIELD = (player, pokemob)->{
+        //TODO decide on conditions to allow/decline yielding?
+        return true;
+    };
+
     public static int manualTargetIndex;
     public static int manualAllyIndex;
 
@@ -87,25 +94,10 @@ public class PacketBattleTargets extends Packet
 
     public static void yieldBattle(IPokemob pokemob)
     {
-        if (pokemob == null || pokemob.getMoveStats().getTargetEnemy() == null)
-        {
-            // TODO decide if we want to handle this for not pokemobs?
-            var list = PacketSyncBattle.getEnemies();
-            int n = list.size();
-            if (n == 0) return;
-            int i = manualTargetIndex;
-            i %= n;
-            var target = list.get(i);
-            pokemob = PokemobCaps.getPokemobFor(target);
-            if (pokemob != null && pokemob.getPokedexEntry().stock)
-            {
-                int targetId = target.getId();
-                PokecubeCore.packets.sendToServer(new PacketBattleTargets(-1, TYPE_YIELD, targetId));
-            }
-            return;
-        }
-        int targetId = pokemob.getMoveStats().getTargetEnemy().getId();
-        PokecubeCore.packets.sendToServer(new PacketBattleTargets(pokemob.getEntity().getId(), TYPE_YIELD, targetId));
+        int targetId = pokemob != null && pokemob.getMoveStats().getTargetEnemy() != null ? pokemob.getMoveStats()
+                .getTargetEnemy().getId() : -1;
+        int userId = pokemob != null ? pokemob.getEntity().getId() : -1;
+        PokecubeCore.packets.sendToServer(new PacketBattleTargets(userId, TYPE_YIELD, targetId));
     }
 
     public static void sentToClient(ServerPlayer player, IPokemob pokemob, boolean enemy)
@@ -195,33 +187,10 @@ public class PacketBattleTargets extends Packet
         Entity e = id == -1 ? player : PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
         IPokemob pokemob = PokemobCaps.getPokemobFor(e);
         Entity e2;
-        if (pokemob == null || player != pokemob.getOwner())
-        {
-            var battle = Battle.getBattle(player);
-            if (e == player && type == TYPE_YIELD && battle != null)
-            {
-                e2 = PokecubeAPI.getEntityProvider().getEntity(player.level(), order, false);
-                if (e2 instanceof LivingEntity living)
-                {
-                    pokemob = PokemobCaps.getPokemobFor(living);
-                    // TODO decide if we want to handle this for not pokemobs?
-                    if (pokemob == null || !pokemob.getPokedexEntry().stock) return;
-
-                    ExitBattleEvent event = new ExitBattleEvent(player, living, battle);
-                    ThutCore.FORGE_BUS.post(event);
-                    if (!event.isCanceled())
-                    {
-                        BrainUtils.clearAttackTarget(player);
-                        BrainUtils.clearAttackTarget(living);
-                        battle.removeFromBattle(living);
-                    }
-                }
-            }
-            return;
-        }
         switch (type)
         {
         case TYPE_ALLY:
+            if (pokemob == null) break;
             e2 = PokecubeAPI.getEntityProvider().getEntity(player.level(), order, false);
             if (e2 instanceof LivingEntity living)
             {
@@ -230,6 +199,7 @@ public class PacketBattleTargets extends Packet
             else pokemob.getMoveStats().setTargetAlly(null);
             break;
         case TYPE_ENEMY:
+            if (pokemob == null) break;
             e2 = PokecubeAPI.getEntityProvider().getEntity(player.level(), order, false);
             if (e2 instanceof LivingEntity living)
             {
@@ -238,20 +208,34 @@ public class PacketBattleTargets extends Packet
             else pokemob.getMoveStats().setTargetEnemy(null);
             break;
         case TYPE_YIELD:
-            // Attempt to remove the target from the battle
-            var battle = pokemob.getBattle();
-            if (battle != null)
-            {
-                e2 = PokecubeAPI.getEntityProvider().getEntity(player.level(), order, false);
-                if (e2 instanceof LivingEntity living)
+            boolean canYield = CAN_YIELD.apply(player, pokemob);
+            if(canYield){
+                var battle = pokemob != null ? pokemob.getBattle() : Battle.getBattle(player);
+                if (battle != null)
                 {
-                    ExitBattleEvent event = new ExitBattleEvent(pokemob.getEntity(), living, battle);
-                    ThutCore.FORGE_BUS.post(event);
-                    if (!event.isCanceled())
+                    e2 = PokecubeAPI.getEntityProvider().getEntity(player.level(), order, false);
+                    if (e2 instanceof LivingEntity living)
                     {
-                        BrainUtils.clearAttackTarget(pokemob.getEntity());
-                        BrainUtils.clearAttackTarget(living);
-                        battle.removeFromBattle(living);
+                        var context = pokemob != null ? pokemob.getTrackedEntity() : player;
+                        ExitBattleEvent event = new ExitBattleEvent(context, living, battle);
+                        ThutCore.FORGE_BUS.post(event);
+                        if (!event.isCanceled())
+                        {
+                            if (pokemob != null)
+                            {
+                                event = new ExitBattleEvent(player, living, battle);
+                                ThutCore.FORGE_BUS.post(event);
+                                if (!event.isCanceled())
+                                {
+                                    BrainUtils.clearAttackTarget(player);
+                                    battle.removeFromBattle(player);
+                                }
+                            }
+                            BrainUtils.clearAttackTarget(context);
+                            BrainUtils.clearAttackTarget(living);
+                            battle.removeFromBattle(living);
+                            battle.removeFromBattle(context);
+                        }
                     }
                 }
             }
