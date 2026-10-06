@@ -48,6 +48,7 @@ import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.IRunnable;
 import pokecube.core.ai.tasks.PokemobBehaviour;
 import pokecube.core.ai.tasks.TaskBase;
+import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.pokemob.PokemobInventory;
 import pokecube.core.utils.mixin.IBlockItem;
@@ -123,8 +124,10 @@ public class GatherItems extends PokemobBehaviour
         {
             final HarvestCheckEvent event = new HarvestCheckEvent(pokemob, context.state(), context.pos());
             PokecubeAPI.POKEMOB_BUS.post(event);
-            return event.getResult() == TriState.TRUE || (event.getResult() != TriState.FALSE
-                    && this.isAvailable(context.state()));
+            boolean harvestAllowed =
+                    event.getResult() == TriState.TRUE || (event.getResult() != TriState.FALSE && this.isAvailable(
+                            context.state()));
+            return harvestAllowed && MoveEventsHandler.canAffectBlock(pokemob, new Vector3(context.pos), "__harvest__");
         }
 
         default boolean shouldReplant(BlockState state)
