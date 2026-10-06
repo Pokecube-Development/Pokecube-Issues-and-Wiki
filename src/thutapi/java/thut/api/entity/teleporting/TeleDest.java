@@ -16,25 +16,24 @@ public class TeleDest
 
     public static TeleDest readFromNBT(final CompoundTag nbt)
     {
-        Vector3 loc = Vector3.readFromNBT(nbt, "v");
-        String name = nbt.getString("name");
-        int index = nbt.getInt("i");
-        int version = nbt.getInt("_v_");
-        TeleDest dest = new TeleDest().setName(name).setIndex(index).setVersion(version);
+        TeleDest dest = new TeleDest();
         // New method
         if (nbt.contains("dim"))
         {
-            var dim = ResourceLocation.parse(nbt.getString("dim"));
-            dest.setLoc(GlobalPos.of(ResourceKey.create(Registries.DIMENSION, dim), loc.getPos()), loc);
+            dest.read(nbt);
         }
         else
         {
+            String name = nbt.getString("name");
+            int index = nbt.getInt("i");
+            int version = nbt.getInt("_v_");
             // TODO remove legacy support
             GlobalPos pos;
             try
             {
+                Vector3 loc = Vector3.readFromNBT(nbt, "v");
                 pos = GlobalPos.CODEC.decode(NbtOps.INSTANCE, nbt.get("pos")).result().get().getFirst();
-                dest.setLoc(pos, loc);
+                dest.setLoc(pos, loc).setName(name).setIndex(index).setVersion(version);
             }
             catch (final Exception e)
             {
@@ -126,6 +125,17 @@ public class TeleDest
         nbt.putString("name", this.name);
         nbt.putInt("i", this.index);
         nbt.putInt("_v_", this.version);
+    }
+
+    public TeleDest read(CompoundTag nbt)
+    {
+        Vector3 loc = Vector3.readFromNBT(nbt, "v");
+        var dim = ResourceLocation.parse(nbt.getString("dim"));
+        this.setLoc(GlobalPos.of(ResourceKey.create(Registries.DIMENSION, dim), loc.getPos()), loc);
+        this.name = nbt.getString("name");
+        this.index = nbt.getInt("i");
+        this.version = nbt.getInt("_v_");
+        return this;
     }
 
     public void shift(final double dx, final double dy, final double dz)

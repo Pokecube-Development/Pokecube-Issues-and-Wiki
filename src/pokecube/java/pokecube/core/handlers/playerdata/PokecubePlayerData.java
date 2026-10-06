@@ -70,7 +70,14 @@ public class PokecubePlayerData extends PlayerData
             {
                 pokemobData2 = tagListOptions.getCompound(j);
                 final TeleDest d = TeleDest.readFromNBT(pokemobData2);
-                if (d != null) this.telelocs.add(d.setIndex(j));
+                if (d != null)
+                {
+                    if (d.getName().isBlank())
+                    {
+                        d.setName(d.getTeleLoc().toString().replace("x:", "").replace("y:", "").replace("z:", ""));
+                    }
+                    this.telelocs.add(d.setIndex(j));
+                }
             }
         }
     }
