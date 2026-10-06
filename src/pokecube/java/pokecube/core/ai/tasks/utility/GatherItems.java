@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.utility;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
@@ -61,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.function.Predicate;
 
 /**
  * This IAIRunnable gets the mob to look for and collect dropped items and berries. It requires an AIStoreStuff to have
@@ -82,7 +82,7 @@ public class GatherItems extends PokemobBehaviour
     private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropBlock crop
             && crop.isMaxAge(input);
 
-    private static final Predicate<BlockState> fullCropPokeBerry = input -> input.getBlock() instanceof BerryFruit;
+    public static final Predicate<BlockState> fullCropPokeBerry = input -> input.getBlock() instanceof BerryFruit;
 
     private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropBlock crop
             && input.hasProperty(BeetrootBlock.AGE) && input.getValue(BeetrootBlock.AGE) >= crop.getMaxAge();
@@ -95,15 +95,18 @@ public class GatherItems extends PokemobBehaviour
 
     public static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.isAddedToLevel();
 
+    public final static Predicate<BlockState> notHarvestBlacklist = input -> !ItemList.is(GatherItems.BLACKLIST, input);
+
     // Matcher used to determine if a block is a fruit or crop to be picked.
-    public static final Predicate<BlockState> harvestMatcher = input -> {
-        final boolean blacklisted = ItemList.is(GatherItems.BLACKLIST, input);
-        if (blacklisted) return false;
+    // Addons can overwrite this one, so long as they call || on it.
+    public static Predicate<BlockState> harvestMatcher = input -> {
         final boolean fullCrop = GatherItems.fullCropNormal.test(input) || GatherItems.fullCropBeet.test(input)
-                || GatherItems.fullCropNetherWart.test(input)
-                || GatherItems.fullCropPokeBerry.test(input);
+                || GatherItems.fullCropNetherWart.test(input) || GatherItems.fullCropPokeBerry.test(input);
         return fullCrop || ItemList.is(GatherItems.HARVEST, input);
     };
+
+    // Addons can overwrite this one, they should always include the not fullCropPokeBerry though...
+    public static Predicate<BlockState> canReplant = Predicate.not(fullCropPokeBerry);
 
     public static record HarvestContext(ServerLevel level, BlockState state, BlockPos pos,
             IItemHandlerModifiable destination, boolean isPokemobInventory)
@@ -111,8 +114,9 @@ public class GatherItems extends PokemobBehaviour
 
     public static interface IHarvester
     {
-        default boolean isAvailable(BlockState state) {
-            return GatherItems.harvestMatcher.apply(state);
+        default boolean isAvailable(BlockState state)
+        {
+            return notHarvestBlacklist.test(state) && GatherItems.harvestMatcher.test(state);
         }
 
         default boolean isHarvestable(Mob entity, IPokemob pokemob, HarvestContext context)
@@ -123,6 +127,11 @@ public class GatherItems extends PokemobBehaviour
                     && this.isAvailable(context.state()));
         }
 
+        default boolean shouldReplant(BlockState state)
+        {
+            return canReplant.test(state);
+        }
+
         default void harvest(Mob entity, IPokemob pokemob, HarvestContext context)
         {
             final List<ItemStack> list = Block.getDrops(context.state(), context.level(), context.pos(),
@@ -130,7 +139,7 @@ public class GatherItems extends PokemobBehaviour
 
             context.level().setBlockAndUpdate(context.pos(), Blocks.AIR.defaultBlockState());
 
-            boolean replanted = false;
+            boolean replanted = !this.shouldReplant(context.state());
 
             int startSlot = context.isPokemobInventory() ? 2 : 0;
             int endSlot = context.isPokemobInventory()
@@ -259,7 +268,7 @@ public class GatherItems extends PokemobBehaviour
             @Override
             public boolean isAvailable(final BlockState state)
             {
-                return GatherItems.sweetBerry.apply(state);
+                return GatherItems.sweetBerry.test(state);
             }
         });
     }
@@ -314,7 +323,7 @@ public class GatherItems extends PokemobBehaviour
 
     private boolean hasStuff(StoreItems storage, GatherDetails details)
     {
-        if (details.targetItem != null && GatherItems.deaditemmatcher.apply(details.targetItem))
+        if (details.targetItem != null && GatherItems.deaditemmatcher.test(details.targetItem))
             details.targetItem = null;
         if (details.targetBlock != null)
         {
@@ -353,7 +362,7 @@ public class GatherItems extends PokemobBehaviour
         {
             // Check for items to possibly gather.
             for (final ItemEntity e : details.items)
-                if (!GatherItems.deaditemmatcher.apply(e))
+                if (!GatherItems.deaditemmatcher.test(e))
                 {
                     details.targetItem = e;
                     return;
