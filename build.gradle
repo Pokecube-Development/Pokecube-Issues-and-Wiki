@@ -59,14 +59,22 @@ sourceSets {
 def thutAPIJar = tasks.register("thutAPIJar", Jar) {
     from(sourceSets.thutapi.output)
     archiveClassifier = ""
-    var version = incrementVersion(version_thutapi)
-    archiveFileName = "thutapi-${minecraft_version}-${version}.jar"
+    var version = incrementVersion(version_thutapi, version_thutapi)
+    var _filename = "thutapi-${minecraft_version}-${version}.jar"
+    archiveFileName = _filename
+
+    doLast {
+        var madeFile = file("build/libs/${_filename}")
+        var newFile = file("libs/${_filename}")
+        if (newFile.exists()) newFile.delete()
+        madeFile.renameTo(newFile)
+    }
 }
 
 def thutCoreJar = tasks.register("thutCoreJar", Jar) {
     from(sourceSets.thutcore.output)
     archiveClassifier = ""
-    var version = incrementVersion(version_thutcore)
+    var version = incrementVersion(version_thutcore, version_thutcore)
     archiveFileName = "thutcore-${minecraft_version}-${version}.jar"
 }
 
@@ -187,25 +195,25 @@ def generateXaeroPokemobIconResources = tasks.register('generateXaeroPokemobIcon
         definitionRoot.mkdirs()
         spriteRoot.mkdirs()
 
-        final def json = new JsonSlurper()
-        final List<Map<String, Object>> entries = fileTree(xaeroPokedexEntrySource) {
+        var json = new JsonSlurper()
+        var entries = fileTree(xaeroPokedexEntrySource) {
             include '*.json'
         }.files.collect { File entryFile ->
             final Map<String, Object> entry = json.parse(entryFile) as Map<String, Object>
             return [name: entry.name as String, id: entry.id as Integer]
         }
 
-        final Map<String, Map<String, Object>> entriesByName = entries.collectEntries { Map<String, Object> entry ->
+        var entriesByName = entries.collectEntries { Map<String, Object> entry ->
             [(entry.name): entry]
         }
-        final Map<Integer, List<Map<String, Object>>> entriesById = entries.groupBy { Map<String, Object> entry ->
+        var entriesById = entries.groupBy { Map<String, Object> entry ->
             entry.id
         }
-        final List<String> entryNames = entriesByName.keySet().sort { String first, String second ->
+        var entryNames = entriesByName.keySet().sort { String first, String second ->
             final int lengthOrder = second.length() <=> first.length()
             return lengthOrder != 0 ? lengthOrder : first <=> second
         }
-        final Map<Integer, List<String>> iconNamesById = entriesById.collectEntries { Integer id, List ignored ->
+        var iconNamesById = entriesById.collectEntries { Integer id, List ignored ->
             [(id): []]
         }
         final List<String> unassignedIcons = []
@@ -247,7 +255,7 @@ def generateXaeroPokemobIconResources = tasks.register('generateXaeroPokemobIcon
         }
 
         entries.each { Map<String, Object> entry ->
-            final List<Map<String, Object>> relatedEntries = entriesById[entry.id]
+            var relatedEntries = entriesById[entry.id]
             final List<String> iconNames = iconNamesById[entry.id].unique().sort()
             final Map<String, String> variants = new TreeMap<>()
             if (iconNames.isEmpty()) variants['default'] = 'dot'
@@ -390,10 +398,14 @@ idea {
     }
 }
 
-def incrementVersion(String versionIn){
+static def incrementVersion(String versionIn, String versionRef){
+    def oldVerSplit = versionRef.split(/[.]/)
+    def oldMajor = oldVerSplit[0].toInteger()
+    def oldSub = oldVerSplit[1].toInteger()
     def splis = versionIn.split(/[.]/)
     def majver = splis[0].toInteger()
     def subver = splis[1].toInteger()
+    if (oldMajor!=majver || oldSub!=subver) return versionRef
     def offset = splis[2].toInteger()
     def ver = offset + 1
     return "${majver}.${subver}.${ver}"
@@ -409,16 +421,7 @@ def gitVersion() {
         def raw = tagFiles[index].getName().replaceFirst("${minecraft_version}-", "")
         def desc = (raw == null ? 'unknown-offset-hash' : raw.split('-')) as List
         def vars = desc.get(0)
-        def oldVerSplit = mod_version.split(/[.]/)
-        def oldMajor = oldVerSplit[0].toInteger()
-        def oldSub = oldVerSplit[1].toInteger()
-        def splis = vars.toString().split(/[.]/)
-        def majver = splis[0].toInteger()
-        def subver = splis[1].toInteger()
-        def offset = splis[2].toInteger()
-        if(oldMajor!=majver || oldSub!=subver) return mod_version
-        def ver = offset + 1
-        return "${majver}.${subver}.${ver}"
+        return incrementVersion(vars.toString(), mod_version)
     }
     catch (Exception ignored) {
         return mod_version
