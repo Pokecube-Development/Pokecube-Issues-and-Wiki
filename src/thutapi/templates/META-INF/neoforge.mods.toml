@@ -9,12 +9,9 @@ license="MIT"
 file="META-INF/accesstransformer.cfg"
 
 [[mods]] #mandatory
-
-modId="thutapi" #mandatory
-
-version="${version_thutapi}" #mandatory
-
-displayName="ThutAPI" #mandatory
+    modId="thutapi" #mandatory
+    version="${version_thutapi}" #mandatory
+    displayName="ThutAPI" #mandatory
 
 #authors=""
 

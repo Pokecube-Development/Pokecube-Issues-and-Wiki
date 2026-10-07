@@ -25,6 +25,11 @@ license="All rights reserved"
 [[mixins]]
     config="thutcore.mixins.json"
 
+[[mods]] #mandatory
+    modId="thutapi" #mandatory
+    version="${version_thutapi}" #mandatory
+    displayName="ThutAPI" #mandatory
+
 [[mods]]
     modId="thutcore"
     version="${version_thutcore}"
