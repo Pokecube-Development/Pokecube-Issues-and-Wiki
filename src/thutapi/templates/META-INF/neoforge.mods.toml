@@ -1,0 +1,37 @@
+
+modLoader="javafml" #mandatory
+
+loaderVersion="${loader_version_range}" #mandatory
+
+license="MIT"
+
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
+[[mods]] #mandatory
+
+modId="thutapi" #mandatory
+
+version="${version_thutapi}" #mandatory
+
+displayName="ThutAPI" #mandatory
+
+#authors=""
+
+description='''
+Thut API
+'''
+
+[[dependencies.thutapi]] #optional
+    modId="neoforge" #mandatory
+    type="required" #mandatory
+    versionRange="[${neo_version},)" #mandatory
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.thutapi]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"

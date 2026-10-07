@@ -5,5 +5,5 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public interface IBlockItem
 {
-    BlockState getPlacement(BlockPlaceContext context);
+    default BlockState getPlacement(BlockPlaceContext context) {return null;}
 }
