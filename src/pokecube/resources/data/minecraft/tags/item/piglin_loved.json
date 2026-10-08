@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "pokecube:mega_earring",
-    "pokecube:parkcube",
-    "pokecube:teammagmacube",
+    {"id": "pokecube:mega_earring", "require": false},
+    {"id": "pokecube:parkcube", "require": false},
+    {"id": "pokecube:teammagmacube", "require": false},
     { "id":"pokecube_legends:aged_grass_block", "required": false },
     { "id": "pokecube_legends:golden_allium", "required": false },
     { "id": "pokecube_legends:golden_azure_bluet", "required": false },

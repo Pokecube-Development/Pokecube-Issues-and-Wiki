@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "pokecube:enigma_door",
-    "pokecube:leppa_door",
-    "pokecube:nanab_door",
-    "pokecube:oran_door",
-    "pokecube:pecha_door",
-    "pokecube:sitrus_door",
+    {"id": "pokecube:enigma_door", "require": false},
+    {"id": "pokecube:leppa_door", "require": false},
+    {"id": "pokecube:nanab_door", "require": false},
+    {"id": "pokecube:oran_door", "require": false},
+    {"id": "pokecube:pecha_door", "require": false},
+    {"id": "pokecube:sitrus_door", "require": false},
     {"id": "pokecube_legends:aged_door", "required": false},
     {"id": "pokecube_legends:concrete_door", "required": false},
     {"id": "pokecube_legends:corrupted_door", "required": false},

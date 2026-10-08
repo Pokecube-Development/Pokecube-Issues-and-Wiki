@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "pokecube:enigma_fence_gate",
-    "pokecube:leppa_fence_gate",
-    "pokecube:nanab_fence_gate",
-    "pokecube:oran_fence_gate",
-    "pokecube:pecha_fence_gate",
-    "pokecube:sitrus_fence_gate",
+    {"id": "pokecube:enigma_fence_gate", "require": false},
+    {"id": "pokecube:leppa_fence_gate", "require": false},
+    {"id": "pokecube:nanab_fence_gate", "require": false},
+    {"id": "pokecube:oran_fence_gate", "require": false},
+    {"id": "pokecube:pecha_fence_gate", "require": false},
+    {"id": "pokecube:sitrus_fence_gate", "require": false},
     {"id": "pokecube_legends:aged_fence_gate", "required": false},
     {"id": "pokecube_legends:concrete_fence_gate", "required": false},
     {"id": "pokecube_legends:corrupted_fence_gate", "required": false},

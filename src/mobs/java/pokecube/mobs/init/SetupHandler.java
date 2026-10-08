@@ -3,7 +3,7 @@ package pokecube.mobs.init;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.api.data.trainers.TypeTrainer;
 import pokecube.core.database.Database;
 import pokecube.mobs.PokecubeMobs;
 

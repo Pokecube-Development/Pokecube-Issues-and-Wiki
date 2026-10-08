@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "pokecube:enigma_slab",
-    "pokecube:leppa_slab",
-    "pokecube:nanab_slab",
-    "pokecube:oran_slab",
-    "pokecube:pecha_slab",
-    "pokecube:sitrus_slab",
+    {"id": "pokecube:enigma_slab", "require": false},
+    {"id": "pokecube:leppa_slab", "require": false},
+    {"id": "pokecube:nanab_slab", "require": false},
+    {"id": "pokecube:oran_slab", "require": false},
+    {"id": "pokecube:pecha_slab", "require": false},
+    {"id": "pokecube:sitrus_slab", "require": false},
     {"id": "pokecube_legends:aged_slab", "required": false},
     {"id": "pokecube_legends:distortic_slab", "required": false},
     {"id": "pokecube_legends:inverted_slab", "required": false},

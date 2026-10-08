@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "pokecube:enigma_button",
-    "pokecube:leppa_button",
-    "pokecube:nanab_button",
-    "pokecube:oran_button",
-    "pokecube:pecha_button",
-    "pokecube:sitrus_button",
+    {"id": "pokecube:enigma_button", "require": false},
+    {"id": "pokecube:leppa_button", "require": false},
+    {"id": "pokecube:nanab_button", "require": false},
+    {"id": "pokecube:oran_button", "require": false},
+    {"id": "pokecube:pecha_button", "require": false},
+    {"id": "pokecube:sitrus_button", "require": false},
     {"id": "pokecube_legends:aged_button", "required": false},
     {"id": "pokecube_legends:aquamarine_button", "required": false},
     {"id": "pokecube_legends:azure_sandstone_button", "required": false},

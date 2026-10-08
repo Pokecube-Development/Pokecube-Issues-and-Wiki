@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "pokecube:enigma_sign",
-    "pokecube:leppa_sign",
-    "pokecube:nanab_sign",
-    "pokecube:oran_sign",
-    "pokecube:pecha_sign",
-    "pokecube:sitrus_sign",
+    {"id": "pokecube:enigma_sign", "require": false},
+    {"id": "pokecube:leppa_sign", "require": false},
+    {"id": "pokecube:nanab_sign", "require": false},
+    {"id": "pokecube:oran_sign", "require": false},
+    {"id": "pokecube:pecha_sign", "require": false},
+    {"id": "pokecube:sitrus_sign", "require": false},
     {"id": "pokecube_legends:aged_sign", "required": false},
     {"id": "pokecube_legends:concrete_sign", "required": false},
     {"id": "pokecube_legends:concrete_dense_sign", "required": false},

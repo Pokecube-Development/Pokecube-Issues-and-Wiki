@@ -72,6 +72,7 @@ public class PokecubeMobs
 
         PokecubeMobs.SOUNDS.register(bus);
         bus.addListener(this::loadComplete);
+        bus.addListener(this::addCreative);
 
         new BerryGenManager(PokecubeMobs.MODID);
         MoveRegister.init();
@@ -505,8 +506,7 @@ public class PokecubeMobs
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Finished adjusting model and texture locations");
     }
 
-    @SubscribeEvent
-    public static void addCreative(BuildCreativeModeTabContentsEvent event)
+    public void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         if (event.getTab().equals(BERRIES_TAB.get()))
         {
