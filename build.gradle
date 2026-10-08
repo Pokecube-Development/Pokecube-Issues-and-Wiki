@@ -57,6 +57,9 @@ sourceSets {
     wearables {
         depends.on sourceSets.main
     }
+    bling {
+        depends.on sourceSets.main
+    }
     pokecube_core {
         depends.on sourceSets.main
     }
@@ -95,7 +98,14 @@ def wearablesJar = tasks.register("subJar-wearables", Jar) {
     from(sourceSets.wearables.output)
     archiveClassifier = ""
     var version = incrementVersion(version_wearables, version_wearables)
-    archiveFileName = "wearables-bling-${minecraft_version}-${version}.jar"
+    archiveFileName = "wearables-${minecraft_version}-${version}.jar"
+}
+
+def blingJar = tasks.register("subJar-bling", Jar) {
+    from(sourceSets.bling.output)
+    archiveClassifier = ""
+    var version = incrementVersion(version_bling, version_bling)
+    archiveFileName = "bling-${minecraft_version}-${version}.jar"
 }
 
 // Default run configurations.
@@ -152,38 +162,37 @@ sourceSets.main.resources {
     exclude("src/generated/**/.cache")
 }
 sourceSets.main.resources { srcDir 'src/main/templates' }
+sourceSets.main.resources { srcDir 'src/thutcore/resources' }
+sourceSets.main.java { srcDir 'src/thutcore/java' }
 
-// Include thutapi as a source set
+// Source Sets for sub-jars
 sourceSets.thutapi.java { srcDir 'src/thutapi/java' }
 sourceSets.thutapi.resources { srcDir 'src/thutapi/resources' }
 sourceSets.thutapi.resources { srcDir 'src/thutapi/templates' }
 
-// Now a sourceset for thutcore
 sourceSets.thutcore.java { srcDir 'src/thutcore/java' }
 sourceSets.thutcore.resources { srcDir 'src/thutcore/resources' }
 sourceSets.thutcore.resources { srcDir 'src/thutcore/templates' }
 sourceSets.thutcore.java { srcDir 'src/thutapi/java' }
 sourceSets.thutcore.resources { srcDir 'src/thutapi/resources' }
 
-sourceSets.main.resources { srcDir 'src/thutcore/resources' }
-sourceSets.main.java { srcDir 'src/thutcore/java' }
-
-sourceSets.main.resources { srcDir 'src/wearables/resources' }
-sourceSets.main.java { srcDir 'src/wearables/java' }
-
 sourceSets.wearables.resources { srcDir 'src/wearables/resources' }
 sourceSets.wearables.resources { srcDir 'src/wearables/templates' }
 sourceSets.wearables.java { srcDir 'src/wearables/java' }
 
-//* Main Pokecube set
-sourceSets.main.resources { srcDir 'src/pokecube/resources' }
-sourceSets.main.java { srcDir 'src/pokecube/java' }
+sourceSets.bling.resources { srcDir 'src/bling/resources' }
+sourceSets.bling.resources { srcDir 'src/bling/templates' }
+sourceSets.bling.java { srcDir 'src/bling/java' }
 
 sourceSets.pokecube_core.resources { srcDir 'src/pokecube/resources' }
 sourceSets.pokecube_core.resources { srcDir 'src/pokecube/templates' }
 sourceSets.pokecube_core.java { srcDir 'src/pokecube/java' }
 sourceSets.pokecube_core.resources { srcDir 'src/main/resources' }
 sourceSets.pokecube_core.java { srcDir 'src/main/java' }
+
+// Source Sets for main jars
+sourceSets.main.resources { srcDir 'src/pokecube/resources' }
+sourceSets.main.java { srcDir 'src/pokecube/java' }
 //*/
 
 //* Main Pokecube models and data
@@ -212,6 +221,15 @@ sourceSets.main.java { srcDir 'src/legends/java' }
 //* Pokecube Mobs
 sourceSets.main.resources { srcDir 'src/mobs/resources' }
 sourceSets.main.java { srcDir 'src/mobs/java' }
+//*/
+
+//* Wearables
+sourceSets.main.resources { srcDir 'src/wearables/resources' }
+sourceSets.main.java { srcDir 'src/wearables/java' }
+//*/
+//* Bling
+sourceSets.main.resources { srcDir 'src/bling/resources' }
+sourceSets.main.java { srcDir 'src/bling/java' }
 //*/
 
 def xaeroPokemobIconSource = file('PokecubeMobs/pokecube_mobs/assets/pokecube_mobs/textures/entity_icon/pokemob')

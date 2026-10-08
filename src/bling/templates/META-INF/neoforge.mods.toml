@@ -5,30 +5,37 @@ license="MIT"
 [[accessTransformers]]
 file="META-INF/accesstransformer.cfg"
 
-[[mods]] #mandatory
-modId="thut_wearables" #mandatory
-version="${version_wearables}" #mandatory
-displayName="Thut Wearables"
+[[mods]]
+modId="thut_bling"
+version="${version_bling}"
+displayName="Thut Bling"
 authors="Thutmose"
 description='''
-Accessories Slots for Minecraft!
+Bling for Thut Wearables!
 '''
 
-[[dependencies.thut_wearables]]
-modId="thutapi"
+[[dependencies.thut_bling]]
+modId="thutcore"
 mandatory=true
-versionRange="[${version_thutapi},)"
+versionRange="[${version_thutcore},)"
 ordering="NONE"
 side="BOTH"
 
-[[dependencies.thut_wearables]]
+[[dependencies.thut_bling]]
+modId="thut_wearables"
+mandatory=true
+versionRange="[${version_wearables},)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.thut_bling]]
 modId="minecraft"
 mandatory=true
 versionRange="${minecraft_version}"
 ordering="NONE"
 side="BOTH"
     
-[[dependencies.thut_wearables]]
+[[dependencies.thut_bling]]
 modId="neoforge"
 mandatory=true
 versionRange="${neo_version}"
