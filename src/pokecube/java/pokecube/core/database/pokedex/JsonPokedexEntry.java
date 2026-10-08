@@ -613,6 +613,7 @@ public class JsonPokedexEntry
 
     public static void populateFromArray(JsonArray array, List<JsonPokedexEntry> list, ResourceLocation source)
     {
+        if (array.isEmpty()) return;
         JsonPokedexEntry database;
         int priorities = Integer.MIN_VALUE;
         int start_i = 0;

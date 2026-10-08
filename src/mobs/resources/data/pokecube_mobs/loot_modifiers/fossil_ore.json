@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_table",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "pokecube:blocks/fossil_ore"
+    }
+  ],
+  "priority": 1000,
+  "table": "pokecube_mobs:blocks/fossils"
+}

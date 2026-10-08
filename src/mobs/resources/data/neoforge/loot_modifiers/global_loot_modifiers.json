@@ -1,6 +1,8 @@
 {
   "replace": false,
   "entries": [
+    "pokecube_mobs:deepslate_fossil_ore",
+    "pokecube_mobs:fossil_ore",
     "pokecube_world:mineshaft_tms",
     "pokecube_world:pyramid_larvesta"
   ]
