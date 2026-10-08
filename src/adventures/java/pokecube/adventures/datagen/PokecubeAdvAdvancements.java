@@ -1,4 +1,4 @@
-package pokecube.datagen;
+package pokecube.adventures.datagen;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;

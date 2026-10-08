@@ -1,4 +1,4 @@
-package pokecube.datagen;
+package pokecube.adventures.datagen;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -7,12 +7,12 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import pokecube.mobs.PokecubeMobs;
+import pokecube.adventures.PokecubeAdv;
 
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = PokecubeMobs.MODID)
-public class PokecubeMobsDataGenerators
+@EventBusSubscriber(modid = PokecubeAdv.MODID)
+public class PokecubeAdvDataGenerators
 {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event)
@@ -23,6 +23,6 @@ public class PokecubeMobsDataGenerators
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         // other providers here
         generator.addProvider(event.includeServer(),
-                new PokecubeMobsAdvancements(output, lookupProvider, existingFileHelper));
+                new PokecubeAdvAdvancements(output, lookupProvider, existingFileHelper));
     }
 }
