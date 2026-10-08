@@ -77,6 +77,7 @@ import pokecube.adventures.items.bag.BagItem;
 import pokecube.adventures.utils.EnergyHandler;
 import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.trainers.TypeTrainer;
 import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
@@ -260,6 +261,8 @@ public class PokecubeAdv
 
     private static void init()
     {
+        TypeTrainer.TRAINERTEXTUREPATH = TRAINERTEXTUREPATH;
+
         // Register the item blocks.
         for (final DeferredHolder<Block, ? extends Block> reg : PokecubeAdv.BLOCKS.getEntries())
         {

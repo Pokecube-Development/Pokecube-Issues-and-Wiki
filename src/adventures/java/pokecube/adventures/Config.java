@@ -15,6 +15,7 @@ import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
 import pokecube.adventures.blocks.warp_pad.WarpPadTile;
 import pokecube.adventures.utils.EnergyHandler;
+import pokecube.api.data.trainers.TypeTrainer;
 import thut.api.util.JsonUtil;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
@@ -260,6 +261,8 @@ public class Config extends ConfigData
         this.afaTickRate = Math.max(1, this.afaTickRate);
         this.trainerAgroRate = Math.max(1, this.trainerAgroRate);
         RecipeClone.ENERGYCOST = this.fossilReanimateCost;
+        TypeTrainer.trainerSightRange = this.trainerSightRange;
+        TypeTrainer.trainerslevel = this.trainerslevel;
     }
 
     public boolean shouldBeCustomTrainer(final LivingEntity mob)

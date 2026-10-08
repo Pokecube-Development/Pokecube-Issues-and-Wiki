@@ -133,7 +133,7 @@ public class BerryGenManager
                 final List<ItemStack> berries = Lists.newArrayList();
                 if (rule.berry != null) for (final String s : rule.berry.split(","))
                 {
-                    final Item berry = BerryManager.getBerryItem(s.trim());
+                    final Item berry = BerryManager.getBerryItem(s.trim(), true);
                     if (berry != null) berries.add(new ItemStack(berry));
                 }
                 if (!berries.isEmpty())

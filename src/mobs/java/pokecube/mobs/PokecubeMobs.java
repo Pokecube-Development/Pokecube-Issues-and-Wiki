@@ -19,6 +19,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.common.util.TriState;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import pokecube.api.PokecubeAPI;
@@ -52,6 +53,9 @@ import pokecube.mobs.init.PokemobSounds;
 import pokecube.mobs.moves.MoveRegister;
 import pokecube.mobs.moves.attacks.NaturePower;
 import thut.core.common.ThutCore;
+
+import static pokecube.core.init.CoreCreativeTabs.BERRIES_TAB;
+import static pokecube.core.init.CoreCreativeTabs.add;
 
 @Mod(value = PokecubeMobs.MODID)
 public class PokecubeMobs
@@ -94,7 +98,7 @@ public class PokecubeMobs
             final ItemStack item = shuckle.getEntity().getMainHandItem();
             if (item.isEmpty()) return;
             final Item itemId = item.getItem();
-            boolean berry = itemId == BerryManager.getBerryItem("oran");
+            boolean berry = itemId == BerryManager.getBerryItem("oran", true);
             final Random r = ThutCore.newRandom();
             if (berry && r.nextGaussian() > EventsHandler.juiceChance)
             {
@@ -499,6 +503,65 @@ public class PokecubeMobs
             entry.animation = ResourceLocation.fromNamespaceAndPath(modid, model + entry.getTrimmedName() + ".xml");
         });
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Finished adjusting model and texture locations");
+    }
+
+    @SubscribeEvent
+    public static void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTab().equals(BERRIES_TAB.get()))
+        {
+            add(event, PokecubeItems.getStack("enigma_boat"));
+            add(event, PokecubeItems.getStack("enigma_chest_boat"));
+            add(event, PokecubeItems.getStack("leppa_boat"));
+            add(event, PokecubeItems.getStack("leppa_chest_boat"));
+            add(event, PokecubeItems.getStack("nanab_boat"));
+            add(event, PokecubeItems.getStack("nanab_chest_boat"));
+            add(event, PokecubeItems.getStack("oran_boat"));
+            add(event, PokecubeItems.getStack("oran_chest_boat"));
+            add(event, PokecubeItems.getStack("pecha_boat"));
+            add(event, PokecubeItems.getStack("pecha_chest_boat"));
+            add(event, PokecubeItems.getStack("sitrus_boat"));
+            add(event, PokecubeItems.getStack("sitrus_chest_boat"));
+
+            add(event, PokecubeItems.getStack("enigma_sign"));
+            add(event, PokecubeItems.getStack("enigma_hanging_sign"));
+            add(event, PokecubeItems.getStack("leppa_sign"));
+            add(event, PokecubeItems.getStack("leppa_hanging_sign"));
+            add(event, PokecubeItems.getStack("nanab_sign"));
+            add(event, PokecubeItems.getStack("nanab_hanging_sign"));
+            add(event, PokecubeItems.getStack("oran_sign"));
+            add(event, PokecubeItems.getStack("oran_hanging_sign"));
+            add(event, PokecubeItems.getStack("pecha_sign"));
+            add(event, PokecubeItems.getStack("pecha_hanging_sign"));
+            add(event, PokecubeItems.getStack("sitrus_sign"));
+            add(event, PokecubeItems.getStack("sitrus_hanging_sign"));
+
+            for (final String type : ItemGenerator.onlyBerryLeaves.keySet())
+            {
+                add(event, ItemGenerator.leaves.get(type));
+            }
+
+            for (final String type : ItemGenerator.berryWoods.keySet())
+            {
+                add(event, ItemGenerator.leaves.get(type));
+                add(event, ItemGenerator.logs.get(type));
+                add(event, ItemGenerator.woods.get(type));
+                add(event, ItemGenerator.stripped_logs.get(type));
+                add(event, ItemGenerator.stripped_woods.get(type));
+                add(event, ItemGenerator.barrels.get(type));
+                add(event, ItemGenerator.bookshelves.get(type));
+                add(event, ItemGenerator.fillable_shelves.get(type));
+                add(event, ItemGenerator.planks.get(type));
+                add(event, ItemGenerator.stairs.get(type));
+                add(event, ItemGenerator.slabs.get(type));
+                add(event, ItemGenerator.fences.get(type));
+                add(event, ItemGenerator.fence_gates.get(type));
+                add(event, ItemGenerator.doors.get(type));
+                add(event, ItemGenerator.trapdoors.get(type));
+                add(event, ItemGenerator.pressure_plates.get(type));
+                add(event, ItemGenerator.buttons.get(type));
+            }
+        }
     }
 
     @SubscribeEvent

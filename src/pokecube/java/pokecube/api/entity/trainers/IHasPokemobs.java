@@ -10,9 +10,8 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
-import pokecube.adventures.Config;
-import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.trainers.TypeTrainer;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.moves.Battle;
@@ -190,7 +189,7 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
     default boolean canLevel()
     {
         final LevelMode type = this.getLevelMode();
-        if (type == LevelMode.CONFIG) return Config.instance.trainerslevel;
+        if (type == LevelMode.CONFIG) return TypeTrainer.trainerslevel;
         return type == LevelMode.YES;
     }
 
@@ -223,7 +222,7 @@ public interface IHasPokemobs extends INBTSerializable<CompoundTag>, Container, 
     /** The distance to see for attacking players */
     default int getAgressDistance()
     {
-        return Config.instance.trainerSightRange;
+        return TypeTrainer.trainerSightRange;
     }
 
     /**

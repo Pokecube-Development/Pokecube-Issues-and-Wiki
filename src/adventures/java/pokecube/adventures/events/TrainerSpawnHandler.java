@@ -25,13 +25,14 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.capabilities.utils.TypeTrainerHandler;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.init.EntityTypes;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
+import pokecube.api.data.trainers.TypeTrainer;
 import pokecube.api.entity.trainers.IHasNPCAIStates;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
 import pokecube.api.entity.trainers.IHasPokemobs;
@@ -136,7 +137,7 @@ public class TrainerSpawnHandler
     {
         if (trainer.getType() == null) return;
         var entity = trainer.getTrainer();
-        TypeTrainer.getRandomTeam(trainer, entity, level, entity.level());
+        TypeTrainerHandler.getRandomTeam(trainer, entity, level, entity.level());
         var type = trainer.getType();
         type.initTrainerItems(entity);
     }

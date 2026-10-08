@@ -18,9 +18,9 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.trainers.TypeTrainer;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
@@ -265,7 +265,7 @@ public class PacketTrainer extends NBTPacket
                 }
                 catch (final Exception e)
                 {
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.error(e);
                 }
             }
 
@@ -279,7 +279,7 @@ public class PacketTrainer extends NBTPacket
                 }
                 catch (final Exception e)
                 {
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.error(e);
                 }
             }
 
@@ -300,7 +300,7 @@ public class PacketTrainer extends NBTPacket
                 }
                 catch (final Exception e)
                 {
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.error(e);
                 }
             }
 
@@ -316,7 +316,7 @@ public class PacketTrainer extends NBTPacket
                 }
                 catch (final Exception e)
                 {
-                    e.printStackTrace();
+                    PokecubeAPI.LOGGER.error(e);
                 }
             }
 

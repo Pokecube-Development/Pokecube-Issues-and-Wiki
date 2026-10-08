@@ -40,7 +40,7 @@ public class CoreCreativeTabs
                     .withTabsBefore(ResourceLocation.parse("pokecube:blocks_items_tab")).build());
     public static final Supplier<CreativeModeTab> BERRIES_TAB = TABS.register("berries_tab",
             () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.pokecube.berries"))
-                    .icon(() -> new ItemStack(BerryManager.getBerryItem("cheri")))
+                    .icon(() -> new ItemStack(BerryManager.getBerryItem("cheri", false)))
                     .withTabsBefore(ResourceLocation.parse("pokecube:cubes_tab")).build());
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -215,58 +215,6 @@ public class CoreCreativeTabs
             {
                 add(event, berry);
             }
-
-            add(event, PokecubeItems.getStack("enigma_boat"));
-            add(event, PokecubeItems.getStack("enigma_chest_boat"));
-            add(event, PokecubeItems.getStack("leppa_boat"));
-            add(event, PokecubeItems.getStack("leppa_chest_boat"));
-            add(event, PokecubeItems.getStack("nanab_boat"));
-            add(event, PokecubeItems.getStack("nanab_chest_boat"));
-            add(event, PokecubeItems.getStack("oran_boat"));
-            add(event, PokecubeItems.getStack("oran_chest_boat"));
-            add(event, PokecubeItems.getStack("pecha_boat"));
-            add(event, PokecubeItems.getStack("pecha_chest_boat"));
-            add(event, PokecubeItems.getStack("sitrus_boat"));
-            add(event, PokecubeItems.getStack("sitrus_chest_boat"));
-
-            add(event, PokecubeItems.getStack("enigma_sign"));
-            add(event, PokecubeItems.getStack("enigma_hanging_sign"));
-            add(event, PokecubeItems.getStack("leppa_sign"));
-            add(event, PokecubeItems.getStack("leppa_hanging_sign"));
-            add(event, PokecubeItems.getStack("nanab_sign"));
-            add(event, PokecubeItems.getStack("nanab_hanging_sign"));
-            add(event, PokecubeItems.getStack("oran_sign"));
-            add(event, PokecubeItems.getStack("oran_hanging_sign"));
-            add(event, PokecubeItems.getStack("pecha_sign"));
-            add(event, PokecubeItems.getStack("pecha_hanging_sign"));
-            add(event, PokecubeItems.getStack("sitrus_sign"));
-            add(event, PokecubeItems.getStack("sitrus_hanging_sign"));
-
-            for (final String type : ItemGenerator.onlyBerryLeaves.keySet())
-            {
-                add(event, ItemGenerator.leaves.get(type));
-            }
-
-            for (final String type : ItemGenerator.berryWoods.keySet())
-            {
-                add(event, ItemGenerator.leaves.get(type));
-                add(event, ItemGenerator.logs.get(type));
-                add(event, ItemGenerator.woods.get(type));
-                add(event, ItemGenerator.stripped_logs.get(type));
-                add(event, ItemGenerator.stripped_woods.get(type));
-                add(event, ItemGenerator.barrels.get(type));
-                add(event, ItemGenerator.bookshelves.get(type));
-                add(event, ItemGenerator.fillable_shelves.get(type));
-                add(event, ItemGenerator.planks.get(type));
-                add(event, ItemGenerator.stairs.get(type));
-                add(event, ItemGenerator.slabs.get(type));
-                add(event, ItemGenerator.fences.get(type));
-                add(event, ItemGenerator.fence_gates.get(type));
-                add(event, ItemGenerator.doors.get(type));
-                add(event, ItemGenerator.trapdoors.get(type));
-                add(event, ItemGenerator.pressure_plates.get(type));
-                add(event, ItemGenerator.buttons.get(type));
-            }
         }
 
         if (event.getTab().equals(ThutWearables.WEARABLES_TAB.get()))
@@ -319,13 +267,27 @@ public class CoreCreativeTabs
 
     public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item)
     {
-        event.insertAfter(new ItemStack(afterItem), new ItemStack(item),
-                CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        ItemStack after = new ItemStack(afterItem);
+        ItemStack before = new ItemStack(item);
+        if (after.isEmpty() || before.isEmpty())
+        {
+            PokecubeAPI.LOGGER.error("Error with adding some items to tab after another {} {}", afterItem, item);
+            if (!before.isEmpty()) add(event, item);
+            return;
+        }
+        event.insertAfter(after, before, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 
     public static void addBefore(BuildCreativeModeTabContentsEvent event, ItemLike beforeItem, ItemLike item)
     {
-        event.insertBefore(new ItemStack(beforeItem), new ItemStack(item),
-                CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        ItemStack after = new ItemStack(item);
+        ItemStack before = new ItemStack(beforeItem);
+        if (after.isEmpty() || before.isEmpty())
+        {
+            PokecubeAPI.LOGGER.error("Error with adding some items to tab before another {} {}", beforeItem, item);
+            if (!after.isEmpty()) add(event, item);
+            return;
+        }
+        event.insertBefore(before, after, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 }

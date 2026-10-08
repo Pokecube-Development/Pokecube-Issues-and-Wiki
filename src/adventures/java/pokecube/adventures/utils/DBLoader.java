@@ -2,8 +2,8 @@ package pokecube.adventures.utils;
 
 import net.minecraft.resources.ResourceLocation;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.trainers.TypeTrainer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 
@@ -46,7 +46,7 @@ public class DBLoader
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            PokecubeAPI.LOGGER.error(e);
         }
         finally
         {
@@ -56,7 +56,7 @@ public class DBLoader
             }
             catch (final IOException e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
         }
 

@@ -89,9 +89,10 @@ public class BerryManager
         if (type.effect != null) UsableItemEffects.BerryUsable.effects.put(type.index, type.effect);
     }
 
-    public static Item getBerryItem(final String name)
+    public static Item getBerryItem(final String name, boolean nullFallback)
     {
-        return BerryManager.byName.get(name).get();
+        if (nullFallback && !BerryManager.byName.containsKey(name)) return null;
+        return BerryManager.byName.getOrDefault(name, BerryManager.byName.get("null")).get();
     }
 
     public static Block getCrop(final ItemBerry berry)

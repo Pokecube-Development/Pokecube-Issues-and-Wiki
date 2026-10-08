@@ -2,10 +2,9 @@ package pokecube.adventures.utils.trade_presets;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.ItemCost;
-import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
-import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
+import pokecube.api.data.trainers.TradeData.*;
+import pokecube.api.data.trainers.TypeTrainer.*;
 import pokecube.adventures.utils.TradeEntryLoader;
-import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;

@@ -2,10 +2,9 @@ package pokecube.adventures.utils.trade_presets;
 
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredItem;
-import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
-import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
+import pokecube.api.data.trainers.TradeData.*;
+import pokecube.api.data.trainers.TypeTrainer.*;
 import pokecube.adventures.utils.TradeEntryLoader;
-import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.utils.Tools;
 import pokecube.core.items.berries.BerryManager;

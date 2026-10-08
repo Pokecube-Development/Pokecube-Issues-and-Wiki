@@ -2,9 +2,7 @@ package pokecube.adventures.utils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -12,18 +10,19 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.trading.ItemCost;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforgespi.language.ModFileScanData.AnnotationData;
 import net.neoforged.neoforgespi.locating.IModFile;
 import org.objectweb.asm.Type;
 import pokecube.adventures.ai.poi.Professions;
-import pokecube.adventures.capabilities.utils.TypeTrainer;
-import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
-import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
+import pokecube.adventures.capabilities.utils.TypeTrainerHandler;
 import pokecube.adventures.utils.trade_presets.TradeHelper;
 import pokecube.adventures.utils.trade_presets.TradePresetAn;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.trainers.TradeData.*;
+import pokecube.api.data.trainers.TypeTrainer;
+import pokecube.api.data.trainers.TypeTrainer.TrainerTrade;
+import pokecube.api.data.trainers.TypeTrainer.TrainerTrades;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.resources.PackFinder;
@@ -44,51 +43,6 @@ import java.util.function.BiFunction;
 
 public class TradeEntryLoader
 {
-    public static class Trade
-    {
-        public String custom;
-        public String type = "preset";
-        public JsonElement sell;
-        public int maxUses = Integer.MAX_VALUE;
-        public int exp = 1;
-        public int demand = 0;
-        public float multiplier = 0.05f;
-        public int count = -1;
-
-        public final List<JsonElement> buys = Lists.newArrayList();
-
-        public Map<String, JsonElement> values = Maps.newHashMap();
-    }
-
-    public static class TradeEntry
-    {
-        String template = "default";
-
-        private final List<Trade> trades = Lists.newArrayList();
-    }
-
-    public static class ProfiessionStage
-    {
-        int level;
-        boolean clear_old = false;
-
-        public final List<Trade> trades = Lists.newArrayList();
-    }
-
-    public static class ProfessionEntry
-    {
-        String profession;
-        String type = "";
-
-        public final List<ProfiessionStage> stages = Lists.newArrayList();
-    }
-
-    public static class TradeDatabase
-    {
-        private final List<TradeEntry> trades = Lists.newArrayList();
-        private final List<ProfessionEntry> professions = Lists.newArrayList();
-    }
-
     public static interface TradePreset
     {
         void apply(Trade trade, TrainerTrades trades);
@@ -148,7 +102,7 @@ public class TradeEntryLoader
                         catch (InstantiationException | IllegalAccessException | IllegalArgumentException |
                                 InvocationTargetException | NoSuchMethodException | SecurityException e)
                         {
-                            e.printStackTrace();
+                            PokecubeAPI.LOGGER.error(e);
                         }
                     }
                 }
@@ -156,7 +110,7 @@ public class TradeEntryLoader
             }
             catch (IOException e)
             {
-                e.printStackTrace();
+                PokecubeAPI.LOGGER.error(e);
             }
         }
     }
@@ -292,7 +246,7 @@ public class TradeEntryLoader
             }
             TypeTrainer.tradesMap.put(entry.template, trades);
         }
-        TypeTrainer.initSpawns();
+        TypeTrainerHandler.initSpawns();
     }
 
     public static void makeEntries()

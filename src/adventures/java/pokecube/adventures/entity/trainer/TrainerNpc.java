@@ -13,9 +13,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
-import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.capabilities.utils.TypeTrainerHandler;
 import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.trainers.TypeTrainer;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.trainers.IHasNPCAIStates.AIState;
@@ -36,7 +37,7 @@ public class TrainerNpc extends TrainerBase
         super(type, worldIn);
         // This can be null in the case where fake worlds are used to initialize
         // us for testing.
-        this.getPokemobs().setType(TypeTrainer.get(this, true));
+        this.getPokemobs().setType(TypeTrainerHandler.get(this, true));
         this.setPersistenceRequired();
     }
 
@@ -143,7 +144,7 @@ public class TrainerNpc extends TrainerBase
     {
         if (this.getPokemobs().getType() == null)
         {
-            this.setNpcType(TypeTrainer.get(this, false));
+            this.setNpcType(TypeTrainerHandler.get(this, false));
             TrainerSpawnHandler.initTrainer(this.getPokemobs(), 5);
         }
         if (this.getNPCName().isEmpty() || resetName)

@@ -47,8 +47,7 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.player.PlayerPokemobs;
-import pokecube.adventures.capabilities.utils.TypeTrainer;
-import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
+import pokecube.adventures.capabilities.utils.TypeTrainerHandler;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.inventory.trainer.ContainerTrainer;
@@ -56,6 +55,7 @@ import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.trainers.TypeTrainer;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -138,7 +138,7 @@ public class TrainerEventHandler
             rand.setSeed(this.mob.getUUID().getLeastSignificantBits());
             final String type = this.mob.getNpcType() == NpcType.byType("professor") ? "professor" : "merchant";
 
-            TrainerTrades trades = TypeTrainer.tradesMap.get(type);
+            TypeTrainer.TrainerTrades trades = TypeTrainer.tradesMap.get(type);
             // first prioritise customTrades
             if (!this.mob.customTrades.isEmpty())
             {
@@ -171,7 +171,7 @@ public class TrainerEventHandler
         }
 
         if (!(living instanceof Mob mob)) return;
-        if (TypeTrainer.get(mob, false) == null) return;
+        if (TypeTrainerHandler.get(mob, false) == null) return;
 
         var mobs = mob.getData(TrainerCaps.TRAINER);
         if (!(mobs instanceof DefaultPokemobs pmobs)) return;
@@ -317,7 +317,7 @@ public class TrainerEventHandler
             // brain has reset before
             if (npc instanceof Mob mob && npc.level() instanceof ServerLevel)
             {
-                TypeTrainer.addAI(mob);
+                TypeTrainerHandler.addAI(mob);
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Added Tasks: " + npc);
             }
         }
@@ -404,7 +404,7 @@ public class TrainerEventHandler
         mob.getPersistentData().putLong("pokeadv_join", mob.level().getGameTime());
 
         if (mobs.countPokemon() != 0) return false;
-        final TypeTrainer newType = TypeTrainer.get(mob, true);
+        final TypeTrainer newType = TypeTrainerHandler.get(mob, true);
         if (newType == null) return false;
         mobs.setType(newType);
         SpawnContext context = new SpawnContext(slevel, Database.missingno, new Vector3().set(mob));
@@ -562,7 +562,7 @@ public class TrainerEventHandler
 
     public static void onTagsUpdated(TagsUpdatedEvent event)
     {
-        TypeTrainer.postInitTrainers();
+        TypeTrainerHandler.postInitTrainers();
         TradeEntryLoader.postStartLoadTrades();
     }
 
