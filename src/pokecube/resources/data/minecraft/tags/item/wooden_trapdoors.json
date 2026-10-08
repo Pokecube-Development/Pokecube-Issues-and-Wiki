@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    {"id": "pokecube:enigma_trapdoor", "require": false},
-    {"id": "pokecube:leppa_trapdoor", "require": false},
-    {"id": "pokecube:nanab_trapdoor", "require": false},
-    {"id": "pokecube:oran_trapdoor", "require": false},
-    {"id": "pokecube:pecha_trapdoor", "require": false},
-    {"id": "pokecube:sitrus_trapdoor", "require": false},
+    {"id": "pokecube:enigma_trapdoor", "required": false},
+    {"id": "pokecube:leppa_trapdoor", "required": false},
+    {"id": "pokecube:nanab_trapdoor", "required": false},
+    {"id": "pokecube:oran_trapdoor", "required": false},
+    {"id": "pokecube:pecha_trapdoor", "required": false},
+    {"id": "pokecube:sitrus_trapdoor", "required": false},
     {"id": "pokecube_legends:aged_trapdoor", "required": false},
     {"id": "pokecube_legends:distortic_trapdoor", "required": false},
     {"id": "pokecube_legends:inverted_trapdoor", "required": false},

@@ -1,15 +1,15 @@
 {
   "replace": false,
   "values": [
-    "pokecube:dawnstone",
-    "pokecube:everstone",
-    "pokecube:firestone",
-    "pokecube:leafstone",
-    "pokecube:moonstone",
-    "pokecube:ovalstone",
-    "pokecube:shinystone",
-    "pokecube:sunstone",
-    "pokecube:thunderstone",
-    "pokecube:waterstone"
+    {"id": "pokecube:dawnstone", "required": false},
+    {"id": "pokecube:everstone", "required": false},
+    {"id": "pokecube:firestone", "required": false},
+    {"id": "pokecube:leafstone", "required": false},
+    {"id": "pokecube:moonstone", "required": false},
+    {"id": "pokecube:ovalstone", "required": false},
+    {"id": "pokecube:shinystone", "required": false},
+    {"id": "pokecube:sunstone", "required": false},
+    {"id": "pokecube:thunderstone", "required": false},
+    {"id": "pokecube:waterstone", "required": false}
   ]
 }

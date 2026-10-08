@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    { "id": "pokecube:berry_grepa", "require": false}
+    { "id": "pokecube:berry_grepa", "required": false}
   ]
 }

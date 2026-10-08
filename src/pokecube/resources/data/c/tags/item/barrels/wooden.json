@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    { "id": "pokecube:enigma_barrel", "require": false},
-    { "id": "pokecube:leppa_barrel", "require": false},
-    { "id": "pokecube:nanab_barrel", "require": false},
-    { "id": "pokecube:oran_barrel", "require": false},
-    { "id": "pokecube:pecha_barrel", "require": false},
-    { "id": "pokecube:sitrus_barrel", "require": false},
+    { "id": "pokecube:enigma_barrel", "required": false},
+    { "id": "pokecube:leppa_barrel", "required": false},
+    { "id": "pokecube:nanab_barrel", "required": false},
+    { "id": "pokecube:oran_barrel", "required": false},
+    { "id": "pokecube:pecha_barrel", "required": false},
+    { "id": "pokecube:sitrus_barrel", "required": false},
     {"id": "pokecube_legends:concrete_barrel", "required": false},
     {"id": "pokecube_legends:aged_barrel", "required": false},
     {"id": "pokecube_legends:inverted_barrel", "required": false},

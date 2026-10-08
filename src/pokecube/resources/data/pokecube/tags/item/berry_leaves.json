@@ -1,17 +1,17 @@
 {
   "replace": false,
   "values": [
-     { "id": "pokecube:leaves_enigma", "require": false},
-     { "id": "pokecube:leaves_leppa", "require": false},
-     { "id": "pokecube:leaves_nanab", "require": false},
-     { "id": "pokecube:leaves_oran", "require": false},
-     { "id": "pokecube:leaves_pecha", "require": false},
-     { "id": "pokecube:leaves_qualot", "require": false},
-     { "id": "pokecube:leaves_kelpsy", "require": false},
-     { "id": "pokecube:leaves_tamato", "require": false},
-     { "id": "pokecube:leaves_grepa", "require": false},
-     { "id": "pokecube:leaves_pomeg", "require": false},
-     { "id": "pokecube:leaves_hondew", "require": false},
-     { "id": "pokecube:leaves_sitrus", "require": false}
+     { "id": "pokecube:leaves_enigma", "required": false},
+     { "id": "pokecube:leaves_leppa", "required": false},
+     { "id": "pokecube:leaves_nanab", "required": false},
+     { "id": "pokecube:leaves_oran", "required": false},
+     { "id": "pokecube:leaves_pecha", "required": false},
+     { "id": "pokecube:leaves_qualot", "required": false},
+     { "id": "pokecube:leaves_kelpsy", "required": false},
+     { "id": "pokecube:leaves_tamato", "required": false},
+     { "id": "pokecube:leaves_grepa", "required": false},
+     { "id": "pokecube:leaves_pomeg", "required": false},
+     { "id": "pokecube:leaves_hondew", "required": false},
+     { "id": "pokecube:leaves_sitrus", "required": false}
   ]
 }

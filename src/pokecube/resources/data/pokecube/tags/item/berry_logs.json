@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-     { "id": "#pokecube:enigma_logs", "require": false},
-     { "id": "#pokecube:leppa_logs", "require": false},
-     { "id": "#pokecube:nanab_logs", "require": false},
-     { "id": "#pokecube:oran_logs", "require": false},
-     { "id": "#pokecube:pecha_logs", "require": false},
-     { "id": "#pokecube:sitrus_logs", "require": false}
+     { "id": "#pokecube:enigma_logs", "required": false},
+     { "id": "#pokecube:leppa_logs", "required": false},
+     { "id": "#pokecube:nanab_logs", "required": false},
+     { "id": "#pokecube:oran_logs", "required": false},
+     { "id": "#pokecube:pecha_logs", "required": false},
+     { "id": "#pokecube:sitrus_logs", "required": false}
   ]
 }

@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     {"id": "#pokecube_legends:fossil_ores", "required": false},
-     { "id": "pokecube:deepslate_fossil_ore", "require": false},
-     { "id": "pokecube:fossil_ore", "require": false}
+     { "id": "pokecube:deepslate_fossil_ore", "required": false},
+     { "id": "pokecube:fossil_ore", "required": false}
   ]
 }

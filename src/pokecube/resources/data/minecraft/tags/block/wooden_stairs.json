@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    {"id": "pokecube:enigma_stairs", "require": false},
-    {"id": "pokecube:leppa_stairs", "require": false},
-    {"id": "pokecube:nanab_stairs", "require": false},
-    {"id": "pokecube:oran_stairs", "require": false},
-    {"id": "pokecube:pecha_stairs", "require": false},
-    {"id": "pokecube:sitrus_stairs", "require": false},
+    {"id": "pokecube:enigma_stairs", "required": false},
+    {"id": "pokecube:leppa_stairs", "required": false},
+    {"id": "pokecube:nanab_stairs", "required": false},
+    {"id": "pokecube:oran_stairs", "required": false},
+    {"id": "pokecube:pecha_stairs", "required": false},
+    {"id": "pokecube:sitrus_stairs", "required": false},
     {"id": "pokecube_legends:aged_stairs", "required": false},
     {"id": "pokecube_legends:distortic_stairs", "required": false},
     {"id": "pokecube_legends:inverted_stairs", "required": false},

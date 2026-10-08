@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-     { "id": "pokecube:log_pecha", "require": false},
-     { "id": "pokecube:pecha_wood", "require": false},
-     { "id": "pokecube:stripped_pecha_log", "require": false},
-     { "id": "pokecube:stripped_pecha_wood", "require": false}
+     { "id": "pokecube:log_pecha", "required": false},
+     { "id": "pokecube:pecha_wood", "required": false},
+     { "id": "pokecube:stripped_pecha_log", "required": false},
+     { "id": "pokecube:stripped_pecha_wood", "required": false}
   ]
 }

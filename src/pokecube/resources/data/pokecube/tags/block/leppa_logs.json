@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-     { "id": "pokecube:log_leppa", "require": false},
-     { "id": "pokecube:leppa_wood", "require": false},
-     { "id": "pokecube:stripped_leppa_log", "require": false},
-     { "id": "pokecube:stripped_leppa_wood", "require": false}
+     { "id": "pokecube:log_leppa", "required": false},
+     { "id": "pokecube:leppa_wood", "required": false},
+     { "id": "pokecube:stripped_leppa_log", "required": false},
+     { "id": "pokecube:stripped_leppa_wood", "required": false}
   ]
 }

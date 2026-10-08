@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    {"id": "pokecube:enigma_pressure_plate", "require": false},
-    {"id": "pokecube:leppa_pressure_plate", "require": false},
-    {"id": "pokecube:nanab_pressure_plate", "require": false},
-    {"id": "pokecube:oran_pressure_plate", "require": false},
-    {"id": "pokecube:pecha_pressure_plate", "require": false},
-    {"id": "pokecube:sitrus_pressure_plate", "require": false},
+    {"id": "pokecube:enigma_pressure_plate", "required": false},
+    {"id": "pokecube:leppa_pressure_plate", "required": false},
+    {"id": "pokecube:nanab_pressure_plate", "required": false},
+    {"id": "pokecube:oran_pressure_plate", "required": false},
+    {"id": "pokecube:pecha_pressure_plate", "required": false},
+    {"id": "pokecube:sitrus_pressure_plate", "required": false},
     {"id": "pokecube_legends:aged_pressure_plate", "required": false},
     {"id": "pokecube_legends:corrupted_pressure_plate", "required": false},
     {"id": "pokecube_legends:distortic_pressure_plate", "required": false},

@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-     { "id": "pokecube:log_enigma", "require": false},
-     { "id": "pokecube:enigma_wood", "require": false},
-     { "id": "pokecube:stripped_enigma_log", "require": false},
-     { "id": "pokecube:stripped_enigma_wood", "require": false}
+     { "id": "pokecube:log_enigma", "required": false},
+     { "id": "pokecube:enigma_wood", "required": false},
+     { "id": "pokecube:stripped_enigma_log", "required": false},
+     { "id": "pokecube:stripped_enigma_wood", "required": false}
   ]
 }

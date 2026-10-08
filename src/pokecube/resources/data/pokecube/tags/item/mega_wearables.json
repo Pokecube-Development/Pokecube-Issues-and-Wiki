@@ -1,13 +1,13 @@
 {
   "replace": false,
   "values": [
-     { "id": "pokecube:mega_glasses", "require": false},
-     { "id": "pokecube:mega_earring", "require": false},
-     { "id": "pokecube:mega_ring", "require": false},
-     { "id": "pokecube:mega_belt", "require": false},
-     { "id": "pokecube:mega_tiara", "require": false},
-     { "id": "pokecube:mega_hat", "require": false},
-     { "id": "pokecube:mega_pendant", "require": false},
-     { "id": "pokecube:mega_ankletzinnia", "require": false}
+     { "id": "pokecube:mega_glasses", "required": false},
+     { "id": "pokecube:mega_earring", "required": false},
+     { "id": "pokecube:mega_ring", "required": false},
+     { "id": "pokecube:mega_belt", "required": false},
+     { "id": "pokecube:mega_tiara", "required": false},
+     { "id": "pokecube:mega_hat", "required": false},
+     { "id": "pokecube:mega_pendant", "required": false},
+     { "id": "pokecube:mega_ankletzinnia", "required": false}
   ]
 }

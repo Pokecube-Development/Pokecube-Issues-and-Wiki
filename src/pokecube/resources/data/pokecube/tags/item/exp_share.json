@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-     { "id": "pokecube_adventures:exp_share", "require": false}
+     { "id": "pokecube_adventures:exp_share", "required": false}
   ]
 }
