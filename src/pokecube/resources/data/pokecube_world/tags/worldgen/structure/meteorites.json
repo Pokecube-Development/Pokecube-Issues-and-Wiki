@@ -1,7 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    {"id": "pokecube_legends:meteorite", "required": false},
-    {"id": "pokecube_legends:meteorite_buried", "required": false}
-  ]
-}

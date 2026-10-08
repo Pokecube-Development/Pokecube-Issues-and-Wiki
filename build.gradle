@@ -54,9 +54,15 @@ sourceSets {
     thutcore {
         depends.on sourceSets.main
     }
+    wearables {
+        depends.on sourceSets.main
+    }
+    pokecube_core {
+        depends.on sourceSets.main
+    }
 }
 
-def thutAPIJar = tasks.register("thutAPIJar", Jar) {
+def thutAPIJar = tasks.register("subJar-thutAPI", Jar) {
     from(sourceSets.thutapi.output)
     archiveClassifier = ""
     var version = incrementVersion(version_thutapi, version_thutapi)
@@ -71,11 +77,25 @@ def thutAPIJar = tasks.register("thutAPIJar", Jar) {
     }
 }
 
-def thutCoreJar = tasks.register("thutCoreJar", Jar) {
+def thutCoreJar = tasks.register("subJar-thutCore", Jar) {
     from(sourceSets.thutcore.output)
     archiveClassifier = ""
     var version = incrementVersion(version_thutcore, version_thutcore)
     archiveFileName = "thutcore-${minecraft_version}-${version}.jar"
+}
+
+def pokecube_coreJar = tasks.register("subJar-pokecube-core", Jar) {
+    from(sourceSets.pokecube_core.output)
+    archiveClassifier = ""
+    var version = incrementVersion(version_pokecube_core, version_pokecube_core)
+    archiveFileName = "pokecube-core-${minecraft_version}-${version}.jar"
+}
+
+def wearablesJar = tasks.register("subJar-wearables", Jar) {
+    from(sourceSets.wearables.output)
+    archiveClassifier = ""
+    var version = incrementVersion(version_wearables, version_wearables)
+    archiveFileName = "wearables-bling-${minecraft_version}-${version}.jar"
 }
 
 // Default run configurations.
@@ -151,9 +171,19 @@ sourceSets.main.java { srcDir 'src/thutcore/java' }
 sourceSets.main.resources { srcDir 'src/wearables/resources' }
 sourceSets.main.java { srcDir 'src/wearables/java' }
 
+sourceSets.wearables.resources { srcDir 'src/wearables/resources' }
+sourceSets.wearables.resources { srcDir 'src/wearables/templates' }
+sourceSets.wearables.java { srcDir 'src/wearables/java' }
+
 //* Main Pokecube set
 sourceSets.main.resources { srcDir 'src/pokecube/resources' }
 sourceSets.main.java { srcDir 'src/pokecube/java' }
+
+sourceSets.pokecube_core.resources { srcDir 'src/pokecube/resources' }
+sourceSets.pokecube_core.resources { srcDir 'src/pokecube/templates' }
+sourceSets.pokecube_core.java { srcDir 'src/pokecube/java' }
+sourceSets.pokecube_core.resources { srcDir 'src/main/resources' }
+sourceSets.pokecube_core.java { srcDir 'src/main/java' }
 //*/
 
 //* Main Pokecube models and data
@@ -177,6 +207,11 @@ sourceSets.main.java { srcDir 'src/compat/java' }
 //* Pokecube Legends
 sourceSets.main.resources { srcDir 'src/legends/resources' }
 sourceSets.main.java { srcDir 'src/legends/java' }
+//*/
+
+//* Pokecube Mobs
+sourceSets.main.resources { srcDir 'src/mobs/resources' }
+sourceSets.main.java { srcDir 'src/mobs/java' }
 //*/
 
 def xaeroPokemobIconSource = file('PokecubeMobs/pokecube_mobs/assets/pokecube_mobs/textures/entity_icon/pokemob')
@@ -361,6 +396,9 @@ tasks.withType(ProcessResources).configureEach {
             mod_version            : mod_version,
             version_thutapi        : version_thutapi,
             version_thutcore       : version_thutcore,
+            version_pokecube_core  : version_pokecube_core,
+            version_wearables      : version_wearables,
+            version_bling          : version_bling,
     ]
     inputs.properties replaceProperties
     filesMatching(['META-INF/neoforge.mods.toml']) {

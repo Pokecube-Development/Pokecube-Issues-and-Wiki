@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "pokecube:log_nanab",
-    "pokecube:nanab_wood",
-    "pokecube:stripped_nanab_log",
-    "pokecube:stripped_nanab_wood"
+     { "id": "pokecube:log_nanab", "require": false},
+     { "id": "pokecube:nanab_wood", "require": false},
+     { "id": "pokecube:stripped_nanab_log", "require": false},
+     { "id": "pokecube:stripped_nanab_wood", "require": false}
   ]
 }

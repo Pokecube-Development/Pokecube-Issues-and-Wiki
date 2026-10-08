@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "pokecube:log_sitrus",
-    "pokecube:sitrus_wood",
-    "pokecube:stripped_sitrus_log",
-    "pokecube:stripped_sitrus_wood"
+     { "id": "pokecube:log_sitrus", "require": false},
+     { "id": "pokecube:sitrus_wood", "require": false},
+     { "id": "pokecube:stripped_sitrus_log", "require": false},
+     { "id": "pokecube:stripped_sitrus_wood", "require": false}
   ]
 }

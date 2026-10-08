@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube:levelcube"
+     { "id": "pokecube:levelcube", "require": false}
   ]
 }

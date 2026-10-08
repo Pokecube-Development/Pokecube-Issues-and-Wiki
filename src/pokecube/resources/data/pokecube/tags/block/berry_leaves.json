@@ -1,17 +1,17 @@
 {
   "replace": false,
   "values": [
-    "pokecube:leaves_enigma",
-    "pokecube:leaves_leppa",
-    "pokecube:leaves_nanab",
-    "pokecube:leaves_oran",
-    "pokecube:leaves_pecha",
-    "pokecube:leaves_qualot",
-    "pokecube:leaves_kelpsy",
-    "pokecube:leaves_tamato",
-    "pokecube:leaves_grepa",
-    "pokecube:leaves_pomeg",
-    "pokecube:leaves_hondew",
-    "pokecube:leaves_sitrus"
+     { "id": "pokecube:leaves_enigma", "require": false},
+     { "id": "pokecube:leaves_leppa", "require": false},
+     { "id": "pokecube:leaves_nanab", "require": false},
+     { "id": "pokecube:leaves_oran", "require": false},
+     { "id": "pokecube:leaves_pecha", "require": false},
+     { "id": "pokecube:leaves_qualot", "require": false},
+     { "id": "pokecube:leaves_kelpsy", "require": false},
+     { "id": "pokecube:leaves_tamato", "require": false},
+     { "id": "pokecube:leaves_grepa", "require": false},
+     { "id": "pokecube:leaves_pomeg", "require": false},
+     { "id": "pokecube:leaves_hondew", "require": false},
+     { "id": "pokecube:leaves_sitrus", "require": false}
   ]
 }

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube:town_end",
+    {"id": "pokecube:town_end", "required": false},
     {"id": "pokecube_legends:raid_end", "required": false}
   ]
 }

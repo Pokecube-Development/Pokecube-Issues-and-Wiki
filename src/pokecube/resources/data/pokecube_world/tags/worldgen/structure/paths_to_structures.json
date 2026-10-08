@@ -5,10 +5,10 @@
     {"id": "pokecube_legends:town_ultraspace", "required": false}
   ],
   "remove": [
-    "pokecube:town_deep",
-    "pokecube:town_high_sky",
-    "pokecube:town_sky",
-    "pokecube:town_cave",
+    {"id": "pokecube:town_deep", "required": false},
+    {"id": "pokecube:town_high_sky", "required": false},
+    {"id": "pokecube:town_sky", "required": false},
+    {"id": "pokecube:town_cave", "required": false},
     {"id": "pokecube_legends:town_ocean", "required": false}
   ]
 }

@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "pokecube:log_oran",
-    "pokecube:oran_wood",
-    "pokecube:stripped_oran_log",
-    "pokecube:stripped_oran_wood"
+     { "id": "pokecube:log_oran", "require": false},
+     { "id": "pokecube:oran_wood", "require": false},
+     { "id": "pokecube:stripped_oran_log", "require": false},
+     { "id": "pokecube:stripped_oran_wood", "require": false}
   ]
 }

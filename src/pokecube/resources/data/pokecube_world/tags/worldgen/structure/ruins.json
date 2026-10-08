@@ -1,8 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube:ancient_tomb",
-    "pokecube:ruins",
-    "pokecube:stonehenge"
+    "#pokecube_world:rigid_ruins",
+    "#pokecube_world:terrain_matching_ruins"
   ]
 }

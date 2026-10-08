@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "pokecube:plank_enigma",
-    "pokecube:plank_leppa",
-    "pokecube:plank_nanab",
-    "pokecube:plank_oran",
-    "pokecube:plank_pecha",
-    "pokecube:plank_sitrus"
+     { "id": "pokecube:plank_enigma", "require": false},
+     { "id": "pokecube:plank_leppa", "require": false},
+     { "id": "pokecube:plank_nanab", "require": false},
+     { "id": "pokecube:plank_oran", "require": false},
+     { "id": "pokecube:plank_pecha", "require": false},
+     { "id": "pokecube:plank_sitrus", "require": false}
   ]
 }

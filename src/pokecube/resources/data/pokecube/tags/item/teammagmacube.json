@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube:teammagmacube"
+     { "id": "pokecube:teammagmacube", "require": false}
   ]
 }

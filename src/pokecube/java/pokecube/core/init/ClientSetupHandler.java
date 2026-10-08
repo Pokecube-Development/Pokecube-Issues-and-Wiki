@@ -6,16 +6,11 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.FoliageColor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -55,7 +50,6 @@ import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.ItemTM;
-import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
@@ -304,23 +298,8 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void colourBlocks(final RegisterColorHandlersEvent.Block event)
-    {
-        final Block qualotLeaves = BerryManager.berryLeaves.get(23).get();
-        event.register(
-                (state, reader, pos, tintIndex) -> reader != null && pos != null ? BiomeColors.getAverageFoliageColor(
-                        reader, pos) : FoliageColor.getDefaultColor(), qualotLeaves);
-    }
-
-    @SubscribeEvent
     public static void colourItems(RegisterColorHandlersEvent.Item event)
     {
-        final Block qualotLeaves = BerryManager.berryLeaves.get(23).get();
-        event.register((stack, tintIndex) -> {
-            final BlockState blockstate = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
-            return event.getBlockColors().getColor(blockstate, null, null, tintIndex);
-        }, qualotLeaves);
-
         event.register((stack, tintIndex) -> {
             final PokeType type = PokeType.unknown;
             final PokedexEntry entry = ItemPokemobEgg.getEntry(stack, ThutAPI.getRegistries());

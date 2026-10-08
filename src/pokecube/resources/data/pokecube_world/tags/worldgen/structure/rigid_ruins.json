@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube:ancient_tomb",
-    "pokecube:ruins"
+    {"id": "pokecube:ancient_tomb", "required": false},
+    {"id": "pokecube:ruins", "required": false}
   ]
 }

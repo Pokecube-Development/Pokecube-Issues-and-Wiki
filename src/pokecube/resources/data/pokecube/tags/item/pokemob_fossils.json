@@ -1,20 +1,20 @@
 {
   "replace": false,
   "values": [
-    "pokecube:fossil_omanyte",
-    "pokecube:fossil_kabuto",
-    "pokecube:fossil_aerodactyl",
-    "pokecube:fossil_lileep",
-    "pokecube:fossil_anorith",
-    "pokecube:fossil_cranidos",
-    "pokecube:fossil_shieldon",
-    "pokecube:fossil_archen",
-    "pokecube:fossil_tirtouga",
-    "pokecube:fossil_tyrunt",
-    "pokecube:fossil_amaura",
-    "pokecube:fossil_dracozolt",
-    "pokecube:fossil_arctozolt",
-    "pokecube:fossil_dracovish",
-    "pokecube:fossil_arctovish"
+     { "id": "pokecube:fossil_omanyte", "require": false},
+     { "id": "pokecube:fossil_kabuto", "require": false},
+     { "id": "pokecube:fossil_aerodactyl", "require": false},
+     { "id": "pokecube:fossil_lileep", "require": false},
+     { "id": "pokecube:fossil_anorith", "require": false},
+     { "id": "pokecube:fossil_cranidos", "require": false},
+     { "id": "pokecube:fossil_shieldon", "require": false},
+     { "id": "pokecube:fossil_archen", "require": false},
+     { "id": "pokecube:fossil_tirtouga", "require": false},
+     { "id": "pokecube:fossil_tyrunt", "require": false},
+     { "id": "pokecube:fossil_amaura", "require": false},
+     { "id": "pokecube:fossil_dracozolt", "require": false},
+     { "id": "pokecube:fossil_arctozolt", "require": false},
+     { "id": "pokecube:fossil_dracovish", "require": false},
+     { "id": "pokecube:fossil_arctovish", "require": false}
   ]
 }

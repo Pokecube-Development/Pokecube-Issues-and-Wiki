@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "minecraft:villager",
-    "minecraft:armor_stand",
-    "pokecube_adventures:trainer",
-    "pokecube_adventures:leader"
+     { "id": "minecraft:villager", "require": false},
+     { "id": "minecraft:armor_stand", "require": false},
+     { "id": "pokecube_adventures:trainer", "require": false},
+     { "id": "pokecube_adventures:leader", "require": false}
   ]
 }

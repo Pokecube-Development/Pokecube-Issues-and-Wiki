@@ -1,0 +1,61 @@
+# This is an example neoforge.mods.toml file. It contains the data relating to the loading mods.
+# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
+# The overall format is standard TOML format, v0.5.0.
+# Note that there are a couple of TOML lists in this file.
+# Find more information on toml format here:  https://github.com/toml-lang/toml
+# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
+modLoader="javafml" #mandatory
+
+# A version range to match for said mod loader - for regular FML @Mod it will be the FML version. This is currently 2.
+loaderVersion="${loader_version_range}" #mandatory
+
+# The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
+# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
+license="All rights reserved"
+
+# A URL to refer people to when problems occur with this mod
+#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
+
+# The [[accessTransformers]] block allows you to declare where your AT file is.
+# If this block is omitted, a fallback attempt will be made to load an AT from META-INF/accesstransformer.cfg
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
+[[mods]] #mandatory
+modId="thut_wearables" #mandatory
+version="${version_wearables}" #mandatory
+displayName="Thut Wearables"
+authors="Thutmose"
+description='''
+Accessories Slots for Minecraft!
+'''
+
+[[mods]]
+modId="thut_bling"
+version="${version_bling}"
+displayName="Thut Bling"
+authors="Thutmose"
+description='''
+Bling for Thut Wearables!
+'''
+
+[[dependencies.thut_wearables]]
+modId="thutcore"
+mandatory=true
+versionRange="[${version_thutcore},)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.thut_wearables]]
+modId="minecraft"
+mandatory=true
+versionRange="${minecraft_version}"
+ordering="NONE"
+side="BOTH"
+    
+[[dependencies.thut_wearables]]
+modId="neoforge"
+mandatory=true
+versionRange="${neo_version}"
+ordering="NONE"
+side="BOTH"

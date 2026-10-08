@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "pokecube:leaves_leppa"
+     { "id": "pokecube:leaves_leppa", "require": false}
   ]
 }

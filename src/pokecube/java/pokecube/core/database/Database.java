@@ -164,11 +164,16 @@ public class Database
     // Init some stuff for the missignno entry.
     static
     {
-        Database.missingno.type1 = PokeType.unknown;
-        Database.missingno.type2 = PokeType.unknown;
-        Database.missingno.base = true;
-        Database.missingno.mobType = 15;
-        Database.missingno.evolutionMode = 0;
+        missingno.type1 = PokeType.unknown;
+        missingno.type2 = PokeType.unknown;
+        missingno.base = true;
+        missingno.mobType = 15;
+        missingno.evolutionMode = 0;
+        missingno._root_json = new JsonPokedexEntry();
+        missingno._root_json.size = new JsonPokedexEntry.Sizes();
+        missingno._root_json.size.height = 1;
+        missingno._root_json.size.width = 0.5f;
+
         Database.addEntry(Database.missingno);
 
         ResourceHelper.RESOURCE_FALLBACK = () -> Database.resourceManager;
