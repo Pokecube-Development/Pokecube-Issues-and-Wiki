@@ -78,7 +78,8 @@ import java.util.UUID;
 
 public class EntityPokemob extends PokemobRidable
 {
-    static ResourceLocation WALL_CLIMBERS = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID, "wall_climbing");
+    public static final ResourceLocation WALL_CLIMBERS = ResourceLocation.fromNamespaceAndPath(PokecubeMod.ID,
+            "wall_climbing");
 
     private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(EntityPokemob.class,
             EntityDataSerializers.BYTE);

@@ -21,6 +21,9 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.pathing.ClimbPathNavi;
 import pokecube.core.ai.pathing.FlyPathNavi;
 import pokecube.core.ai.pathing.SwimPathNavi;
+import pokecube.core.ai.pathing.WalkPathNavi;
+import pokecube.core.entity.pokemobs.EntityPokemob;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
 /**
@@ -167,6 +170,7 @@ public class LogicFloatFlySwim extends LogicBase
     // Navigators
     private final FlyingPathNavigation flyPather;
 
+    private final WalkPathNavi walkPather;
     private final ClimbPathNavi climbPather;
     private final SwimPathNavi swimPather;
 
@@ -187,6 +191,7 @@ public class LogicFloatFlySwim extends LogicBase
         this.flyPather = new FlyPathNavi(entity.getEntity(), entity.getEntity().level());
         this.climbPather = new ClimbPathNavi(entity.getEntity(), entity.getEntity().level());
         this.swimPather = new SwimPathNavi(entity.getEntity(), entity.getEntity().level());
+        this.walkPather = new WalkPathNavi(entity.getEntity(), entity.getEntity().level());
 
         this.flyPather.setCanOpenDoors(false);
         this.flyPather.setCanFloat(true);
@@ -300,9 +305,13 @@ public class LogicFloatFlySwim extends LogicBase
             if (this.state != NaviState.WALK)
             {
                 this.entity.setNoGravity(false);
-                this.pokemob.getEntity().navigation = this.climbPather;
+                this.pokemob.getEntity().navigation = ItemList.is(EntityPokemob.WALL_CLIMBERS, this.entity)
+                        ? this.climbPather
+                        : this.walkPather;
                 this.pokemob.getEntity().moveControl = this.walkController;
-                this.climbPather.setCanOpenDoors(this.pokemob.isRoutineEnabled(AIRoutine.USEDOORS));
+                boolean doors = this.pokemob.isRoutineEnabled(AIRoutine.USEDOORS);
+                this.climbPather.setCanOpenDoors(doors);
+                this.walkPather.setCanOpenDoors(doors);
             }
             this.state = NaviState.WALK;
         }
