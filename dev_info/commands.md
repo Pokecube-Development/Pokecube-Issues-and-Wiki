@@ -41,7 +41,7 @@ if `[location]` and `[player]` are specified, then the pokemob will be assigned 
 
 Before the above is processed, there is a [PokemakeArgumentEvent](../src/pokecube/java/pokecube/api/events/init/PokemakeArgumentEvent.java) fired. This event allows pre-processing the pokemob, and adding additional handlers.
 
-By default, there is 1 such example in the [Gimmicks](gimmicks.md), the [TerastalMechanic](../src/pokecube/java/pokecube/gimmicks/terastal/TerastalMechanic.java#L274-295) adds the additional arguments:
+By default, there is 1 such example in the [Gimmicks](gimmicks.md), the [TerastalMechanic](../src/mobs/java/pokecube/gimmicks/terastal/TerastalMechanic.java#L274-295) adds the additional arguments:
 -   `tera_type` - terastal type for the mob
     - examples: `tera_type:fire`, `tera_type:ice`
 -   `is_tera` - whether it spawns terastalized

@@ -38,7 +38,7 @@ These are arranged into three groupings:
     - [HungerTask](../src/pokecube/java/pokecube/core/ai/tasks/idle/HungerTask.java)
     - [IdleWalkTask](../src/pokecube/java/pokecube/core/ai/tasks/idle/IdleWalkTask.java)
     - [IdleRestTask](../src/pokecube/java/pokecube/core/ai/tasks/idle/IdleRestTask.java)
-    - [IdleJumpOnShoulderTask](../src/pokecube/java/pokecube/core/ai/tasks/idle/IdleJumpOnShoulderTask.java)
+    - [IdleJumpOnShoulderTask](../src/mobs/java/pokecube/gimmicks/shoulder_mobs/IdleJumpOnShoulderTask.java)
     - [FollowOwnerTask](../src/pokecube/java/pokecube/core/ai/tasks/misc/FollowOwnerTask.java)
 - [COMBAT](../src/pokecube/java/pokecube/core/ai/tasks/Tasks.java#L159-L214) - handles combat movement, move use, enemy management, etc
     - [SelectMoveTask](../src/pokecube/java/pokecube/core/ai/tasks/combat/attacks/SelectMoveTask.java)
@@ -50,16 +50,16 @@ These are arranged into three groupings:
     - [CallForHelpTask](../src/pokecube/java/pokecube/core/ai/tasks/combat/management/CallForHelpTask.java)
     - [FindTargetsTask](../src/pokecube/java/pokecube/core/ai/tasks/combat/management/FindTargetsTask.java)
 - [UTILITY](../src/pokecube/java/pokecube/core/ai/tasks/Tasks.java#L217-L271) - handles item gathering and out-of-combat move use
-    - [StoreTask](../src/pokecube/java/pokecube/core/ai/tasks/utility/StoreTask.java)
-    - [GatherTask](../src/pokecube/java/pokecube/core/ai/tasks/utility/GatherTask.java)
-    - [UseMoveTask](../src/pokecube/java/pokecube/core/ai/tasks/utility/UseMoveTask.java)
+    - [StoreItems](../src/pokecube/java/pokecube/core/ai/tasks/utility/StoreItems.java)
+    - [GatherItems](../src/pokecube/java/pokecube/core/ai/tasks/utility/GatherItems.java)
+    - [UseMoves](../src/pokecube/java/pokecube/core/ai/tasks/utility/UseMoves.java)
     - [ForgetHuntedByTask](../src/pokecube/java/pokecube/core/ai/tasks/idle/ForgetHuntedByTask.java)
 
 ### Adding/Modifying AI
 
-The `InitAIEvent.Init` events are fired when the above lists are populated. This can be used to add to or modify the lists, if using the `IAIRunnable` type of task. An example of this usage can be found via the [Structure Builder Gimmick](../src/pokecube/java/pokecube/gimmicks/builders/BuilderTasks.java), which adds 2 tasks to the `UTILITY` tasks list.
+The `InitAIEvent.Init` events are fired when the above lists are populated. This can be used to add to or modify the lists, if using the `IAIRunnable` type of task. An example of this usage can be found via the [Structure Builder Gimmick](../src/mobs/java/pokecube/gimmicks/builders/BuilderTasks.java), which adds 2 tasks to the `UTILITY` tasks list.
 
-AI tasks can also be set to be automatically added by registering a [ITaskAdder](../src/pokecube/java/pokecube/api/ai/ITaskAdder.java) with [TaskAdders.register](../src/pokecube/java/pokecube/api/ai/TaskAdders.java). An example of this can be found via the [Ant Nest Gimmick](../src/pokecube/java/pokecube/gimmicks/nests/tasks/ants/AntTasks.java), where it adds a variety of sensors, memories and tasks. This method allows adding any arbitrary task type, rather than just `IAIRunnable`.
+AI tasks can also be set to be automatically added by registering a [ITaskAdder](../src/pokecube/java/pokecube/api/ai/ITaskAdder.java) with [TaskAdders.register](../src/pokecube/java/pokecube/api/ai/TaskAdders.java). An example of this can be found via the [Ant Nest Gimmick](../src/mobs/java/pokecube/gimmicks/nests/tasks/ants/AntTasks.java), where it adds a variety of sensors, memories and tasks. This method allows adding any arbitrary task type, rather than just `IAIRunnable`.
 
 ### Additional Tick Logic
 
@@ -226,17 +226,17 @@ Abilities have the following methods:
 
 Pokemobs use the [genetics system](thut_api.md#genetics-system) provided by ThutAPI. Pokemobs by default track the following genes:
 
-- [AbilityGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/AbilityGene.java)
-- [ColourGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/ColourGene.java)
-- [SpeciesGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/SpeciesGene.java)
-- [IVsGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/IVsGene.java)
-- [EVsGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/epigenes/EVsGene.java)
-- [MovesGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/epigenes/MovesGene.java)
-- [NatureGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/NatureGene.java)
-- [ShinyGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/ShinyGene.java)
-- [SizeGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/SizeGene.java)
-- [DynamaxGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/DynamaxGene.java)
-- [TeraTypeGene](../src/pokecube/java/pokecube/core/entity/pokemobs/genetics/genes/TeraTypeGene.java)
+- [AbilityGene](../src/pokecube/java/pokecube/core/entity/genetics/genes/AbilityGene.java)
+- [ColourGene](../src/pokecube/java/pokecube/core/entity/genetics/genes/ColourGene.java)
+- [SpeciesGene](../src/pokecube/java/pokecube/core/entity/genetics/genes/SpeciesGene.java)
+- [IVsGene](../src/pokecube/java/pokecube/core/entity/genetics/genes/IVsGene.java)
+- [EVsGene](../src/pokecube/java/pokecube/core/entity/genetics/epigenes/EVsGene.java)
+- [MovesGene](../src/pokecube/java/pokecube/core/entity/genetics/epigenes/MovesGene.java)
+- [NatureGene](../src/pokecube/java/pokecube/core/entity/genetics/genes/NatureGene.java)
+- [ShinyGene](../src/pokecube/java/pokecube/core/entity/genetics/genes/ShinyGene.java)
+- [SizeGene](../src/pokecube/java/pokecube/core/entity/genetics/genes/SizeGene.java)
+- [DynamaxGene](../src/mobs/java/pokecube/gimmicks/dynamax/DynamaxGene.java)
+- [TeraTypeGene](../src/mobs/java/pokecube/gimmicks/terastal/TeraTypeGene.java)
 
 ## Pokemob Data Structure
 
@@ -246,7 +246,7 @@ If the value of `stock` for the `JsonPokedexEntry` is `true`, then a minecraft `
 
 ## Pokemob Animation States
 
-Pokemob animations are run by selecting the first state which occurs in the list provided by the [IAnimated](../src/pokecube/java/thut/api/entity/IAnimated.java) associated with the pokemob. These are populated in the orders listed below. If the mob is being ridden, then "ridden_\<anim>" is added to the list before each of the strings listed below.
+Pokemob animations are run by selecting the first state which occurs in the list provided by the [IAnimated](../src/thutapi/java/thut/api/entity/IAnimated.java) associated with the pokemob. These are populated in the orders listed below. If the mob is being ridden, then "ridden_\<anim>" is added to the list before each of the strings listed below.
 
 Once an animation is selected, it may then be randomised if sub-animations are registered via the xml files for that animation.
 

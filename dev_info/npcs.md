@@ -12,7 +12,7 @@ Trainer NPCs inherit from regular [NpcMob](../src/pokecube/java/pokecube/core/en
 
 ### Loading data for Trainers
 
-[TypeTrainer](../src/adventures/java/pokecube/adventures/capabilities/utils/TypeTrainer.java) information is loaded via loading `TrainerEntry` objects from data. These presently load in as a `XMLDatabase` object, which contains a list of `TrainerEntry` called `trainers`. These load in from the `database/trainers/` directory in datapacks.
+[TypeTrainer](../src/pokecube/java/pokecube/api/data/trainers/TypeTrainer.java) information is loaded via loading `TrainerEntry` objects from data. These presently load in as a `XMLDatabase` object, which contains a list of `TrainerEntry` called `trainers`. These load in from the `database/trainers/` directory in datapacks.
 
 ## Other NPCs
 
