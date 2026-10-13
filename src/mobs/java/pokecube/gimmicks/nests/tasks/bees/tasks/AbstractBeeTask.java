@@ -1,4 +1,4 @@
-package pokecube.gimmicks.nests.tasks.bees;
+package pokecube.gimmicks.nests.tasks.bees.tasks;
 
 import com.google.common.collect.Maps;
 import net.minecraft.world.entity.Mob;
@@ -7,6 +7,7 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.ai.tasks.idle.BaseIdleTask;
+import pokecube.gimmicks.nests.tasks.bees.BeeTasks;
 import thut.api.entity.ai.RootTask;
 
 import java.util.Map;

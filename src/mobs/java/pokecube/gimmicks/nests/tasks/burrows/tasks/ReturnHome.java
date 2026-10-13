@@ -7,7 +7,6 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.pathfinder.Path;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.gimmicks.nests.tasks.burrows.AbstractBurrowTask;
 import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
 import thut.api.maths.Vector3;
 

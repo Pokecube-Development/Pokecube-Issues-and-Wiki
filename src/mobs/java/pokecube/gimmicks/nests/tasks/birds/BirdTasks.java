@@ -17,11 +17,10 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.gimmicks.nests.NestTasks;
+import pokecube.gimmicks.nests.tasks.birds.nest.BirdHab;
 import pokecube.gimmicks.nests.tasks.birds.sensors.NestSensor;
 import pokecube.gimmicks.nests.tasks.birds.tasks.CheckNest;
-import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
-import pokecube.gimmicks.nests.tasks.burrows.burrow.BurrowHab;
-import pokecube.gimmicks.nests.tasks.burrows.sensors.BurrowSensor;
+import pokecube.gimmicks.nests.tasks.birds.tasks.ReturnHome;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.item.ItemList;
@@ -58,7 +57,7 @@ public class BirdTasks
     public static void init()
     {
         TaskAdders.register(InitAIEvent.Init.Type.IDLE, BirdTasks::addTasks);
-        CapabilityInhabitable.Register(NESTLOC, BurrowHab::new);
+        CapabilityInhabitable.Register(NESTLOC, BirdHab::new);
     }
 
     private static List<SensorType<?>> getSensors()
@@ -79,6 +78,7 @@ public class BirdTasks
         if (!isValid(pokemob.getEntity())) return;
 
         list.add(new CheckNest());
+        list.add(new ReturnHome());
 
         BrainUtil.addToBrain(pokemob.getEntity().getBrain(), getMemories(), getSensors());
     }
@@ -87,10 +87,10 @@ public class BirdTasks
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return false;
-        return pokemob.isRoutineEnabled(BurrowTasks.BURROWS);
+        return pokemob.isRoutineEnabled(BIRD_NESTS);
     }
 
-    public static boolean shouldBeInside(final ServerLevel world, final BurrowSensor.Burrow burrow)
+    public static boolean shouldBeInside(final ServerLevel world, final NestSensor.BirdNest burrow)
     {
         return false;
     }

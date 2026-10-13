@@ -1,4 +1,4 @@
-package pokecube.gimmicks.nests.tasks.burrows;
+package pokecube.gimmicks.nests.tasks.burrows.tasks;
 
 import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
@@ -16,6 +16,7 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.utility.UtilBehaviour;
 import pokecube.core.eventhandlers.MoveEventsHandler;
+import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
 import pokecube.gimmicks.nests.tasks.burrows.sensors.BurrowSensor;
 import pokecube.gimmicks.nests.tasks.burrows.sensors.BurrowSensor.Burrow;
 import thut.api.entity.ai.RootTask;

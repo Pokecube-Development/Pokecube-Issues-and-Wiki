@@ -5,7 +5,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.Level;
-import pokecube.gimmicks.nests.tasks.bees.AbstractBeeTask;
 import pokecube.gimmicks.nests.tasks.bees.BeeTasks;
 import pokecube.gimmicks.nests.tasks.bees.sensors.HiveSensor;
 

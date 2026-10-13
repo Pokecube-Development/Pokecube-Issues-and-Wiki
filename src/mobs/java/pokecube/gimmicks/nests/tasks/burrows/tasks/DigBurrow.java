@@ -20,7 +20,6 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.utility.UtilBehaviour;
-import pokecube.gimmicks.nests.tasks.burrows.AbstractBurrowTask;
 import pokecube.gimmicks.nests.tasks.burrows.burrow.Part;
 import thut.api.Tracker;
 

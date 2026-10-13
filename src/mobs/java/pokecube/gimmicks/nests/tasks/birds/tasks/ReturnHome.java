@@ -1,4 +1,4 @@
-package pokecube.gimmicks.nests.tasks.birds.nest;
+package pokecube.gimmicks.nests.tasks.birds.tasks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -8,10 +8,9 @@ import net.minecraft.world.level.pathfinder.Path;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.gimmicks.nests.tasks.birds.BirdTasks;
-import pokecube.gimmicks.nests.tasks.burrows.AbstractBurrowTask;
 import thut.api.maths.Vector3;
 
-public class ReturnHome extends AbstractBurrowTask
+public class ReturnHome extends AbstractBirdTask
 {
     final Vector3 homePos = new Vector3();
 
@@ -37,11 +36,11 @@ public class ReturnHome extends AbstractBurrowTask
         // This should path the mob over to the center of the home room, maybe
         // call "enter" for it as well?{
         entity.getBrain().eraseMemory(MemoryModules.JOB_INFO.get());
-        this.homePos.set(this.burrow.nest().getBlockPos());
+        this.homePos.set(this.nest.nest().getBlockPos());
         if (this.enterTimer++ > 6000) entity.setPos(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z + 0.5);
         final BlockPos pos = entity.blockPosition();
-        this.burrow.hab().onEnterHabitat(entity);
-        if (pos.distSqr(this.homePos.getPos()) > this.burrow.hab().burrow.getSize())
+        this.nest.hab().onEnterHabitat(entity);
+        if (pos.distSqr(this.homePos.getPos()) > 16)
         {
             final Path p = entity.getNavigation().getPath();
             final boolean targ = p != null && p.canReach();
@@ -63,7 +62,7 @@ public class ReturnHome extends AbstractBurrowTask
         var level = entity.level();
         final Brain<?> brain = entity.getBrain();
         if (brain.hasMemoryValue(MemoryModules.GOING_HOME.get())) return true;
-        if (BirdTasks.shouldBeInside((ServerLevel) level, this.burrow))
+        if (BirdTasks.shouldBeInside((ServerLevel) level, this.nest))
         {
             brain.setMemory(MemoryModules.GOING_HOME.get(), true);
             return true;
