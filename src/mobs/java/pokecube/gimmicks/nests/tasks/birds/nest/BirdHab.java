@@ -75,7 +75,7 @@ public class BirdHab implements IInhabitable, INBTSerializable<CompoundTag>, IWo
 
     public BirdHab(BlockEntity block)
     {
-        this.pos = block.getBlockPos();
+        if (block != null) this.pos = block.getBlockPos();
     }
 
     @Override
