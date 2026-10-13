@@ -24,18 +24,7 @@ import java.util.Set;
 
 public class BurrowSensor extends Sensor<Mob>
 {
-    public static class Burrow
-    {
-        public final NestTile nest;
-
-        public final BurrowHab hab;
-
-        public Burrow(final NestTile tile, final BurrowHab hab)
-        {
-            this.nest = tile;
-            this.hab = hab;
-        }
-    }
+    public record Burrow(NestTile nest, BurrowHab hab) {}
 
     public static Optional<Burrow> getNest(final Mob mob)
     {

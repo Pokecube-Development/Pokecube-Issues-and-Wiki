@@ -21,6 +21,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import pokecube.api.blocks.IInhabitable;
+import pokecube.api.blocks.IRepelledVolume;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.CapabilityInhabitable.HabitatProvider;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -53,8 +54,8 @@ public class NestTile extends InteractableTile implements ITickTile
         eggItem.set(PokemobCaps.POKEEGG_DATA, eggItem.get(PokemobCaps.POKEEGG_DATA).withNest(pos));
         final Random rand = ThutAPI.newRandom();
         final EntityPokemobEgg egg = new EntityPokemobEgg(EntityTypes.getEgg(), world);
-        egg.setToPos(pos.getX() + 1.5 * (0.5 - rand.nextDouble()), pos.getY() + 1,
-                pos.getZ() + 1.5 * (0.5 - rand.nextDouble())).setStack(eggItem);
+        egg.setToPos(pos.getX() + 0.5 * (0.5 - rand.nextDouble()), pos.getY() + 1,
+                pos.getZ() + 0.5 * (0.5 - rand.nextDouble())).setStack(eggItem);
         final EggEvent.Lay event = new EggEvent.Lay(egg);
         NeoForge.EVENT_BUS.post(event);
         if (spawnNow) egg.setAge(-100);// Make it spawn after 5s
@@ -71,6 +72,7 @@ public class NestTile extends InteractableTile implements ITickTile
     public CompoundTag tag = new CompoundTag();
 
     private IInhabitable habitat;
+    private IRepelledVolume lastVolume = null;
 
     int time = 0;
 
@@ -114,12 +116,14 @@ public class NestTile extends InteractableTile implements ITickTile
     public void addForbiddenSpawningCoord()
     {
         if (!(this.level instanceof ServerLevel level)) return;
+        if (this.lastVolume != null) SpawnHandler.removeForbiddenSpawnVolume(this.lastVolume, level);
         final BlockPos pos = this.getBlockPos();
         final IInhabitable hab = this.getWrappedHab();
         if (hab == null) return;
         hab.setPos(pos);
         var region = hab.getRepelledRegion(this, level);
         if (region == null) return;
+        this.lastVolume = region;
         SpawnHandler.addForbiddenSpawnVolume(this.level, region);
     }
 
@@ -166,13 +170,7 @@ public class NestTile extends InteractableTile implements ITickTile
     public void removeForbiddenSpawningCoord()
     {
         if (!(this.level instanceof ServerLevel level)) return;
-        final IInhabitable hab = this.getWrappedHab();
-        if (hab == null || this.level.isClientSide()) return;
-        final BlockPos pos = this.getBlockPos();
-        hab.setPos(pos);
-        var region = hab.getRepelledRegion(this, level);
-        if (region == null) return;
-        SpawnHandler.removeForbiddenSpawnVolume(region, this.level);
+        if (this.lastVolume != null) SpawnHandler.removeForbiddenSpawnVolume(this.lastVolume, level);
     }
 
     @Override

@@ -37,11 +37,11 @@ public class ReturnHome extends AbstractBurrowTask
         // This should path the mob over to the center of the home room, maybe
         // call "enter" for it as well?{
         entity.getBrain().eraseMemory(MemoryModules.JOB_INFO.get());
-        this.homePos.set(this.burrow.nest.getBlockPos());
+        this.homePos.set(this.burrow.nest().getBlockPos());
         if (this.enterTimer++ > 6000) entity.setPos(this.homePos.x + 0.5, this.homePos.y + 1, this.homePos.z + 0.5);
         final BlockPos pos = entity.blockPosition();
-        this.burrow.hab.onEnterHabitat(entity);
-        if (pos.distSqr(this.homePos.getPos()) > this.burrow.hab.burrow.getSize())
+        this.burrow.hab().onEnterHabitat(entity);
+        if (pos.distSqr(this.homePos.getPos()) > this.burrow.hab().burrow.getSize())
         {
             final Path p = entity.getNavigation().getPath();
             final boolean targ = p != null && p.canReach();

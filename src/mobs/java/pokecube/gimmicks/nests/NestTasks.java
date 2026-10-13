@@ -56,6 +56,7 @@ import pokecube.gimmicks.nests.tasks.ants.AntTasks;
 import pokecube.gimmicks.nests.tasks.ants.AntTasks.AntInhabitor;
 import pokecube.gimmicks.nests.tasks.bees.BeeTasks;
 import pokecube.gimmicks.nests.tasks.bees.BeeTasks.BeeInhabitor;
+import pokecube.gimmicks.nests.tasks.birds.BirdTasks;
 import pokecube.gimmicks.nests.tasks.burrows.BurrowTasks;
 import thut.api.attachments.Inventory;
 import thut.api.data.HolderProvider;
@@ -204,8 +205,9 @@ public class NestTasks
         BeeTasks.init();
         AntTasks.init();
         BurrowTasks.init();
+        BirdTasks.init();
         ResourceLocation ANT = ResourceLocation.parse("pokecube:ant");
-        CapabilityInhabitor._REGISTRY.register(new HolderProvider.Provider<IInhabitor>()
+        CapabilityInhabitor._REGISTRY.register(new HolderProvider.Provider<>()
         {
 
             @Override
@@ -223,7 +225,7 @@ public class NestTasks
             }
         });
         ResourceLocation BEE = ResourceLocation.parse("pokecube:bee");
-        CapabilityInhabitor._REGISTRY.register(new HolderProvider.Provider<IInhabitor>()
+        CapabilityInhabitor._REGISTRY.register(new HolderProvider.Provider<>()
         {
 
             @Override

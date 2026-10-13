@@ -38,9 +38,8 @@ public class BurrowTasks
 
     public static final Predicate<IPokemob> burrows = pokemob -> {
         final Mob entity = pokemob.getEntity();
-        final boolean isAnt = ItemList.is(BurrowTasks._BURROWS, entity);
-        // Only care about bees
-        if (!isAnt) return false;
+        // Only care about ones in our tag
+        if (!ItemList.is(BurrowTasks._BURROWS, entity)) return false;
         // Only process stock pokemobs
         return pokemob.getPokedexEntry().stock;
     };
@@ -60,12 +59,12 @@ public class BurrowTasks
     public static void init()
     {
         TaskAdders.register(Type.IDLE, BurrowTasks::addTasks);
-        CapabilityInhabitable.Register(BurrowTasks.BURROWLOC, BurrowHab::new);
+        CapabilityInhabitable.Register(BURROWLOC, BurrowHab::new);
     }
 
     private static List<SensorType<?>> getSensors()
     {
-        return List.of(BurrowTasks.NEST_SENSOR.get(), Sensors.VISIBLE_BLOCKS.get(), Sensors.INTERESTING_ENTITIES.get());
+        return List.of(NEST_SENSOR.get(), Sensors.VISIBLE_BLOCKS.get(), Sensors.INTERESTING_ENTITIES.get());
     }
 
     private static List<MemoryModuleType<?>> getMemories()
@@ -78,25 +77,24 @@ public class BurrowTasks
             Map<String, IAIRunnable> namedTasks)
     {
         if (!NestTasks.config.pokemobsMakeNests) return;
-        if (!BurrowTasks.isValid(pokemob.getEntity())) return;
+        if (!isValid(pokemob.getEntity())) return;
 
         list.add(new CheckBurrow());
         list.add(new DigBurrow());
         list.add(new ReturnHome());
 
-        BrainUtil.addToBrain(pokemob.getEntity().getBrain(), BurrowTasks.getMemories(), BurrowTasks.getSensors());
+        BrainUtil.addToBrain(pokemob.getEntity().getBrain(), getMemories(), getSensors());
     }
 
     public static boolean isValid(final Entity entity)
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return false;
-        return pokemob.isRoutineEnabled(BurrowTasks.BURROWS);
+        return pokemob.isRoutineEnabled(BURROWS);
     }
 
     public static boolean shouldBeInside(final ServerLevel world, final Burrow burrow)
     {
-
         return false;
     }
 }

@@ -108,8 +108,8 @@ public class CheckBurrow extends BaseIdleTask
             var storage = entity.getData(StoreItems.StoreBehaviour.TYPE);
             // Here we might want to check if the burrow is still valid?
             pokemob.setRoutineState(AIRoutine.STORE, true);
-            storage.storageLoc = this.burrow.nest.getBlockPos();
-            storage.berryLoc = this.burrow.nest.getBlockPos();
+            storage.storageLoc = this.burrow.nest().getBlockPos();
+            storage.berryLoc = this.burrow.nest().getBlockPos();
         }
     }
 

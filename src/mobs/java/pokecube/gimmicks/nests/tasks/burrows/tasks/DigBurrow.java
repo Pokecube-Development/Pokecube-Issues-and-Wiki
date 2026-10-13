@@ -92,7 +92,7 @@ public class DigBurrow extends AbstractBurrowTask
 
         final AtomicInteger valids = new AtomicInteger();
         valids.set(0);
-        final Part part = this.burrow.hab.burrow;
+        final Part part = this.burrow.hab().burrow;
         // Start with a check of if the pos is inside.
         Predicate<BlockPos> isValid = p -> part.shouldCheckDig(p, time);
         // If it is inside, and not diggable, we notify the node of the
@@ -129,7 +129,7 @@ public class DigBurrow extends AbstractBurrowTask
         if (this.dig)
         {
             this.progressTimer++;
-            final Part part = this.burrow.hab.burrow;
+            final Part part = this.burrow.hab().burrow;
             if (!this.checkDigSite(level, entity)) return;
             final Path p = entity.getNavigation().getPath();
             final double dr = this.work_pos.distSqr(entity.blockPosition());
@@ -162,8 +162,8 @@ public class DigBurrow extends AbstractBurrowTask
     {
         if (!TaskBase.canMove(pokemob)) return false;
         final long now = Tracker.instance().getTick();
-        this.dig = this.burrow.hab.burrow.shouldDig(now);
-        this.build = this.burrow.hab.burrow.shouldBuild(now);
+        this.dig = this.burrow.hab().burrow.shouldDig(now);
+        this.build = this.burrow.hab().burrow.shouldBuild(now);
         return this.dig || this.build;
     }
 

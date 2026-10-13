@@ -12,17 +12,14 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.util.INBTSerializable;
@@ -30,7 +27,6 @@ import pokecube.api.blocks.IInhabitable;
 import pokecube.api.blocks.IRepelledVolume;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
-import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.ai.brain.MemoryModules;
@@ -76,6 +72,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
 
     public Set<UUID> eggs = Sets.newHashSet();
     public Set<UUID> mobs = Sets.newHashSet();
+    public boolean unocuppied = false;
 
     public PokedexEntry getMaker()
     {
@@ -89,13 +86,14 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
     @Override
     public void updateRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
-        final AABB box = this.burrow.getOutBounds().inflate(16, 0, 16);
+        final AABB box = this.burrow.getOutBounds().inflate(8, 3, 8);
         this.repelled = new AABBRegion(box, IRepelledVolume.ForbidReason.NEST);
     }
 
     @Override
     public IRepelledVolume getRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
+        if (this.unocuppied) return this.repelled = null;
         if (this.repelled == null) this.updateRepelledRegion(tile, world);
         return this.repelled;
     }
@@ -245,55 +243,11 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
 
             // Here we cleanup the burrow, and see if any other mobs of similar
             // sizes will fit.
-            if (this.mobs.isEmpty() && this.eggs.isEmpty())
-            {
-                final List<EntityType<?>> types = Lists
-                        .newArrayList(BuiltInRegistries.ENTITY_TYPE.stream().toList());
-
-                Collections.shuffle(types);
-                final Biome b = world.getBiome(this.burrow.getCenter()).value();
-                for (final EntityType<?> t : types)
-                {
-                    final IPokemob pokemob;
-                    try
-                    {
-                        pokemob = PokemobCaps.getPokemobFor(t.create(world));
-                    }
-                    catch (Exception e)
-                    {
-                        continue;
-                    }
-                    if (pokemob != null)
-                    {
-                        final PokedexEntry entry = pokemob.getPokedexEntry();
-
-                        final SpawnData spawn = entry.getSpawnData();
-                        if (spawn == null) continue;
-                        if (!spawn.isValid(b)) continue;
-
-                        if (this.related.contains(entry))
-                        {
-                            this.setMaker(entry);
-                            break;
-                        }
-                        final Set<PokedexEntry> relations = Sets.newHashSet();
-                        this.addRelations(entry, relations);
-                        final float height = relations.stream().max((o1, o2) -> Float.compare(o1.getHeight(), o2.getHeight()))
-                                .get().getHeight();
-                        float size = height * 2 + 1;
-                        size = Math.max(3, size);
-                        if (size <= this.burrow.getSize())
-                        {
-                            this.setMaker(entry);
-                            break;
-                        }
-                    }
-                }
-            }
+            this.unocuppied = this.mobs.isEmpty() && this.eggs.isEmpty();
 
             // If we have less than 3 eggs, make one from one of the random
             // related mobs.
-            if (this.eggs.size() < 3 && rng.nextDouble() < NestTasks.config.nestEggRate)
+            if (!this.unocuppied && this.eggs.size() < 3 && rng.nextDouble() < NestTasks.config.nestEggRate)
             {
                 final List<PokedexEntry> entries = Lists.newArrayList(this.related);
                 Collections.shuffle(entries);
@@ -318,6 +272,9 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                     final EntityPokemobEgg egg = NestTile.spawnEgg(entry, pos, world, false);
                     if (egg != null) this.eggs.add(egg.getUUID());
                 }
+            }
+            else if(this.unocuppied){
+                // Make a smaller repelled region to apply?
             }
         }
     }
