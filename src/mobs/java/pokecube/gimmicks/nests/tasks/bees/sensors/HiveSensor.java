@@ -60,21 +60,18 @@ public class HiveSensor extends Sensor<Mob>
 
         final IHiveSpaceCheck vanillaCheck = (entityIn, tile) -> {
             if (!(tile instanceof BeehiveBlockEntity)) return false;
-            final IInhabitable habitat = CapHolders.getInhabitable(tile, ResourceLocation.parse("pokecube:vanilla_bees"));
+            final IInhabitable habitat = CapHolders.getInhabitable(tile,
+                    ResourceLocation.parse("pokecube:vanilla_bees"));
             return habitat != null && habitat.canEnterHabitat(entityIn);
         };
         HiveSensor.hiveSpaceCheckers.add(vanillaCheck);
         final IHiveLocator vanillaLocator = (entityIn) -> {
             final BlockPos blockpos = entityIn.blockPosition();
             final PoiManager pointofinterestmanager = ((ServerLevel) entityIn.level).getPoiManager();
-            final Stream<PoiRecord> stream = pointofinterestmanager.getInRange((type) -> {
-                return type.is(PoiTypeTags.BEE_HOME);
-            }, blockpos, 20, PoiManager.Occupancy.ANY);
-            return stream.map(PoiRecord::getPos).filter((pos) -> {
-                return HiveSensor.doesHiveHaveSpace(entityIn, pos);
-            }).sorted(Comparator.comparingDouble((pos) -> {
-                return pos.distSqr(blockpos);
-            })).collect(Collectors.toList());
+            final Stream<PoiRecord> stream = pointofinterestmanager.getInRange((type) -> type.is(PoiTypeTags.BEE_HOME),
+                    blockpos, 20, PoiManager.Occupancy.ANY);
+            return stream.map(PoiRecord::getPos).filter((pos) -> HiveSensor.doesHiveHaveSpace(entityIn, pos))
+                    .sorted(Comparator.comparingDouble((pos) -> pos.distSqr(blockpos))).collect(Collectors.toList());
         };
         HiveSensor.hiveLocators.add(vanillaLocator);
     }
@@ -84,9 +81,7 @@ public class HiveSensor extends Sensor<Mob>
         final List<BlockPos> hives = Lists.newArrayList();
         final BlockPos blockpos = entityIn.blockPosition();
         HiveSensor.hiveLocators.forEach(l -> hives.addAll(l.getHives(entityIn)));
-        hives.sort(Comparator.comparingDouble((pos) -> {
-            return pos.distSqr(blockpos);
-        }));
+        hives.sort(Comparator.comparingDouble((pos) -> pos.distSqr(blockpos)));
         return hives;
     }
 

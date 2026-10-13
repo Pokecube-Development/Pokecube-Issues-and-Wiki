@@ -61,11 +61,13 @@ public class PokemobCaps
     public static IHabitat getHabitatFor(IAttachmentHolder entityIn, ResourceLocation defaultHabitat)
     {
         if (entityIn == null) return null;
-        if (!entityIn.hasData(INHABITABLE) && defaultHabitat != null) {
+        var hab = entityIn.getExistingDataOrNull(INHABITABLE);
+        var test = hab instanceof CapabilityInhabitable.HabitatProvider p ? p.getWrapped() : null;
+        if ((hab == null || test instanceof CapabilityInhabitable.NotHabitat) && defaultHabitat != null)
+        {
             entityIn.setData(INHABITABLE, CapabilityInhabitable.makeProviderFromResource(entityIn, defaultHabitat));
         }
-        if (entityIn.hasData(INHABITABLE)) return entityIn.getData(INHABITABLE);
-        return null;
+        return hab;
     }
 
     public static IInhabitor getInhabitorFor(IAttachmentHolder entityIn)
