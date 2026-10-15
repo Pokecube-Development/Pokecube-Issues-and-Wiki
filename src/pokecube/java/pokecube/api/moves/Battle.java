@@ -317,6 +317,15 @@ public class Battle
             var battle = testSet.battle;
             if (mob1.isRemoved())
             {
+                // If it is now owned, discard it regardless
+                var owner = Ownable.getOwner(mob1);
+                if (owner == null)
+                {
+                    testSet.battle.markAsValid(mob1, -10);
+                    testSet.invalid.set(true);
+                    return;
+                }
+
                 // Discarded is set if it was recalled and re-sent out, or if it evolved, etc
                 if (mob1.getRemovalReason() != Entity.RemovalReason.DISCARDED)
                 {
@@ -696,7 +705,14 @@ public class Battle
             {
                 test.accept(testSet);
             }
-            if (!invalid.get() && !s1.contains(mob1) && !s2.contains(mob1))
+            boolean inLists = s1.contains(mob1) || s2.contains(mob1);
+            if (invalid.get())
+            {
+                this.markAsValid(mob1, -10);
+                if (!inLists) s1.add(mob1);
+                changed.set(true);
+            }
+            if (!invalid.get() && !inLists)
             {
                 s1.add(mob1);
                 changed.set(true);
@@ -710,7 +726,14 @@ public class Battle
             {
                 test.accept(testSet);
             }
-            if (!invalid.get() && !s1.contains(mob2) && !s2.contains(mob2))
+            boolean inLists = s1.contains(mob2) || s2.contains(mob2);
+            if (invalid.get())
+            {
+                this.markAsValid(mob2, -10);
+                if (!inLists) s2.add(mob2);
+                changed.set(true);
+            }
+            if (!invalid.get() && !inLists)
             {
                 s2.add(mob2);
                 changed.set(true);
