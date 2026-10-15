@@ -136,6 +136,9 @@ public class LogicMiscUpdate extends LogicBase
                 this.pokemob.setCombatState(CombatStates.NOITEMUSE, false);
                 // Then reset stat multipliers here.
                 PokecubeAttributes.resetToEntry(this.pokemob);
+                // also ensure combat target is reset, etc
+                BrainUtils.deagro(this.entity);
+                this.entity.getBrain().eraseMemory(MemoryModules.WALK_TARGET);
             }
             this.combatTimer++;
 
