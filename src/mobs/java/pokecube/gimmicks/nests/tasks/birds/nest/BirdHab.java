@@ -276,7 +276,7 @@ public class BirdHab implements IInhabitable, INBTSerializable<CompoundTag>, IWo
     @Override
     public void onInteractedWith(LivingEntity interacter, ServerLevel level, String interaction)
     {
-        if (interaction.equals("walked-on"))
+        if (interaction.equals("walked-on") || interaction.startsWith("attack-"))
         {
             if (this.mobs.contains(interacter.getUUID())) return;
             if (this.eggs.contains(interacter.getUUID())) return;

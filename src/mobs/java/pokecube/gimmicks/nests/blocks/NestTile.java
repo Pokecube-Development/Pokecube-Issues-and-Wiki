@@ -73,7 +73,7 @@ public class NestTile extends InteractableTile implements ITickTile
 
     public CompoundTag tag = new CompoundTag();
 
-    private IInhabitable habitat;
+    IInhabitable habitat;
     private IRepelledVolume lastVolume = null;
 
     int time = 0;

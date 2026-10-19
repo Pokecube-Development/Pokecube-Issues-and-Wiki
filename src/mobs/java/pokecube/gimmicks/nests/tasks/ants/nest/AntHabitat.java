@@ -22,6 +22,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BlockItem;
@@ -39,6 +40,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.utility.GatherItems;
@@ -438,6 +440,21 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             this.ants.remove(uuid);
             return true;
         }));
+    }
+
+    @Override
+    public void onInteractedWith(LivingEntity interacter, ServerLevel level, String interaction)
+    {
+        if (interaction.equals("walked-on") || interaction.startsWith("attack-"))
+        {
+            if (this.ants.contains(interacter.getUUID())) return;
+            if (this.eggs.contains(interacter.getUUID())) return;
+            final BlockEntity tile = level.getBlockEntity(this.here);
+            if (tile instanceof NestTile nest)
+            {
+                nest.residents.forEach(mob -> BrainUtils.initiateCombat(mob.getEntity(), interacter));
+            }
+        }
     }
 
     private void updateJob(Mob mob, CompoundTag tag, BlockPos pos)

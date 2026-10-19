@@ -18,6 +18,7 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,6 +30,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.gimmicks.nests.NestTasks;
 import pokecube.gimmicks.nests.blocks.NestTile;
@@ -304,6 +306,21 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         final int stringId = 8;
         final ListTag muts = nbt.getList("mutated", stringId);
         for (int i = 0; i < muts.size(); ++i) this.mutations.add(Database.getEntry(muts.getString(i)));
+    }
+
+    @Override
+    public void onInteractedWith(LivingEntity interacter, ServerLevel level, String interaction)
+    {
+        if (interaction.equals("walked-on") || interaction.startsWith("attack-"))
+        {
+            if (this.mobs.contains(interacter.getUUID())) return;
+            if (this.eggs.contains(interacter.getUUID())) return;
+            final BlockEntity tile = level.getBlockEntity(this.burrow.getCenter());
+            if (tile instanceof NestTile nest)
+            {
+                nest.residents.forEach(mob -> BrainUtils.initiateCombat(mob.getEntity(), interacter));
+            }
+        }
     }
 
     @Override

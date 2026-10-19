@@ -1,6 +1,10 @@
 package pokecube.gimmicks.nests.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
@@ -8,6 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import pokecube.core.blocks.InteractableBlock;
@@ -32,6 +37,35 @@ public class NestBlock extends InteractableBlock implements EntityBlock
     public boolean propagatesSkylightDown(final BlockState state, final BlockGetter reader, final BlockPos pos)
     {
         return true;
+    }
+
+    @Override
+    protected void attack(BlockState state, Level level, BlockPos pos, Player player)
+    {
+        var te = level.getBlockEntity(pos);
+        if (te instanceof NestTile nest)
+        {
+            if (nest.habitat != null && level instanceof ServerLevel slevel)
+            {
+                nest.habitat.onInteractedWith(player, slevel, "attack-melee");
+            }
+        }
+        super.attack(state, level, pos, player);
+    }
+
+    @Override
+    protected void onProjectileHit(Level level, BlockState state, BlockHitResult hit, Projectile projectile)
+    {
+        var te = level.getBlockEntity(hit.getBlockPos());
+        if (te instanceof NestTile nest)
+        {
+            if (nest.habitat != null && level instanceof ServerLevel slevel
+                    && projectile.getOwner() instanceof LivingEntity living)
+            {
+                nest.habitat.onInteractedWith(living, slevel, "attack-ranged");
+            }
+        }
+        super.onProjectileHit(level, state, hit, projectile);
     }
 
     @Override
