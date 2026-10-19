@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
@@ -67,6 +68,13 @@ public class CapabilityInhabitable
         {
             if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
             this.getWrapped().onTick(world);
+        }
+
+        @Override
+        public void onInteractedWith(LivingEntity interacter, ServerLevel level, String interaction)
+        {
+            if (this.tile.getBlockPos() != null) this.wrapped.setPos(this.tile.getBlockPos());
+            this.getWrapped().onInteractedWith(interacter, level, interaction);
         }
 
         @Override

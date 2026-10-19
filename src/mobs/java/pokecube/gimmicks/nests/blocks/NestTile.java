@@ -10,6 +10,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
@@ -145,6 +147,10 @@ public class NestTile extends InteractableTile implements ITickTile
     public InteractionResult useWithoutItem(final BlockPos pos, final Player player, final BlockHitResult hit)
     {
         final IItemHandler handler = ThutCaps.getInventory(this, null);
+        if (this.habitat != null && this.level instanceof ServerLevel level)
+        {
+            habitat.onInteractedWith(player, level, "interact");
+        }
         if (handler instanceof IItemHandlerModifiable mhandler)
         {
             if (player instanceof ServerPlayer sendTo)
@@ -220,5 +226,15 @@ public class NestTile extends InteractableTile implements ITickTile
         super.saveAdditional(nbt, registries);
         nbt.putInt("time", this.time);
         nbt.put("_data_", this.tag);
+    }
+
+    @Override
+    public void onWalkedOn(Entity entityIn)
+    {
+        if (this.habitat != null && this.level instanceof ServerLevel level && entityIn instanceof LivingEntity living)
+        {
+            habitat.onInteractedWith(living, level, "walked-on");
+        }
+        super.onWalkedOn(entityIn);
     }
 }

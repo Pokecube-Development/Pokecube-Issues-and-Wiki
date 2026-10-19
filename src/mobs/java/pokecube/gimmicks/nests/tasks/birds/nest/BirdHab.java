@@ -10,6 +10,7 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
@@ -19,6 +20,7 @@ import pokecube.api.blocks.IRepelledVolume;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.Database;
 import pokecube.core.entity.genetics.genes.SpeciesGene;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -155,17 +157,13 @@ public class BirdHab implements IInhabitable, INBTSerializable<CompoundTag>, IWo
         IInhabitable.super.onBroken(world);
     }
 
-    private List<IPokemob> cleanAndCollectMobs(final ServerLevel world)
+    private void cleanAndCollectMobs(final ServerLevel world)
     {
-        final List<IPokemob> pokemobs = Lists.newArrayList();
         this.mobs.removeIf(uuid -> {
             final Entity entity = world.getEntity(uuid);
             if (!(entity instanceof Mob mob)) return true;
-            if (!this.canEnterHabitat(mob)) return true;
-            pokemobs.add(PokemobCaps.getPokemobFor(mob));
-            return false;
+            return !this.canEnterHabitat(mob);
         });
-        return pokemobs;
     }
 
     @Override
@@ -203,7 +201,14 @@ public class BirdHab implements IInhabitable, INBTSerializable<CompoundTag>, IWo
             if (tile instanceof NestTile nest)
             {
                 nest.residents.forEach(p -> this.mobs.add(p.getEntity().getUUID()));
+                for (var id : this.mobs)
+                {
+                    var mob = world.getEntity(id);
+                    var pokemob = PokemobCaps.getPokemobFor(mob);
+                    if (pokemob != null) nest.residents.add(pokemob);
+                }
             }
+            this.cleanAndCollectMobs(world);
 
             // Here we cleanup the burrow, and see if any other mobs of similar
             // sizes will fit.
@@ -266,6 +271,20 @@ public class BirdHab implements IInhabitable, INBTSerializable<CompoundTag>, IWo
         final int stringId = 8;
         final ListTag muts = nbt.getList("mutated", stringId);
         for (int i = 0; i < muts.size(); ++i) this.mutations.add(Database.getEntry(muts.getString(i)));
+    }
+
+    @Override
+    public void onInteractedWith(LivingEntity interacter, ServerLevel level, String interaction)
+    {
+        if (interaction.equals("walked-on"))
+        {
+            if (this.mobs.contains(interacter.getUUID())) return;
+            final BlockEntity tile = level.getBlockEntity(this.pos);
+            if (tile instanceof NestTile nest)
+            {
+                nest.residents.forEach(mob -> BrainUtils.initiateCombat(mob.getEntity(), interacter));
+            }
+        }
     }
 
     @Override
