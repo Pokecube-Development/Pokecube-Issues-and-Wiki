@@ -368,8 +368,8 @@ public class PacketPokedex extends NBTPacket
     public static void sendSecretBaseInfoPacket(final ServerPlayer player, final boolean watch)
     {
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.BASERADAR);
-        ListTag list = new ListTag();
         for(var entry: RADAR_SUPPLIERS.entrySet()){
+            ListTag list = new ListTag();
             var key = entry.getKey();
             var supplier = entry.getValue();
             var posList = supplier.apply(player);

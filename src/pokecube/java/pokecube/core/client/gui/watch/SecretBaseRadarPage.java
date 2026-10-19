@@ -2,10 +2,6 @@ package pokecube.core.client.gui.watch;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.GameRenderer;
@@ -127,8 +123,6 @@ public class SecretBaseRadarPage extends WatchPage
 
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-        final Tesselator tessellator = Tesselator.getInstance();
-        final BufferBuilder vertexbuffer = tessellator.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         r = 1;
         g = 0;
         final Vector3 here = new Vector3().set(this.watch.player);
