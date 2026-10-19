@@ -180,7 +180,7 @@ public class TargetInfo extends GuiEventComponent
 
         // Render number of enemies
         RenderSystem.enableBlend();
-        if (n > 1)
+        if (combatTarget && n > 1)
         {
             String txt = n2 + "/" + n;
             int num = gui.getFont().width(txt);

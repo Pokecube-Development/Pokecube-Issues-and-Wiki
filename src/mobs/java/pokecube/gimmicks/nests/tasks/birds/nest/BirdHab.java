@@ -279,6 +279,7 @@ public class BirdHab implements IInhabitable, INBTSerializable<CompoundTag>, IWo
         if (interaction.equals("walked-on"))
         {
             if (this.mobs.contains(interacter.getUUID())) return;
+            if (this.eggs.contains(interacter.getUUID())) return;
             final BlockEntity tile = level.getBlockEntity(this.pos);
             if (tile instanceof NestTile nest)
             {
