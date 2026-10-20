@@ -452,6 +452,14 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             final BlockEntity tile = level.getBlockEntity(this.here);
             if (tile instanceof NestTile nest)
             {
+                // See if it another ant to add?
+                if(interacter instanceof Mob mob && this.canEnterHabitat(mob))
+                {
+                    this.addResident(mob);
+                    IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
+                    nest.addResident(pokemob);
+                    return;
+                }
                 nest.residents.forEach(mob -> BrainUtils.initiateCombat(mob.getEntity(), interacter));
             }
         }

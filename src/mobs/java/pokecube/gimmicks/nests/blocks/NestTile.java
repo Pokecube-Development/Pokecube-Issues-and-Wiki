@@ -131,6 +131,7 @@ public class NestTile extends InteractableTile implements ITickTile
 
     public void addResident(final IPokemob resident)
     {
+        if (resident == null) return;
         this.residents.add(resident);
         final IInhabitable hab = this.getWrappedHab();
         if (resident.getEntity().getBrain().checkMemory(MemoryModules.NEST_POS.get(), MemoryStatus.REGISTERED))
