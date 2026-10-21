@@ -161,12 +161,13 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     public void updateRepelledRegion(final BlockEntity tile, final ServerLevel world)
     {
         final AABB box = this.rooms.getBounds().inflate(10, 0, 10);
+        var old = this.repelled;
         this.repelled = new AABBRegion(box, IRepelledVolume.ForbidReason.NEST);
         this.tile = tile;
         if (this.tile instanceof NestTile nest)
         {
             this.removing = true;
-            if (this.repelled != null) SpawnHandler.removeForbiddenSpawnVolume(this.repelled, world);
+            if (old != null) SpawnHandler.removeForbiddenSpawnVolume(old, world);
             this.removing = false;
             nest.addForbiddenSpawningCoord();
         }
@@ -588,12 +589,11 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
             }
             break;
         case GUARD:
-            /**
+            /*
              * Guard ants do the following: <br>
              * They Walk to a random node Check for hostiles near the node
              * Attack anything they don't like at the nodes.
              */
-            nodes:
             for (final Node n : this.rooms.allRooms)
             {
                 if (!n.started) continue;
@@ -602,9 +602,9 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 final boolean valid = BlockPos.betweenClosedStream(box).anyMatch(b -> this.world.isEmptyBlock(b));
                 if (valid)
                 {
-                    mob.getBrain().setMemory(MemoryModules.WORK_POS.get(),
-                            GlobalPos.of(this.world.dimension(), x0.getPos()));
-                    break nodes;
+                    mob.getBrain()
+                            .setMemory(MemoryModules.WORK_POS.get(), GlobalPos.of(this.world.dimension(), x0.getPos()));
+                    break;
                 }
             }
             break;
@@ -627,8 +627,9 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 return mob;
             });
             this.antExitCooldown = 100;
+            if (entity == null) return;
             if (world.getEntity(entity.getUUID()) != null) return;
-            if (entity != null) world.addFreshEntity(entity);
+            world.addFreshEntity(entity);
         });
         // We clear this, as ants may re-make us as a habitat, this prevents
         // cloning ants.
@@ -651,9 +652,10 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 // etc
                 return mob;
             });
+            if (entity == null) return false;
             if (world.getEntity(entity.getUUID()) != null) return true;
             this.antExitCooldown = 100;
-            if (entity != null) return world.addFreshEntity(entity);
+            return world.addFreshEntity(entity);
         }
         return false;
     }
