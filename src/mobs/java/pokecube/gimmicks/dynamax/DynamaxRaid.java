@@ -138,7 +138,7 @@ public class DynamaxRaid implements IBossProvider
 
             if (!dynamaxCube)
             {
-                final Entity catcher = event.pokecube.shootingEntity;
+                final Entity catcher = event.pokecube.getShootingEntity();
                 if (catcher instanceof Player player)
                     thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.denied"));
                 event.setCanceled(true);

@@ -49,6 +49,7 @@ import pokecube.api.moves.Battle;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
@@ -273,13 +274,13 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public void checkCollision()
     {
         final AABB axisalignedbb = this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(.2D);
-        if (this.shootingEntity != null) this.ignoreEntity = this.shootingEntity;
+        this.ignoreEntity = this.getShootingEntity();
 
         final Predicate<Entity> valid = (mob) -> {
             final Entity e = EntityTools.getCoreEntity(mob);
             if (this.ignoreEntity != null && (e.isPassengerOfSameVehicle(this.ignoreEntity) || e.hasPassenger(
                     this.ignoreEntity))) return false;
-            if (!AITools.shouldBeAbleToAgro(this.shootingEntity, e)) return false;
+            if (!AITools.shouldBeAbleToAgro(this.getShootingEntity(), e)) return false;
             return !e.isSpectator() && mob.isPickable() && !(e instanceof EntityPokecubeBase)
                     && e instanceof LivingEntity && e != this.ignoreEntity && e != this;
         };
@@ -292,7 +293,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 break;
             }
 
-            if (this.shootingEntity != null && this.tickCount < 2 && this.ignoreEntity == null)
+            if (this.getShootingEntity() != null && this.tickCount < 2 && this.ignoreEntity == null)
             {
                 this.ignoreEntity = entity;
                 this.ignoreTime = 10;
@@ -325,7 +326,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
             return;
         }
         if (this.isReleasing()) return;
-        if (this.shootingEntity != null && this.tilt < 0 && this.getDeltaMovement().lengthSqr() == 0
+        if (this.getShootingEntity() != null && this.tilt < 0 && this.getDeltaMovement().lengthSqr() == 0
                 && this.isEffectiveAi() && PokecubeManager.isFilled(this.getItem())) SendOutManager.sendOut(this, true);
         else if (!this.getNoCollisionRelease() && this.isInWater() && PokecubeManager.isFilled(this.getItem()))
             SendOutManager.sendOut(this, true);
@@ -442,7 +443,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
             if (this.containedMob != null && this.shooter == null)
             {
                 this.shootingEntity = this.containedMob.getOwner();
-                if (this.shootingEntity != null) this.shooter = this.shootingEntity.getUUID();
+                if (this.getShootingEntity() != null) this.shooter = this.getShootingEntity().getUUID();
             }
             PokemobTracker.addPokecube(this);
         }
@@ -691,6 +692,16 @@ public abstract class EntityPokecubeBase extends LivingEntity
         if (target != null) this.getEntityData().set(EntityPokecubeBase.SEEKING, true);
         else this.getEntityData().set(EntityPokecubeBase.SEEKING, false);
         this.targetEntity = target;
+    }
+
+    public LivingEntity getShootingEntity()
+    {
+        if (shootingEntity == null && level instanceof ServerLevel)
+        {
+            shootingEntity = PokecubeMod.getFakePlayer(level);
+            shooter = shootingEntity.getUUID();
+        }
+        return shootingEntity;
     }
 
     public abstract EntityPokecubeBase copy();

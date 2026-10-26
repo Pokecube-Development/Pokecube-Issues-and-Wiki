@@ -16,6 +16,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
+import net.neoforged.neoforge.common.util.FakePlayer;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -82,6 +83,9 @@ public class AITools
             {
                 if (_blacklist.stream().anyMatch(e -> e.test(core))) return false;
             }
+            // ensure it is a real thing
+            if (core instanceof FakePlayer) return false;
+            if (!core.isAddedToLevel()) return false;
             // Then check if is a valid player.
             if (core instanceof ServerPlayer player)
             {

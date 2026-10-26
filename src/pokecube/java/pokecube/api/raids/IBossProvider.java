@@ -46,7 +46,7 @@ public interface IBossProvider
     {
         if (event.mob.getHealth() >= 1)
         {
-            final Entity catcher = event.pokecube.shootingEntity;
+            final Entity catcher = event.pokecube.getShootingEntity();
             if (catcher instanceof ServerPlayer player)
                 thut.lib.ChatHelper.sendSystemMessage(player, Component.translatable("pokecube.denied"));
             event.setCanceled(true);

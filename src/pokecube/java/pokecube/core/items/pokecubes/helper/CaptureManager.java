@@ -209,14 +209,14 @@ public class CaptureManager
             pokemob.setLogicState(LogicStates.SITTING, false);
             pokemob.setGeneralState(GeneralStates.TAMED, false);
             pokemob.setOwner((UUID) null);
-            if (cube.shootingEntity instanceof Player player && !(cube.shootingEntity instanceof FakePlayer))
+            if (cube.getShootingEntity() instanceof Player player && !(cube.getShootingEntity() instanceof FakePlayer))
             {
                 final Component mess = Component.translatable("pokecube.missed", pokemob.getDisplayName());
                 player.displayClientMessage(mess, true);
             }
         }
-        if (living instanceof Mob mob && cube.shootingEntity != null)
-            Battle.createOrAddToBattle(mob, cube.shootingEntity);
+        if (living instanceof Mob mob && cube.getShootingEntity() != null)
+            Battle.createOrAddToBattle(mob, cube.getShootingEntity());
     }
 
     public static boolean captureSucceed(final EntityPokecubeBase cube)
@@ -246,8 +246,8 @@ public class CaptureManager
         if (ownable != null)
         {
             ownable.setOwner(cube.shooter);
-            if (mob instanceof Animal animal && cube.shootingEntity instanceof Player player)
-                EventHooks.onAnimalTame(animal, player);
+            if (mob instanceof Animal animal && cube.getShootingEntity() instanceof Player player
+                    && !(player.isFakePlayer())) EventHooks.onAnimalTame(animal, player);
         }
         if (pokemob != null)
         {
@@ -266,11 +266,12 @@ public class CaptureManager
             pokemob.resetForm(false);
             if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbilityRaw(
                     AbilityManager.getAbility(pokemob.getEntity().getPersistentData().getString(TagNames.ABILITY)));
-            if (cube.shootingEntity instanceof Player player && !(cube.shootingEntity instanceof FakePlayer))
+            if (cube.getShootingEntity() instanceof Player player && !player.isFakePlayer())
             {
                 final Component mess = Component.translatable("pokecube.caught", pokemob.getDisplayName());
                 player.displayClientMessage(mess, true);
-                cube.setPos(cube.shootingEntity.getX(), cube.shootingEntity.getY(), cube.shootingEntity.getZ());
+                cube.setPos(cube.getShootingEntity().getX(), cube.getShootingEntity().getY(),
+                        cube.getShootingEntity().getZ());
                 cube.playSound(Sounds.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
             }
         }
@@ -278,7 +279,7 @@ public class CaptureManager
         {
             PokecubeManager.addToCube(cube.getItem(), living);
             final Component mess = Component.translatable("pokecube.caught", mob.getDisplayName());
-            if (cube.shootingEntity instanceof Player player) player.displayClientMessage(mess, true);
+            if (cube.getShootingEntity() instanceof Player player) player.displayClientMessage(mess, true);
             cube.playSound(Sounds.CAPTURE_SOUND.get(), (float) PokecubeCore.getConfig().captureVolume, 1);
         }
         return true;

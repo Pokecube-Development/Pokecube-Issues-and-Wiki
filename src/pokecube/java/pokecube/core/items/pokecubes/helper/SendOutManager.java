@@ -119,12 +119,12 @@ public class SendOutManager
 
         if (!isPlayers && (mob instanceof LivingEntity living && living.getHealth() <= 0)) return null;
 
-        final ServerPlayer user = isPlayers ? (ServerPlayer) cube.shootingEntity : null;
+        final ServerPlayer user = isPlayers ? (ServerPlayer) cube.getShootingEntity() : null;
         boolean hasPerms = true;
 
         if ((mob instanceof LivingEntity living && !living.isAlive()))
         {
-            if (isPlayers && cube.shootingEntity instanceof Player player)
+            if (isPlayers && cube.getShootingEntity() instanceof Player player)
             {
                 Tools.giveItem(player, cube.getItem());
                 cube.discard();
@@ -138,7 +138,7 @@ public class SendOutManager
         // No mob or no perms?, then just refund the item and exit
         if (!hasMob || !hasPerms)
         {
-            if (cube.shootingEntity instanceof Player player)
+            if (cube.getShootingEntity() instanceof Player player)
             {
                 Tools.giveItem(player, cube.getItem());
                 user.displayClientMessage(Component.translatable("pokecube.sendout.fail.noperms.general"), true);
@@ -163,7 +163,7 @@ public class SendOutManager
             v.moveEntity(mob);
             v = SendOutManager.getFreeSpot(mob, world, v, respectRoom);
             // Let npcs send out their mobs wherever they want to...
-            if (v == null && isPlayers && cube.shootingEntity instanceof Player player)
+            if (v == null && isPlayers && cube.getShootingEntity() instanceof Player player)
             {
                 Tools.giveItem(player, cube.getItem());
                 user.displayClientMessage(Component.translatable("pokecube.noroom"), true);

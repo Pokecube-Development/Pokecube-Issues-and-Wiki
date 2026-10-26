@@ -471,11 +471,14 @@ public class PokecubeMobs
             {
                 if (evt.getResult() == TriState.FALSE || evt.getCaught() == null) return;
                 final EntityPokecubeBase cube = evt.pokecube;
-                final Entity thrower = cube.shootingEntity;
-                int has = CaptureStats.getTotalNumberOfPokemobCaughtBy(thrower.getUUID(),
-                        evt.getCaught().getPokedexEntry());
-                has = has + EggStats.getTotalNumberOfPokemobHatchedBy(thrower.getUUID(),
-                        evt.getCaught().getPokedexEntry());
+                final Entity thrower = cube.getShootingEntity();
+                int has = 0;
+                if (thrower != null)
+                {
+                    has = CaptureStats.getTotalNumberOfPokemobCaughtBy(thrower.getUUID(),
+                            evt.getCaught().getPokedexEntry()) + EggStats.getTotalNumberOfPokemobHatchedBy(
+                            thrower.getUUID(), evt.getCaught().getPokedexEntry());
+                }
                 final double rate = has > 0 ? 3 : 1;
                 cube.setTilt(Tools.computeCatchRate(evt.getCaught(), rate));
                 evt.setCanceled(true);

@@ -58,7 +58,7 @@ public class StatsHandler
         final PokedexEntry entry = evt.getCaught().getPokedexEntry();
         if (evt.getCaught().getGeneralState(GeneralStates.TAMED)) evt.setResult(TriState.FALSE);
         if (evt.getCaught().getGeneralState(GeneralStates.DENYCAPTURE)) evt.setResult(TriState.FALSE);
-        final Entity catcher = evt.pokecube.shootingEntity;
+        final Entity catcher = evt.pokecube.getShootingEntity();
         if (!EntityPokecubeBase.canCaptureBasedOnConfigs(evt.getCaught()))
         {
             evt.setCanceled(true);

@@ -372,10 +372,10 @@ public class EntityPokecube extends EntityPokecubeBase
                         final CaptureEvent.Post event = new CaptureEvent.Post(this);
                         gave = PokecubeAPI.POKEMOB_BUS.post(event).isCanceled();
                     }
-                    else if (this.shootingEntity instanceof ServerPlayer
-                            && !(this.shootingEntity instanceof FakePlayer))
+                    else if (this.getShootingEntity() instanceof ServerPlayer player
+                            && !(this.getShootingEntity() instanceof FakePlayer))
                     {
-                        Tools.giveItem((Player) this.shootingEntity, this.getItem());
+                        Tools.giveItem(player, this.getItem());
                         gave = true;
                     }
                     if (!gave) this.spawnAtLocation(this.getItem(), 0.5f);
