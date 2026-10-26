@@ -3,7 +3,6 @@ package pokecube.core.entity.pokecubes;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.core.HolderLookup.Provider;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -26,8 +25,12 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.effects.EffectPacketInfo;
+import pokecube.api.effects.ParticleEffects;
+import pokecube.api.effects.context.EntityContext;
 import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.utils.Tools;
+import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.init.EntityTypes;
@@ -41,7 +44,6 @@ import thut.api.maths.Vector3;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 
 public class EntityPokecube extends EntityPokecubeBase
 {
@@ -340,26 +342,21 @@ public class EntityPokecube extends EntityPokecubeBase
             return;
         }
         capture:
-        if (this.level() instanceof ServerLevel level)
+        if (this.level() instanceof ServerLevel)
         {
             final boolean validTime = time <= 0;
             boolean succeeded = this.getTilt() >= 4;
 
             if (succeeded && time < 5)
             {
-                double size = 2 * this.getBbWidth();
-                double x = this.getX();
-                double y = this.getY();
-                double z = this.getZ();
-
-                Random r = ThutAPI.newRandom();
-                for (int l = 0; l < 2; l++)
-                {
-                    double i = (0.5 - r.nextDouble()) * size;
-                    double j = (0.5 - r.nextDouble()) * size + size / 2;
-                    double k = (0.5 - r.nextDouble()) * size;
-                    level.sendParticles(ParticleTypes.ELECTRIC_SPARK, x + i, y + j, z + k, 1, 0, 0, 0, 0);
-                }
+                var effect_key = "pokecube.critical_capture";
+                var effectFunction = ParticleEffects.getEffect(effect_key);
+                var applied = effectFunction.get();
+                var effect = new EffectPacketInfo(applied, this, ParticleEffects.EVO_ANCHORS).addContext(
+                        new EntityContext(this));
+                effect.onClientTick = effect.onClientTick.andThen(
+                        info -> info.animation.effect().setDuration(PokecubeCore.getConfig().exitCubeDuration));
+                ParticleEffects.ADD_FOR_RENDER.accept(effect);
             }
 
             if (!validTime) break capture;
