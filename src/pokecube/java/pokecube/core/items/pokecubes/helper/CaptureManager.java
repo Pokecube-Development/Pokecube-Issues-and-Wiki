@@ -55,21 +55,32 @@ public class CaptureManager
     public static void captureAttempt(final EntityPokecubeBase cube, final Entity e)
     {
         if (!(cube.level() instanceof ServerLevel)) return;
-        if (!(e instanceof LivingEntity mob)) return;
-        if (e.isInvulnerable()) return;
-        if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
-        if (!(cube.getItem().getItem() instanceof IPokecube cubeItem)) return;
-        if (!cubeItem.canCapture(e, cube.getItem())) return;
         if (cube.isCapturing()) return;
-        final IOwnable ownable = ThutCaps.getOwnable(mob);
-        if ((ownable != null && ownable.getOwnerId() != null && !PokecubeManager.isFilled(cube.getItem()))) return;
+        if (!(cube.getItem().getItem() instanceof IPokecube cubeItem)) return;
+        if (!(e instanceof LivingEntity mob)) return;
+        boolean noEnter = false, dropCube = false;
+        {
+            if (!cubeItem.canCapture(e, cube.getItem())) dropCube = true;
+            if (e.isInvulnerable()) dropCube = true;
+            if (e.getPersistentData().contains(TagNames.CAPTURING)) dropCube = true;
+            final IOwnable ownable = ThutCaps.getOwnable(mob);
+            if (ownable != null && ownable.getOwnerId() != null) dropCube = true;
+        }
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
         final double modifier = cubeItem.getCaptureModifier(mob, cubeId);
         final Vector3 v = new Vector3();
         cube.autoRelease = -1;
         if (modifier <= 0)
         {
+            noEnter = true;
+        }
+        if (noEnter || dropCube)
+        {
             cube.setNotCapturing();
+            if (dropCube)
+            {
+                onCaptureDenied(cube);
+            }
             return;
         }
 
