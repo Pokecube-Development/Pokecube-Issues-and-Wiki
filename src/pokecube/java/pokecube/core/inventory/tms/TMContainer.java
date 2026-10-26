@@ -15,17 +15,22 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.init.MenuTypes;
+import pokecube.core.items.ItemTM;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.ThutCaps;
 import thut.api.inventory.BaseContainer;
 import thut.api.inventory.InvHelper;
+import thut.api.item.ItemList;
 import thut.api.world.WorldTickManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class TMContainer extends BaseContainer
 {
+    public static Predicate<ItemStack> isTM = i -> i.getItem() instanceof ItemTM || ItemList.is(PokecubeItems.TMKEY,
+            i.getItem());
     private Container inv;
     private final ContainerLevelAccess pos;
     public TMTile tile;
@@ -69,9 +74,15 @@ public class TMContainer extends BaseContainer
                 });
             }
         }
-
         Level level = inv.player.level();
-        this.addSlot(new Slot(this.inv, 0, 8, 17));
+        this.addSlot(new Slot(this.inv, 0, 8, 17)
+        {
+            @Override
+            public boolean mayPlace(final ItemStack stack)
+            {
+                return isTM.test(stack);
+            }
+        });
         TMContainer cont = this;
         this.addSlot(new Slot(this.inv, 1, 8, 49)
         {

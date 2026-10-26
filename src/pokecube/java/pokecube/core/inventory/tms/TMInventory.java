@@ -18,7 +18,7 @@ public class TMInventory extends SimpleContainer
     {
         return switch (index)
         {
-            case 0 -> ItemList.is(PokecubeItems.TMKEY, stack.getItem());
+            case 0 -> TMContainer.isTM.test(stack);
             case 1 -> PokecubeManager.isFilled(stack);
             default -> false;
         };
