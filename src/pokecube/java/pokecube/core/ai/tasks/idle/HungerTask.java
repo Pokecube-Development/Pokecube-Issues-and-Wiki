@@ -296,7 +296,8 @@ public class HungerTask extends BaseIdleTask
         if (this.sleepy && !this.hitThreshold(HungerTask.EATTHRESHOLD) && !ownedSleepCheck)
         {
             final double moveSpeed = 1;
-            if (!this.isGoodSleepingSpot(c, pokemob)) this.setWalkTo(entity, pokemob.getHome(), moveSpeed, 0);
+            if (!this.isGoodSleepingSpot(c, pokemob) || !pokemob.getLogicState(LogicStates.SITTING))
+                this.setWalkTo(entity, pokemob.getHome(), moveSpeed, 0);
             else if (entity.getNavigation().isDone())
             {
                 StatusEffects.setStatus(entity, entity, StatusEffects.SLEEP, 30, Sleep.NATURAL_SLEEP);
