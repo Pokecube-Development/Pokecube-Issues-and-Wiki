@@ -23,7 +23,7 @@
     {
       "preset":"all_not_caves",
       "and_preset":"all",
-      "not_preset":"cave_subbiome"
+      "not_preset":"cave_subbiome,cave_water_subbiome"
     },
     {
       "preset":"sky",
@@ -82,6 +82,14 @@
       }
     },
     {
+      "preset":"cave_water_subbiome",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"cavewater"
+        }
+      }
+    },
+    {
       "preset":"village",
       "matchers":{
         "biome":{
@@ -99,7 +107,7 @@
     },
     {
       "preset":"custom_subbiomes",
-      "or_preset":"ruins,industrial,meteors,caves,village,inside"
+      "or_preset":"ruins,industrial,meteors,caves,cavewater,village,inside"
     }
   ]
 }

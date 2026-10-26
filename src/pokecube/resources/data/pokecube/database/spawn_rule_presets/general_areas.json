@@ -76,6 +76,7 @@
     },
     {
       "preset":"underground",
+      "or_preset":"cave_water_subbiome",
       "matchers":{
         "biome":{
           "biome_tags":"#c:is_underground"
