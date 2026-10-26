@@ -49,7 +49,7 @@ public class PokecubeWorld
         FOLIAGE_PLACERS.register(bus);
         TRUNK_PLACERS.register(bus);
 
-        PokecubeStructureProcessors.init(bus);
+        PokecubeStructureProcessors.init();
         FeaturesInit.init();
         PokecubeStructures.init();
         FoliagePlacerTypes.init();
