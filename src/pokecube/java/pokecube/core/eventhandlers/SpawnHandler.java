@@ -112,6 +112,12 @@ public final class SpawnHandler
         {
             return box;
         }
+
+        @Override
+        public boolean isIn(BlockPos pos)
+        {
+            return box.isInside(pos);
+        }
     }
 
     public static class AABBRegion implements IRepelledVolume
@@ -137,6 +143,12 @@ public final class SpawnHandler
         public BoundingBox getTotalBounds()
         {
             return box;
+        }
+
+        @Override
+        public boolean isIn(BlockPos pos)
+        {
+            return box.isInside(pos);
         }
     }
 
