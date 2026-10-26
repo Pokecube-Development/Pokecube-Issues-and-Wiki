@@ -2,16 +2,12 @@ package pokecube.core.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
@@ -23,7 +19,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
@@ -55,7 +50,6 @@ import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.GuiArranger;
@@ -264,7 +258,6 @@ public class EventsHandlerClient
     }
 
     public static final ResourceLocation TARGET_TEXTURE = ResourceLocation.parse("pokecube:icons/target_icon");
-    private static final ResourceLocation IS_POKECUBE = ResourceLocation.parse("pokecube:pokecubes");
 
     @SubscribeEvent
     public static void renderBounds(final RenderLevelStageEvent event)
@@ -293,45 +286,6 @@ public class EventsHandlerClient
             RenderSystem.enableDepthTest();
             gfx.pose().popPose();
         }
-
-
-        // the handler for drawing selected box around targeted
-        // entities for throwing cubes at
-
-        boolean alt = Screen.hasAltDown();
-        boolean ctrl = Screen.hasControlDown();
-        Pokecube.renderingOverlay = alt || ctrl;
-
-        if (event.getStage() != Stage.AFTER_SOLID_BLOCKS || !PokecubeCore.getConfig().showTargetBox) return;
-        final Player player = Minecraft.getInstance().player;
-
-        boolean validToShow = true;
-        ItemStack held;
-        if (!(held = player.getMainHandItem()).isEmpty() || (held = player.getOffhandItem()).isEmpty())
-        {
-            validToShow = PokecubeItems.is(IS_POKECUBE, held);
-        }
-        if (!validToShow) validToShow = GuiDisplayPokecubeInfo.instance().getCurrentPokemob() != null;
-
-        if (validToShow)
-        {
-            entity = hovorTarget;
-            if (entity != null)
-            {
-                AABB box = entity.getBoundingBox().move(-entity.getX(), -entity.getY(), -entity.getZ());
-                final PoseStack matrix = event.getPoseStack();
-                double x = Mth.lerp(f, entity.xOld, entity.getX());
-                double y = Mth.lerp(f, entity.yOld, entity.getY());
-                double z = Mth.lerp(f, entity.zOld, entity.getZ());
-                MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-                VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
-                matrix.pushPose();
-                matrix.translate(x - camera.x, y - camera.y, z - camera.z);
-                LevelRenderer.renderLineBox(matrix, builder, box, 1.0F, 0.0F, 0.0F, 1.0F);
-                matrix.popPose();
-                buffer.endBatch(RenderType.LINES);
-            }
-        }
     }
 
     @SubscribeEvent
@@ -340,6 +294,7 @@ public class EventsHandlerClient
         final Player player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
+        Pokecube.renderingOverlay = Screen.hasAltDown();
         if (ClientSetupHandler.animateGui.consumeClick() && Minecraft.getInstance().screen == null)
             Minecraft.getInstance().setScreen(new AnimationGui());
         if (ClientSetupHandler.mobMegavolve.consumeClick())
@@ -431,39 +386,41 @@ public class EventsHandlerClient
         }
     }
 
+    private static void renderCubeOverlay(GuiGraphics gui, int x, int y, int w, int h, IPokemob pokemob)
+    {
+        if (Screen.hasControlDown())
+        {
+            ItemStack _stack = pokemob.getHeldItem();
+            gui.renderItem(_stack, x, y);
+        }
+        else EventsHandlerClient.renderIcon(gui, pokemob, x, y, w, h);
+    }
+
     // This renders the pokemob's icons over the pokecubes when alt is held
     // in an inventory.
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onRenderGUIScreenPre(final Render.Post event)
     {
-        if (!(event.getScreen() instanceof AbstractContainerScreen<?> gui)) return;
         boolean alt = Screen.hasAltDown();
-        boolean ctrl = Screen.hasControlDown();
-        if (alt || ctrl)
-        {
-            event.getGuiGraphics().pose().pushPose();
-            event.getGuiGraphics().pose().translate(0, 0, 300);
-            final List<Slot> slots = gui.getMenu().slots;
-            for (final Slot slot : slots)
-                if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
-                {
-                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getItem(),
-                            gui.getMinecraft().level);
-                    if (pokemob == null) continue;
-                    int i, j;
-                    i = slot.x;
-                    j = slot.y;
-                    final int x = i + gui.getGuiLeft();
-                    final int y = j + gui.getGuiTop();
-                    if (Screen.hasControlDown())
-                    {
-                        ItemStack _stack = pokemob.getHeldItem();
-                        event.getGuiGraphics().renderItem(_stack, x, y);
-                    }
-                    else EventsHandlerClient.renderIcon(event.getGuiGraphics(), pokemob, x, y, 16, 16);
-                }
-            event.getGuiGraphics().pose().popPose();
-        }
+        if (!(event.getScreen() instanceof AbstractContainerScreen<?> gui) || !alt) return;
+
+        event.getGuiGraphics().pose().pushPose();
+        event.getGuiGraphics().pose().translate(0, 0, 300);
+        final List<Slot> slots = gui.getMenu().slots;
+        for (final Slot slot : slots)
+            if (slot.hasItem() && PokecubeManager.isFilled(slot.getItem()))
+            {
+                final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getItem(),
+                        gui.getMinecraft().level);
+                if (pokemob == null) continue;
+                int i, j;
+                i = slot.x;
+                j = slot.y;
+                final int x = i + gui.getGuiLeft();
+                final int y = j + gui.getGuiTop();
+                renderCubeOverlay(event.getGuiGraphics(), x, y, 16, 16, pokemob);
+            }
+        event.getGuiGraphics().pose().popPose();
     }
 
     public static ResourceLocation GUI_LAYER = ResourceLocation.parse("pokecube:hotbar_icon_overlay");
@@ -501,12 +458,7 @@ public class EventsHandlerClient
                 x = i + x + 20 * l - 8;
                 int y = h;
                 y = j + y - 9;
-                if (Screen.hasControlDown())
-                {
-                    ItemStack _stack = pokemob.getHeldItem();
-                    guiGraphics.renderItem(_stack, x, y);
-                }
-                else EventsHandlerClient.renderIcon(guiGraphics, pokemob, x, y, 16, 16);
+                renderCubeOverlay(guiGraphics, x, y, 16, 16, pokemob);
             }
         }
     }
