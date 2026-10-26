@@ -14,8 +14,6 @@ public class DynamaxConfig extends Config.ConfigData
     public int dynamax_duration = 250;
     @Configure(category = dynamax, comment = "Scale of dynamaxed pokemobs. [Default: 5.0]")
     public double dynamax_scale = 5.0;
-    @Configure(category = dynamax, comment = "Z-Move cooldown in ticks. [Default: 2000]")
-    public int z_move_cooldown = 2000;
     @Configure(category = "raids", comment = "Duration of raids in ticks. [Default: 3000]")
     public int raidDuration = 3000;
 

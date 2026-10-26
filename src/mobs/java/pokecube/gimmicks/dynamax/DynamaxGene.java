@@ -34,7 +34,6 @@ public class DynamaxGene implements Gene<DynaObject>
         if (!genes.getKeys().contains(GeneticsManager.GMAXGENE))
         {
             // Initialise it for the mob here.
-            Alleles<DynaObject, Gene<DynaObject>> alleles = new Alleles<>(genes);
             Gene<DynaObject> gene1 = new DynamaxGene();
             Gene<DynaObject> gene2 = new DynamaxGene();
             genes.setGenes(gene1, gene2);
