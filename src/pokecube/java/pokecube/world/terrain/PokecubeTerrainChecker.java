@@ -129,8 +129,8 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             return PokecubeTerrainChecker.INSIDE;
         }
         BiomeType biome = BiomeType.NONE;
-        final Holder<Biome> b = v.getBiomeHolder(world);
         if (!PokecubeCore.getConfig().autoDetectSubbiomes) return biome;
+        final Holder<Biome> b = v.getBiomeHolder(world);
         final boolean notLake = this.isWatery(b);
         int industrial = 0;
         int water = 0;
@@ -162,10 +162,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             return biome;
         }
         // Check nearby villages, and if in one, define as village type.
-        if (world instanceof ServerLevel level)
-        {
-            if (level.isVillage(v.getPos())) biome = BiomeType.VILLAGE;
-        }
+        if (world instanceof ServerLevel level && level.isVillage(v.getPos())) biome = BiomeType.VILLAGE;
         boolean sky = v.canSeeSky(chunk);
         // lastly check for sky, this goes after village checks so you can have
         // sky villages still be villages.

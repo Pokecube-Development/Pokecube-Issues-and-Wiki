@@ -17,16 +17,14 @@ public class PalmFoliagePlacer extends FoliagePlacer
 {
     protected final IntProvider height;
 
-    public static final MapCodec<PalmFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec((type) -> {
-        return palmParts(type).apply(type, PalmFoliagePlacer::new);
-    });
+    public static final MapCodec<PalmFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec(
+            (type) -> palmParts(type).apply(type, PalmFoliagePlacer::new));
 
     protected static <P extends PalmFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, IntProvider> palmParts(
             RecordCodecBuilder.Instance<P> instance)
     {
-        return foliagePlacerParts(instance).and(IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> {
-            return get.height;
-        }));
+        return foliagePlacerParts(instance).and(
+                IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> get.height));
     }
 
     public PalmFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height)

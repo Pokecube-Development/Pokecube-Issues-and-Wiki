@@ -27,9 +27,7 @@ public class TrunkPlacerTypes
     public static boolean isDirtOrSand(LevelSimulatedReader level, BlockPos pos)
     {
         return level.isStateAtPosition(pos, (state) ->
-        {
-            return Feature.isDirt(state) || isSand(state) && !state.is(Blocks.GRASS_BLOCK) && !state.is(Blocks.MYCELIUM);
-        });
+                Feature.isDirt(state) || isSand(state) && !state.is(Blocks.GRASS_BLOCK) && !state.is(Blocks.MYCELIUM));
     }
 
     public static void setDirtAt(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random,

@@ -37,11 +37,11 @@ public class NotRuleProcessor extends RuleProcessor
         @SuppressWarnings("deprecation")
         RandomSource random = RandomSource.create(Mth.getSeed(blockInfo2.pos()));
         final BlockState blockstate = worldReaderIn.getBlockState(blockInfo2.pos());
-        if (blockstate != null && blockstate.getBlock() != Blocks.AIR) for (final ProcessorRule ruleentry : this.rules)
+        if (blockstate.getBlock() != Blocks.AIR) for (final ProcessorRule ruleentry : this.rules)
             if (!ruleentry.test(blockInfo2.state(), blockstate, blockInfo1.pos(), blockInfo2.pos(), pos2, random))
         {
             final BlockState output = ruleentry.getOutputState();
-            if (output == null || output.getBlock() == Blocks.STRUCTURE_VOID) return null;
+            if (output.getBlock() == Blocks.STRUCTURE_VOID) return null;
             return new StructureTemplate.StructureBlockInfo(blockInfo2.pos(), output, ruleentry.getOutputTag(random, blockInfo2.nbt()));
 
         }
@@ -56,8 +56,7 @@ public class NotRuleProcessor extends RuleProcessor
 
     static
     {
-        CODEC = ProcessorRule.CODEC.listOf().fieldOf("rules").xmap(NotRuleProcessor::new, (p_237126_0_) -> {
-            return p_237126_0_.rules;
-        });
+        CODEC = ProcessorRule.CODEC.listOf().fieldOf("rules")
+                .xmap(NotRuleProcessor::new, (processor) -> processor.rules);
     }
 }

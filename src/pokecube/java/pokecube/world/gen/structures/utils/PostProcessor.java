@@ -99,9 +99,7 @@ public class PostProcessor implements BiConsumer<GenerationContext, List<PoolEle
                                 .offset(blockpos).offset(0, part.getBoundingBox().minY(), 0);
                         PokecubeAPI.logInfo("Setting spawn to {} {}, professor at {}", spos, localSpawn, localTrader);
                         PokecubeSerializer.getInstance().setPlacedSpawn();
-                        sworld.getServer().execute(() -> {
-                            sworld.setDefaultSpawnPos(spos, 0);
-                        });
+                        sworld.getServer().execute(() -> sworld.setDefaultSpawnPos(spos, 0));
                         piece.placedSpawn = false;
                         piece.isSpawn = true;
                         piece.spawnPos = localSpawn;

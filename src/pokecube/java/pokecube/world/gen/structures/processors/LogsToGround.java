@@ -69,8 +69,6 @@ public class LogsToGround extends StructureProcessor
 
     static
     {
-        CODEC = MapCodec.unit(() -> {
-            return LogsToGround.PROCESSOR;
-        });
+        CODEC = MapCodec.unit(() -> LogsToGround.PROCESSOR);
     }
 }

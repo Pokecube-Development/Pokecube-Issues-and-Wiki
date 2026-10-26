@@ -38,9 +38,6 @@ public class FillerProcessor extends StructureProcessor
 
     static
     {
-        CODEC = MapCodec.unit(() ->
-        {
-            return FillerProcessor.PROCESSOR;
-        });
+        CODEC = MapCodec.unit(() -> FillerProcessor.PROCESSOR);
     }
 }

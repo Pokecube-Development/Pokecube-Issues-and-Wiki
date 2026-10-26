@@ -50,7 +50,7 @@ public class PokecubeWorld
         TRUNK_PLACERS.register(bus);
 
         PokecubeStructureProcessors.init(bus);
-        FeaturesInit.init(bus);
+        FeaturesInit.init();
         PokecubeStructures.init();
         FoliagePlacerTypes.init();
         TrunkPlacerTypes.init();

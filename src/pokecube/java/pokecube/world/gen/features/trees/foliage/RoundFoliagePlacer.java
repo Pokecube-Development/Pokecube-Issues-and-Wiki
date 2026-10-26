@@ -17,16 +17,14 @@ public class RoundFoliagePlacer extends FoliagePlacer
 {
     protected final IntProvider height;
 
-    public static final MapCodec<RoundFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec((type) -> {
-        return roundParts(type).apply(type, RoundFoliagePlacer::new);
-    });
+    public static final MapCodec<RoundFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec(
+            (type) -> roundParts(type).apply(type, RoundFoliagePlacer::new));
 
     protected static <P extends RoundFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, IntProvider> roundParts(
             RecordCodecBuilder.Instance<P> instance)
     {
-        return foliagePlacerParts(instance).and(IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> {
-            return get.height;
-        }));
+        return foliagePlacerParts(instance).and(
+                IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> get.height));
     }
 
     public RoundFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height)

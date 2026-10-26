@@ -22,15 +22,12 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 
 public class PalmTrunkPlacer extends TrunkPlacer
 {
-    public static final MapCodec<PalmTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
-        return trunkPlacerParts(instance).and(instance
-                .group(ExtraCodecs.POSITIVE_INT.optionalFieldOf("min_height_for_leaves", 1).forGetter((placer) ->
-                {
-                    return placer.minHeightForLeaves;
-                }), IntProvider.codec(1, 64).fieldOf("bend_length").forGetter((placer) -> {
-                    return placer.bendLength;
-                }))).apply(instance, PalmTrunkPlacer::new);
-    });
+    public static final MapCodec<PalmTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(
+            (instance) -> trunkPlacerParts(instance).and(instance.group(
+                            ExtraCodecs.POSITIVE_INT.optionalFieldOf("min_height_for_leaves", 1)
+                                    .forGetter((placer) -> placer.minHeightForLeaves),
+                            IntProvider.codec(1, 64).fieldOf("bend_length").forGetter((placer) -> placer.bendLength)))
+                    .apply(instance, PalmTrunkPlacer::new));
 
     private final int minHeightForLeaves;
     private final IntProvider bendLength;

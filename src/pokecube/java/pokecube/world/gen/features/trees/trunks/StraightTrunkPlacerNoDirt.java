@@ -18,10 +18,8 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 
 public class StraightTrunkPlacerNoDirt extends TrunkPlacer
 {
-    public static final MapCodec<StraightTrunkPlacerNoDirt> CODEC = RecordCodecBuilder.mapCodec((instance) ->
-    {
-        return trunkPlacerParts(instance).apply(instance, StraightTrunkPlacerNoDirt::new);
-    });
+    public static final MapCodec<StraightTrunkPlacerNoDirt> CODEC = RecordCodecBuilder.mapCodec(
+            (instance) -> trunkPlacerParts(instance).apply(instance, StraightTrunkPlacerNoDirt::new));
 
     public StraightTrunkPlacerNoDirt(int baseHeight, int heightRandA, int heightRandB)
     {

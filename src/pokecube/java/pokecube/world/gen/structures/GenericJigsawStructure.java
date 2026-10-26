@@ -19,7 +19,6 @@ import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.events.StructureEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PokecubeSerializer;
@@ -157,9 +156,6 @@ public class GenericJigsawStructure extends Structure
     public final String name;
 
     public final AvoidanceSettings avoidances;
-
-    public List<SpawnBiomeMatcher> _needed = Lists.newArrayList();
-    public List<SpawnBiomeMatcher> _banned = Lists.newArrayList();
 
     public GenericJigsawStructure(//@formatter:off
             Structure.StructureSettings config,

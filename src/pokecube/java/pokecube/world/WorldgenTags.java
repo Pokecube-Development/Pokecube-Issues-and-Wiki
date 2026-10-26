@@ -2,7 +2,6 @@ package pokecube.world;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import thut.api.util.RegHelper;
 
@@ -22,10 +21,4 @@ public class WorldgenTags
 
     public static TagKey<Structure> NO_BASALT = TagKey.create(RegHelper.STRUCTURE_REGISTRY,
             ResourceLocation.fromNamespaceAndPath("pokecube_world", "mixin_restrictions/no_basalt"));
-
-    public static TagKey<Biome> IS_ERODED = TagKey.create(RegHelper.BIOME_REGISTRY,
-            ResourceLocation.fromNamespaceAndPath("pokecube_world", "is_eroded_biome"));
-
-    public static TagKey<Biome> IS_ICEBERG = TagKey.create(RegHelper.BIOME_REGISTRY,
-            ResourceLocation.fromNamespaceAndPath("pokecube_world", "is_iceberg_biome"));
 }

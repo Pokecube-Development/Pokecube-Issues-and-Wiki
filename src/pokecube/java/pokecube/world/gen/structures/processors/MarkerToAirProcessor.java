@@ -19,6 +19,7 @@ public class MarkerToAirProcessor extends StructureProcessor
 
     @Override
     @Nullable
+    @SuppressWarnings("deprecation")
     public StructureTemplate.StructureBlockInfo processBlock(final LevelReader p_230386_1_, final BlockPos p_230386_2_,
             final BlockPos p_230386_3_, final StructureTemplate.StructureBlockInfo raw, final StructureTemplate.StructureBlockInfo mod,
             final StructurePlaceSettings p_230386_6_)
@@ -35,9 +36,6 @@ public class MarkerToAirProcessor extends StructureProcessor
 
     static
     {
-        CODEC = MapCodec.unit(() ->
-        {
-            return MarkerToAirProcessor.PROCESSOR;
-        });
+        CODEC = MapCodec.unit(() -> MarkerToAirProcessor.PROCESSOR);
     }
 }

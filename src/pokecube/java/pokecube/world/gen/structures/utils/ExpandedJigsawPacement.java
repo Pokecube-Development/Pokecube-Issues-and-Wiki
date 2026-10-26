@@ -60,7 +60,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.api.PokecubeAPI;
 import pokecube.mixin.accessors.ChunkAccessAcessor;
 import pokecube.world.gen.structures.GenericJigsawStructure;
-import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.core.common.ThutCore;
 import thut.api.util.RegHelper;
@@ -136,7 +135,7 @@ public class ExpandedJigsawPacement
         else
         {
             LiquidSettings liquids = LiquidSettings.APPLY_WATERLOGGING;
-            PoolElementStructurePiece root_piece = new ExpandedPoolElementStructurePiece(structuremanager, root_element,
+            PoolElementStructurePiece root_piece = new PoolElementStructurePiece(structuremanager, root_element,
                     centre, root_element.getGroundLevelDelta(), rotation,
                     root_element.getBoundingBox(structuremanager, centre, rotation), liquids);
             BoundingBox boundingbox = root_piece.getBoundingBox();
@@ -182,13 +181,12 @@ public class ExpandedJigsawPacement
             }
             else
             {
-                int l = boundingbox.minY() + root_piece.getGroundLevelDelta();
-                root_piece.move(0, k - l, 0);
+                int pieceCenterY = boundingbox.minY() + root_piece.getGroundLevelDelta();
+                root_piece.move(0, k - pieceCenterY, 0);
 
                 BoundingBox pieceBoundingBox = root_piece.getBoundingBox();
                 int pieceCenterX = (pieceBoundingBox.maxX() + pieceBoundingBox.minX()) / 2;
                 int pieceCenterZ = (pieceBoundingBox.maxZ() + pieceBoundingBox.minZ()) / 2;
-                int pieceCenterY = l;
                 AABB maxBounds = new AABB(pieceBoundingBox.getCenter()).inflate(
                         config.clearances.max_distance_from_center, 1024, config.clearances.max_distance_from_center);
 
@@ -237,8 +235,8 @@ public class ExpandedJigsawPacement
                                     break;
                                 }
 
-                                Placer most_complete = attempts.get(attempts.size() - 1);
-                                if (attempts.size() > 0)
+                                Placer most_complete = attempts.getLast();
+                                if (!attempts.isEmpty())
                                 {
                                     int missing = 0;
                                     for (String s : most_complete.needed_once)
@@ -366,9 +364,8 @@ public class ExpandedJigsawPacement
         List<StructureBlockInfo> getShuffledJigsaws(StructurePoolElement structurepoolelement, BlockPos blockpos,
                 Rotation rotation)
         {
-            List<StructureBlockInfo> shuffled = structurepoolelement.getShuffledJigsawBlocks(this.structureManager,
+            return structurepoolelement.getShuffledJigsawBlocks(this.structureManager,
                     blockpos, rotation, this.random);
-            return shuffled;
         }
 
         List<StructurePoolElement> getShuffledParts(int depth, Holder<StructureTemplatePool> target_pool,
@@ -390,10 +387,8 @@ public class ExpandedJigsawPacement
                 for (ResourceLocation l : extra_pools)
                 {
                     Optional<StructureTemplatePool> target_pool_e = this.pools.getOptional(l);
-                    if (target_pool_e.isPresent())
-                    {
-                        list.addAll(target_pool_e.get().getShuffledTemplates(this.random));
-                    }
+                    target_pool_e.ifPresent(structureTemplatePool -> list.addAll(
+                            structureTemplatePool.getShuffledTemplates(this.random)));
                 }
                 Collections.shuffle(list);
                 if (!needed_once.isEmpty())
@@ -476,9 +471,7 @@ public class ExpandedJigsawPacement
             MutableObject<VoxelShape> freeSpace = root_state.free;
             int depth = root_state.depth;
 
-            Predicate<StructurePoolElement> log_data = e -> {
-                return e.toString().contains("trainer") && false;
-            };
+            Predicate<StructurePoolElement> log_data = e -> e.toString().contains("trainer") && false;
 
             StructurePoolElement root_element = current_root.getElement();
             BlockPos blockpos = current_root.getPosition();
@@ -501,7 +494,7 @@ public class ExpandedJigsawPacement
                 parent_junctions = !p.bool_config.no_affect_noise;
                 _default = water ? Heightmap.Types.OCEAN_FLOOR_WG : Heightmap.Types.WORLD_SURFACE_WG;
                 root_projection = p._projection;
-                if (p.bool_config.only_once) for (String s : p._flags) added_once.add(s);
+                if (p.bool_config.only_once) added_once.addAll(p._flags);
                 for (String s : p._needed_flags) if (!s.isBlank()) needed_once.add(s);
                 // Mark it as added if we needed
                 // this part.
@@ -724,7 +717,7 @@ public class ExpandedJigsawPacement
                                             next_y_offset = next_picked_element.getGroundLevelDelta();
                                         }
 
-                                        PoolElementStructurePiece next_piece = new ExpandedPoolElementStructurePiece(
+                                        PoolElementStructurePiece next_piece = new PoolElementStructurePiece(
                                                 this.structureManager, next_picked_element, blockpos5, next_y_offset,
                                                 random_direction, next_pick_box_shifted_y, liquids);
 
@@ -852,7 +845,7 @@ public class ExpandedJigsawPacement
             }
             // this should ensure that we run the rigids first, then do the
             // others after.
-            newParts.sort((o1, o2) -> o1.compareTo(o2));
+            newParts.sort(PiecePlacement::compareTo);
             // Now we run them in order.
             newParts.forEach(part -> part.run.run());
         }

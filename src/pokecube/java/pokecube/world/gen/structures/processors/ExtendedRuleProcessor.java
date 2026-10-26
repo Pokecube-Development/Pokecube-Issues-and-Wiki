@@ -58,8 +58,7 @@ public class ExtendedRuleProcessor extends RuleProcessor
 
     static
     {
-        CODEC = ProcessorRule.CODEC.listOf().fieldOf("rules").xmap(ExtendedRuleProcessor::new, (p_237126_0_) -> {
-            return p_237126_0_.rules;
-        });
+        CODEC = ProcessorRule.CODEC.listOf().fieldOf("rules")
+                .xmap(ExtendedRuleProcessor::new, (processor) -> processor.rules);
     }
 }

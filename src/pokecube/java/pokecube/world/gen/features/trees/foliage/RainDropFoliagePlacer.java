@@ -17,16 +17,14 @@ public class RainDropFoliagePlacer extends FoliagePlacer
 {
     protected final IntProvider height;
 
-    public static final MapCodec<RainDropFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec((type) -> {
-        return roundParts(type).apply(type, RainDropFoliagePlacer::new);
-    });
+    public static final MapCodec<RainDropFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec(
+            (type) -> roundParts(type).apply(type, RainDropFoliagePlacer::new));
 
     protected static <P extends RainDropFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, IntProvider> roundParts(
             RecordCodecBuilder.Instance<P> instance)
     {
-        return foliagePlacerParts(instance).and(IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> {
-            return get.height;
-        }));
+        return foliagePlacerParts(instance).and(
+                IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> get.height));
     }
 
     public RainDropFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height)

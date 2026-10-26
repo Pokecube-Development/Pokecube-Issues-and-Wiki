@@ -18,6 +18,7 @@ public class NoWaterlogProcessor extends StructureProcessor
 
     @Override
     @Nullable
+    @SuppressWarnings("deprecation")
     public StructureTemplate.StructureBlockInfo processBlock(final LevelReader level, final BlockPos pos_a,
             final BlockPos pos_b, final StructureTemplate.StructureBlockInfo raw,
             final StructureTemplate.StructureBlockInfo mod, final StructurePlaceSettings settings)
@@ -33,8 +34,6 @@ public class NoWaterlogProcessor extends StructureProcessor
 
     static
     {
-        CODEC = MapCodec.unit(() -> {
-            return NoWaterlogProcessor.PROCESSOR;
-        });
+        CODEC = MapCodec.unit(() -> NoWaterlogProcessor.PROCESSOR);
     }
 }

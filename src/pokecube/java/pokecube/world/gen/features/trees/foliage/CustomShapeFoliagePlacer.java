@@ -20,11 +20,10 @@ public class CustomShapeFoliagePlacer extends FoliagePlacer
 
     public static class LeafPos
     {
-        public static final Codec<LeafPos> CODEC = RecordCodecBuilder.create((instance) -> {
-            return instance.group(Codec.INT.fieldOf("x").orElse(0).forGetter(s -> s.x),
-                    Codec.INT.fieldOf("y").orElse(0).forGetter(s -> s.y),
-                    Codec.INT.fieldOf("z").orElse(0).forGetter(s -> s.z)).apply(instance, LeafPos::new);
-        });
+        public static final Codec<LeafPos> CODEC = RecordCodecBuilder.create(
+                (instance) -> instance.group(Codec.INT.fieldOf("x").orElse(0).forGetter(s -> s.x),
+                        Codec.INT.fieldOf("y").orElse(0).forGetter(s -> s.y),
+                        Codec.INT.fieldOf("z").orElse(0).forGetter(s -> s.z)).apply(instance, LeafPos::new));
 
         final int x;
         final int y;
@@ -38,11 +37,10 @@ public class CustomShapeFoliagePlacer extends FoliagePlacer
         }
     }
 
-    public static final MapCodec<CustomShapeFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec((type) -> {
-        return foliagePlacerParts(type).and(IntProvider.codec(0, 16).fieldOf("height").forGetter(l -> l.height))
-                .and(Codec.list(LeafPos.CODEC).fieldOf("leaves").orElse(Lists.newArrayList()).forGetter(l -> l.leaves))
-                .apply(type, CustomShapeFoliagePlacer::new);
-    });
+    public static final MapCodec<CustomShapeFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec(
+            (type) -> foliagePlacerParts(type).and(IntProvider.codec(0, 16).fieldOf("height").forGetter(l -> l.height))
+                    .and(Codec.list(LeafPos.CODEC).fieldOf("leaves").orElse(Lists.newArrayList())
+                            .forGetter(l -> l.leaves)).apply(type, CustomShapeFoliagePlacer::new));
     protected final IntProvider height;
     protected final List<LeafPos> leaves;
 

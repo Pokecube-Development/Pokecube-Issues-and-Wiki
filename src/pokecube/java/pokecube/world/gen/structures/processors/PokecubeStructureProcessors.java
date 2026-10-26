@@ -33,9 +33,6 @@ public class PokecubeStructureProcessors
         LOGSDOWN = PokecubeWorld.STRUCTURE_PROCESSOR_TYPES.register("logs_to_ground", () -> () -> LogsToGround.CODEC);
     }
 
-    public static void init(final IEventBus bus)
-    {
-
-    }
+    public static void init() {}
 
 }

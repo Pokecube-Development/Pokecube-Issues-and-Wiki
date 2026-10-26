@@ -28,5 +28,5 @@ public class FoliagePlacerTypes
     }
 
     public static void init()
-    {};
+    {}
 }

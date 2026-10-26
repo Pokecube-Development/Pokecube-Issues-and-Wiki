@@ -4,7 +4,7 @@ import net.neoforged.bus.api.IEventBus;
 
 public class FeaturesInit
 {
-    public static void init(IEventBus bus)
+    public static void init()
     {
     }
 }

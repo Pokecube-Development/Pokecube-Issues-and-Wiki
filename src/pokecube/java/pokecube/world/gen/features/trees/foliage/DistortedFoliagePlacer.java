@@ -17,16 +17,14 @@ public class DistortedFoliagePlacer extends FoliagePlacer
 {
     protected final IntProvider height;
 
-    public static final MapCodec<DistortedFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec((type) -> {
-        return distortedParts(type).apply(type, DistortedFoliagePlacer::new);
-    });
+    public static final MapCodec<DistortedFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec(
+            (type) -> distortedParts(type).apply(type, DistortedFoliagePlacer::new));
 
     protected static <P extends DistortedFoliagePlacer> P3<Mu<P>, IntProvider, IntProvider, IntProvider> distortedParts(
             RecordCodecBuilder.Instance<P> instance)
     {
-        return foliagePlacerParts(instance).and(IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> {
-            return get.height;
-        }));
+        return foliagePlacerParts(instance).and(
+                IntProvider.codec(0, 16).fieldOf("height").forGetter((get) -> get.height));
     }
 
     public DistortedFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height)
