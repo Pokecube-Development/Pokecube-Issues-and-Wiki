@@ -14,6 +14,19 @@
       "values": {}
     },
     {
+      "handler": "freebook",
+      "key": "default",
+      "condition": {
+        "values": {
+          "file": "pokecube:books/instructions_guide_%s.json",
+          "mess": "pokedex.inspect.instructionsbooks",
+          "tag": "pages_file",
+          "key": "inspect-instructions-books"
+        }
+      },
+      "values": {}
+    },
+    {
       "handler": "default",
       "key": "default",
       "output": {
