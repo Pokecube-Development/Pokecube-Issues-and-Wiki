@@ -4,7 +4,7 @@
   "pages": [
     {
       "lines": [
-        "§lPokémob Building and Item Management",
+        "§lPokémob Building and Instructions",
         " ",
         "§nIndex{_ref_:_index_}",
         " ",
@@ -74,6 +74,7 @@
         "The line after the build: key is one line, however it may appear to visually wrap in the book, which will occur for longer keys, such as the first example below",
         " ",
         "Example for a plains house at 0, 64, 0, rotated 90 degrees:",
+        " ",
         "build:building",
         "minecraft:village/plains/houses/plains_small_house_1",
         "o: 0 64 0",
