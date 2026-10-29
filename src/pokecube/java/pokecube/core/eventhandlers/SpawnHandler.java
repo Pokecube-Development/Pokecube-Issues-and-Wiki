@@ -328,15 +328,18 @@ public final class SpawnHandler
         return entry == null ? ForbidReason.NONE : entry.getReason();
     }
 
-    private static BlockPos getRandomHeight(RandomSource rng, final LevelChunk chunk, final int yCenter,
-            final int dy)
+    private static BlockPos getRandomHeight(RandomSource rng, final LevelChunk chunk, final int yCenter, final int dy)
     {
         final ChunkPos chunkpos = chunk.getPos();
         final int x = chunkpos.getMinBlockX() + rng.nextInt(16);
         final int z = chunkpos.getMinBlockZ() + rng.nextInt(16);
         int y = yCenter - dy + rng.nextInt(2 * dy + 1);
-        final int top = chunk.getHeight(Heightmap.Types.WORLD_SURFACE, x, z) + 1;
-        if (y > top) y = top;
+        var dim = chunk.getLevel().dimensionType();
+        int top = Math.min(dim.logicalHeight(), chunk.getMaxBuildHeight()) - 2;
+        int lim = Math.min(chunk.getHeight(Heightmap.Types.WORLD_SURFACE, x, z) + 1, top);
+        if (y > lim) y = lim;
+        int bottom = Math.max(chunk.getMinBuildHeight(), dim.minY());
+        y = Math.max(bottom + 2, y);
         return new BlockPos(x, y, z);
     }
 
