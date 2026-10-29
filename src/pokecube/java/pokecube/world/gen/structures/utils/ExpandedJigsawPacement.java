@@ -187,8 +187,13 @@ public class ExpandedJigsawPacement
                 BoundingBox pieceBoundingBox = root_piece.getBoundingBox();
                 int pieceCenterX = (pieceBoundingBox.maxX() + pieceBoundingBox.minX()) / 2;
                 int pieceCenterZ = (pieceBoundingBox.maxZ() + pieceBoundingBox.minZ()) / 2;
+                var level = getForGen(context);
+                var dim = level.dimensionType();
+                int minY = context.heightAccessor().getMinBuildHeight();
+                int maxY = Math.min(dim.logicalHeight() + minY, context.heightAccessor().getMaxBuildHeight());
                 AABB maxBounds = new AABB(pieceBoundingBox.getCenter()).inflate(
-                        config.clearances.max_distance_from_center, 1024, config.clearances.max_distance_from_center);
+                                config.clearances.max_distance_from_center, 0, config.clearances.max_distance_from_center)
+                        .setMaxY(maxY - 1).setMinY(minY + 1);
 
                 return Optional.of(new Structure.GenerationStub(new BlockPos(pieceCenterX, pieceCenterY, pieceCenterZ),
                         (builder) ->
@@ -206,7 +211,6 @@ public class ExpandedJigsawPacement
                                     list.add(root_piece);
                                     Placer placer = new Placer(config, context, registry, config.max_depth, maxBounds,
                                             list, worldgenrandom);
-                                    attempts.add(placer);
 
                                     MutableObject<VoxelShape> bounds = new MutableObject<>(
                                             Shapes.join(Shapes.create(maxBounds), Shapes.create(AABB.of(boundingbox)),
@@ -222,6 +226,8 @@ public class ExpandedJigsawPacement
                                     }
 
                                     if (ThutCore.conf.debug) PokecubeAPI.logDebug("Ended Try: {}", n);
+                                    if(!placer.out_of_bounds) attempts.add(placer);
+                                    else continue;
                                     if (placer.needed_once.isEmpty()) break;
                                     for (String s : placer.needed_once)
                                     {
@@ -233,6 +239,11 @@ public class ExpandedJigsawPacement
                                         }
                                     }
                                     break;
+                                }
+                                if (attempts.isEmpty())
+                                {
+                                    PokecubeAPI.logDebug("Failed to generate: {}", config.startPool);
+                                    return;
                                 }
 
                                 Placer most_complete = attempts.getLast();
@@ -340,8 +351,7 @@ public class ExpandedJigsawPacement
         final RandomState rng;
         final Deque<ExpandedJigsawPacement.PieceState> placing = Queues.newArrayDeque();
         final AABB maxBounds;
-        MutableObject<VoxelShape> rigid_bounds = new MutableObject<>();
-        MutableObject<VoxelShape> non_rigid_bounds = new MutableObject<>();
+        public boolean out_of_bounds = false;
 
         boolean logs = false;
 
@@ -445,9 +455,8 @@ public class ExpandedJigsawPacement
 
             Direction root_top = JigsawBlock.getTopFacing(root.state());
             Direction next_top = JigsawBlock.getTopFacing(next.state());
-            JointType jointtype = JointType.byName(root.nbt().getString("joint")).orElseGet(() -> {
-                return root_front.getAxis().isHorizontal() ? JointType.ALIGNED : JointType.ROLLABLE;
-            });
+            JointType jointtype = JointType.byName(root.nbt().getString("joint"))
+                    .orElseGet(() -> root_front.getAxis().isHorizontal() ? JointType.ALIGNED : JointType.ROLLABLE);
 
             boolean correct_orientation = jointtype == JointType.ROLLABLE || root_top == next_top;
             if (!correct_orientation && logs) PokecubeAPI.logDebug("wrong orientation");
@@ -583,11 +592,10 @@ public class ExpandedJigsawPacement
                                             ResourceLocation id = ResourceLocation.parse(
                                                     structure_info.nbt().getString("pool"));
                                             ResourceKey<StructureTemplatePool> pool_key = readPoolName(id);
-                                            Optional<? extends Holder<StructureTemplatePool>> pool_entry = this.pools
-                                                    .getHolder(pool_key);
-                                            Optional<Holder<StructureTemplatePool>> pool_fallback = pool_entry
-                                                    .map((pool) ->
-                                                    {
+                                            Optional<? extends Holder<StructureTemplatePool>> pool_entry = this.pools.getHolder(
+                                                    pool_key);
+                                            Optional<Holder<StructureTemplatePool>> pool_fallback = pool_entry.map(
+                                                    (pool) -> {
                                                         return pool.value().getFallback();
                                                     });
                                             int y_1 = pool_entry.map((pool) -> {
@@ -699,6 +707,14 @@ public class ExpandedJigsawPacement
                                                 BooleanOp.ONLY_SECOND))
                                         {
                                             vanilla_fails++;
+                                            continue pick_jigsaws;
+                                        }
+
+                                        boolean _out_of_bounds = (next_pick_box_shifted_y.minY() <= maxBounds.minY
+                                                || next_pick_box_shifted_y.maxY() >= maxBounds.maxY);
+                                        if(_out_of_bounds)
+                                        {
+                                            bounds_fails++;
                                             continue pick_jigsaws;
                                         }
 
