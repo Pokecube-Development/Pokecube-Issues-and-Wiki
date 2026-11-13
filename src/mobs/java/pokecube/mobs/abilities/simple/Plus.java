@@ -18,8 +18,10 @@ public class Plus extends Ability
     {
         if (!areWeUser(mob, move)) return;
         boolean minusAlly = false;
+        var battle = mob.getBattle();
+        if (battle == null) return;
 
-        for (LivingEntity combatant : mob.getBattle().getAllies(mob.getEntity()))
+        for (LivingEntity combatant : battle.getAllies(mob.getEntity()))
         {
             IPokemob pokemob = PokemobCaps.getPokemobFor(combatant);
             if (pokemob == null) continue;

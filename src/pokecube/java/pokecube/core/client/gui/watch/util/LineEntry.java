@@ -65,7 +65,7 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
         final boolean inBounds = this.isMouseOver(x, y);
         if (inBounds)
         {
-            if (this.listener.handleClick(this.getStyle(x))) return true;
+            return this.listener.handleClick(this.getStyle(x));
         }
         return false;
     }
